@@ -34,21 +34,26 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           borderBottom: '1px solid #eee'
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Image src="/axiom.png" alt="Axiom Gaming" width={40} height={40} />
-            <Typography variant="h6" color="black" sx={{ ml: 1 }}>
-              Dashboard
-            </Typography>
-          </Box>
+        <Toolbar sx={{ justifyContent: 'space-between', minHeight: '64px' }}>
+          <Typography variant="h6" color="#333" sx={{ fontSize: '16px' }}>
+            Dashboard
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Badge badgeContent={2} color="error">
-              <NotificationsIcon sx={{ color: '#666' }} />
+            <Badge badgeContent={2} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
+              <NotificationsIcon sx={{ color: '#666', fontSize: '20px' }} />
             </Badge>
-            <Badge badgeContent={4} color="error">
-              <ChatIcon sx={{ color: '#666' }} />
+            <Badge badgeContent={4} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
+              <ChatIcon sx={{ color: '#666', fontSize: '20px' }} />
             </Badge>
-            <Avatar sx={{ ml: 2 }}>SH</Avatar>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1 }}>
+              <Avatar sx={{ width: 32, height: 32 }}>SH</Avatar>
+              <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                <Typography sx={{ color: '#333', fontSize: '14px', fontWeight: 500 }}>
+                  Shawn Hanks
+                </Typography>
+                <Box component="span" sx={{ color: '#666', fontSize: '18px', ml: 0.5 }}>▾</Box>
+              </Box>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>
