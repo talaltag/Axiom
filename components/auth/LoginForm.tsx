@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Box, TextField, Button, Typography, InputAdornment, IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -31,6 +30,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
             '& .MuiOutlinedInput-root': {
               backgroundColor: 'white',
               borderRadius: '8px',
+              color: 'black'
             }
           }}
         />
@@ -56,6 +56,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
             '& .MuiOutlinedInput-root': {
               backgroundColor: 'white',
               borderRadius: '8px',
+              color: 'black'
             }
           }}
         />
