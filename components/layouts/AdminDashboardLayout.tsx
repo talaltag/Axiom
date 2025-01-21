@@ -35,9 +35,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between', minHeight: '64px' }}>
-          <Typography variant="h6" color="#333" sx={{ fontSize: '16px' }}>
-            Dashboard
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
+          </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Badge badgeContent={2} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
               <NotificationsIcon sx={{ color: '#666', fontSize: '20px' }} />
@@ -45,13 +45,47 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             <Badge badgeContent={4} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
               <ChatIcon sx={{ color: '#666', fontSize: '20px' }} />
             </Badge>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1 }}>
-              <Avatar sx={{ width: 32, height: 32 }}>SH</Avatar>
-              <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                <Typography sx={{ color: '#333', fontSize: '14px', fontWeight: 500 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1, position: 'relative' }}>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  cursor: 'pointer',
+                  '&:hover .profile-dropdown': { display: 'block' }
+                }}
+              >
+                <Avatar sx={{ width: 32, height: 32 }}>SH</Avatar>
+                <Typography sx={{ color: '#333', fontSize: '14px', fontWeight: 500, ml: 1 }}>
                   Shawn Hanks
                 </Typography>
                 <Box component="span" sx={{ color: '#666', fontSize: '18px', ml: 0.5 }}>▾</Box>
+                <Box 
+                  className="profile-dropdown"
+                  sx={{ 
+                    display: 'none',
+                    position: 'absolute',
+                    top: '100%',
+                    right: 0,
+                    bgcolor: 'white',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    borderRadius: 1,
+                    width: 150,
+                    zIndex: 1000,
+                    mt: 1
+                  }}
+                >
+                  <List>
+                    <ListItem button>
+                      <ListItemText primary="Profile" />
+                    </ListItem>
+                    <ListItem button onClick={() => {
+                      localStorage.removeItem('adminAuth');
+                      router.push('/auth/login');
+                    }}>
+                      <ListItemText primary="Logout" />
+                    </ListItem>
+                  </List>
+                </Box>
               </Box>
             </Box>
           </Box>
