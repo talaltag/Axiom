@@ -1,7 +1,7 @@
-
-import { useState } from 'react';
-import { Box, Button, TextField, Typography, Container, Alert } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import LoginForm from '../../components/auth/LoginForm';
+import Logo from '../../components/auth/Logo';
 
 const ADMIN_CREDENTIALS = {
   email: 'admin@axiom.com',
@@ -9,76 +9,63 @@ const ADMIN_CREDENTIALS = {
 };
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleLogin = (email: string, password: string) => {
     if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-      // In a real app, you'd set proper authentication tokens here
       localStorage.setItem('adminAuth', 'true');
       router.push('/admin/dashboard');
     } else {
-      setError('Invalid credentials');
+      //This part is added to handle the error case as in original code.
+      alert("Invalid Credentials")
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Box 
+      sx={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        background: 'linear-gradient(to right, #FFFFFF 50%, #f5f5f5 50%)'
+      }}
+    >
       <Box
         sx={{
-          marginTop: 8,
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          p: 4,
+          position: 'relative'
         }}
       >
-        <Typography component="h1" variant="h5">
-          Admin Login
+        <Typography variant="h3" component="h1" sx={{ mb: 4, fontWeight: 'bold' }}>
+          Welcome to
         </Typography>
-        {error && (
-          <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
-            {error}
-          </Alert>
-        )}
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-        </Box>
+        <Logo />
+        <Typography 
+          sx={{ 
+            position: 'absolute', 
+            bottom: 24, 
+            color: '#666'
+          }}
+        >
+          © 2024 Axiom
+        </Typography>
       </Box>
-    </Container>
+
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: 4,
+        }}
+      >
+        <LoginForm onSubmit={handleLogin} />
+      </Box>
+    </Box>
   );
 }
