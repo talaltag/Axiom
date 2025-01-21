@@ -20,84 +20,104 @@ export default function TournamentManagement() {
 
   return (
     <AdminDashboardLayout>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-          Tournament Management
-        </Typography>
-        <Button 
-          variant="contained" 
-          sx={{ 
-            bgcolor: '#ffbb00', 
-            color: 'black',
-            '&:hover': {
-              bgcolor: '#e6a800'
-            }
-          }}
-        >
-          + Create
-        </Button>
-      </Box>
-
-      <TableContainer component={Paper} sx={{ boxShadow: 'none' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>T-ID</TableCell>
-              <TableCell>Tournament Name</TableCell>
-              <TableCell>Game</TableCell>
-              <TableCell>Mode</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>Platform</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tournaments.map((tournament, index) => (
-              <TableRow key={index} sx={{ '&:nth-of-type(odd)': { bgcolor: '#f8f9fa' } }}>
-                <TableCell>{tournament.id}</TableCell>
-                <TableCell sx={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}>
-                  {tournament.name}
-                </TableCell>
-                <TableCell>{tournament.game}</TableCell>
-                <TableCell>{tournament.mode}</TableCell>
-                <TableCell>{tournament.time}</TableCell>
-                <TableCell>{tournament.platform}</TableCell>
-                <TableCell>
-                  <Chip 
-                    label={tournament.status} 
-                    size="small"
-                    sx={{
-                      bgcolor: tournament.status === 'Completed' ? '#e8f5e9' : 
-                             tournament.status === 'Registration Open' ? '#fff3e0' :
-                             '#ffebee',
-                      color: tournament.status === 'Completed' ? '#2e7d32' :
-                             tournament.status === 'Registration Open' ? '#e65100' :
-                             '#c62828',
-                      borderRadius: '4px',
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Typography variant="body2" color="text.secondary">
-            Items per page
+      <Box sx={{ p: 3, bgcolor: '#fff', borderRadius: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            Tournament Management
           </Typography>
-          <select style={{ padding: '4px', borderRadius: '4px', border: '1px solid #ddd' }}>
-            <option>12</option>
-          </select>
+          <Button 
+            variant="contained" 
+            sx={{ 
+              bgcolor: '#F8B602', 
+              color: '#000',
+              '&:hover': {
+                bgcolor: '#e6a800'
+              },
+              textTransform: 'none',
+              px: 3
+            }}
+          >
+            + Create
+          </Button>
         </Box>
-        <Pagination 
-          count={Math.ceil(tournaments.length / rowsPerPage)} 
-          page={page} 
-          onChange={(e, value) => setPage(value)}
-          color="primary"
-        />
+
+        <TableContainer sx={{ boxShadow: 'none' }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#F8F9FA' }}>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>T-ID</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Tournament Name</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Game</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Mode</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Time</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Platform</TableCell>
+                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tournaments.map((tournament, index) => (
+                <TableRow key={index} sx={{ '&:nth-of-type(even)': { bgcolor: '#F8F9FA' } }}>
+                  <TableCell>{tournament.id}</TableCell>
+                  <TableCell sx={{ 
+                    color: '#0066cc',
+                    textDecoration: 'underline', 
+                    cursor: 'pointer',
+                    fontWeight: 500
+                  }}>
+                    {tournament.name}
+                  </TableCell>
+                  <TableCell>{tournament.game}</TableCell>
+                  <TableCell>{tournament.mode}</TableCell>
+                  <TableCell>{tournament.time}</TableCell>
+                  <TableCell>{tournament.platform}</TableCell>
+                  <TableCell>
+                    <Chip 
+                      label={tournament.status} 
+                      size="small"
+                      sx={{
+                        bgcolor: tournament.status === 'Completed' ? '#E8F5E9' : 
+                               tournament.status === 'Registration Open' ? '#FFF8E1' :
+                               '#FFF4E5',
+                        color: tournament.status === 'Completed' ? '#2E7D32' :
+                               tournament.status === 'Registration Open' ? '#F57C00' :
+                               '#ED6C02',
+                        borderRadius: '4px',
+                        fontWeight: 500,
+                        textTransform: 'none'
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              Items per page
+            </Typography>
+            <select style={{ 
+              padding: '4px 8px', 
+              borderRadius: '4px', 
+              border: '1px solid #ddd',
+              backgroundColor: '#fff' 
+            }}>
+              <option>12</option>
+            </select>
+          </Box>
+          <Pagination 
+            count={Math.ceil(tournaments.length / rowsPerPage)} 
+            page={page} 
+            onChange={(e, value) => setPage(value)}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                color: '#6C757D'
+              }
+            }}
+          />
+        </Box>
       </Box>
     </AdminDashboardLayout>
   );
