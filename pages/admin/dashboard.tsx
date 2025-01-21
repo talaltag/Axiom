@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
-import { Typography, Grid, Paper, Box, Select, MenuItem } from '@mui/material';
+import { Typography, Grid, Paper, Box, Select, MenuItem, Avatar } from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,

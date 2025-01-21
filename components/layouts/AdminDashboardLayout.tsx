@@ -142,7 +142,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           </List>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f8f9fa', minHeight: '100vh' }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f8f9fa', minHeight: '100vh', marginTop: '64px' }}>
         <Toolbar />
         {children}
       </Box>
