@@ -6,7 +6,7 @@ export default function Logo() {
   return (
     <Box sx={{ width: 150, height: 150, position: 'relative' }}>
       <Image
-        src="/axiom-logo.png"
+        src="/axiom.png"
         alt="Axiom Gaming"
         layout="fill"
         objectFit="contain"
