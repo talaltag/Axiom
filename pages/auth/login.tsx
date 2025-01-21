@@ -35,15 +35,24 @@ export default function Login() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           p: 4,
           position: 'relative'
         }}
       >
-        <Typography variant="h3" component="h1" sx={{ mb: 4, fontWeight: 'bold' }}>
-          Welcome to
-        </Typography>
-        <Logo />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 4
+          }}
+        >
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+            Welcome to
+          </Typography>
+          <Logo />
+        </Box>
         <Typography 
           sx={{ 
             position: 'absolute', 
