@@ -65,10 +65,10 @@ export default function TournamentManagement() {
                   }}>
                     {tournament.name}
                   </TableCell>
-                  <TableCell>{tournament.game}</TableCell>
-                  <TableCell>{tournament.mode}</TableCell>
-                  <TableCell>{tournament.time}</TableCell>
-                  <TableCell>{tournament.platform}</TableCell>
+                  <TableCell sx={{ color: '#000000' }}>{tournament.game}</TableCell>
+                  <TableCell sx={{ color: '#000000' }}>{tournament.mode}</TableCell>
+                  <TableCell sx={{ color: '#000000' }}>{tournament.time}</TableCell>
+                  <TableCell sx={{ color: '#000000' }}>{tournament.platform}</TableCell>
                   <TableCell>
                     <Chip 
                       label={tournament.status} 
