@@ -37,18 +37,18 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Image src="/axiom.png" alt="Axiom Gaming" width={40} height={40} />
-            <Typography variant="h6" color="black">
+            <Typography variant="h6" color="black" sx={{ ml: 1 }}>
               Dashboard
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Badge badgeContent={2} color="error">
-              <NotificationsIcon color="action" />
+              <NotificationsIcon sx={{ color: '#666' }} />
             </Badge>
             <Badge badgeContent={4} color="error">
-              <ChatIcon color="action" />
+              <ChatIcon sx={{ color: '#666' }} />
             </Badge>
-            <Avatar>SH</Avatar>
+            <Avatar sx={{ ml: 2 }}>SH</Avatar>
           </Box>
         </Toolbar>
       </AppBar>
@@ -60,8 +60,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
-            bgcolor: '#f8f9fa',
-            border: 'none',
+            bgcolor: 'white',
+            borderRight: '1px solid #eee',
           },
         }}
       >
@@ -76,21 +76,26 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                   mb: 1,
                   mx: 1,
                   borderRadius: 1,
-                  bgcolor: router.pathname === item.path ? '#ffc107' : 'transparent',
+                  bgcolor: router.pathname === item.path ? '#ffbb00' : 'transparent',
                   '&:hover': {
-                    bgcolor: router.pathname === item.path ? '#ffc107' : '#f0f0f0',
+                    bgcolor: router.pathname === item.path ? '#ffbb00' : '#f5f5f5',
                   },
                 }}
                 onClick={() => router.push(item.path)}
               >
-                <ListItemIcon sx={{ color: router.pathname === item.path ? 'black' : 'inherit' }}>
+                <ListItemIcon sx={{ 
+                  color: router.pathname === item.path ? '#000' : '#666',
+                  minWidth: '40px'
+                }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText 
                   primary={item.text}
                   sx={{ 
                     '& .MuiTypography-root': { 
-                      fontWeight: router.pathname === item.path ? 600 : 400 
+                      fontWeight: router.pathname === item.path ? 600 : 400,
+                      color: router.pathname === item.path ? '#000' : '#666',
+                      fontSize: '0.9rem'
                     }
                   }}
                 />
