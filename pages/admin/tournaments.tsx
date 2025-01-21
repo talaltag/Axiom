@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
 import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Pagination } from '@mui/material';
@@ -57,9 +56,9 @@ export default function TournamentManagement() {
             <TableBody>
               {tournaments.map((tournament, index) => (
                 <TableRow key={index} sx={{ '&:nth-of-type(even)': { bgcolor: '#F8F9FA' } }}>
-                  <TableCell>{tournament.id}</TableCell>
+                  <TableCell sx={{ color: '#000000' }}>{tournament.id}</TableCell>
                   <TableCell sx={{ 
-                    color: '#0066cc',
+                    color: '#000000',
                     textDecoration: 'underline', 
                     cursor: 'pointer',
                     fontWeight: 500
