@@ -107,9 +107,13 @@ export default function AdminDashboardLayout({
                   ? "bg-warning text-dark"
                   : "text-muted"
               }`}
+              style={{
+                justifyContent: sidebarOpen ? 'flex-start' : 'center',
+                whiteSpace: 'nowrap'
+              }}
             >
-              <span className="me-2">{item.icon}</span>
-              {item.text}
+              <span className={sidebarOpen ? 'me-2' : ''}>{item.icon}</span>
+              {sidebarOpen && item.text}
             </NavLink>
           </NavItem>
         ))}
