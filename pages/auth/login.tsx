@@ -1,3 +1,4 @@
+
 import { Container, Row, Col } from 'reactstrap';
 import { useRouter } from 'next/router';
 import LoginForm from '../../components/auth/LoginForm';
@@ -23,19 +24,23 @@ export default function Login() {
   return (
     <Container fluid className="min-vh-100">
       <Row className="h-100">
-        <Col md={5} className="d-flex flex-column justify-content-between bg-white p-5 rounded-end-5">
-          <div className="text-center">
-            <h1 className="display-6 fw-bold mb-5">Welcome to</h1>
+        <Col md={5} className="d-flex flex-column bg-white p-5 rounded-end-5" style={{ height: '100vh' }}>
+          <div className="text-center mt-4">
+            <h1 className="display-6 fw-bold">Welcome to</h1>
+          </div>
+          <div className="flex-grow-1 d-flex align-items-center justify-content-center">
             <Logo />
           </div>
-          <div className="text-center text-muted">
+          <div className="text-center text-muted mb-4">
             © 2024 Axiom
           </div>
         </Col>
         <Col md={7} className="d-flex justify-content-center align-items-center" 
           style={{
-            background: 'linear-gradient(45deg, rgba(128,128,128,0.1), rgba(128,128,128,0.3))',
-            backdropFilter: 'blur(10px)'
+            height: '100vh',
+            backgroundImage: 'url(/login-bg.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}>
           <LoginForm onSubmit={handleLogin} />
         </Col>

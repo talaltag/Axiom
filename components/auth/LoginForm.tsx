@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Eye, EyeOff } from 'react-feather';
@@ -19,7 +20,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
   return (
     <Form onSubmit={handleSubmit} style={{ width: '400px' }}>
       <FormGroup className="mb-4">
-        <Label for="email" className="mb-2">Email</Label>
+        <Label for="email" className="mb-2 text-muted">Email</Label>
         <Input
           type="email"
           id="email"
@@ -31,7 +32,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
         />
       </FormGroup>
       <FormGroup className="mb-2 position-relative">
-        <Label for="password" className="mb-2">Password</Label>
+        <Label for="password" className="mb-2 text-muted">Password</Label>
         <Input
           type={showPassword ? 'text' : 'password'}
           id="password"
@@ -52,19 +53,23 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
         </Button>
       </FormGroup>
       <div className="d-flex justify-content-end mb-4">
-        <a href="#" className="text-decoration-none" style={{ fontSize: '14px' }}>Forgot password?</a>
+        <a href="#" className="text-decoration-none text-muted" style={{ fontSize: '14px' }}>Forgot password?</a>
       </div>
       <Button 
         color="warning" 
         block 
-        className="py-2 mb-4 rounded-3"
-        style={{ backgroundColor: '#FFD600' }}
+        className="py-2 mb-4"
+        style={{ 
+          backgroundColor: '#FFD600',
+          boxShadow: '0px 4px 4px rgba(16, 24, 40, 0.25)',
+          borderRadius: '8px'
+        }}
       >
         Login
       </Button>
       <div className="text-center">
         <span className="text-muted" style={{ fontSize: '14px' }}>
-          Don't have an account? <a href="#" className="text-decoration-none fw-bold">Get Started</a>
+          Don't have an account? <a href="#" className="text-decoration-none text-muted fw-bold">Get Started</a>
         </span>
       </div>
     </Form>
