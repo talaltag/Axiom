@@ -1,10 +1,11 @@
+
 import { useState } from 'react';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
-import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Pagination } from '@mui/material';
+import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Select, MenuItem } from '@mui/material';
 
 export default function TournamentManagement() {
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const tournaments = [
     { id: '141414', name: 'COD KILL RACE', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'XBOX', status: 'Completed' },
@@ -16,6 +17,19 @@ export default function TournamentManagement() {
     { id: '141414', name: 'CS GO LIVE', game: 'CS', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Ongoing' },
     { id: '141414', name: 'GOLF PLUS 2k24', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Ongoing' },
   ];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Completed':
+        return { bg: '#E8F5E9', color: '#2E7D32' };
+      case 'Registration Open':
+        return { bg: '#FFF8E1', color: '#F57C00' };
+      case 'Ongoing':
+        return { bg: '#FFF4E5', color: '#ED6C02' };
+      default:
+        return { bg: '#E8F5E9', color: '#2E7D32' };
+    }
+  };
 
   return (
     <AdminDashboardLayout>
@@ -56,7 +70,7 @@ export default function TournamentManagement() {
             <TableBody>
               {tournaments.map((tournament, index) => (
                 <TableRow key={index} sx={{ '&:nth-of-type(even)': { bgcolor: '#F8F9FA' } }}>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.id}</TableCell>
+                  <TableCell>{tournament.id}</TableCell>
                   <TableCell sx={{ 
                     color: '#000000',
                     textDecoration: 'underline', 
@@ -65,24 +79,19 @@ export default function TournamentManagement() {
                   }}>
                     {tournament.name}
                   </TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.game}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.mode}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.time}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.platform}</TableCell>
+                  <TableCell>{tournament.game}</TableCell>
+                  <TableCell>{tournament.mode}</TableCell>
+                  <TableCell>{tournament.time}</TableCell>
+                  <TableCell>{tournament.platform}</TableCell>
                   <TableCell>
                     <Chip 
                       label={tournament.status} 
                       size="small"
                       sx={{
-                        bgcolor: tournament.status === 'Completed' ? '#E8F5E9' : 
-                               tournament.status === 'Registration Open' ? '#FFF8E1' :
-                               '#FFF4E5',
-                        color: tournament.status === 'Completed' ? '#2E7D32' :
-                               tournament.status === 'Registration Open' ? '#F57C00' :
-                               '#ED6C02',
+                        bgcolor: getStatusColor(tournament.status).bg,
+                        color: getStatusColor(tournament.status).color,
                         borderRadius: '4px',
-                        fontWeight: 500,
-                        textTransform: 'none'
+                        fontWeight: 500
                       }}
                     />
                   </TableCell>
@@ -97,25 +106,20 @@ export default function TournamentManagement() {
             <Typography variant="body2" color="text.secondary">
               Items per page
             </Typography>
-            <select style={{ 
-              padding: '4px 8px', 
-              borderRadius: '4px', 
-              border: '1px solid #ddd',
-              backgroundColor: '#fff' 
-            }}>
-              <option>12</option>
-            </select>
+            <Select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(e.target.value)}
+              size="small"
+              sx={{ minWidth: 80 }}
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+            </Select>
           </Box>
-          <Pagination 
-            count={Math.ceil(tournaments.length / rowsPerPage)} 
-            page={page} 
-            onChange={(e, value) => setPage(value)}
-            sx={{
-              '& .MuiPaginationItem-root': {
-                color: '#6C757D'
-              }
-            }}
-          />
+          <Typography variant="body2" color="text.secondary">
+            1-{itemsPerPage} of {tournaments.length} items
+          </Typography>
         </Box>
       </Box>
     </AdminDashboardLayout>
