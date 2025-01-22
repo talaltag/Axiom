@@ -79,7 +79,16 @@ export default function AdminDashboardLayout({
         <div className="p-3 d-flex align-items-center mb-2">
           <div className="d-flex w-100 align-items-center justify-content-between">
             <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
-            <ChevronsLeft size={24} />
+            <Button 
+              color="link" 
+              className="p-0" 
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              <ChevronsLeft size={24} style={{
+                transform: sidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)',
+                transition: 'transform 0.3s ease-in-out'
+              }} />
+            </Button>
           </div>
           <Button
             color="link"
