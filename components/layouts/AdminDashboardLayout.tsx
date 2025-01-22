@@ -67,14 +67,12 @@ export default function AdminDashboardLayout({
         className={`bg-white border-end sidebar ${sidebarOpen ? "open" : ""}`}
         style={{
           width: sidebarOpen ? "240px" : "64px",
-          minWidth: "64px",
           height: "100vh",
           position: "fixed",
           left: 0,
           top: 0,
           zIndex: 1030,
           transition: "all 0.3s ease-in-out",
-          overflow: "hidden"
         }}
       >
         <div className="p-3 d-flex align-items-center mb-2">
@@ -110,15 +108,10 @@ export default function AdminDashboardLayout({
               }`}
               style={{
                 justifyContent: sidebarOpen ? 'flex-start' : 'center',
-                whiteSpace: 'nowrap',
-                width: '100%'
+                whiteSpace: 'nowrap'
               }}
             >
-              <span style={{ 
-                display: 'flex',
-                justifyContent: sidebarOpen ? 'flex-start' : 'center',
-                width: sidebarOpen ? 'auto' : '100%'
-              }}>{item.icon}</span>
+              <span className={sidebarOpen ? 'me-2' : ''}>{item.icon}</span>
               {sidebarOpen && item.text}
             </NavLink>
           </NavItem>
