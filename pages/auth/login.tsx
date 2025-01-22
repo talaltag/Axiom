@@ -24,7 +24,7 @@ export default function Login() {
   return (
     <Container fluid className="min-vh-100">
       <Row className="h-100">
-        <Col md={5} className="d-flex flex-column bg-white p-5 rounded-end-5" style={{ height: '100vh' }}>
+        <Col md={5} className="d-flex flex-column bg-white p-5" style={{ height: '100vh', maxWidth: '580px', borderTopRightRadius: '100px', borderBottomRightRadius: '100px' }}>
           <div className="text-center mt-4">
             <h1 className="display-6 fw-bold">Welcome to</h1>
           </div>

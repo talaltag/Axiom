@@ -45,9 +45,9 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
         <Button
           type="button"
           color="link"
-          className="position-absolute end-0 top-50 translate-middle-y border-0"
+          className="position-absolute end-0 top-50 translate-middle-y border-0 p-0"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ marginTop: '10px' }}
+          style={{ color: '#6C757D' }}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
@@ -67,7 +67,8 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
       >
         Login
       </Button>
-      <div className="text-center">
+      <div className="flex-grow-1"></div>
+      <div className="text-center mt-auto">
         <span className="text-muted" style={{ fontSize: '14px' }}>
           Don't have an account? <a href="#" className="text-decoration-none text-muted fw-bold">Get Started</a>
         </span>
