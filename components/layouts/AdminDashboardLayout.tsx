@@ -83,18 +83,20 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
           </div>
           <Nav className="ms-auto d-flex align-items-center" navbar>
-            <NavItem className="me-3">
-              <Button color="link" className="position-relative p-0">
-                <Bell size={20} className="text-muted" />
-                <Badge color="danger" pill className="position-absolute top-0 end-0">2</Badge>
-              </Button>
-            </NavItem>
-            <NavItem className="me-3">
-              <Button color="link" className="position-relative p-0">
-                <MessageSquare size={20} className="text-muted" />
-                <Badge color="danger" pill className="position-absolute top-0 end-0">4</Badge>
-              </Button>
-            </NavItem>
+            <div className="d-flex align-items-center me-3">
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <Bell size={20} className="text-muted" />
+                  <Badge color="danger" pill className="position-absolute top-0 end-0">2</Badge>
+                </Button>
+              </NavItem>
+              <NavItem>
+                <Button color="link" className="position-relative p-0">
+                  <MessageSquare size={20} className="text-muted" />
+                  <Badge color="danger" pill className="position-absolute top-0 end-0">4</Badge>
+                </Button>
+              </NavItem>
+            </div>
             <NavItem className="dropdown">
               <Button color="link" className="nav-link dropdown-toggle d-flex align-items-center">
                 <User size={20} className="me-2" />
