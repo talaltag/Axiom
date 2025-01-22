@@ -66,14 +66,13 @@ export default function AdminDashboardLayout({
         vertical
         className={`bg-white border-end sidebar ${sidebarOpen ? "open" : ""}`}
         style={{
-          width: "240px",
+          width: sidebarOpen ? "240px" : "64px",
           height: "100vh",
           position: "fixed",
           left: 0,
           top: 0,
           zIndex: 1030,
-          transition: "transform 0.3s ease-in-out",
-          transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
+          transition: "all 0.3s ease-in-out",
         }}
       >
         <div className="p-3 d-flex align-items-center mb-2">
@@ -122,7 +121,7 @@ export default function AdminDashboardLayout({
       <div
         className="flex-grow-1"
         style={{
-          marginLeft: sidebarOpen ? "240px" : "0",
+          marginLeft: sidebarOpen ? "240px" : "64px",
           transition: "margin 0.3s ease-in-out",
         }}
       >
