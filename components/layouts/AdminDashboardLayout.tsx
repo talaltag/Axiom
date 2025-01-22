@@ -28,6 +28,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  ChevronsLeft,
 } from "react-feather";
 
 export default function AdminDashboardLayout({
@@ -76,7 +77,10 @@ export default function AdminDashboardLayout({
         }}
       >
         <div className="p-3 d-flex align-items-center mb-2">
-          <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
+          <div className="d-flex w-100 align-items-center justify-content-between">
+            <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
+            <ChevronsLeft size={24} />
+          </div>
           <Button
             color="link"
             className="d-lg-none ms-auto p-0"
