@@ -1,151 +1,92 @@
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Avatar, Badge } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import GroupIcon from '@mui/icons-material/Group';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import ChatIcon from '@mui/icons-material/Chat';
-import SettingsIcon from '@mui/icons-material/Settings';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Image from 'next/image';
+import { Container, Nav, NavItem, NavLink, Navbar, NavbarBrand, Button, Badge } from 'reactstrap';
 import { useRouter } from 'next/router';
-
-const drawerWidth = 240;
+import Image from 'next/image';
+import {
+  Grid,
+  Award,
+  Users,
+  DollarSign,
+  MessageSquare,
+  Settings,
+  Bell,
+  User
+} from 'react-feather';
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin/dashboard' },
-    { text: 'Tournament Management', icon: <EmojiEventsIcon />, path: '/admin/tournaments' },
-    { text: 'User Management', icon: <GroupIcon />, path: '/admin/users' },
-    { text: 'Pay Outs', icon: <PaymentsIcon />, path: '/admin/payouts' },
-    { text: 'Chat', icon: <ChatIcon />, path: '/admin/chat' },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/admin/settings' },
+    { text: 'Dashboard', icon: <Grid size={20} />, path: '/admin/dashboard' },
+    { text: 'Tournament Management', icon: <Award size={20} />, path: '/admin/tournaments' },
+    { text: 'User Management', icon: <Users size={20} />, path: '/admin/users' },
+    { text: 'Pay Outs', icon: <DollarSign size={20} />, path: '/admin/payouts' },
+    { text: 'Chat', icon: <MessageSquare size={20} />, path: '/admin/chat' },
+    { text: 'Settings', icon: <Settings size={20} />, path: '/admin/settings' },
   ];
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          bgcolor: 'white',
-          boxShadow: 'none',
-          borderBottom: '1px solid #eee'
-        }}
-      >
-        <Toolbar sx={{ justifyContent: 'space-between', minHeight: '64px' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <div className="d-flex">
+      <Nav vertical className="bg-white border-end" style={{ width: '240px', height: '100vh', position: 'fixed' }}>
+        <div className="p-3">
+          <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
+        </div>
+        {menuItems.map((item) => (
+          <NavItem key={item.text}>
+            <NavLink
+              href={item.path}
+              className={`d-flex align-items-center px-3 py-2 ${
+                router.pathname === item.path ? 'bg-warning text-dark' : 'text-muted'
+              }`}
+            >
+              <span className="me-2">{item.icon}</span>
+              {item.text}
+            </NavLink>
+          </NavItem>
+        ))}
+      </Nav>
+
+      <div style={{ marginLeft: '240px', width: 'calc(100% - 240px)' }}>
+        <Navbar color="white" light className="border-bottom px-4">
+          <NavbarBrand className="d-flex align-items-center">
             <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Badge badgeContent={2} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
-              <NotificationsIcon sx={{ color: '#666', fontSize: '20px' }} />
-            </Badge>
-            <Badge badgeContent={4} color="error" sx={{ '& .MuiBadge-badge': { bgcolor: '#ff3366' } }}>
-              <ChatIcon sx={{ color: '#666', fontSize: '20px' }} />
-            </Badge>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1, position: 'relative' }}>
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  cursor: 'pointer',
-                  '&:hover .profile-dropdown': { display: 'block' }
-                }}
-              >
-                <Avatar sx={{ width: 32, height: 32 }}>SH</Avatar>
-                <Typography sx={{ color: '#333', fontSize: '14px', fontWeight: 500, ml: 1 }}>
-                  Shawn Hanks
-                </Typography>
-                <Box component="span" sx={{ color: '#666', fontSize: '18px', ml: 0.5 }}>▾</Box>
-                <Box 
-                  className="profile-dropdown"
-                  sx={{ 
-                    display: 'none',
-                    position: 'absolute',
-                    top: '100%',
-                    right: 0,
-                    bgcolor: 'white',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                    borderRadius: 1,
-                    width: 150,
-                    zIndex: 1000,
-                    mt: 1
+          </NavbarBrand>
+          <Nav className="ms-auto d-flex align-items-center" navbar>
+            <NavItem className="me-3">
+              <Button color="link" className="position-relative p-0">
+                <Bell size={20} className="text-muted" />
+                <Badge color="danger" pill className="position-absolute top-0 end-0">2</Badge>
+              </Button>
+            </NavItem>
+            <NavItem className="me-3">
+              <Button color="link" className="position-relative p-0">
+                <MessageSquare size={20} className="text-muted" />
+                <Badge color="danger" pill className="position-absolute top-0 end-0">4</Badge>
+              </Button>
+            </NavItem>
+            <NavItem className="dropdown">
+              <Button color="link" className="nav-link dropdown-toggle d-flex align-items-center">
+                <User size={20} className="me-2" />
+                <span>Shawn Hanks</span>
+              </Button>
+              <div className="dropdown-menu dropdown-menu-end">
+                <NavLink href="#" className="dropdown-item">Profile</NavLink>
+                <NavLink
+                  href="#"
+                  className="dropdown-item"
+                  onClick={() => {
+                    localStorage.removeItem('adminAuth');
+                    router.push('/auth/login');
                   }}
                 >
-                  <List>
-                    <ListItem button>
-                      <ListItemText primary="Profile" />
-                    </ListItem>
-                    <ListItem button onClick={() => {
-                      localStorage.removeItem('adminAuth');
-                      router.push('/auth/login');
-                    }}>
-                      <ListItemText primary="Logout" />
-                    </ListItem>
-                  </List>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            bgcolor: 'white',
-            borderRight: '1px solid #eee',
-          },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto', mt: 2 }}>
-          <List>
-            {menuItems.map((item) => (
-              <ListItem
-                button
-                key={item.text}
-                sx={{
-                  mb: 1,
-                  mx: 1,
-                  borderRadius: 1,
-                  bgcolor: router.pathname === item.path ? '#ffbb00' : 'transparent',
-                  '&:hover': {
-                    bgcolor: router.pathname === item.path ? '#ffbb00' : '#f5f5f5',
-                  },
-                }}
-                onClick={() => router.push(item.path)}
-              >
-                <ListItemIcon sx={{ 
-                  color: router.pathname === item.path ? '#000' : '#666',
-                  minWidth: '40px'
-                }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText 
-                  primary={item.text}
-                  sx={{ 
-                    '& .MuiTypography-root': { 
-                      fontWeight: router.pathname === item.path ? 600 : 400,
-                      color: router.pathname === item.path ? '#000' : '#666',
-                      fontSize: '0.9rem'
-                    }
-                  }}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f8f9fa', minHeight: '100vh', marginTop: '64px' }}>
-        <Toolbar />
-        {children}
-      </Box>
-    </Box>
+                  Logout
+                </NavLink>
+              </div>
+            </NavItem>
+          </Nav>
+        </Navbar>
+        <main className="bg-light min-vh-100 p-4">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

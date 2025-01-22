@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Box, TextField, Button, Typography, InputAdornment, IconButton } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Eye, EyeOff } from 'react-feather';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -18,77 +17,40 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '400px' }}>
-      <Box sx={{ mb: 3 }}>
-        <Typography sx={{ color: '#666', mb: 1 }}>Email</Typography>
-        <TextField
-          fullWidth
+    <Form onSubmit={handleSubmit} className="w-100 max-w-400">
+      <FormGroup>
+        <Label for="email">Email</Label>
+        <Input
+          type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Shawn@axiom.com"
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              color: 'black'
-            }
-          }}
+          placeholder="Enter your email"
+          required
         />
-      </Box>
-
-      <Box sx={{ mb: 2 }}>
-        <Typography sx={{ color: '#666', mb: 1 }}>Password</Typography>
-        <TextField
-          fullWidth
+      </FormGroup>
+      <FormGroup className="position-relative">
+        <Label for="password">Password</Label>
+        <Input
           type={showPassword ? 'text' : 'password'}
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              color: 'black'
-            }
-          }}
+          placeholder="Enter your password"
+          required
         />
-      </Box>
-
-      <Typography 
-        sx={{ 
-          textAlign: 'right', 
-          mb: 3, 
-          color: '#666',
-          cursor: 'pointer',
-          '&:hover': { textDecoration: 'underline' }
-        }}
-      >
-        Forgot password?
-      </Typography>
-
-      <Button
-        fullWidth
-        type="submit"
-        sx={{
-          backgroundColor: '#FFD700',
-          color: 'black',
-          py: 1.5,
-          borderRadius: '8px',
-          '&:hover': {
-            backgroundColor: '#F4C430',
-          }
-        }}
-      >
-        Login
+        <Button
+          type="button"
+          color="link"
+          className="position-absolute end-0 top-50 translate-middle-y border-0"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </Button>
+      </FormGroup>
+      <Button color="primary" block className="mt-4">
+        Sign In
       </Button>
-    </Box>
+    </Form>
   );
 }

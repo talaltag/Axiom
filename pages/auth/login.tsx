@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Container, Row, Col } from 'reactstrap';
 import { useRouter } from 'next/router';
 import LoginForm from '../../components/auth/LoginForm';
 import Logo from '../../components/auth/Logo';
@@ -16,65 +16,26 @@ export default function Login() {
       localStorage.setItem('adminAuth', 'true');
       router.push('/admin/dashboard');
     } else {
-      //This part is added to handle the error case as in original code.
-      alert("Invalid Credentials")
+      alert("Invalid Credentials");
     }
   };
 
   return (
-    <Box 
-      sx={{ 
-        minHeight: '100vh',
-        display: 'flex',
-        background: 'linear-gradient(to right, #FFFFFF 50%, #f5f5f5 50%)'
-      }}
-    >
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 4,
-          position: 'relative'
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 4
-          }}
-        >
-          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Welcome to
-          </Typography>
-          <Logo />
-        </Box>
-        <Typography 
-          sx={{ 
-            position: 'absolute', 
-            bottom: 24, 
-            color: '#666'
-          }}
-        >
-          © 2024 Axiom
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 4,
-        }}
-      >
-        <LoginForm onSubmit={handleLogin} />
-      </Box>
-    </Box>
+    <Container fluid className="min-vh-100">
+      <Row className="h-100">
+        <Col md={6} className="d-flex flex-column justify-content-center align-items-center bg-white p-4">
+          <div className="text-center mb-4">
+            <h1 className="h3 fw-bold">Welcome to</h1>
+            <Logo />
+          </div>
+          <div className="position-absolute bottom-0 mb-3 text-muted">
+            © 2024 Axiom
+          </div>
+        </Col>
+        <Col md={6} className="d-flex justify-content-center align-items-center bg-light p-4">
+          <LoginForm onSubmit={handleLogin} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
