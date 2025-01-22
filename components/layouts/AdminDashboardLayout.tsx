@@ -1,4 +1,6 @@
-import { Container, Nav, NavItem, NavLink, Navbar, NavbarBrand, Button, Badge } from 'reactstrap';
+
+import { useState } from 'react';
+import { Container, Nav, NavItem, NavLink, Navbar, Button, Badge } from 'reactstrap';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import {
@@ -9,11 +11,15 @@ import {
   MessageSquare,
   Settings,
   Bell,
-  User
+  User,
+  Menu,
+  X
 } from 'react-feather';
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const menuItems = [
     { text: 'Dashboard', icon: <Grid size={20} />, path: '/admin/dashboard' },
     { text: 'Tournament Management', icon: <Award size={20} />, path: '/admin/tournaments' },
@@ -25,9 +31,29 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   return (
     <div className="d-flex">
-      <Nav vertical className="bg-white border-end" style={{ width: '240px', height: '100vh', position: 'fixed' }}>
-        <div className="p-3">
+      <Nav
+        vertical
+        className={`bg-white border-end sidebar ${sidebarOpen ? 'open' : ''}`}
+        style={{
+          width: '240px',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          zIndex: 1030,
+          transition: 'transform 0.3s ease-in-out',
+          transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)'
+        }}
+      >
+        <div className="p-3 d-flex align-items-center">
           <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
+          <Button
+            color="link"
+            className="d-lg-none ms-auto p-0"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X size={24} />
+          </Button>
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
@@ -44,11 +70,18 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         ))}
       </Nav>
 
-      <div style={{ marginLeft: '240px', width: 'calc(100% - 240px)' }}>
-        <Navbar color="white" light className="border-bottom px-4">
-          <NavbarBrand className="d-flex align-items-center">
+      <div className="flex-grow-1" style={{ marginLeft: sidebarOpen ? '240px' : '0', transition: 'margin 0.3s ease-in-out' }}>
+        <Navbar color="white" light className="border-bottom px-4 py-3 position-sticky top-0" style={{ zIndex: 1020 }}>
+          <Button
+            color="link"
+            className="d-lg-none p-0 me-3"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu size={24} />
+          </Button>
+          <div className="d-flex align-items-center">
             <Image src="/axiom.png" alt="Axiom" width={40} height={40} />
-          </NavbarBrand>
+          </div>
           <Nav className="ms-auto d-flex align-items-center" navbar>
             <NavItem className="me-3">
               <Button color="link" className="position-relative p-0">
@@ -67,23 +100,10 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                 <User size={20} className="me-2" />
                 <span>Shawn Hanks</span>
               </Button>
-              <div className="dropdown-menu dropdown-menu-end">
-                <NavLink href="#" className="dropdown-item">Profile</NavLink>
-                <NavLink
-                  href="#"
-                  className="dropdown-item"
-                  onClick={() => {
-                    localStorage.removeItem('adminAuth');
-                    router.push('/auth/login');
-                  }}
-                >
-                  Logout
-                </NavLink>
-              </div>
             </NavItem>
           </Nav>
         </Navbar>
-        <main className="bg-light min-vh-100 p-4">
+        <main className="bg-light min-vh-100">
           {children}
         </main>
       </div>
