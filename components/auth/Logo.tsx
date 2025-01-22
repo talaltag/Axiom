@@ -1,16 +1,17 @@
 
-import { Box } from '@mui/material';
 import Image from 'next/image';
 
 export default function Logo() {
   return (
-    <Box sx={{ width: 150, height: 150, position: 'relative' }}>
+    <div style={{ width: '200px', height: '200px', position: 'relative', margin: '0 auto' }}>
       <Image
         src="/axiom.png"
         alt="Axiom Gaming"
-        layout="fill"
-        objectFit="contain"
+        fill
+        sizes="200px"
+        priority
+        style={{ objectFit: 'contain' }}
       />
-    </Box>
+    </div>
   );
 }

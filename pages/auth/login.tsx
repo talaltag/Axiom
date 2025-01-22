@@ -23,16 +23,20 @@ export default function Login() {
   return (
     <Container fluid className="min-vh-100">
       <Row className="h-100">
-        <Col md={6} className="d-flex flex-column justify-content-center align-items-center bg-white p-4">
-          <div className="text-center mb-4">
-            <h1 className="h3 fw-bold">Welcome to</h1>
+        <Col md={5} className="d-flex flex-column justify-content-between bg-white p-5 rounded-end-5">
+          <div className="text-center">
+            <h1 className="display-6 fw-bold mb-5">Welcome to</h1>
             <Logo />
           </div>
-          <div className="position-absolute bottom-0 mb-3 text-muted">
+          <div className="text-center text-muted">
             © 2024 Axiom
           </div>
         </Col>
-        <Col md={6} className="d-flex justify-content-center align-items-center bg-light p-4">
+        <Col md={7} className="d-flex justify-content-center align-items-center" 
+          style={{
+            background: 'linear-gradient(45deg, rgba(128,128,128,0.1), rgba(128,128,128,0.3))',
+            backdropFilter: 'blur(10px)'
+          }}>
           <LoginForm onSubmit={handleLogin} />
         </Col>
       </Row>
