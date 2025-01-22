@@ -77,16 +77,21 @@ export default function AdminDashboardLayout({
       >
         <div className="p-3 d-flex align-items-center mb-2">
           <div className="d-flex w-100 align-items-center justify-content-between">
-            <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
-            <Button 
-              color="link" 
-              className="p-0" 
+            {sidebarOpen && (
+              <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
+            )}
+            <Button
+              className="p-0"
+              color="initial"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
-              <ChevronsLeft size={24} style={{
-                transform: sidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-                transition: 'transform 0.3s ease-in-out'
-              }} />
+              <ChevronsLeft
+                size={24}
+                style={{
+                  transform: sidebarOpen ? "rotate(0deg)" : "rotate(180deg)",
+                  transition: "transform 0.3s ease-in-out",
+                }}
+              />
             </Button>
           </div>
           <Button
@@ -107,11 +112,11 @@ export default function AdminDashboardLayout({
                   : "text-muted"
               }`}
               style={{
-                justifyContent: sidebarOpen ? 'flex-start' : 'center',
-                whiteSpace: 'nowrap'
+                justifyContent: sidebarOpen ? "flex-start" : "center",
+                whiteSpace: "nowrap",
               }}
             >
-              <span className={sidebarOpen ? 'me-2' : ''}>{item.icon}</span>
+              <span className={sidebarOpen ? "me-2" : ""}>{item.icon}</span>
               {sidebarOpen && item.text}
             </NavLink>
           </NavItem>
