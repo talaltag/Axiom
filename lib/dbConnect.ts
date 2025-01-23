@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI =
-  process.env.MONGODB_URI ||
   "mongodb+srv://nolantapps:oCOt2NNcEQKUZcuj@impacto-cluster.s20zbjj.mongodb.net/axiom?retryWrites=true&w=majority";
 
 if (!MONGODB_URI) {
