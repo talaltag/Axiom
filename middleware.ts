@@ -10,6 +10,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Skip middleware for api routes and static files
+  if (
+    request.nextUrl.pathname.startsWith('/api') ||
+    request.nextUrl.pathname.includes('.') ||
+    request.nextUrl.pathname.startsWith('/_next')
+  ) {
+    return NextResponse.next();
+  }
+
   // Admin routes protection
   if (request.nextUrl.pathname.startsWith('/admin')) {
     return withRole('Admin')(request);
@@ -25,9 +34,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/user/:path*',
-    '/api/:path*',
-    '/((?!auth|_next/static|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };
