@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/dbConnect';
 import Tournament from '../../../models/Tournament';
@@ -13,13 +12,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(400).json({ success: false, message: 'No data provided' });
         }
 
-        await dbConnect(); // Ensure DB connection
-        
+        console.log('Creating tournament with data:', req.body);
         const tournament = await Tournament.create(req.body);
+        console.log('Created tournament:', tournament);
         if (!tournament) {
           throw new Error('Failed to create tournament');
         }
-        
+
         return res.status(201).json({ success: true, data: tournament });
       } catch (error: any) {
         console.error('Tournament creation error:', error);
