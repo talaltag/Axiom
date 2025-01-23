@@ -22,14 +22,12 @@ export default function Login() {
         throw new Error(data.message);
       }
 
-      sessionStorage.setItem("token", data.token);
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-      
-      // Set default headers for all future requests
-      const token = data.token;
-      window.__token = token;
-      
-      // Redirect based on role
+      // Set localStorage for client-side
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Set cookie for server-side
+      document.cookie = `auth-token=${data.token}; path=/`;
 
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");

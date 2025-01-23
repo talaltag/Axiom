@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
 export async function middleware(request: NextRequest) {
+  // Skip middleware for static files and API routes
   if (
     request.nextUrl.pathname.startsWith('/_next') ||
     request.nextUrl.pathname.includes('.') ||
@@ -12,14 +13,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check if it's the login page
-  if (request.nextUrl.pathname === "/auth/login") {
+  // Public paths that don't require authentication
+  const publicPaths = ["/auth/login"];
+  if (publicPaths.includes(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
-  // Get token from request header
-  const token = request.headers.get("authorization")?.split(" ")[1] || "";
-
+  // Check auth token from cookie or Authorization header
+  const token = request.cookies.get("auth-token")?.value || 
+                request.headers.get('Authorization')?.replace('Bearer ', '');
+  
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
@@ -30,12 +33,18 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
     );
 
-    if (request.nextUrl.pathname.startsWith("/admin") && verified.payload.role !== "Admin") {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+    // Admin routes protection
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      if (verified.payload.role !== "Admin") {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+      }
     }
 
     const response = NextResponse.next();
-    response.headers.set("x-user-role", verified.payload.role as string);
+    // Set the auth token cookie if it doesn't exist
+    if (!request.cookies.get("auth-token")) {
+      response.cookies.set("auth-token", token);
+    }
     return response;
   } catch (error) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -43,5 +52,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
 };
