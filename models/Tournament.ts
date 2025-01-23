@@ -21,7 +21,7 @@ const TournamentSchema = new mongoose.Schema({
   winnerCount: { type: Number, required: true },
   prizeSplit: { type: [Number], default: [] },
   paymentMethod: { type: String, required: true },
-  images: { type: [String], default: [] },
+  images: { type: [String], default: [], required: false },
   status: { type: String, default: 'Registration Open' }
 }, {
   timestamps: true
