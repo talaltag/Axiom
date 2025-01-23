@@ -1,17 +1,17 @@
 
 import { useState, useEffect } from 'react';
-import { Box, List, ListItem, ListItemAvatar, ListItemText, Avatar, Paper, Grid } from '@mui/material';
-import ChatWindow from '../components/chat/ChatWindow';
+import { Box, Grid, Paper, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 import UserDashboardLayout from '../components/layouts/UserDashboardLayout';
+import ChatWindow from '../components/chat/ChatWindow';
 
 export default function Chat() {
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
-    // For demo, get current user from localStorage. In production, use proper authentication
+    // Get current user from local storage
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     setCurrentUser(user);
   }, []);
@@ -21,7 +21,7 @@ export default function Chat() {
       const res = await fetch('/api/users');
       const data = await res.json();
       if (data.success) {
-        setUsers(data.data.filter((user: any) => user._id !== currentUser?._id));
+        setUsers(data.data.filter(user => user._id !== currentUser?._id));
       }
     } catch (error) {
       console.error('Error fetching users:', error);
