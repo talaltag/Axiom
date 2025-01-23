@@ -21,7 +21,11 @@ import {
 } from '@mui/material';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { useRouter } from 'next/router';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>,
+});
 import 'react-quill/dist/quill.snow.css';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
