@@ -93,11 +93,12 @@ export default function CreateTournament() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
         router.push('/admin/tournaments');
       } else {
-        const error = await response.json();
-        alert('Error creating tournament: ' + error.message);
+        alert('Error creating tournament: ' + (data.message || 'Failed to create tournament'));
       }
     } catch (error) {
       alert('Error creating tournament: ' + error.message);
