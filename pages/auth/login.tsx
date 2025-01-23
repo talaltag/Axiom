@@ -22,27 +22,14 @@ export default function Login() {
         throw new Error(data.message);
       }
 
-      // Set localStorage for client-side
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      
+      // Set default headers for all future requests
       const token = data.token;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Set axios default headers for future requests
-      fetch = (originalFetch => {
-        return (...args) => {
-          if (args[1]?.headers) {
-            args[1].headers['Authorization'] = `Bearer ${token}`;
-          } else {
-            args[1] = {
-              ...args[1],
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            };
-          }
-          return originalFetch(...args);
-        };
-      })(fetch);
+      window.__token = token;
+      
+      // Redirect based on role
 
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");

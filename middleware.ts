@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
@@ -11,13 +12,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const publicPaths = ["/auth/login"];
-  if (publicPaths.includes(request.nextUrl.pathname)) {
+  // Check if it's the login page
+  if (request.nextUrl.pathname === "/auth/login") {
     return NextResponse.next();
   }
 
-  const authHeader = request.headers.get('Authorization');
-  const token = authHeader?.replace('Bearer ', '');
+  // Get token from request header
+  const token = request.headers.get("authorization")?.split(" ")[1] || "";
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -29,20 +30,18 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
     );
 
-    if (request.nextUrl.pathname.startsWith("/admin")) {
-      if (verified.payload.role !== "Admin") {
-        return NextResponse.redirect(new URL("/auth/login", request.url));
-      }
+    if (request.nextUrl.pathname.startsWith("/admin") && verified.payload.role !== "Admin") {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 
-    return NextResponse.next();
+    const response = NextResponse.next();
+    response.headers.set("x-user-role", verified.payload.role as string);
+    return response;
   } catch (error) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
