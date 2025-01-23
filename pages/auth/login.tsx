@@ -32,7 +32,7 @@ export default function Login() {
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");
       } else {
-        router.push("/admin/dashboard");
+        window.location.href = "/user/dashboard";
       }
     } catch (err: any) {
       setError(err.message);

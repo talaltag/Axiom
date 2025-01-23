@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
@@ -6,9 +5,9 @@ import { jwtVerify } from "jose";
 export async function middleware(request: NextRequest) {
   // Skip middleware for static files and API routes
   if (
-    request.nextUrl.pathname.startsWith('/_next') ||
-    request.nextUrl.pathname.includes('.') ||
-    request.nextUrl.pathname.startsWith('/api')
+    request.nextUrl.pathname.startsWith("/_next") ||
+    request.nextUrl.pathname.includes(".") ||
+    request.nextUrl.pathname.startsWith("/api")
   ) {
     return NextResponse.next();
   }
@@ -20,9 +19,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check auth token from cookie or Authorization header
-  const token = request.cookies.get("auth-token")?.value || 
-                request.headers.get('Authorization')?.replace('Bearer ', '');
-  
+  const token =
+    request.cookies.get("auth-token")?.value ||
+    request.headers.get("Authorization")?.replace("Bearer ", "");
+
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
   try {
     const verified = await jwtVerify(
       token,
-      new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
+      new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key")
     );
 
     // Admin routes protection
@@ -52,7 +52,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
