@@ -1,31 +1,41 @@
 
 import { useState, useEffect } from 'react';
-import { Box, Grid, Paper, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Box, Grid, Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import UserDashboardLayout from '../components/layouts/UserDashboardLayout';
 import ChatWindow from '../components/chat/ChatWindow';
 
-export default function Chat() {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+interface User {
+  _id: string;
+  name: string;
+  profileImage?: string;
+}
+
+export default function ChatPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    setCurrentUser(user);
+    const loadCurrentUser = () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      setCurrentUser(user);
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users');
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data.users);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    loadCurrentUser();
     fetchUsers();
   }, []);
-
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch('/api/users');
-      const data = await res.json();
-      if (data.success) {
-        setUsers(data.data.filter(user => user._id !== currentUser?._id));
-      }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  };
 
   return (
     <UserDashboardLayout>
@@ -34,7 +44,7 @@ export default function Chat() {
           <Grid item xs={3}>
             <Paper sx={{ height: '100%', overflow: 'auto' }}>
               <List>
-                {users.map((user: any) => (
+                {users.map((user) => (
                   <ListItem
                     button
                     key={user._id}
@@ -55,7 +65,13 @@ export default function Chat() {
               {selectedUser && currentUser ? (
                 <ChatWindow currentUser={currentUser} receiver={selectedUser} />
               ) : (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  height: '100%',
+                  color: 'text.secondary'
+                }}>
                   Select a user to start chatting
                 </Box>
               )}
