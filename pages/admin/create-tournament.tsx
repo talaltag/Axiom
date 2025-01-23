@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
 import {
@@ -15,10 +16,15 @@ import {
   FormControlLabel,
   FormLabel,
   InputAdornment,
+  Card,
+  IconButton,
 } from '@mui/material';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { useRouter } from 'next/router';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CreateTournament() {
   const router = useRouter();
@@ -34,17 +40,51 @@ export default function CreateTournament() {
     restrictions: '',
     hasLimit: 'no',
     limit: '',
+    description: '',
+    attributes: '',
     totalPrizePool: '',
     winnerCount: 3,
-    description: '',
-    attributes: ''
+    prizeSplit: [],
+    paymentMethod: 'stripe',
+    images: [],
   });
+
+  const [prizeDistribution, setPrizeDistribution] = useState([]);
+
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const validFiles = files.filter(file => 
+      ['image/svg+xml', 'image/png', 'image/jpeg', 'image/gif'].includes(file.type)
+    ).slice(0, 5);
+
+    const newImages = validFiles.map(file => ({
+      url: URL.createObjectURL(file),
+      file
+    }));
+
+    setFormData({...formData, images: [...formData.images, ...newImages]});
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = formData.images.filter((_, i) => i !== index);
+    setFormData({...formData, images: newImages});
+  };
+
+  const calculatePrizeDistribution = () => {
+    const totalPrize = parseFloat(formData.totalPrizePool);
+    if (!totalPrize || formData.winnerCount < 1) return;
+
+    const distribution = [];
+    for (let i = 0; i < formData.winnerCount; i++) {
+      const percentage = i === 0 ? 50 : i === 1 ? 30 : 20;
+      distribution[i] = (totalPrize * percentage) / 100;
+    }
+    setPrizeDistribution(distribution);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
     console.log(formData);
-    // Redirect back to tournaments page
     router.push('/admin/tournaments');
   };
 
@@ -103,10 +143,39 @@ export default function CreateTournament() {
 
             <Grid item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel>Select Platform</InputLabel>
+                <InputLabel>Game Mode</InputLabel>
+                <Select
+                  value={formData.gameMode}
+                  label="Game Mode"
+                  onChange={(e) => setFormData({...formData, gameMode: e.target.value})}
+                >
+                  <MenuItem value="Battle Royale">Battle Royale</MenuItem>
+                  <MenuItem value="Team Deathmatch">Team Deathmatch</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel>Team Size</InputLabel>
+                <Select
+                  value={formData.teamSize}
+                  label="Team Size"
+                  onChange={(e) => setFormData({...formData, teamSize: e.target.value})}
+                >
+                  <MenuItem value="Solo">Solo</MenuItem>
+                  <MenuItem value="Duo">Duo</MenuItem>
+                  <MenuItem value="Squad">Squad</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel>Platform</InputLabel>
                 <Select
                   value={formData.platform}
-                  label="Select Platform"
+                  label="Platform"
                   onChange={(e) => setFormData({...formData, platform: e.target.value})}
                 >
                   <MenuItem value="Xbox">Xbox</MenuItem>
@@ -114,19 +183,6 @@ export default function CreateTournament() {
                   <MenuItem value="PlayStation">PlayStation</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Entry Fee"
-                type="number"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                value={formData.entryFee}
-                onChange={(e) => setFormData({...formData, entryFee: e.target.value})}
-              />
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -139,6 +195,20 @@ export default function CreateTournament() {
                 >
                   <MenuItem value="Cash">Cash</MenuItem>
                   <MenuItem value="Free">Free</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel>Restrictions</InputLabel>
+                <Select
+                  value={formData.restrictions}
+                  label="Restrictions"
+                  onChange={(e) => setFormData({...formData, restrictions: e.target.value})}
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Platform-Specific">Platform-Specific</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -170,13 +240,126 @@ export default function CreateTournament() {
             )}
 
             <Grid item xs={12}>
+              <FormControl>
+                <FormLabel>Payment Method</FormLabel>
+                <RadioGroup
+                  row
+                  value={formData.paymentMethod}
+                  onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
+                >
+                  <FormControlLabel value="stripe" control={<Radio />} label="Stripe" />
+                  <FormControlLabel value="axiom" control={<Radio />} label="Axiom Wallet (Balance: $100)" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ border: '2px dashed #ccc', p: 3, borderRadius: 2, textAlign: 'center' }}>
+                <input
+                  type="file"
+                  id="image-upload"
+                  multiple
+                  accept=".svg,.png,.jpg,.gif"
+                  onChange={handleImageUpload}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="image-upload">
+                  <Button
+                    component="span"
+                    startIcon={<CloudUploadIcon />}
+                    variant="contained"
+                  >
+                    Upload Images
+                  </Button>
+                </label>
+                <Typography variant="caption" display="block" sx={{ mt: 1 }}>
+                  Supported formats: SVG, PNG, JPG, GIF (max: 800x400px)
+                </Typography>
+              </Box>
+            </Grid>
+
+            {formData.images.length > 0 && (
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                  {formData.images.map((image, index) => (
+                    <Card key={index} sx={{ position: 'relative', width: 200 }}>
+                      <img src={image.url} alt="" style={{ width: '100%', height: 'auto' }} />
+                      <IconButton
+                        size="small"
+                        onClick={() => handleRemoveImage(index)}
+                        sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'white' }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Card>
+                  ))}
+                </Box>
+              </Grid>
+            )}
+
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Description"
-                multiline
-                rows={4}
+                label="Total Prize Pool"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                value={formData.totalPrizePool}
+                onChange={(e) => setFormData({...formData, totalPrizePool: e.target.value})}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Number of Winners"
+                type="number"
+                value={formData.winnerCount}
+                onChange={(e) => setFormData({...formData, winnerCount: parseInt(e.target.value)})}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button variant="contained" onClick={calculatePrizeDistribution}>
+                Calculate Prize Distribution
+              </Button>
+            </Grid>
+
+            {prizeDistribution.map((prize, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <TextField
+                  fullWidth
+                  label={`${index + 1}${index === 0 ? 'st' : index === 1 ? 'nd' : 'rd'} Prize`}
+                  value={prize.toFixed(2)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+            ))}
+
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Tournament Attributes</InputLabel>
+                <Select
+                  value={formData.attributes}
+                  label="Tournament Attributes"
+                  onChange={(e) => setFormData({...formData, attributes: e.target.value})}
+                >
+                  <MenuItem value="Featured">Featured</MenuItem>
+                  <MenuItem value="Regular">Regular</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <ReactQuill
+                theme="snow"
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(value) => setFormData({...formData, description: value})}
+                style={{ height: '200px', marginBottom: '50px' }}
               />
             </Grid>
 
