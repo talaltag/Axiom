@@ -17,7 +17,7 @@ export default function UserDashboardLayout({ children }: { children: React.Reac
     { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/leaderboard' },
     { text: 'Friends', icon: <PeopleIcon />, path: '/friends' },
     { text: 'Wallet', icon: <AccountBalanceWalletIcon />, path: '/wallet' },
-    { text: 'Chat', icon: <ChatIcon />, path: '/chat' },
+    { text: 'Chat', icon: <ChatIcon />, path: '/chat', onClick: () => router.push('/chat') },
     { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
   ];
 

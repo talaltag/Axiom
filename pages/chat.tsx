@@ -10,10 +10,9 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    fetchUsers();
-    // Get current user from local storage
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     setCurrentUser(user);
+    fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
