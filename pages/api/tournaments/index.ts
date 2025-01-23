@@ -12,14 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!req.body) {
           return res.status(400).json({ success: false, message: 'No data provided' });
         }
+
+        await dbConnect(); // Ensure DB connection
         
         const tournament = await Tournament.create(req.body);
+        if (!tournament) {
+          throw new Error('Failed to create tournament');
+        }
+        
         return res.status(201).json({ success: true, data: tournament });
       } catch (error: any) {
         console.error('Tournament creation error:', error);
-        return res.status(400).json({ 
+        return res.status(500).json({ 
           success: false, 
-          message: error.message || 'Error creating tournament'
+          message: 'Server error occurred while creating tournament'
         });
       }
     } else if (req.method === 'GET') {

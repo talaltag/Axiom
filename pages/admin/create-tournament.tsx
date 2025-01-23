@@ -93,21 +93,17 @@ export default function CreateTournament() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorText = await response.text();
-        let errorMessage;
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.message || 'Failed to create tournament';
-        } catch {
-          errorMessage = 'Server error occurred';
-        }
-        alert('Error creating tournament: ' + errorMessage);
-        return;
+        throw new Error(data.message || 'Failed to create tournament');
       }
 
-      const data = await response.json();
-      router.push('/admin/tournaments');
+      if (data.success) {
+        router.push('/admin/tournaments');
+      } else {
+        throw new Error(data.message || 'Failed to create tournament');
+      }
     } catch (error) {
       console.error('Submission error:', error);
       alert('Error creating tournament: Network or server error');
