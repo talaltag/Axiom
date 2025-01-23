@@ -117,7 +117,10 @@ export default function UserManagement() {
           <Button
             variant="contained"
             startIcon={<Add />}
-            onClick={() => router.push('/admin/users/create')}
+            onClick={() => {
+              setSelectedUser(null);
+              setCreateModalOpen(true);
+            }}
           >
             Create User
           </Button>
