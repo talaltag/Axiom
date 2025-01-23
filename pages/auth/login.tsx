@@ -22,9 +22,9 @@ export default function Login() {
         throw new Error(data.message);
       }
 
-      document.cookie = `token=${data.token}; path=/`;
-      document.cookie = `user=${JSON.stringify(data.user)}; path=/`;
-
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");
       } else {

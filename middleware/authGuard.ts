@@ -4,7 +4,9 @@ import { jwtVerify } from "jose";
 
 export function withRole(role: string) {
   return async function roleGuard(request: NextRequest) {
-    const token = request.cookies.get("token")?.value;
+    // Since localStorage is not available in middleware,
+    // we'll need to pass the token in the Authorization header
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
