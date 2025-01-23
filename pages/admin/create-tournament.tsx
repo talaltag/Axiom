@@ -29,24 +29,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export default function CreateTournament() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: '',
-    type: '',
-    game: '',
-    platform: '',
-    gameMode: '',
-    teamSize: '',
-    entryFee: '',
-    category: '',
-    restrictions: '',
-    hasLimit: 'no',
-    limit: '',
-    description: '',
-    attributes: '',
-    totalPrizePool: '',
+    name: 'Call of Duty Tournament 2024',
+    type: 'Kill Race',
+    game: 'COD',
+    platform: 'PC',
+    gameMode: 'Battle Royale',
+    teamSize: 'Squad',
+    date: '2024-02-01',
+    time: '21:00',
+    entryFee: '50',
+    category: 'Cash',
+    restrictions: 'Platform-Specific',
+    hasLimit: 'yes',
+    limit: '100',
+    description: '<p>Join our exciting Call of Duty tournament with amazing prizes!</p>',
+    attributes: 'Featured',
+    totalPrizePool: '1000',
     winnerCount: 3,
     prizeSplit: [],
     paymentMethod: 'stripe',
     images: [],
+    status: 'Registration Open'
   });
 
   const [prizeDistribution, setPrizeDistribution] = useState([]);
