@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
 import {
@@ -19,8 +18,7 @@ import {
 } from '@mui/material';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { useRouter } from 'next/router';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider, TimePicker, DatePicker } from '@mui/x-date-pickers';
+
 
 export default function CreateTournament() {
   const router = useRouter();
@@ -31,8 +29,6 @@ export default function CreateTournament() {
     platform: '',
     gameMode: '',
     teamSize: '',
-    time: null,
-    date: null,
     entryFee: '',
     category: '',
     restrictions: '',
@@ -118,28 +114,6 @@ export default function CreateTournament() {
                   <MenuItem value="PlayStation">PlayStation</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <TimePicker
-                  label="Time"
-                  value={formData.time}
-                  onChange={(newValue) => setFormData({...formData, time: newValue})}
-                  slotProps={{ textField: { fullWidth: true } }}
-                />
-              </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Date"
-                  value={formData.date}
-                  onChange={(newValue) => setFormData({...formData, date: newValue})}
-                  slotProps={{ textField: { fullWidth: true } }}
-                />
-              </LocalizationProvider>
             </Grid>
 
             <Grid item xs={12} md={6}>
