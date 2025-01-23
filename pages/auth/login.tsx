@@ -22,13 +22,13 @@ export default function Login() {
         throw new Error(data.message);
       }
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");
       } else {
-        router.push("/user/dashboard");
+        window.location.href = "/user/dashboard";
       }
     } catch (err: any) {
       setError(err.message);

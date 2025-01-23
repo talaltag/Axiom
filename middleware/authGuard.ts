@@ -6,7 +6,7 @@ export function withRole(role: string) {
   return async function roleGuard(request: NextRequest) {
     // Since localStorage is not available in middleware,
     // we'll need to pass the token in the Authorization header
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    const token = request.headers.get("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -15,7 +15,7 @@ export function withRole(role: string) {
     try {
       const verified = await jwtVerify(
         token,
-        new TextEncoder().encode(process.env.JWT_SECRET),
+        new TextEncoder().encode(process.env.JWT_SECRET)
       );
 
       if (verified.payload.role !== role) {

@@ -8,7 +8,7 @@ export default function UserDashboard() {
 
   useEffect(() => {
     try {
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       if (!userData) {
         router.push("/auth/login");
         return;
