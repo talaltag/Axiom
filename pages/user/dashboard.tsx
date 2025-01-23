@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, CardBody } from "reactstrap";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 export default function UserDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const userCookie = Cookies.get("user");
-    if (!userCookie) {
-      router.push("/auth/login");
-      return;
-    }
-
     try {
-      const parsedUser = JSON.parse(userCookie);
+      const userData = localStorage.getItem('user');
+      if (!userData) {
+        router.push("/auth/login");
+        return;
+      }
+      const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
     } catch (error) {
       router.push("/auth/login");
