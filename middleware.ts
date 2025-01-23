@@ -19,8 +19,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check auth token from cookie
-  const token = request.cookies.get("auth-token")?.value;
+  // Check auth token from cookie or Authorization header
+  const token = request.cookies.get("auth-token")?.value || 
+                request.headers.get('Authorization')?.replace('Bearer ', '');
   
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -39,7 +40,12 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Set the auth token cookie if it doesn't exist
+    if (!request.cookies.get("auth-token")) {
+      response.cookies.set("auth-token", token);
+    }
+    return response;
   } catch (error) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
