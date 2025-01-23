@@ -1,25 +1,19 @@
-
-import { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, CardBody } from 'reactstrap';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
+import { useRouter } from "next/router";
 
 export default function UserDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const userData = localStorage.getItem("user");
     if (!userData) {
-      router.push('/auth/login');
+      router.push("/auth/login");
       return;
     }
 
     const parsedUser = JSON.parse(userData);
-    if (parsedUser.role === 'Admin') {
-      router.push('/admin/dashboard');
-      return;
-    }
-
     setUser(parsedUser);
   }, []);
 
