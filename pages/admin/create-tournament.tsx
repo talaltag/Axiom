@@ -82,10 +82,26 @@ export default function CreateTournament() {
     setPrizeDistribution(distribution);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    router.push('/admin/tournaments');
+    try {
+      const response = await fetch('/api/tournaments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        router.push('/admin/tournaments');
+      } else {
+        const error = await response.json();
+        alert('Error creating tournament: ' + error.message);
+      }
+    } catch (error) {
+      alert('Error creating tournament: ' + error.message);
+    }
   };
 
   return (

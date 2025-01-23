@@ -7,8 +7,23 @@ export default function TournamentManagement() {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [tournaments, setTournaments] = useState([]);
 
-  const tournaments = [
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const response = await fetch('/api/tournaments');
+        const data = await response.json();
+        if (data.success) {
+          setTournaments(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching tournaments:', error);
+      }
+    };
+
+    fetchTournaments();
+  }, []);
     { id: '141414', name: 'COD KILL RACE', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'XBOX', status: 'Completed' },
     { id: '141414', name: 'Fortnight Champions', game: 'Fornite', mode: 'Individual', time: '9:00pm - 12:00pm', platform: 'PC', status: 'Registration Open' },
     { id: '141414', name: 'CS GO LIVE', game: 'CS', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Completed' },
