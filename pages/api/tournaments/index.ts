@@ -9,11 +9,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'POST') {
       try {
+        if (!req.body) {
+          return res.status(400).json({ success: false, message: 'No data provided' });
+        }
+        
         const tournament = await Tournament.create(req.body);
-        res.status(201).json({ success: true, data: tournament });
+        return res.status(201).json({ success: true, data: tournament });
       } catch (error: any) {
         console.error('Tournament creation error:', error);
-        res.status(400).json({ 
+        return res.status(400).json({ 
           success: false, 
           message: error.message || 'Error creating tournament'
         });
