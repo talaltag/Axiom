@@ -171,6 +171,28 @@ export default function CreateTournament() {
             </Grid>
 
             <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Date"
+                type="date"
+                value={formData.date}
+                onChange={(e) => setFormData({...formData, date: e.target.value})}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Time"
+                type="time"
+                value={formData.time}
+                onChange={(e) => setFormData({...formData, time: e.target.value})}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <FormControl fullWidth>
                 <InputLabel>Platform</InputLabel>
                 <Select
