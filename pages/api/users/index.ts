@@ -25,8 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const users = await User.find(query)
         .select('-password')
-        .skip(skip)
-        .limit(Number(limit))
         .sort({ createdAt: -1 });
 
       const total = await User.countDocuments(query);
