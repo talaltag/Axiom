@@ -1,9 +1,11 @@
 
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
 import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Select, MenuItem } from '@mui/material';
 
 export default function TournamentManagement() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
