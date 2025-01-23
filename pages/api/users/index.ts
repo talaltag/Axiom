@@ -37,10 +37,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } else if (req.method === 'POST') {
     try {
+      console.log('Creating user with data:', req.body);
       const user = await User.create(req.body);
       res.status(201).json({ success: true, data: user });
-    } catch (error) {
-      res.status(400).json({ success: false, message: 'Error creating user' });
+    } catch (error: any) {
+      console.error('User creation error:', error);
+      res.status(400).json({ 
+        success: false, 
+        message: error.message || 'Error creating user',
+        error: error.errors || error.message
+      });
     }
   } else {
     res.status(405).json({ success: false, message: 'Method not allowed' });
