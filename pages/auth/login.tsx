@@ -23,11 +23,26 @@ export default function Login() {
       }
 
       // Set localStorage for client-side
-      localStorage.setItem("token", data.token);
+      const token = data.token;
+      localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Set cookie for server-side with proper settings
-      document.cookie = `auth-token=${data.token}; path=/; secure; samesite=strict; domain=${window.location.hostname}`;
+      // Set axios default headers for future requests
+      fetch = (originalFetch => {
+        return (...args) => {
+          if (args[1]?.headers) {
+            args[1].headers['Authorization'] = `Bearer ${token}`;
+          } else {
+            args[1] = {
+              ...args[1],
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            };
+          }
+          return originalFetch(...args);
+        };
+      })(fetch);
 
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");
