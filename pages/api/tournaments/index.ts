@@ -4,7 +4,10 @@ import Tournament from '../../../models/Tournament';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    await dbConnect();
+    const conn = await dbConnect();
+    if (!conn) {
+      return res.status(500).json({ success: false, message: 'Database connection failed' });
+    }
 
     if (req.method === 'POST') {
       try {
@@ -22,6 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(201).json({ success: true, data: tournament });
       } catch (error: any) {
         console.error('Tournament creation error:', error);
+        return res.status(400).json({ 
+          success: false, 
+          message: error.message || 'Error creating tournament',
+          details: error.errors || {} 
+        });
         return res.status(500).json({ 
           success: false, 
           message: 'Server error occurred while creating tournament'
