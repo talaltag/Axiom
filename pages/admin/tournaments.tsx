@@ -39,7 +39,8 @@ export default function TournamentManagement() {
             Tournament Management
           </Typography>
           <Button 
-            variant="contained" 
+            variant="contained"
+            onClick={() => router.push('/admin/create-tournament')}
             sx={{ 
               bgcolor: '#F8B602', 
               color: '#000',
