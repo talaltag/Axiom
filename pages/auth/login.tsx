@@ -1,23 +1,38 @@
 
-import { Container, Row, Col } from 'reactstrap';
+import { useState } from 'react';
+import { Container, Row, Col, Alert } from 'reactstrap';
 import { useRouter } from 'next/router';
 import LoginForm from '../../components/auth/LoginForm';
 import Logo from '../../components/auth/Logo';
 
-const ADMIN_CREDENTIALS = {
-  email: 'admin@axiom.com',
-  password: 'admin123'
-};
-
 export default function Login() {
   const router = useRouter();
+  const [error, setError] = useState('');
 
-  const handleLogin = (email: string, password: string) => {
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-      localStorage.setItem('adminAuth', 'true');
-      router.push('/admin/dashboard');
-    } else {
-      alert("Invalid Credentials");
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      if (data.user.role === 'Admin') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/user/dashboard');
+      }
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -42,6 +57,7 @@ export default function Login() {
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}>
+          {error && <Alert color="danger" className="mb-3">{error}</Alert>}
           <LoginForm onSubmit={handleLogin} />
         </Col>
       </Row>
