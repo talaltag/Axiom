@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { Eye, EyeOff } from 'react-feather';
 
 interface LoginFormProps {
@@ -11,14 +11,39 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password);
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Authentication failed');
+      }
+
+      localStorage.setItem('user', JSON.stringify(data.data));
+      onSubmit(email, password);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit} style={{ width: '400px' }}>
+      {error && <Alert color="danger" className="mb-4">{error}</Alert>}
       <FormGroup className="mb-4">
         <Label for="email" className="mb-2 text-muted">Email</Label>
         <Input
@@ -29,6 +54,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           placeholder="Shawn@axiom.com"
           className="py-2 rounded-3"
           required
+          disabled={loading}
         />
       </FormGroup>
       <FormGroup className="mb-2 position-relative">
@@ -41,6 +67,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           placeholder="••••••••"
           className="py-2 rounded-3"
           required
+          disabled={loading}
         />
         <Button
           type="button"
@@ -48,6 +75,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           className="position-absolute end-0 top-50 translate-middle-y border-0 p-0"
           onClick={() => setShowPassword(!showPassword)}
           style={{ color: '#6C757D' }}
+          disabled={loading}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
@@ -64,10 +92,10 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           boxShadow: '0px 4px 4px rgba(16, 24, 40, 0.25)',
           borderRadius: '8px'
         }}
+        disabled={loading}
       >
-        Login
+        {loading ? 'Logging in...' : 'Login'}
       </Button>
-      <div className="flex-grow-1"></div>
       <div className="text-center mt-auto">
         <span className="text-muted" style={{ fontSize: '14px' }}>
           Don't have an account? <a href="#" className="text-decoration-none text-muted fw-bold">Get Started</a>
