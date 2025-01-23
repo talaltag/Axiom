@@ -1,5 +1,7 @@
 
 import { useState, useEffect } from 'react';
+import CreateUserModal from '../../components/users/CreateUserModal';
+import DeleteUserModal from '../../components/users/DeleteUserModal';
 import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
 import {
   Box,
@@ -35,6 +37,12 @@ export default function UserManagement() {
   const [filterType, setFilterType] = useState('');
   const [selected, setSelected] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  
+  const toggleCreateModal = () => setCreateModalOpen(!createModalOpen);
+  const toggleDeleteModal = () => setDeleteModalOpen(!deleteModalOpen);
 
   useEffect(() => {
     const isAdmin = localStorage.getItem('adminAuth');
@@ -66,6 +74,18 @@ export default function UserManagement() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleEdit = (user) => {
+    setSelectedUser(user);
+    setCreateModalOpen(true);
+    handleActionClose();
+  };
+
+  const handleDelete = (user) => {
+    setSelectedUser(user);
+    setDeleteModalOpen(true);
+    handleActionClose();
   };
 
   const handleSelectAll = (event) => {
@@ -199,9 +219,23 @@ export default function UserManagement() {
           open={Boolean(anchorEl)}
           onClose={handleActionClose}
         >
-          <MenuItem onClick={handleActionClose}>Edit</MenuItem>
-          <MenuItem onClick={handleActionClose}>Delete</MenuItem>
+          <MenuItem onClick={() => handleEdit(users.find(u => u._id === anchorEl?.id))}>Edit</MenuItem>
+          <MenuItem onClick={() => handleDelete(users.find(u => u._id === anchorEl?.id))}>Delete</MenuItem>
         </Menu>
+
+        <CreateUserModal
+          isOpen={createModalOpen}
+          toggle={toggleCreateModal}
+          editUser={selectedUser}
+          onSuccess={fetchUsers}
+        />
+
+        <DeleteUserModal
+          isOpen={deleteModalOpen}
+          toggle={toggleDeleteModal}
+          userId={selectedUser?._id}
+          onSuccess={fetchUsers}
+        />
       </Box>
     </AdminDashboardLayout>
   );
