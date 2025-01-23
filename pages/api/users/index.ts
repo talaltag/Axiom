@@ -5,7 +5,11 @@ import dbConnect from '../../../lib/dbConnect';
 import User from '../../../models/User';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await dbConnect();
+  try {
+    const conn = await dbConnect();
+    if (!conn) {
+      throw new Error('Database connection failed');
+    }
 
   if (req.method === 'GET') {
     try {
