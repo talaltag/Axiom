@@ -1,13 +1,13 @@
 
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin123@cluster0.mongodb.net/axiom?retryWrites=true&w=majority';
 
 if (!MONGODB_URI) {
-  throw new Error('Please add MongoDB URI to environment variables');
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-let cached: any = global.mongoose;
+let cached = global.mongoose;
 
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
@@ -18,17 +18,20 @@ async function dbConnect() {
     return cached.conn;
   }
 
-  try {
+  if (!cached.promise) {
     const opts = {
-      bufferCommands: true,
+      bufferCommands: true, // Changed to true to allow buffering
     };
 
-    const conn = await mongoose.connect(MONGODB_URI, opts);
-    cached.conn = conn;
-    
+    cached.promise = mongoose.connect(MONGODB_URI, opts);
+  }
+
+  try {
+    cached.conn = await cached.promise;
     console.log('MongoDB Connected Successfully');
-    return conn;
+    return cached.conn;
   } catch (error) {
+    cached.promise = null;
     console.error('MongoDB Connection Error:', error);
     throw error;
   }
