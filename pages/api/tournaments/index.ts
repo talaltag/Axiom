@@ -3,57 +3,38 @@ import dbConnect from '../../../lib/dbConnect';
 import Tournament from '../../../models/Tournament';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!process.env.MONGODB_URI) {
+    return res.status(500).json({ success: false, message: 'MongoDB URI not configured' });
+  }
+
   try {
-    const conn = await dbConnect();
-    if (!conn) {
-      return res.status(500).json({ success: false, message: 'Database connection failed' });
-    }
+    await dbConnect();
 
     if (req.method === 'POST') {
       try {
-        if (!req.body) {
-          return res.status(400).json({ success: false, message: 'No data provided' });
-        }
-
-        console.log('Creating tournament with data:', req.body);
-        const tournament = await Tournament.create(req.body);
-        console.log('Created tournament:', tournament);
-        if (!tournament) {
-          throw new Error('Failed to create tournament');
-        }
-
+        console.log('Received tournament data:', req.body);
+        const tournament = await Tournament.create({
+          ...req.body,
+          prizeSplit: Array.isArray(req.body.prizeSplit) ? req.body.prizeSplit : [],
+          images: Array.isArray(req.body.images) ? req.body.images.map(img => img.url || img) : []
+        });
         return res.status(201).json({ success: true, data: tournament });
       } catch (error: any) {
         console.error('Tournament creation error:', error);
         return res.status(400).json({ 
           success: false, 
           message: error.message || 'Error creating tournament',
-          details: error.errors || {} 
-        });
-        return res.status(500).json({ 
-          success: false, 
-          message: 'Server error occurred while creating tournament'
+          details: error.errors || error.message
         });
       }
     } else if (req.method === 'GET') {
-      try {
-        const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
-        res.status(200).json({ success: true, data: tournaments });
-      } catch (error: any) {
-        console.error('Tournament fetch error:', error);
-        res.status(400).json({ 
-          success: false, 
-          message: error.message || 'Error fetching tournaments'
-        });
-      }
-    } else {
-      res.status(405).json({ success: false, message: 'Method not allowed' });
+      const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
+      return res.status(200).json({ success: true, data: tournaments });
     }
+
+    return res.status(405).json({ success: false, message: 'Method not allowed' });
   } catch (error: any) {
     console.error('Server error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: error.message || 'Internal server error'
-    });
+    return res.status(500).json({ success: false, message: 'Database connection failed' });
   }
 }
