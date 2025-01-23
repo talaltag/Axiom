@@ -13,11 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await dbConnect();
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: 'Please provide email and password' });
-    }
-
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
@@ -37,7 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ success: true, data: userResponse });
   } catch (error: any) {
-    console.error('Login error:', error);
-    res.status(500).json({ success: false, message: error.message || 'Authentication failed' });
+    res.status(500).json({ success: false, message: error.message });
   }
 }
