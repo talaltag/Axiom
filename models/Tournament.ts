@@ -10,8 +10,8 @@ const TournamentSchema = new mongoose.Schema({
   teamSize: { type: String, required: true },
   date: { type: String, required: true },
   time: { type: String, required: true },
-  entryFee: { type: String },
-  category: { type: String },
+  entryFee: { type: String, required: true },
+  category: { type: String, required: true },
   restrictions: { type: String },
   hasLimit: { type: String },
   limit: { type: String },
@@ -19,9 +19,12 @@ const TournamentSchema = new mongoose.Schema({
   attributes: { type: String },
   totalPrizePool: { type: String },
   winnerCount: { type: Number },
-  status: { type: String, default: 'Registration Open' },
+  prizeSplit: [Number],
+  paymentMethod: { type: String },
   images: [String],
-  createdAt: { type: Date, default: Date.now }
+  status: { type: String, default: 'Registration Open' }
+}, {
+  timestamps: true
 });
 
 export default mongoose.models.Tournament || mongoose.model('Tournament', TournamentSchema);
