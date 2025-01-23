@@ -26,8 +26,8 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Set cookie for server-side
-      document.cookie = `auth-token=${data.token}; path=/`;
+      // Set cookie for server-side with proper settings
+      document.cookie = `auth-token=${data.token}; path=/; secure; samesite=strict; domain=${window.location.hostname}`;
 
       if (data.user.role === "Admin") {
         router.push("/admin/dashboard");

@@ -20,8 +20,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check auth token from cookie or Authorization header
+  // Try getting token from cookie, header, or localStorage
   const token = request.cookies.get("auth-token")?.value || 
-                request.headers.get('Authorization')?.replace('Bearer ', '');
+                request.headers.get('Authorization')?.replace('Bearer ', '') ||
+                request.headers.get('x-auth-token');
   
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
