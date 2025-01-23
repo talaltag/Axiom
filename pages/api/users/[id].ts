@@ -4,7 +4,9 @@ import bcrypt from 'bcryptjs';
 import dbConnect from '../../../lib/dbConnect';
 import User from '../../../models/User';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import { withAuth } from '../../../middleware/auth';
+
+export default withAuth(async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
   await dbConnect();
 
