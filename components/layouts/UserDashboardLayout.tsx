@@ -1,4 +1,3 @@
-
 import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -7,18 +6,21 @@ import PeopleIcon from '@mui/icons-material/People';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useRouter } from 'next/router'; // Import useRouter
 
 const drawerWidth = 240;
 
 export default function UserDashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Tournaments', icon: <EmojiEventsIcon />, path: '/tournaments' },
-    { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/leaderboard' },
-    { text: 'Friends', icon: <PeopleIcon />, path: '/friends' },
-    { text: 'Wallet', icon: <AccountBalanceWalletIcon />, path: '/wallet' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard', onClick: () => router.push('/dashboard') },
+    { text: 'Tournaments', icon: <EmojiEventsIcon />, path: '/tournaments', onClick: () => router.push('/tournaments') },
+    { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/leaderboard', onClick: () => router.push('/leaderboard') },
+    { text: 'Friends', icon: <PeopleIcon />, path: '/friends', onClick: () => router.push('/friends') },
+    { text: 'Wallet', icon: <AccountBalanceWalletIcon />, path: '/wallet', onClick: () => router.push('/wallet') },
     { text: 'Chat', icon: <ChatIcon />, path: '/chat', onClick: () => router.push('/chat') },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
+    { text: 'Settings', icon: <SettingsIcon />, path: '/settings', onClick: () => router.push('/settings') },
   ];
 
   return (
@@ -45,7 +47,7 @@ export default function UserDashboardLayout({ children }: { children: React.Reac
         <Box sx={{ overflow: 'auto' }}>
           <List>
             {menuItems.map((item) => (
-              <ListItem button key={item.text}>
+              <ListItem button key={item.text} onClick={item.onClick}> {/* Added onClick handler */}
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
