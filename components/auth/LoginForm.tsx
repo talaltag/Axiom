@@ -5,6 +5,7 @@ import { Eye, EyeOff } from 'react-feather';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
+  isLoading?: boolean;
 }
 
 export default function LoginForm({ onSubmit }: LoginFormProps) {

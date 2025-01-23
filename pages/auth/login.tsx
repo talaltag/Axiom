@@ -3,39 +3,28 @@ import { Container, Row, Col, Alert } from "reactstrap";
 import { useRouter } from "next/router";
 import LoginForm from "../../components/auth/LoginForm";
 import Logo from "../../components/auth/Logo";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/authSlice";
+import type { AppDispatch, RootState } from "../../store/store";
 
 export default function Login() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const { error, isLoading } = useSelector((state: RootState) => state.auth);
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message);
+      const resultAction = await dispatch(loginUser({ email, password }));
+      if (loginUser.fulfilled.match(resultAction)) {
+        const { user } = resultAction.payload;
+        if (user.role === "Admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/user/dashboard");
+        }
       }
-
-      // Set localStorage for client-side
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Set cookie for server-side
-      document.cookie = `auth-token=${data.token}; path=/`;
-
-      if (data.user.role === "Admin") {
-        router.push("/admin/dashboard");
-      } else {
-        window.location.href = "/user/dashboard";
-      }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      console.error("Login failed:", err);
     }
   };
 
@@ -75,7 +64,7 @@ export default function Login() {
               {error}
             </Alert>
           )}
-          <LoginForm onSubmit={handleLogin} />
+          <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
         </Col>
       </Row>
     </Container>
