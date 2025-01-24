@@ -30,6 +30,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else if (req.method === 'GET') {
       const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
       return res.status(200).json({ success: true, data: tournaments });
+    } else if (req.method === 'DELETE') {
+      const { id } = req.query;
+      const deletedTournament = await Tournament.findByIdAndDelete(id);
+      if (!deletedTournament) {
+        return res.status(404).json({ success: false, message: 'Tournament not found' });
+      }
+      return res.status(200).json({ success: true, data: deletedTournament });
+    } else if (req.method === 'PUT') {
+      const { id } = req.query;
+      const updatedTournament = await Tournament.findByIdAndUpdate(id, req.body, { new: true });
+      if (!updatedTournament) {
+        return res.status(404).json({ success: false, message: 'Tournament not found' });
+      }
+      return res.status(200).json({ success: true, data: updatedTournament });
     }
 
     return res.status(405).json({ success: false, message: 'Method not allowed' });
