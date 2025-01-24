@@ -73,12 +73,34 @@ export default function TournamentRegistration() {
       <Container fluid className="p-4">
         <Card className="border-0 shadow-sm">
           <CardBody>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <div>
-                <h4 className="mb-1">Tournament Registration</h4>
-                <p className="text-muted mb-0">{tournament?.name}</p>
+            <div className="tournament-header mb-4">
+              <div className="d-flex align-items-start">
+                <div className="tournament-image me-4">
+                  <Image
+                    src={tournament?.image || '/game-default.jpg'}
+                    alt={tournament?.name}
+                    width={150}
+                    height={150}
+                    className="rounded"
+                  />
+                </div>
+                <div className="tournament-info flex-grow-1">
+                  <h2 className="mb-2">{tournament?.name}</h2>
+                  <p className="text-muted mb-2">
+                    {new Date(tournament?.startDate).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })} {tournament?.startTime} - {tournament?.endTime} {tournament?.timeZone}
+                  </p>
+                  <div className="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                      <small className="text-muted d-block">Entry Cost</small>
+                      <h3 className="text-danger mb-0">${tournament?.entryFee}</h3>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <Button color="warning" onClick={handleSubmit}>Register Now</Button>
             </div>
             
             <Row>
@@ -162,6 +184,15 @@ export default function TournamentRegistration() {
                     </CardBody>
                   </Card>
                 </Form>
+                <div className="fixed-bottom p-3 bg-white border-top" style={{ zIndex: 1030 }}>
+                  <Container>
+                    <div className="d-flex justify-content-end">
+                      <Button color="warning" size="lg" onClick={handleSubmit}>
+                        Register Now
+                      </Button>
+                    </div>
+                  </Container>
+                </div>
               </Col>
 
               <Col md={4}>
