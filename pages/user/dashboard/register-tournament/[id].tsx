@@ -4,14 +4,27 @@ import { useRouter } from 'next/router';
 import UserDashboardLayout from '../../../../components/layouts/UserDashboardLayout';
 import { Container, Row, Col, Card, CardBody, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Image from 'next/image';
+import { Search } from 'react-feather';
+
+interface Friend {
+  id: string;
+  name: string;
+  avatar: string;
+  status: string;
+}
 
 export default function TournamentRegistration() {
   const router = useRouter();
   const { id } = router.query;
   const [tournament, setTournament] = useState(null);
   const [teamName, setTeamName] = useState('');
-  const [teamMembers, setTeamMembers] = useState(['', '', '']);
-  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [friends, setFriends] = useState<Friend[]>([
+    { id: '1', name: 'Vernon Miller', avatar: '/user1.png', status: 'pending' },
+    { id: '2', name: 'Helen Chuang', avatar: '/user1.png', status: 'pending' },
+    { id: '3', name: 'Winifred Groton', avatar: '/user1.png', status: 'pending' },
+    { id: '4', name: 'Alice LeBeau', avatar: '/user1.png', status: 'pending' }
+  ]);
   const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
@@ -29,9 +42,17 @@ export default function TournamentRegistration() {
       }
     } catch (error) {
       console.error('Error fetching tournament:', error);
-    } finally {
-      setIsLoading(false);
     }
+  };
+
+  const handleSendInvite = (friendId: string) => {
+    setFriends(prevFriends =>
+      prevFriends.map(friend =>
+        friend.id === friendId
+          ? { ...friend, status: 'invited' }
+          : friend
+      )
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -43,16 +64,21 @@ export default function TournamentRegistration() {
     // Add registration logic here
   };
 
+  const filteredFriends = friends.filter(friend =>
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <Card className="border-0 shadow-sm">
           <CardBody>
-            <div className="d-flex align-items-center mb-4">
+            <div className="d-flex justify-content-between align-items-center mb-4">
               <div>
                 <h4 className="mb-1">Tournament Registration</h4>
                 <p className="text-muted mb-0">{tournament?.name}</p>
               </div>
+              <Button color="warning" onClick={handleSubmit}>Register Now</Button>
             </div>
             
             <Row>
@@ -71,21 +97,45 @@ export default function TournamentRegistration() {
                           required
                         />
                       </FormGroup>
-                      
-                      <h6 className="mt-4 mb-3">Invite Team Members</h6>
-                      {teamMembers.map((member, index) => (
-                        <FormGroup key={index}>
-                          <Label>Team Member {index + 1}</Label>
+
+                      <h5 className="mt-4 mb-3">Invite Friends</h5>
+                      <FormGroup className="mb-4">
+                        <div className="position-relative">
                           <Input
-                            value={member}
-                            onChange={(e) => {
-                              const newMembers = [...teamMembers];
-                              newMembers[index] = e.target.value;
-                              setTeamMembers(newMembers);
-                            }}
-                            placeholder="Enter email address"
+                            placeholder="Search Friends"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-4"
                           />
-                        </FormGroup>
+                          <Search size={18} className="position-absolute" style={{ top: '12px', left: '12px' }} />
+                        </div>
+                      </FormGroup>
+
+                      {filteredFriends.map((friend) => (
+                        <div key={friend.id} className="d-flex align-items-center justify-content-between mb-3">
+                          <div className="d-flex align-items-center">
+                            <Image
+                              src={friend.avatar}
+                              alt={friend.name}
+                              width={40}
+                              height={40}
+                              className="rounded-circle"
+                            />
+                            <div className="ms-3">
+                              <div>{friend.name}</div>
+                              <small className="text-muted">Member</small>
+                            </div>
+                          </div>
+                          <Button
+                            color="warning"
+                            size="sm"
+                            outline={friend.status === 'invited'}
+                            onClick={() => handleSendInvite(friend.id)}
+                            disabled={friend.status === 'invited'}
+                          >
+                            {friend.status === 'invited' ? 'Sent Invite' : 'Send Invite'}
+                          </Button>
+                        </div>
                       ))}
                     </CardBody>
                   </Card>
@@ -111,11 +161,6 @@ export default function TournamentRegistration() {
                       </div>
                     </CardBody>
                   </Card>
-
-                  <div className="d-flex gap-2">
-                    <Button color="secondary" onClick={() => router.back()}>Back</Button>
-                    <Button color="warning" type="submit">Register</Button>
-                  </div>
                 </Form>
               </Col>
 
@@ -125,8 +170,8 @@ export default function TournamentRegistration() {
                     <h5 className="mb-3">Tournament Details</h5>
                     <div className="mb-4">
                       <Image
-                        src={`/game-${tournament?.game?.toLowerCase() || 'default'}.jpg`}
-                        alt={tournament?.game || 'Game'}
+                        src={tournament?.image || '/game-default.jpg'}
+                        alt={tournament?.name}
                         width={400}
                         height={200}
                         className="rounded"
@@ -137,9 +182,20 @@ export default function TournamentRegistration() {
                       <small className="text-muted d-block">Entry Cost</small>
                       <div className="h5 mb-0">${tournament?.entryFee}</div>
                     </div>
-                    <div className="mb-3 pb-3 border-bottom">
-                      <small className="text-muted d-block">Prize</small>
-                      <div className="h5 mb-0">${tournament?.totalPrizePool}</div>
+                    <div className="mb-3">
+                      <h6 className="mb-3">Prizes</h6>
+                      <div className="mb-2 d-flex justify-content-between">
+                        <span>1st Winner Prize</span>
+                        <span>${tournament?.firstPrize || 776}</span>
+                      </div>
+                      <div className="mb-2 d-flex justify-content-between">
+                        <span>2nd Winner Prize</span>
+                        <span>${tournament?.secondPrize || 776}</span>
+                      </div>
+                      <div className="mb-2 d-flex justify-content-between">
+                        <span>3rd Winner Prize</span>
+                        <span>${tournament?.thirdPrize || 776}</span>
+                      </div>
                     </div>
                     <div className="mb-3 pb-3 border-bottom">
                       <small className="text-muted d-block">Platform</small>
