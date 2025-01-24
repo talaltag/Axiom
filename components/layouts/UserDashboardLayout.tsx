@@ -186,3 +186,170 @@ export default function UserDashboardLayout({
     </div>
   );
 }
+import { ReactNode, useState } from 'react';
+import {
+  Container,
+  Navbar,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import {
+  Home,
+  Award,
+  BarChart2,
+  Users,
+  User,
+  Settings,
+  LogOut,
+  MessageSquare,
+  Wallet,
+} from 'react-feather';
+import Image from 'next/image';
+
+interface Props {
+  children: ReactNode;
+}
+
+export default function UserDashboardLayout({ children }: Props) {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/auth/login');
+  };
+
+  const isActive = (path: string) => router.pathname === path;
+
+  return (
+    <div className="d-flex">
+      <div
+        className="bg-white shadow-sm"
+        style={{
+          width: '240px',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          overflowY: 'auto',
+        }}
+      >
+        <div className="p-4">
+          <Image src="/axiom.png" alt="Logo" width={120} height={40} priority />
+        </div>
+        <Nav vertical className="p-3">
+          <NavItem>
+            <Link href="/user/dashboard" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <Home size={18} className="me-2" /> Dashboard
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/tournaments" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/tournaments') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <Award size={18} className="me-2" /> Tournaments
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/statistics" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/statistics') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <BarChart2 size={18} className="me-2" /> Statistics
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/friends" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/friends') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <Users size={18} className="me-2" /> Friends
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/wallet" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/wallet') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <Wallet size={18} className="me-2" /> Wallet
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/chat" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/chat') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <MessageSquare size={18} className="me-2" /> Chat
+              </NavLink>
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link href="/user/dashboard/settings" passHref legacyBehavior>
+              <NavLink
+                className={`mb-2 ${isActive('/user/dashboard/settings') ? 'bg-warning text-white' : ''}`}
+                style={{ borderRadius: '8px' }}
+              >
+                <Settings size={18} className="me-2" /> Settings
+              </NavLink>
+            </Link>
+          </NavItem>
+        </Nav>
+      </div>
+      <div style={{ marginLeft: '240px', width: 'calc(100% - 240px)' }}>
+        <Navbar color="white" light className="shadow-sm">
+          <Nav className="ms-auto" navbar>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav>
+                <div className="d-flex align-items-center">
+                  <div className="position-relative me-2" style={{ width: '32px', height: '32px' }}>
+                    <Image
+                      src="/user1.png"
+                      alt="Profile"
+                      fill
+                      style={{ objectFit: 'cover', borderRadius: '50%' }}
+                    />
+                  </div>
+                  <User size={20} />
+                </div>
+              </DropdownToggle>
+              <DropdownMenu end>
+                <DropdownItem>Profile</DropdownItem>
+                <DropdownItem>Settings</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={handleLogout}>
+                  <LogOut size={14} className="me-2" /> Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+        </Navbar>
+        {children}
+      </div>
+    </div>
+  );
+}
