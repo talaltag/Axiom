@@ -45,11 +45,6 @@ export default function UserManagement() {
   const toggleDeleteModal = () => setDeleteModalOpen(!deleteModalOpen);
 
   useEffect(() => {
-    const isAdmin = localStorage.getItem('adminAuth');
-    if (!isAdmin) {
-      router.push('/auth/login');
-      return;
-    }
     fetchUsers();
   }, [page, limit, search, filterType]);
 
