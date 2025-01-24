@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Alert } from "reactstrap";
 import { useRouter } from "next/router";
 import LoginForm from "../../components/auth/LoginForm";
@@ -10,7 +10,16 @@ import type { AppDispatch, RootState } from "../../store/store";
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { error, isLoading } = useSelector((state: RootState) => state.auth);
+  const { error, isLoading, user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      const route = user.role === "Admin" || user.role === "admin" 
+        ? "/admin/dashboard" 
+        : "/user/dashboard";
+      router.push(route);
+    }
+  }, [user, router]);
 
   const handleLogin = async (email: string, password: string) => {
     try {
