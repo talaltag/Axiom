@@ -93,24 +93,28 @@ export default function TournamentRegistration() {
           <span>Dashboard / {tournament?.name}</span>
         </div>
 
-        <div className="tournament-header mb-4">
+        <div className="tournament-header mb-5">
           <Row>
             <Col md={8}>
-              <div className="d-flex">
+              <div className="d-flex align-items-start gap-4">
                 <Image
                   src={tournament?.image || '/game-default.jpg'}
                   alt={tournament?.name || 'Tournament'}
-                  width={150}
-                  height={150}
-                  className="rounded me-4"
+                  width={140}
+                  height={140}
+                  className="rounded-3"
+                  style={{ objectFit: 'cover' }}
                 />
                 <div>
-                  <h2 className="mb-2">{tournament?.name}</h2>
-                  <p className="text-muted">
-                    {tournament?.startDate} {tournament?.startTime} - {tournament?.endTime} EST
+                  <h1 className="h2 mb-2">{tournament?.name || 'Fortnite Summer Battle'}</h1>
+                  <p className="text-muted mb-3">
+                    {tournament?.date || 'May 23, 2023'} {tournament?.startTime || '9:00PM'} - {tournament?.endTime || '10:30PM'} EST
                   </p>
-                  <div className="mt-2">
-                    <span className="text-danger h4">${tournament?.entryFee}</span>
+                  <div className="d-flex align-items-center gap-3">
+                    <div>
+                      <small className="text-muted d-block mb-1">Entry Cost</small>
+                      <h3 className="text-danger mb-0">${tournament?.entryFee || '200'}</h3>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -118,17 +122,39 @@ export default function TournamentRegistration() {
               <Card className="mt-4 border-0 shadow-sm">
                 <CardBody>
                   <Form>
-                    <h5 className="mb-4">Create Team</h5>
-                    <FormGroup>
-                      <Label for="teamName">Team Name <span className="text-danger">*</span></Label>
-                      <Input
-                        id="teamName"
-                        value={teamName}
-                        onChange={(e) => setTeamName(e.target.value)}
-                        placeholder="Enter your team name"
-                        required
-                      />
-                    </FormGroup>
+                    <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="position-relative">
+                        <Image
+                          src="/user1.png"
+                          alt="Team Avatar"
+                          width={80}
+                          height={80}
+                          className="rounded-circle"
+                        />
+                        <div 
+                          className="position-absolute bottom-0 end-0 bg-warning p-1 rounded-circle"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <i className="fas fa-camera"></i>
+                        </div>
+                      </div>
+                      <div className="flex-grow-1">
+                        <h5 className="mb-4">Create Team</h5>
+                        <FormGroup className="mb-0">
+                          <Label for="teamName">
+                            Team Name <span className="text-danger">*</span>
+                          </Label>
+                          <Input
+                            id="teamName"
+                            value={teamName}
+                            onChange={(e) => setTeamName(e.target.value)}
+                            placeholder="Enter team name"
+                            className="form-control-lg"
+                            required
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
 
                     <h5 className="mt-5 mb-4">Invite Friends</h5>
                     <div className="mb-4">
