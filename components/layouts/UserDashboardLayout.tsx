@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Container,
@@ -42,7 +41,11 @@ export default function UserDashboardLayout({
 
   const menuItems = [
     { text: "Dashboard", icon: <Grid size={20} />, path: "/user/dashboard" },
-    { text: "Tournaments", icon: <Award size={20} />, path: "/user/dashboard/tournaments" },
+    {
+      text: "Tournaments",
+      icon: <Award size={20} />,
+      path: "/user/dashboard/tournaments",
+    },
     { text: "Friends", icon: <Users size={20} />, path: "/user/friends" },
     { text: "Wallet", icon: <DollarSign size={20} />, path: "/user/wallet" },
     { text: "Chat", icon: <MessageSquare size={20} />, path: "/user/chat" },
@@ -121,56 +124,61 @@ export default function UserDashboardLayout({
           <Breadcrumb listClassName="mb-0" listTag="div">
             <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
           </Breadcrumb>
-          
+
           <Nav className="ms-auto d-flex align-items-center" navbar>
-            <NavItem className="me-3">
-              <Button color="link" className="position-relative p-0">
-                <Bell size={20} className="text-muted" />
-                <Badge
-                  color="danger"
-                  pill
-                  className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  2
-                </Badge>
-              </Button>
-            </NavItem>
-            <NavItem className="me-3">
-              <Button color="link" className="position-relative p-0">
-                <MessageSquare size={20} className="text-muted" />
-                <Badge
-                  color="danger"
-                  pill
-                  className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  4
-                </Badge>
-              </Button>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav>
-                <Image
-                  src="/user1.png"
-                  alt="username"
-                  width={40}
-                  height={40}
-                  className="me-2 rounded-circle"
-                />
-                <span className="me-1">User Name</span>
-                <ChevronDown size={16} />
-              </DropdownToggle>
-              <DropdownMenu end>
-                <DropdownItem>Profile</DropdownItem>
-                <DropdownItem>Settings</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem onClick={() => {
-                  dispatch(logout());
-                  router.push('/auth/login');
-                }}>Logout</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <div className="d-flex align-items-center me-3">
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <Bell size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    2
+                  </Badge>
+                </Button>
+              </NavItem>
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <MessageSquare size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    4
+                  </Badge>
+                </Button>
+              </NavItem>
+              <UncontrolledDropdown dropup nav inNavbar>
+                <DropdownToggle nav>
+                  <Image
+                    src="/user1.png"
+                    alt="username"
+                    width={40}
+                    height={40}
+                    className="me-2"
+                  />
+                  Shan Hacks <ChevronDown size={16} />
+                </DropdownToggle>
+                <DropdownMenu className="position-absolute" right>
+                  <DropdownItem>Profile</DropdownItem>
+                  <DropdownItem>Settings</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem
+                    onClick={() => {
+                      dispatch(logout());
+                      router.push("/auth/login");
+                    }}
+                  >
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </div>
           </Nav>
         </Navbar>
         <main className="bg-light min-vh-100">{children}</main>

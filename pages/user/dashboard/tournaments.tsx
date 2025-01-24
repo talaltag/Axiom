@@ -1,16 +1,29 @@
 import { useState, useEffect } from "react";
 import UserDashboardLayout from "../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardTitle,
+  Button,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
-import Loader from '../../../components/common/Loader';
-import { useRouter } from 'next/router';
+import Loader from "../../../components/common/Loader";
+import { useRouter } from "next/router";
 
 export default function Tournaments() {
   const router = useRouter();
   const [tournaments, setTournaments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeTab, setActiveTab] = useState("upcoming");
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
 
@@ -18,13 +31,13 @@ export default function Tournaments() {
     const fetchTournaments = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/tournaments');
+        const response = await fetch("/api/tournaments");
         const data = await response.json();
         if (data.success) {
           setTournaments(data.data);
         }
       } catch (error) {
-        console.error('Error fetching tournaments:', error);
+        console.error("Error fetching tournaments:", error);
       } finally {
         setIsLoading(false);
       }
@@ -45,16 +58,16 @@ export default function Tournaments() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <div>
-                    <Button 
-                      color={activeTab === 'upcoming' ? "warning" : "light"}
+                    <Button
+                      color={activeTab === "upcoming" ? "warning" : "light"}
                       className="me-2"
-                      onClick={() => setActiveTab('upcoming')}
+                      onClick={() => setActiveTab("upcoming")}
                     >
                       Upcoming Tournaments
                     </Button>
                     <Button
-                      color={activeTab === 'my' ? "warning" : "light"}
-                      onClick={() => setActiveTab('my')}
+                      color={activeTab === "my" ? "warning" : "light"}
+                      onClick={() => setActiveTab("my")}
                     >
                       My Tournaments
                     </Button>
@@ -64,7 +77,7 @@ export default function Tournaments() {
                       type="search"
                       className="form-control me-2"
                       placeholder="Search tournaments..."
-                      style={{ width: '250px' }}
+                      style={{ width: "250px" }}
                     />
                   </div>
                 </div>
@@ -74,24 +87,27 @@ export default function Tournaments() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={`/game-${tournament.game?.toLowerCase() === 'cod' ? 'warzone' : 
-                                   tournament.game?.toLowerCase() === 'fortnite' ? 'fortnite' : 'pubg'}.jpg`}
-                            alt={tournament.game || 'Game'}
+                            src={`/fortnite-banner.png`}
+                            alt={tournament.game || "Game"}
                             width={400}
                             height={200}
-                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            style={{
+                              objectFit: "cover",
+                              width: "100%",
+                              height: "100%",
+                            }}
                             priority={index === 0}
                           />
-                          <div 
+                          <div
                             style={{
-                              position: 'absolute',
-                              top: '10px',
-                              right: '10px',
-                              background: 'rgba(255,0,0,0.8)',
-                              padding: '4px 8px',
-                              borderRadius: '4px',
-                              color: 'white',
-                              fontSize: '12px'
+                              position: "absolute",
+                              top: "10px",
+                              right: "10px",
+                              background: "rgba(255,0,0,0.8)",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
+                              color: "white",
+                              fontSize: "12px",
                             }}
                           >
                             {tournament.status}
@@ -104,19 +120,32 @@ export default function Tournaments() {
                           </div>
                           <div className="d-flex justify-content-between align-items-center mb-3">
                             <div>
-                              <small className="text-muted d-block">Prize Pool</small>
-                              <div className="h6 mb-0">${tournament.totalPrizePool}</div>
+                              <small className="text-muted d-block">
+                                Prize Pool
+                              </small>
+                              <div className="h6 mb-0">
+                                ${tournament.totalPrizePool}
+                              </div>
                             </div>
                             <div className="text-end">
-                              <small className="text-muted d-block">Entry Fee</small>
-                              <div className="h6 mb-0">${tournament.entryFee}</div>
+                              <small className="text-muted d-block">
+                                Entry Fee
+                              </small>
+                              <div className="h6 mb-0">
+                                ${tournament.entryFee}
+                              </div>
                             </div>
                           </div>
-                          <Button 
-                            color="warning" 
-                            onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                          <Button
+                            color="warning"
+                            onClick={() =>
+                              router.push(
+                                `/user/dashboard/register-tournament/${tournament._id}`
+                              )
+                            }
                           >
-                            Register Now <ArrowRight size={16} className="ms-2" />
+                            Register Now{" "}
+                            <ArrowRight size={16} className="ms-2" />
                           </Button>
                         </CardBody>
                       </Card>
@@ -128,14 +157,22 @@ export default function Tournaments() {
           </Col>
         </Row>
         <Modal isOpen={registrationModalOpen} toggle={closeRegistrationModal}>
-          <ModalHeader toggle={closeRegistrationModal}>Register for {selectedTournament?.name}</ModalHeader>
+          <ModalHeader toggle={closeRegistrationModal}>
+            Register for {selectedTournament?.name}
+          </ModalHeader>
           <ModalBody>
             {/* Add registration form here */}
-            <p>Registration form for {selectedTournament?.name} will go here.</p>
+            <p>
+              Registration form for {selectedTournament?.name} will go here.
+            </p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={closeRegistrationModal}>Register</Button>{' '}
-            <Button color="secondary" onClick={closeRegistrationModal}>Cancel</Button>
+            <Button color="primary" onClick={closeRegistrationModal}>
+              Register
+            </Button>{" "}
+            <Button color="secondary" onClick={closeRegistrationModal}>
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </Container>
