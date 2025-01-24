@@ -199,12 +199,12 @@ export default function TournamentRegistration() {
                     <div className="text-success d-inline-block px-2 py-1 rounded" style={{ backgroundColor: '#E8F5E9' }}>New</div>
                   </div>
                   <div className="mb-3">
-                    <small className="text-muted d-block">Prize</small>
-                    <h4 className="mb-0">${tournament?.totalPrize || 500}</h4>
+                    <small className="text-muted d-block">Entry Cost</small>
+                    <h4 className="mb-0">${tournament?.entryFee || 25}</h4>
                   </div>
                   <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Entry Fee</small>
-                    <h4 className="mb-0">${tournament?.entryFee || 25}</h4>
+                    <small className="text-muted d-block">Prize</small>
+                    <h4 className="text-danger mb-0">${tournament?.totalPrizePool || 200}</h4>
                   </div>
                   <div className="mb-3 pb-3 border-bottom">
                     <small className="text-muted d-block">Platform</small>
@@ -238,15 +238,15 @@ export default function TournamentRegistration() {
                   <h6 className="mb-3">Prizes</h6>
                   <div className="d-flex justify-content-between mb-2">
                     <span>1st Winner Prize</span>
-                    <span>${tournament?.firstPrize || 776}</span>
+                    <span>${tournament?.totalPrizePool * 0.5 || 775}</span>
                   </div>
                   <div className="d-flex justify-content-between mb-2">
                     <span>2nd Winner Prize</span>
-                    <span>${tournament?.secondPrize || 776}</span>
+                    <span>${tournament?.totalPrizePool * 0.3 || 775}</span>
                   </div>
                   <div className="d-flex justify-content-between mb-4">
                     <span>3rd Winner Prize</span>
-                    <span>${tournament?.thirdPrize || 776}</span>
+                    <span>${tournament?.totalPrizePool * 0.2 || 775}</span>
                   </div>
 
                   <Button color="warning" block size="lg">
