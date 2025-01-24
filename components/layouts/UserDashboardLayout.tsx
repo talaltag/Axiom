@@ -18,7 +18,6 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
-import Link from 'next/link';
 import {
   Grid,
   Award,
@@ -29,127 +28,157 @@ import {
   Bell,
   ChevronDown,
   ChevronsLeft,
-  Home,
-  BarChart2,
-  User,
-  LogOut,
-  Wallet
 } from "react-feather";
 
-interface Props {
+export default function UserDashboardLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function UserDashboardLayout({ children }: Props) {
+}) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push('/auth/login');
-  };
-
-  const isActive = (path: string) => router.pathname === path;
-
   const menuItems = [
-    { text: "Dashboard", icon: <Home size={18} />, path: "/user/dashboard" },
-    { text: "Tournaments", icon: <Award size={18} />, path: "/user/dashboard/tournaments" },
-    { text: "Statistics", icon: <BarChart2 size={18} />, path: "/user/dashboard/statistics" },
-    { text: "Friends", icon: <Users size={18} />, path: "/user/dashboard/friends" },
-    { text: "Wallet", icon: <Wallet size={18} />, path: "/user/dashboard/wallet" },
-    { text: "Chat", icon: <MessageSquare size={18} />, path: "/user/dashboard/chat" },
-    { text: "Settings", icon: <Settings size={18} />, path: "/user/dashboard/settings" }
+    { text: "Dashboard", icon: <Grid size={20} />, path: "/user/dashboard" },
+    {
+      text: "Tournaments",
+      icon: <Award size={20} />,
+      path: "/user/dashboard/tournaments",
+    },
+    { text: "Friends", icon: <Users size={20} />, path: "/user/friends" },
+    { text: "Wallet", icon: <DollarSign size={20} />, path: "/user/wallet" },
+    { text: "Chat", icon: <MessageSquare size={20} />, path: "/user/chat" },
+    { text: "Settings", icon: <Settings size={20} />, path: "/user/settings" },
   ];
 
   return (
     <div className="d-flex">
       <Nav
         vertical
-        className={`bg-white shadow-sm ${sidebarOpen ? "open" : ""}`}
+        className={`bg-white border-end sidebar ${sidebarOpen ? "open" : ""}`}
         style={{
           width: sidebarOpen ? "240px" : "64px",
           height: "100vh",
           position: "fixed",
           left: 0,
           top: 0,
-          overflowY: "auto",
-          transition: "width 0.3s ease-in-out"
+          zIndex: 1030,
+          transition: "all 0.3s ease-in-out",
         }}
       >
-        <div className="p-4 d-flex align-items-center">
-          {sidebarOpen && <Image src="/axiom.png" alt="Logo" width={120} height={40} priority />}
-          <Button
-            color="link"
-            className="ms-auto p-0"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            <ChevronsLeft
-              size={24}
-              style={{
-                transform: sidebarOpen ? "rotate(0deg)" : "rotate(180deg)",
-                transition: "transform 0.3s ease-in-out"
-              }}
-            />
-          </Button>
+        <div className="p-3 d-flex align-items-center mb-2">
+          <div className="d-flex w-100 align-items-center justify-content-between">
+            {sidebarOpen && (
+              <Image src="/axiom-logo.png" alt="Axiom" width={70} height={45} />
+            )}
+            <Button
+              className="p-0"
+              color="initial"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              <ChevronsLeft
+                size={24}
+                style={{
+                  transform: sidebarOpen ? "rotate(0deg)" : "rotate(180deg)",
+                  transition: "transform 0.3s ease-in-out",
+                }}
+              />
+            </Button>
+          </div>
         </div>
-
-        <Nav vertical className="p-3">
-          {menuItems.map((item) => (
-            <NavItem key={item.path}>
-              <Link href={item.path} passHref legacyBehavior>
-                <NavLink
-                  className={`mb-2 ${isActive(item.path) ? "bg-warning text-white" : ""}`}
-                  style={{ borderRadius: "8px" }}
-                >
-                  <span className="me-2">{item.icon}</span>
-                  {sidebarOpen && item.text}
-                </NavLink>
-              </Link>
-            </NavItem>
-          ))}
-        </Nav>
+        {menuItems.map((item) => (
+          <NavItem key={item.text}>
+            <NavLink
+              href={item.path}
+              className={`d-flex align-items-center mb-2 px-3 py-2 ${
+                router.pathname === item.path
+                  ? "bg-warning text-dark"
+                  : "text-muted"
+              }`}
+              style={{
+                justifyContent: sidebarOpen ? "flex-start" : "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <span className={sidebarOpen ? "me-2" : ""}>{item.icon}</span>
+              {sidebarOpen && item.text}
+            </NavLink>
+          </NavItem>
+        ))}
       </Nav>
 
       <div
+        className="flex-grow-1"
         style={{
           marginLeft: sidebarOpen ? "240px" : "64px",
-          width: `calc(100% - ${sidebarOpen ? "240px" : "64px"})`,
-          transition: "margin-left 0.3s ease-in-out, width 0.3s ease-in-out"
+          transition: "margin 0.3s ease-in-out",
         }}
       >
-        <Navbar color="white" light className="shadow-sm">
-          <Nav className="ms-auto" navbar>
-            <NavItem className="me-3">
-              <Button color="link" className="position-relative p-0">
-                <Bell size={20} className="text-muted" />
-                <Badge
-                  color="danger"
-                  pill
-                  className="position-absolute top-0 end-0"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  2
-                </Badge>
-              </Button>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav>
-                <div className="d-flex align-items-center">
-                  <Image src="/user1.png" alt="Profile" width={32} height={32} className="me-2" style={{ borderRadius: "50%" }} />
-                  <span className="me-1">Shan Hacks</span>
-                  <ChevronDown size={16} />
-                </div>
-              </DropdownToggle>
-              <DropdownMenu end>
-                <DropdownItem>Profile</DropdownItem>
-                <DropdownItem>Settings</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem onClick={handleLogout}>
-                  <LogOut size={14} className="me-2" />Logout
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+        <Navbar
+          color="white"
+          light
+          className="border-bottom py-2 position-sticky top-0"
+          style={{ zIndex: 1020 }}
+        >
+          <Breadcrumb listClassName="mb-0" listTag="div">
+            <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
+          </Breadcrumb>
+
+          <Nav className="ms-auto d-flex align-items-center" navbar>
+            <div className="d-flex align-items-center me-3">
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <Bell size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    2
+                  </Badge>
+                </Button>
+              </NavItem>
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <MessageSquare size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    4
+                  </Badge>
+                </Button>
+              </NavItem>
+              <UncontrolledDropdown dropup nav inNavbar>
+                <DropdownToggle nav>
+                  <Image
+                    src="/user1.png"
+                    alt="username"
+                    width={40}
+                    height={40}
+                    className="me-2"
+                  />
+                  Shan Hacks <ChevronDown size={16} />
+                </DropdownToggle>
+                <DropdownMenu className="position-absolute" right>
+                  <DropdownItem>Profile</DropdownItem>
+                  <DropdownItem>Settings</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem
+                    onClick={() => {
+                      dispatch(logout());
+                      router.push("/auth/login");
+                    }}
+                  >
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </div>
           </Nav>
         </Navbar>
         <main className="bg-light min-vh-100">{children}</main>
