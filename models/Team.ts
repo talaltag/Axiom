@@ -7,6 +7,15 @@ const TeamSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  tournament: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tournament',
+    required: true
+  },
+  members: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now
