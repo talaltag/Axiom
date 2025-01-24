@@ -155,11 +155,14 @@ export default function TournamentRegistration() {
                           className="rounded-circle"
                         />
                         <label 
-                          className="position-absolute bottom-0 end-0 bg-warning p-1 rounded-circle"
-                          style={{ cursor: 'pointer' }}
+                          className="position-absolute bottom-0 end-0 bg-warning p-2 rounded-circle d-flex align-items-center justify-content-center"
+                          style={{ cursor: 'pointer', width: '32px', height: '32px' }}
                           htmlFor="teamImageInput"
                         >
-                          <i className="fas fa-camera"></i>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                          </svg>
                         </label>
                         <input
                           type="file"
