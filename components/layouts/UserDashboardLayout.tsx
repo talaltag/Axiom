@@ -42,7 +42,7 @@ export default function UserDashboardLayout({
 
   const menuItems = [
     { text: "Dashboard", icon: <Grid size={20} />, path: "/user/dashboard" },
-    { text: "Tournaments", icon: <Award size={20} />, path: "/user/tournaments" },
+    { text: "Tournaments", icon: <Award size={20} />, path: "/user/dashboard/tournaments" },
     { text: "Friends", icon: <Users size={20} />, path: "/user/friends" },
     { text: "Wallet", icon: <DollarSign size={20} />, path: "/user/wallet" },
     { text: "Chat", icon: <MessageSquare size={20} />, path: "/user/chat" },
