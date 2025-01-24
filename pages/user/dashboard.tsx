@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import {
   Container,
@@ -24,6 +23,10 @@ interface Tournament {
   prize: string;
   entryCost: string;
   image: string;
+  name: string;
+  totalPrizePool: string;
+  entryFee: string;
+  images: string[];
 }
 
 export default function UserDashboard() {
