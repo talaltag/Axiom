@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import UserDashboardLayout from '../../../../components/layouts/UserDashboardLayout';
@@ -20,7 +19,10 @@ export default function TournamentRegistration() {
   const [teamName, setTeamName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [friends, setFriends] = useState<Friend[]>([]);
-  
+  const [teamImage, setTeamImage] = useState('');
+  const [teamImageError, setTeamImageError] = useState('');
+
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -39,7 +41,7 @@ export default function TournamentRegistration() {
         console.error('Error fetching users:', error);
       }
     };
-    
+
     fetchUsers();
   }, []);
   const [agreed, setAgreed] = useState(false);
@@ -72,13 +74,34 @@ export default function TournamentRegistration() {
     );
   };
 
+  const handleTeamImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTeamImage(reader.result as string);
+        setTeamImageError('');
+      };
+      reader.onerror = () => {
+        setTeamImageError('Error reading image');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setTeamImage('');
+      setTeamImageError('');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed) {
       alert('Please agree to the terms and conditions');
       return;
     }
-    // Add registration logic here
+    // Add registration logic here, including teamImage upload
+    console.log("Team Name:", teamName);
+    console.log("Team Image:", teamImage);
+    // ... your existing submission logic ...
   };
 
   const filteredFriends = friends.filter(friend =>
@@ -121,22 +144,31 @@ export default function TournamentRegistration() {
 
               <Card className="mt-4 border-0 shadow-sm">
                 <CardBody>
-                  <Form>
+                  <Form onSubmit={handleSubmit}>
                     <div className="d-flex align-items-center gap-3 mb-4">
                       <div className="position-relative">
                         <Image
-                          src="/user1.png"
+                          src={teamImage || "/user1.png"}
                           alt="Team Avatar"
                           width={80}
                           height={80}
                           className="rounded-circle"
                         />
-                        <div 
+                        <label 
                           className="position-absolute bottom-0 end-0 bg-warning p-1 rounded-circle"
                           style={{ cursor: 'pointer' }}
+                          htmlFor="teamImageInput"
                         >
                           <i className="fas fa-camera"></i>
-                        </div>
+                        </label>
+                        <input
+                          type="file"
+                          id="teamImageInput"
+                          accept="image/*"
+                          className="d-none"
+                          onChange={handleTeamImageChange}
+                        />
+                        {teamImageError && <p style={{ color: 'red' }}>{teamImageError}</p>}
                       </div>
                       <div className="flex-grow-1">
                         <h5 className="mb-4">Create Team</h5>
@@ -213,6 +245,9 @@ export default function TournamentRegistration() {
                         <Label check>I have read Terms and Conditions and agree</Label>
                       </FormGroup>
                     </div>
+                    <Button type="submit" color="warning" block size="lg">
+                      Register
+                    </Button>
                   </Form>
                 </CardBody>
               </Card>
