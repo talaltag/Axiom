@@ -16,6 +16,8 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/authSlice";
 import Image from "next/image";
 import {
   Grid,
@@ -162,7 +164,10 @@ export default function UserDashboardLayout({
                 <DropdownItem>Profile</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Logout</DropdownItem>
+                <DropdownItem onClick={() => {
+                  dispatch(logout());
+                  router.push('/auth/login');
+                }}>Logout</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>

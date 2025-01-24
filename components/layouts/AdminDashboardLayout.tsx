@@ -15,6 +15,8 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/authSlice";
 import Image from "next/image";
 import {
   Grid,
@@ -188,10 +190,13 @@ export default function AdminDashboardLayout({
                   Shan Hacks <ChevronDown size={16} />
                 </DropdownToggle>
                 <DropdownMenu className="position-absolute" right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
+                  <DropdownItem>Profile</DropdownItem>
+                  <DropdownItem>Settings</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
+                  <DropdownItem onClick={() => {
+                    dispatch(logout());
+                    router.push('/auth/login');
+                  }}>Logout</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </div>
