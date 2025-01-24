@@ -248,9 +248,22 @@ export default function TournamentRegistration() {
                         <Label check>I have read Terms and Conditions and agree</Label>
                       </FormGroup>
                     </div>
-                    <Button type="submit" color="warning" block size="lg">
-                      Register
-                    </Button>
+                    <div className="d-flex gap-3">
+                      <Button 
+                        color="secondary" 
+                        size="lg" 
+                        onClick={() => router.push('/user/dashboard/tournaments')}
+                      >
+                        Back
+                      </Button>
+                      <Button 
+                        type="submit" 
+                        color="warning" 
+                        size="lg"
+                      >
+                        Register
+                      </Button>
+                    </div>
                   </Form>
                 </CardBody>
               </Card>
