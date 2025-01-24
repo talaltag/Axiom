@@ -144,7 +144,7 @@ export default function TournamentRegistration() {
 
               <Card className="mt-4 border-0 shadow-sm">
                 <CardBody>
-                  <Form onSubmit={handleSubmit}>
+                  <Form id="registrationForm" onSubmit={handleSubmit}>
                     <div className="d-flex align-items-center gap-3 mb-4">
                       <div className="position-relative">
                         <Image
@@ -248,25 +248,28 @@ export default function TournamentRegistration() {
                         <Label check>I have read Terms and Conditions and agree</Label>
                       </FormGroup>
                     </div>
-                    <div className="d-flex gap-3">
-                      <Button 
-                        color="secondary" 
-                        size="lg" 
-                        onClick={() => router.push('/user/dashboard/tournaments')}
-                      >
-                        Back
-                      </Button>
-                      <Button 
-                        type="submit" 
-                        color="warning" 
-                        size="lg"
-                      >
-                        Register
-                      </Button>
-                    </div>
-                  </Form>
+                    </Form>
                 </CardBody>
               </Card>
+              <div className="fixed-bottom bg-white py-3 shadow-lg">
+                <Container>
+                  <div className="d-flex justify-content-end gap-3">
+                    <Button 
+                      color="secondary" 
+                      onClick={() => router.push('/user/dashboard/tournaments')}
+                    >
+                      Back
+                    </Button>
+                    <Button 
+                      type="submit"
+                      form="registrationForm"
+                      color="warning"
+                    >
+                      Register
+                    </Button>
+                  </div>
+                </Container>
+              </div>
             </Col>
 
             <Col md={4}>
