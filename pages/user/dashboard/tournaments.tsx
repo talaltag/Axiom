@@ -4,8 +4,10 @@ import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input, Modal, M
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
 import Loader from '../../../components/common/Loader';
+import { useRouter } from 'next/router';
 
 export default function Tournaments() {
+  const router = useRouter();
   const [tournaments, setTournaments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('upcoming');
@@ -112,10 +114,7 @@ export default function Tournaments() {
                           </div>
                           <Button 
                             color="warning" 
-                            onClick={() => {
-                              setSelectedTournament(tournament);
-                              setRegistrationModalOpen(true);
-                            }}
+                            onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
                           >
                             Register Now <ArrowRight size={16} className="ms-2" />
                           </Button>
