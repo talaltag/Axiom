@@ -29,7 +29,7 @@ export default function ConfirmRegistration() {
 
   const fetchRegistrationDetails = async () => {
     try {
-      const response = await fetch(`/api/tournaments/registration/${team_id}`);
+      const response = await fetch(`/api/tournaments/${tournament_id}/teams/${team_id}`);
       const data = await response.json();
       if (data.success) {
         setRegistration(data.data.registration);
@@ -44,12 +44,10 @@ export default function ConfirmRegistration() {
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement payment logic here
     try {
-      const response = await fetch(`/api/tournaments/registration/${team_id}/pay`, {
+      const response = await fetch(`/api/tournaments/${tournament_id}/teams/${team_id}/pay`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ /* payment details */ })
+        headers: { 'Content-Type': 'application/json' }
       });
       const data = await response.json();
       if (data.success) {
@@ -74,11 +72,9 @@ export default function ConfirmRegistration() {
                 <Alert color="success">
                   Payment completed. You are registered for the tournament.
                 </Alert>
-                {/* Display registration details */}
               </div>
             ) : (
               <Form onSubmit={handlePayment}>
-                {/* Add payment form fields here */}
                 <Button color="warning" type="submit">
                   Complete Payment
                 </Button>
