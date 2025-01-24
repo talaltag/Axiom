@@ -128,7 +128,7 @@ export default function TournamentRegistration() {
 
       const data = await response.json();
       if (data.success) {
-        router.push(`/user/dashboard/confirm/${id}/${data.data.team_id}`);
+        router.push(`/user/dashboard/confirm/${data.data.team_id}`);
       } else {
         alert(data.message || "Registration failed");
       }
