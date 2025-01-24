@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import UserDashboardLayout from "../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, Input } from "reactstrap";
+import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input } from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
 
@@ -51,6 +51,7 @@ export default function Tournaments() {
                             width={400}
                             height={200}
                             style={{ objectFit: 'cover' }}
+                            priority={index === 0}
                           />
                           <div 
                             style={{
@@ -69,24 +70,22 @@ export default function Tournaments() {
                         </div>
                         <CardBody>
                           <CardTitle tag="h5">Fortnite Summer Battle</CardTitle>
-                          <CardText>
-                            <small className="text-muted d-block mb-2">
-                              May 23, 2023 • 9:00PM - 10:30PM EST
-                            </small>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <div>
-                                <small className="text-muted">Prize Pool</small>
-                                <h6 className="mb-0">$200</h6>
-                              </div>
-                              <div className="text-end">
-                                <small className="text-muted">Entry Fee</small>
-                                <h6 className="mb-0">$500</h6>
-                              </div>
+                          <div className="text-muted small mb-2">
+                            May 23, 2023 • 9:00PM - 10:30PM EST
+                          </div>
+                          <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                              <small className="text-muted d-block">Prize Pool</small>
+                              <div className="h6 mb-0">$200</div>
                             </div>
-                            <Button color="warning" block>
-                              Register Now <ArrowRight size={16} className="ms-2" />
-                            </Button>
-                          </CardText>
+                            <div className="text-end">
+                              <small className="text-muted d-block">Entry Fee</small>
+                              <div className="h6 mb-0">$500</div>
+                            </div>
+                          </div>
+                          <Button color="warning" className="w-100">
+                            Register Now <ArrowRight size={16} className="ms-2" />
+                          </Button>
                         </CardBody>
                       </Card>
                     </Col>
