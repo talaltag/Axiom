@@ -65,10 +65,10 @@ export default function Tournaments() {
                           <Image
                             src={`/game-${tournament.game?.toLowerCase() === 'cod' ? 'warzone' : 
                                    tournament.game?.toLowerCase() === 'fortnite' ? 'fortnite' : 'pubg'}.jpg`}
-                            alt={tournament.game}
+                            alt={tournament.game || 'Game'}
                             width={400}
                             height={200}
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                             priority={index === 0}
                           />
                           <div 

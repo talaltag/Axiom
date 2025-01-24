@@ -138,11 +138,13 @@ export default function UserDashboard() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={tournament.images?.[0] || '/game-warzone.jpg'}
-                            alt={tournament.name}
+                            src={`/game-${tournament.game?.toLowerCase() === 'cod' ? 'warzone' : 
+                                tournament.game?.toLowerCase() === 'fortnite' ? 'fortnite' : 'pubg'}.jpg`}
+                            alt={tournament.game || 'Game'}
                             width={400}
                             height={200}
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            priority
                           />
                           <div 
                             style={{
