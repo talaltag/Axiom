@@ -19,12 +19,29 @@ export default function TournamentRegistration() {
   const [tournament, setTournament] = useState<any>(null);
   const [teamName, setTeamName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [friends, setFriends] = useState<Friend[]>([
-    { id: '1', name: 'Vernon Miller', avatar: '/user1.png', status: 'pending' },
-    { id: '2', name: 'Helen Chuang', avatar: '/user1.png', status: 'pending' },
-    { id: '3', name: 'Winifred Groton', avatar: '/user1.png', status: 'pending' },
-    { id: '4', name: 'Alice LeBeau', avatar: '/user1.png', status: 'pending' }
-  ]);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users');
+        const data = await response.json();
+        if (data.success) {
+          const users = data.data.map((user: any) => ({
+            id: user._id,
+            name: user.name,
+            avatar: user.profileImage || '/user1.png',
+            status: 'pending'
+          }));
+          setFriends(users);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    
+    fetchUsers();
+  }, []);
   const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
