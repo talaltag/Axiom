@@ -26,7 +26,7 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
     email: editUser?.email || '',
     password: '',
     cName: editUser?.cName || '',
-    role: editUser?.role || 'Basic'
+    role: 'User'
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -132,19 +132,7 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
               placeholder="Enter username"
             />
           </FormGroup>
-          <FormGroup>
-            <Label for="role">Role*</Label>
-            <Input
-              id="role"
-              name="role"
-              type="select"
-              value={formData.role}
-              onChange={handleChange}
-            >
-              <option value="Basic">Basic</option>
-              <option value="Admin">Admin</option>
-            </Input>
-          </FormGroup>
+          
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>Cancel</Button>
