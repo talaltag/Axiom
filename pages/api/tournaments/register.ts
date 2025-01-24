@@ -1,14 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import formidable from 'formidable';
-import fs from 'fs';
-import path from 'path';
-import dbConnect from '../../../lib/dbConnect';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+import type { NextApiRequest, NextApiResponse } from 'next';
+import dbConnect from '../../../lib/dbConnect';
+import Team from '../../../models/Team';
+import TournamentRegistration from '../../../models/TournamentRegistration';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -18,28 +12,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await dbConnect();
 
-    const form = formidable({
-      uploadDir: path.join(process.cwd(), 'public/uploads'),
-      keepExtensions: true,
-      maxFiles: 1,
-      maxFileSize: 5 * 1024 * 1024, // 5MB
+    const { team_name, tournament_id, user_ids, payment_method, payment_token } = req.body;
+
+    // Create team
+    const team = await Team.create({ name: team_name });
+
+    // Create tournament registration
+    const registration = await TournamentRegistration.create({
+      tournament: tournament_id,
+      team: team._id,
+      users: user_ids,
+      paymentMethod: payment_method,
+      paymentToken: payment_token
     });
 
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        return res.status(500).json({ success: false, message: 'Error uploading file' });
+    res.status(201).json({ 
+      success: true, 
+      data: {
+        team_id: team._id,
+        registration_id: registration._id
       }
-
-      const file = files.teamImage?.[0];
-      const teamImagePath = file ? `/uploads/${path.basename(file.filepath)}` : null;
-
-      // Here you would save the registration data to your database
-      res.status(200).json({ 
-        success: true, 
-        data: { teamImagePath } 
-      });
     });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return res.status(400).json({ success: false, message: 'Team name already exists' });
+    }
+    res.status(500).json({ success: false, message: error.message });
   }
 }

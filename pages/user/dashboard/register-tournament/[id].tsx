@@ -106,10 +106,34 @@ export default function TournamentRegistration() {
       alert("Please agree to the terms and conditions");
       return;
     }
-    // Add registration logic here, including teamImage upload
-    console.log("Team Name:", teamName);
-    console.log("Team Image:", teamImage);
-    // ... your existing submission logic ...
+
+    const selectedFriends = friends.filter(f => f.status === "invited").map(f => f.id);
+    
+    try {
+      const response = await fetch('/api/tournaments/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          team_name: teamName,
+          tournament_id: id,
+          user_ids: [...selectedFriends, user.id], // Include current user
+          payment_method: 'stripe',  // You can make this dynamic
+          payment_token: null  // Will be added during payment
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        router.push(`/user/dashboard/confirm/${id}/${data.data.team_id}`);
+      } else {
+        alert(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Failed to register for tournament');
+    }
   };
 
   const filteredFriends = friends.filter((friend) =>
