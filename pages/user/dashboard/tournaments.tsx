@@ -1,17 +1,18 @@
-
 import { useState, useEffect } from "react";
 import UserDashboardLayout from "../../../components/layouts/UserDashboardLayout";
 import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input } from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
+import Loader from '../../../components/common/Loader';
 
 export default function Tournaments() {
-  const [activeTab, setActiveTab] = useState('upcoming');
   const [tournaments, setTournaments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
+        setIsLoading(true); //Added loading state
         const response = await fetch('/api/tournaments');
         const data = await response.json();
         if (data.success) {
@@ -19,6 +20,8 @@ export default function Tournaments() {
         }
       } catch (error) {
         console.error('Error fetching tournaments:', error);
+      } finally {
+        setIsLoading(false); //Added loading state
       }
     };
 
@@ -28,6 +31,7 @@ export default function Tournaments() {
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
+        {isLoading && <Loader fullscreen />}
         <Row className="mb-4">
           <Col>
             <Card className="border-0 shadow-sm">

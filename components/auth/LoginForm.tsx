@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Eye, EyeOff } from 'react-feather';
@@ -8,7 +7,11 @@ interface LoginFormProps {
   isLoading?: boolean;
 }
 
-export default function LoginForm({ onSubmit }: LoginFormProps) {
+const Loader = () => (
+  <span style={{ marginLeft: '8px' }}>&nbsp;Loading...</span>
+);
+
+export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -56,17 +59,18 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
       <div className="d-flex justify-content-end mb-4">
         <a href="#" className="text-decoration-none text-muted" style={{ fontSize: '14px' }}>Forgot password?</a>
       </div>
-      <Button 
-        color="warning" 
-        block 
+      <Button
+        color="warning"
+        block
         className="py-2 mb-4"
-        style={{ 
+        style={{
           backgroundColor: '#FFD600',
           boxShadow: '0px 4px 4px rgba(16, 24, 40, 0.25)',
           borderRadius: '8px'
         }}
+        disabled={isLoading}
       >
-        Login
+        Login {isLoading && <Loader />}
       </Button>
       <div className="flex-grow-1"></div>
       <div className="text-center mt-auto">

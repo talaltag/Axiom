@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
@@ -26,6 +25,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Loader from '../../components/common/Loader';
 
 export default function TournamentManagement() {
   const router = useRouter();
@@ -43,12 +43,14 @@ export default function TournamentManagement() {
     time: "",
     status: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchTournaments();
   }, []);
 
   const fetchTournaments = async () => {
+    setIsLoading(true); // Set loading state to true before fetching
     try {
       const response = await fetch("/api/tournaments");
       const data = await response.json();
@@ -57,6 +59,8 @@ export default function TournamentManagement() {
       }
     } catch (error) {
       console.error("Error fetching tournaments:", error);
+    } finally {
+      setIsLoading(false); // Set loading state to false after fetching, regardless of success or failure
     }
   };
 
@@ -128,6 +132,7 @@ export default function TournamentManagement() {
   return (
     <AdminDashboardLayout>
       <Box sx={{ p: 3, bgcolor: "#fff", borderRadius: 2 }}>
+        {isLoading && <Loader fullscreen />} {/* Added Loader */}
         <Box
           sx={{
             display: "flex",
