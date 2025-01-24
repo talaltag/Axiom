@@ -17,7 +17,7 @@ export default function Login() {
       const resultAction = await dispatch(loginUser({ email, password }));
       if (loginUser.fulfilled.match(resultAction)) {
         const { user } = resultAction.payload;
-        if (user.role === "Admin") {
+        if (user.role === "admin") {
           router.push("/admin/dashboard");
         } else {
           router.push("/user/dashboard");
