@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 import UserDashboardLayout from "../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input } from "reactstrap";
+import { Container, Row, Col, Card, CardBody, CardTitle, Button, Input, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
 import Loader from '../../../components/common/Loader';
@@ -10,6 +9,8 @@ export default function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('upcoming');
+  const [selectedTournament, setSelectedTournament] = useState(null);
+  const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -29,6 +30,8 @@ export default function Tournaments() {
 
     fetchTournaments();
   }, []);
+
+  const closeRegistrationModal = () => setRegistrationModalOpen(false);
 
   return (
     <UserDashboardLayout>
@@ -107,7 +110,13 @@ export default function Tournaments() {
                               <div className="h6 mb-0">${tournament.entryFee}</div>
                             </div>
                           </div>
-                          <Button color="warning" className="w-100">
+                          <Button 
+                            color="warning" 
+                            onClick={() => {
+                              setSelectedTournament(tournament);
+                              setRegistrationModalOpen(true);
+                            }}
+                          >
                             Register Now <ArrowRight size={16} className="ms-2" />
                           </Button>
                         </CardBody>
@@ -119,6 +128,17 @@ export default function Tournaments() {
             </Card>
           </Col>
         </Row>
+        <Modal isOpen={registrationModalOpen} toggle={closeRegistrationModal}>
+          <ModalHeader toggle={closeRegistrationModal}>Register for {selectedTournament?.name}</ModalHeader>
+          <ModalBody>
+            {/* Add registration form here */}
+            <p>Registration form for {selectedTournament?.name} will go here.</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={closeRegistrationModal}>Register</Button>{' '}
+            <Button color="secondary" onClick={closeRegistrationModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     </UserDashboardLayout>
   );
