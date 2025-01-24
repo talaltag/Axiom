@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Container,
   Nav,
@@ -14,6 +13,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from "reactstrap";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
@@ -26,31 +26,28 @@ import {
   MessageSquare,
   Settings,
   Bell,
-  ChevronDown,
   ChevronsLeft,
+  LogOut,
 } from "react-feather";
 
-export default function UserDashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function UserDashboardLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { text: "Dashboard", icon: <Grid size={20} />, path: "/user/dashboard" },
-    {
-      text: "Tournaments",
-      icon: <Award size={20} />,
-      path: "/user/dashboard/tournaments",
-    },
-    { text: "Friends", icon: <Users size={20} />, path: "/user/friends" },
-    { text: "Wallet", icon: <DollarSign size={20} />, path: "/user/wallet" },
-    { text: "Chat", icon: <MessageSquare size={20} />, path: "/user/chat" },
-    { text: "Settings", icon: <Settings size={20} />, path: "/user/settings" },
+    { text: "Dashboard", path: "/user/dashboard", icon: <Grid size={18} /> },
+    { text: "Tournaments", path: "/user/dashboard/tournaments", icon: <Award size={18} /> },
+    { text: "Friends", path: "/user/friends", icon: <Users size={18} /> },
+    { text: "Wallet", path: "/user/wallet", icon: <DollarSign size={18} /> },
+    { text: "Chat", path: "/user/chat", icon: <MessageSquare size={18} /> },
+    { text: "Settings", path: "/user/settings", icon: <Settings size={18} /> },
   ];
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/auth/login");
+  };
 
   return (
     <div className="d-flex">
@@ -92,96 +89,54 @@ export default function UserDashboardLayout({
             <NavLink
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
-                router.pathname === item.path
-                  ? "bg-warning text-dark"
-                  : "text-muted"
+                router.pathname === item.path ? "bg-warning text-dark" : "text-muted"
               }`}
-              style={{
-                justifyContent: sidebarOpen ? "flex-start" : "center",
-                whiteSpace: "nowrap",
-              }}
+              style={{ textDecoration: "none" }}
             >
-              <span className={sidebarOpen ? "me-2" : ""}>{item.icon}</span>
-              {sidebarOpen && item.text}
+              {item.icon}
+              {sidebarOpen && <span className="ms-2">{item.text}</span>}
             </NavLink>
           </NavItem>
         ))}
       </Nav>
 
       <div
-        className="flex-grow-1"
         style={{
           marginLeft: sidebarOpen ? "240px" : "64px",
-          transition: "margin 0.3s ease-in-out",
+          transition: "margin-left 0.3s ease-in-out",
+          width: "100%",
         }}
       >
-        <Navbar
-          color="white"
-          light
-          className="border-bottom py-2 position-sticky top-0"
-          style={{ zIndex: 1020 }}
-        >
-          <Breadcrumb listClassName="mb-0" listTag="div">
-            <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
-          </Breadcrumb>
-
-          <Nav className="ms-auto d-flex align-items-center" navbar>
-            <div className="d-flex align-items-center me-3">
-              <NavItem className="me-3">
-                <Button color="link" className="position-relative p-0">
-                  <Bell size={20} className="text-muted" />
-                  <Badge
-                    color="danger"
-                    pill
-                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    2
-                  </Badge>
-                </Button>
-              </NavItem>
-              <NavItem className="me-3">
-                <Button color="link" className="position-relative p-0">
-                  <MessageSquare size={20} className="text-muted" />
-                  <Badge
-                    color="danger"
-                    pill
-                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    4
-                  </Badge>
-                </Button>
-              </NavItem>
-              <UncontrolledDropdown dropup nav inNavbar>
-                <DropdownToggle nav>
-                  <Image
-                    src="/user1.png"
-                    alt="username"
-                    width={40}
-                    height={40}
-                    className="me-2"
-                  />
-                  Shan Hacks <ChevronDown size={16} />
-                </DropdownToggle>
-                <DropdownMenu className="position-absolute" right>
-                  <DropdownItem>Profile</DropdownItem>
-                  <DropdownItem>Settings</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem
-                    onClick={() => {
-                      dispatch(logout());
-                      router.push("/auth/login");
-                    }}
-                  >
-                    Logout
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </div>
+        <Navbar className="bg-white border-bottom px-4" container={false}>
+          <Nav className="ms-auto" navbar>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav>
+                <Bell size={20} />
+              </DropdownToggle>
+              <DropdownMenu end>
+                <DropdownItem>No new notifications</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown nav inNavbar className="ms-3">
+              <DropdownToggle nav>
+                <Image
+                  src="/user1.png"
+                  alt="User"
+                  width={32}
+                  height={32}
+                  className="rounded-circle"
+                />
+              </DropdownToggle>
+              <DropdownMenu end>
+                <DropdownItem onClick={handleLogout}>
+                  <LogOut size={14} className="me-2" />
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </Nav>
         </Navbar>
-        <main className="bg-light min-vh-100">{children}</main>
+        <main className="p-4">{children}</main>
       </div>
     </div>
   );
