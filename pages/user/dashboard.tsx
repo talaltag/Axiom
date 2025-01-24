@@ -36,32 +36,24 @@ export default function UserDashboard() {
     { name: "Apex", lastScore: "102234", progress: 90 },
   ];
 
-  const tournaments: Tournament[] = [
-    {
-      title: "Warzone",
-      date: "May 23, 2023",
-      time: "9:00PM - 10:30PM EST",
-      prize: "$500",
-      entryCost: "$200",
-      image: "/game-warzone.jpg"
-    },
-    {
-      title: "Fortnite Summer Battle",
-      date: "May 23, 2023",
-      time: "9:00PM - 10:30PM EST",
-      prize: "$500",
-      entryCost: "$200",
-      image: "/game-fortnite.jpg"
-    },
-    {
-      title: "PUBG Tournament",
-      date: "May 23, 2023",
-      time: "9:00PM - 10:30PM EST",
-      prize: "$500",
-      entryCost: "$200",
-      image: "/game-pubg.jpg"
-    },
-  ];
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [activeTab, setActiveTab] = useState('upcoming');
+
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const response = await fetch('/api/tournaments');
+        const data = await response.json();
+        if (data.success) {
+          setTournaments(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching tournaments:', error);
+      }
+    };
+
+    fetchTournaments();
+  }, []);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -113,8 +105,29 @@ export default function UserDashboard() {
             <Card className="border-0 shadow-sm">
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <h5 className="mb-0">Upcoming Tournaments</h5>
-                  <Button color="warning" size="sm">View All</Button>
+                  <div>
+                    <Button 
+                      color={activeTab === 'upcoming' ? "warning" : "light"}
+                      className="me-2"
+                      onClick={() => setActiveTab('upcoming')}
+                    >
+                      Upcoming Tournaments
+                    </Button>
+                    <Button
+                      color={activeTab === 'my' ? "warning" : "light"}
+                      onClick={() => setActiveTab('my')}
+                    >
+                      My Tournaments
+                    </Button>
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <input
+                      type="search"
+                      className="form-control me-2"
+                      placeholder="Search tournaments..."
+                      style={{ width: '250px' }}
+                    />
+                  </div>
                 </div>
                 <Row>
                   {tournaments.map((tournament, index) => (
@@ -122,14 +135,29 @@ export default function UserDashboard() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={tournament.image}
-                            alt={tournament.title}
-                            layout="fill"
-                            objectFit="cover"
+                            src={tournament.images?.[0] || '/game-warzone.jpg'}
+                            alt={tournament.name}
+                            width={400}
+                            height={200}
+                            style={{ objectFit: 'cover' }}
                           />
+                          <div 
+                            style={{
+                              position: 'absolute',
+                              top: '10px',
+                              right: '10px',
+                              background: 'rgba(255,0,0,0.8)',
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              color: 'white',
+                              fontSize: '12px'
+                            }}
+                          >
+                            Closing in 10:88:00
+                          </div>
                         </div>
                         <CardBody>
-                          <CardTitle tag="h5">{tournament.title}</CardTitle>
+                          <CardTitle tag="h5">{tournament.name}</CardTitle>
                           <CardText>
                             <small className="text-muted d-block mb-2">
                               {tournament.date} • {tournament.time}
@@ -137,11 +165,11 @@ export default function UserDashboard() {
                             <div className="d-flex justify-content-between align-items-center mb-3">
                               <div>
                                 <small className="text-muted">Prize Pool</small>
-                                <h6 className="mb-0">{tournament.prize}</h6>
+                                <h6 className="mb-0">${tournament.totalPrizePool}</h6>
                               </div>
                               <div className="text-end">
                                 <small className="text-muted">Entry Fee</small>
-                                <h6 className="mb-0">{tournament.entryCost}</h6>
+                                <h6 className="mb-0">${tournament.entryFee}</h6>
                               </div>
                             </div>
                             <Button color="warning" block>
