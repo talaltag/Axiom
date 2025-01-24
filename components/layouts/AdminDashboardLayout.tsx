@@ -39,6 +39,7 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [

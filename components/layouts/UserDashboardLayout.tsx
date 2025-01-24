@@ -37,6 +37,7 @@ export default function UserDashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
