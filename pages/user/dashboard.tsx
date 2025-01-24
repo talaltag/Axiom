@@ -40,18 +40,18 @@ export default function UserDashboard() {
   ];
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeTab, setActiveTab] = useState("upcoming");
 
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
-        const response = await fetch('/api/tournaments');
+        const response = await fetch("/api/tournaments");
         const data = await response.json();
         if (data.success) {
           setTournaments(data.data);
         }
       } catch (error) {
-        console.error('Error fetching tournaments:', error);
+        console.error("Error fetching tournaments:", error);
       }
     };
 
@@ -75,7 +75,9 @@ export default function UserDashboard() {
         <Row className="mb-4">
           <Col>
             <h4 className="mb-1">Welcome back, {user.name}</h4>
-            <p className="text-muted mb-0">Track your gaming progress and upcoming tournaments</p>
+            <p className="text-muted mb-0">
+              Track your gaming progress and upcoming tournaments
+            </p>
           </Col>
         </Row>
 
@@ -90,8 +92,8 @@ export default function UserDashboard() {
                       <span>Last Score</span>
                       <span className="fw-bold">{game.lastScore}</span>
                     </div>
-                    <Progress 
-                      value={game.progress} 
+                    <Progress
+                      value={game.progress}
                       className="mt-2"
                       color="warning"
                       style={{ height: "8px" }}
@@ -109,16 +111,16 @@ export default function UserDashboard() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <div>
-                    <Button 
-                      color={activeTab === 'upcoming' ? "warning" : "light"}
+                    <Button
+                      color={activeTab === "upcoming" ? "warning" : "light"}
                       className="me-2"
-                      onClick={() => setActiveTab('upcoming')}
+                      onClick={() => setActiveTab("upcoming")}
                     >
                       Upcoming Tournaments
                     </Button>
                     <Button
-                      color={activeTab === 'my' ? "warning" : "light"}
-                      onClick={() => setActiveTab('my')}
+                      color={activeTab === "my" ? "warning" : "light"}
+                      onClick={() => setActiveTab("my")}
                     >
                       My Tournaments
                     </Button>
@@ -128,7 +130,7 @@ export default function UserDashboard() {
                       type="search"
                       className="form-control me-2"
                       placeholder="Search tournaments..."
-                      style={{ width: '250px' }}
+                      style={{ width: "250px" }}
                     />
                   </div>
                 </div>
@@ -138,24 +140,27 @@ export default function UserDashboard() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={tournament.game?.toLowerCase() === 'fortnite' ? '/fortnite-banner.jpg' : 
-                                 `/game-${tournament.game?.toLowerCase() === 'cod' ? 'warzone' : 'pubg'}.jpg`}
-                            alt={tournament.game || 'Game'}
-                            width={400}
+                            src={`/fortnite-banner.png`}
+                            alt={tournament.name || "Game"}
+                       width={400}
                             height={200}
-                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            style={{
+                              objectFit: "cover",
+                              width: "100%",
+                              height: "100%",
+                            }}
                             priority
                           />
-                          <div 
+                          <div
                             style={{
-                              position: 'absolute',
-                              top: '10px',
-                              right: '10px',
-                              background: 'rgba(255,0,0,0.8)',
-                              padding: '4px 8px',
-                              borderRadius: '4px',
-                              color: 'white',
-                              fontSize: '12px'
+                              position: "absolute",
+                              top: "10px",
+                              right: "10px",
+                              background: "rgba(255,0,0,0.8)",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
+                              color: "white",
+                              fontSize: "12px",
                             }}
                           >
                             Closing in 10:88:00
@@ -170,7 +175,9 @@ export default function UserDashboard() {
                             <div className="d-flex justify-content-between align-items-center mb-3">
                               <div>
                                 <small className="text-muted">Prize Pool</small>
-                                <h6 className="mb-0">${tournament.totalPrizePool}</h6>
+                                <h6 className="mb-0">
+                                  ${tournament.totalPrizePool}
+                                </h6>
                               </div>
                               <div className="text-end">
                                 <small className="text-muted">Entry Fee</small>
@@ -178,7 +185,8 @@ export default function UserDashboard() {
                               </div>
                             </div>
                             <Button color="warning" block>
-                              Register Now <ArrowRight size={16} className="ms-2" />
+                              Register Now{" "}
+                              <ArrowRight size={16} className="ms-2" />
                             </Button>
                           </CardText>
                         </CardBody>
