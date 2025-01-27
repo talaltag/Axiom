@@ -1,3 +1,4 @@
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -37,6 +38,8 @@ export default async function handler(
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as any;
           loggedInUserId = decoded.userId;
+        } catch (error) {
+          console.error("Token verification failed:", error);
         }
 
         const users = await User.find({
