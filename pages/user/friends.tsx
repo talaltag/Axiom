@@ -64,16 +64,38 @@ export default function Friends() {
     }
   };
 
-  const mockFriends = Array(6).fill({
-    id: '1',
-    name: 'Vernon Miller',
-    image: '/user1.png',
-    mutualFriends: [
-      { image: '/user1.png', count: 3 },
-      { image: '/user1.png', count: 0 },
-      { image: '/user1.png', count: 0 }
-    ],
-  });
+  const [friends, setFriends] = useState<User[]>([]);
+  const [searchFriendQuery, setSearchFriendQuery] = useState('');
+  const [filteredFriends, setFilteredFriends] = useState<User[]>([]);
+
+  useEffect(() => {
+    fetchFriends();
+  }, []);
+
+  useEffect(() => {
+    const filtered = friends.filter(friend => 
+      friend.name.toLowerCase().includes(searchFriendQuery.toLowerCase())
+    );
+    setFilteredFriends(filtered);
+  }, [searchFriendQuery, friends]);
+
+  const fetchFriends = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/users/me/friends', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFriends(data.data);
+        setFilteredFriends(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching friends:', error);
+    }
+  };
 
   return (
     <UserDashboardLayout>
@@ -112,12 +134,23 @@ export default function Friends() {
 
         {activeTab === 'myFriends' ? (
           <Row>
-            {mockFriends.map((friend, index) => (
-              <Col md={6} key={index} className="mb-3">
+            <div className="mb-4">
+              <div className="position-relative" style={{ width: '300px' }}>
+                <Search size={18} className="position-absolute" style={{ top: '10px', left: '10px' }} />
+                <Input
+                  placeholder="Search Friends"
+                  value={searchFriendQuery}
+                  onChange={(e) => setSearchFriendQuery(e.target.value)}
+                  className="ps-5"
+                />
+              </div>
+            </div>
+            {filteredFriends.map((friend) => (
+              <Col md={6} key={friend._id} className="mb-3">
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={friend.image}
+                      src={friend.profileImage || '/user1.png'}
                       alt={friend.name}
                       width={48}
                       height={48}
@@ -125,22 +158,7 @@ export default function Friends() {
                     />
                     <div className="ms-3">
                       <h6 className="mb-1">{friend.name}</h6>
-                      <div className="d-flex align-items-center">
-                        <small className="text-muted me-2">Also followed by</small>
-                        <div className="d-flex align-items-center">
-                          {friend.mutualFriends.map((mutual, mIndex) => (
-                            <div key={mIndex} className="position-relative" style={{ marginLeft: mIndex > 0 ? '-8px' : 0 }}>
-                              <Image
-                                src={mutual.image}
-                                alt="Mutual friend"
-                                width={24}
-                                height={24}
-                                className="rounded-circle border border-white"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      <small className="text-muted">{friend.email}</small>
                     </div>
                   </div>
                 </div>
