@@ -33,17 +33,17 @@ export default async function handler(
         // Get the logged-in user from the request headers
         const token = req.headers.authorization?.split(' ')[1];
         let loggedInUserId;
-        
-        if (token) {
-          const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-          loggedInUserId = decoded.id;
+
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as any;
+          loggedInUserId = decoded.userId;
         }
 
-        const users = await User.find(query)
-          .where("role")
-          .ne("Admin")
-          .where("_id")
-          .ne(loggedInUserId)
+        const users = await User.find({
+          ...query,
+          role: { $ne: "Admin" },
+          _id: { $ne: loggedInUserId }
+        })
           .select("-password")
           .sort({ createdAt: -1 });
 
