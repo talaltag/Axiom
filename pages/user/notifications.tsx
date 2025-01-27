@@ -45,6 +45,18 @@ export default function Notifications() {
       });
 
       if (response.ok) {
+        // Update friend request status
+        const data = await response.json();
+        if (data.friendRequestId) {
+          await fetch(`/api/friend-requests/${data.friendRequestId}`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: action })
+          });
+        }
         fetchNotifications();
       }
     } catch (error) {
