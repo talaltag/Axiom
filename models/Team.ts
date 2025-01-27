@@ -1,25 +1,21 @@
-
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TeamSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
-  tournament: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Tournament',
-    required: true
-  },
-  members: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
+  members: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export default mongoose.models.Team || mongoose.model('Team', TeamSchema);
+export default mongoose.models.Team || mongoose.model("Team", TeamSchema);

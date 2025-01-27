@@ -6,12 +6,11 @@ const TournamentRegistrationSchema = new mongoose.Schema({
     ref: "Tournament",
     required: true,
   },
-  users: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Teams",
+    required: true,
+  },
   paymentStatus: {
     type: String,
     enum: ["pending", "completed"],

@@ -5,7 +5,7 @@ import TournamentRegistration from "../../../models/TournamentRegistration";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     return res
@@ -28,12 +28,13 @@ export default async function handler(
     const team = await Team.create({
       name: team_name,
       tournament: tournament_id,
+      members: user_ids,
     });
 
     // Create tournament registration
-    const registration = await TournamentRegistration.create({
+    const registration = await   TournamentRegistration.create({
       tournament: tournament_id,
-      users: user_ids,
+      team: team._id,
       paymentMethod: payment_method,
       paymentToken: payment_token,
     });
