@@ -1,3 +1,17 @@
+
+.notification-dropdown {
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 8px !important;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-menu {
+  border: none !important;
+}
+
 html,
 body {
   padding: 0;

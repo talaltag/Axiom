@@ -18,18 +18,9 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
-import {
-  Grid,
-  Award,
-  Users,
-  DollarSign,
-  MessageSquare,
-  Settings,
-  Bell,
-  ChevronsLeft,
-  LogOut,
-} from "react-feather";
+import { Grid, Award, Users, DollarSign, MessageSquare, Settings, ChevronsLeft, LogOut } from "react-feather";
 import Link from "next/link";
+import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
 
 export default function UserDashboardLayout({ children }) {
   const router = useRouter();
@@ -117,32 +108,7 @@ export default function UserDashboardLayout({ children }) {
         <Navbar className="bg-white border-bottom px-4" container={false}>
           <Nav className="ms-auto d-flex align-items-center" navbar>
             <div className="d-flex align-items-center me-3">
-              <NavItem className="me-3">
-                <Button color="link" className="position-relative p-0">
-                  <Bell size={20} className="text-muted" />
-                  <Badge
-                    color="danger"
-                    pill
-                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    2
-                  </Badge>
-                </Button>
-              </NavItem>
-              <NavItem>
-                <Button color="link" className="position-relative p-0">
-                  <MessageSquare size={20} className="text-muted" />
-                  <Badge
-                    color="danger"
-                    pill
-                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    4
-                  </Badge>
-                </Button>
-              </NavItem>
+              <NotificationsDropdown /> {/* Placeholder for NotificationsDropdown */}
               <UncontrolledDropdown dropup inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image
