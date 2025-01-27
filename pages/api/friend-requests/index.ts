@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/dbConnect';
 import FriendRequest from '../../../models/FriendRequest';
+import User from '../../../models/User';
+import Notification from '../../../models/Notification';
 import jwt from 'jsonwebtoken';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,6 +20,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const senderId = decoded.userId;
       const { receiverId } = req.body;
 
+      if (!receiverId) {
+        return res.status(400).json({ success: false, message: 'Receiver ID is required' });
+      }
+
+      // Verify both users exist
+      const [sender, receiver] = await Promise.all([
+        User.findById(senderId),
+        User.findById(receiverId)
+      ]);
+
+      if (!sender || !receiver) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
       // Check if request already exists
       const existingRequest = await FriendRequest.findOne({
         sender: senderId,
@@ -29,13 +45,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ success: false, message: 'Friend request already sent' });
       }
 
-      const sender = await User.findById(senderId);
       const friendRequest = await FriendRequest.create({
         sender: senderId,
         receiver: receiverId,
         status: 'pending'
       });
 
+      // Create notification for receiver
       await Notification.create({
         recipient: receiverId,
         type: 'friend_request',
@@ -46,6 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       res.status(201).json({ success: true, data: friendRequest });
     } catch (error) {
+      console.error('Friend request error:', error);
       res.status(500).json({ success: false, message: 'Error creating friend request' });
     }
   } else if (req.method === 'GET') {
@@ -66,6 +83,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const sentRequestIds = requests.map(request => request.receiver.toString());
       res.status(200).json({ success: true, data: sentRequestIds });
     } catch (error) {
+      console.error('Get friend requests error:', error);
       res.status(500).json({ success: false, message: 'Error fetching friend requests' });
     }
   } else {
