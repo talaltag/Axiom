@@ -13,6 +13,7 @@ interface Friend {
     image: string;
     count: number;
   }[];
+  status?: 'request_sent' | 'add_friend';
 }
 
 export default function Friends() {
@@ -27,7 +28,8 @@ export default function Friends() {
       { image: '/user1.png', count: 3 },
       { image: '/user1.png', count: 0 },
       { image: '/user1.png', count: 0 }
-    ]
+    ],
+    status: 'add_friend'
   });
 
   return (
@@ -65,55 +67,102 @@ export default function Friends() {
           </div>
         </div>
 
-        <Row>
-          {mockFriends.map((friend, index) => (
-            <Col md={6} key={index} className="mb-3">
-              <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
-                <div className="d-flex align-items-center">
-                  <Image
-                    src={friend.image}
-                    alt={friend.name}
-                    width={48}
-                    height={48}
-                    className="rounded-circle"
-                  />
-                  <div className="ms-3">
-                    <h6 className="mb-1">{friend.name}</h6>
-                    <div className="d-flex align-items-center">
-                      <small className="text-muted me-2">Also followed by</small>
+        {activeTab === 'myFriends' ? (
+          <Row>
+            {mockFriends.map((friend, index) => (
+              <Col md={6} key={index} className="mb-3">
+                <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={friend.image}
+                      alt={friend.name}
+                      width={48}
+                      height={48}
+                      className="rounded-circle"
+                    />
+                    <div className="ms-3">
+                      <h6 className="mb-1">{friend.name}</h6>
                       <div className="d-flex align-items-center">
-                        {friend.mutualFriends.map((mutual, mIndex) => (
-                          <div key={mIndex} className="position-relative" style={{ marginLeft: mIndex > 0 ? '-8px' : 0 }}>
-                            <Image
-                              src={mutual.image}
-                              alt="Mutual friend"
-                              width={24}
-                              height={24}
-                              className="rounded-circle border border-white"
-                            />
-                            {mutual.count > 0 && (
-                              <Badge color="warning" className="position-absolute top-0 end-0 rounded-circle">
-                                +{mutual.count}
-                              </Badge>
-                            )}
-                          </div>
-                        ))}
+                        <small className="text-muted me-2">Also followed by</small>
+                        <div className="d-flex align-items-center">
+                          {friend.mutualFriends.map((mutual, mIndex) => (
+                            <div key={mIndex} className="position-relative" style={{ marginLeft: mIndex > 0 ? '-8px' : 0 }}>
+                              <Image
+                                src={mutual.image}
+                                alt="Mutual friend"
+                                width={24}
+                                height={24}
+                                className="rounded-circle border border-white"
+                              />
+                              {mutual.count > 0 && (
+                                <Badge color="warning" className="position-absolute top-0 end-0 rounded-circle">
+                                  +{mutual.count}
+                                </Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div className="d-flex align-items-center">
+                    <Button color="warning" size="sm" className="me-2">
+                      <MessageCircle size={16} />
+                    </Button>
+                    <Button color="light" size="sm">
+                      <MoreVertical size={16} />
+                    </Button>
+                  </div>
                 </div>
-                <div className="d-flex align-items-center">
-                  <Button color="warning" size="sm" className="me-2">
-                    <MessageCircle size={16} />
-                  </Button>
-                  <Button color="light" size="sm">
-                    <MoreVertical size={16} />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Row>
+            {mockFriends.map((friend, index) => (
+              <Col md={6} key={index} className="mb-3">
+                <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={friend.image}
+                      alt={friend.name}
+                      width={48}
+                      height={48}
+                      className="rounded-circle"
+                    />
+                    <div className="ms-3">
+                      <h6 className="mb-1">{friend.name}</h6>
+                      <div className="d-flex align-items-center">
+                        <small className="text-muted">Mutual Friend</small>
+                        <div className="d-flex align-items-center ms-2">
+                          {friend.mutualFriends.map((mutual, mIndex) => (
+                            <div key={mIndex} className="position-relative" style={{ marginLeft: mIndex > 0 ? '-8px' : 0 }}>
+                              <Image
+                                src={mutual.image}
+                                alt="Mutual friend"
+                                width={24}
+                                height={24}
+                                className="rounded-circle border border-white"
+                              />
+                            </div>
+                          ))}
+                          <small className="text-warning ms-2">+3</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <Button
+                    color={friend.status === 'request_sent' ? 'success' : 'info'}
+                    size="sm"
+                    className={friend.status === 'request_sent' ? 'text-white' : ''}
+                  >
+                    {friend.status === 'request_sent' ? 'Request Sent' : 'Add Friend'}
                   </Button>
                 </div>
-              </div>
-            </Col>
-          ))}
-        </Row>
+              </Col>
+            ))}
+          </Row>
+        )}
       </Container>
     </UserDashboardLayout>
   );
