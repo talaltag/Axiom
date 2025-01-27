@@ -1,12 +1,11 @@
-
-import { useState } from 'react';
-import { Container, Button, Nav } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Nav, NavItem, NavLink, Card, Button, Spinner } from 'reactstrap';
 import UserDashboardLayout from '../../components/layouts/UserDashboardLayout';
 import Image from 'next/image';
+import classnames from 'classnames';
 
 export default function Notifications() {
   const [activeTab, setActiveTab] = useState('all');
-
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -44,7 +43,7 @@ export default function Notifications() {
         },
         body: JSON.stringify({ action })
       });
-      
+
       if (response.ok) {
         fetchNotifications();
       }
@@ -53,100 +52,79 @@ export default function Notifications() {
     }
   };
 
-  const notifications = [
-    {
-      type: 'friend_request',
-      title: 'John send you a friend request',
-      time: '40 minutes ago',
-      actions: ['Accept', 'Reject']
-    },
-    {
-      type: 'tournament',
-      title: 'New Tournament announced!',
-      description: 'Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first Lorem Ipsum generators on the Internet tend to repea',
-      time: '40 minutes ago'
-    },
-    {
-      type: 'tournament',
-      title: 'New Tournament announced!',
-      description: 'Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first Lorem Ipsum generators on the Internet tend to repea',
-      time: '40 minutes ago'
-    },
-    {
-      type: 'tournament',
-      title: 'New Tournament announced!',
-      description: 'Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first Lorem Ipsum generators on the Internet tend to repea',
-      time: '40 minutes ago'
-    }
-  ];
-
   return (
     <UserDashboardLayout>
-      <Container fluid className="p-4">
-        <div className="bg-white rounded-3 shadow-sm">
-          <div className="p-4 border-bottom">
-            <div className="d-flex justify-content-between align-items-center">
-              <h4 className="mb-0">Notifications</h4>
-              <Nav className="gap-3">
-                <Button 
-                  color="link" 
-                  className={activeTab === 'all' ? 'text-dark p-0' : 'text-muted p-0'}
-                  onClick={() => setActiveTab('all')}
-                >
-                  All
-                </Button>
-                <Button 
-                  color="link" 
-                  className={activeTab === 'unread' ? 'text-dark p-0' : 'text-muted p-0'}
-                  onClick={() => setActiveTab('unread')}
-                >
-                  Unread
-                </Button>
-              </Nav>
-            </div>
+      <Container>
+        <h2 className="mb-4">Notifications</h2>
+        <Nav tabs className="mb-4">
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'all' })}
+              onClick={() => setActiveTab('all')}
+            >
+              All
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'unread' })}
+              onClick={() => setActiveTab('unread')}
+            >
+              Unread
+            </NavLink>
+          </NavItem>
+        </Nav>
+
+        {loading ? (
+          <div className="text-center">
+            <Spinner color="primary" />
           </div>
-          <div>
-            {notifications.map((notification, index) => (
-              <div key={index} className="p-4 border-bottom notification-item">
-                <div className="d-flex justify-content-between align-items-start">
-                  <div className="d-flex gap-3">
-                    {notification.type === 'friend_request' && (
+        ) : (
+          <Row>
+            {notifications.map((notification: any) => (
+              <Col md={12} key={notification._id} className="mb-3">
+                <Card body>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="d-flex align-items-center">
                       <Image
                         src="/user1.png"
                         alt="User"
-                        width={48}
-                        height={48}
-                        className="rounded-circle"
+                        width={40}
+                        height={40}
+                        className="rounded-circle me-3"
                       />
-                    )}
-                    {notification.type === 'tournament' && (
-                      <Image
-                        src="/fortnite-banner.png"
-                        alt="Tournament"
-                        width={48}
-                        height={48}
-                        className="rounded"
-                      />
-                    )}
-                    <div className="flex-grow-1">
-                      <h6 className="mb-1">{notification.title}</h6>
-                      {notification.description && (
-                        <p className="mb-1 text-muted small">{notification.description}</p>
-                      )}
-                      <small className="text-muted">{notification.time}</small>
+                      <div>
+                        <h6 className="mb-1">{notification.title}</h6>
+                        <small className="text-muted">
+                          {new Date(notification.createdAt).toLocaleDateString()}
+                        </small>
+                      </div>
                     </div>
+                    {notification.type === 'friend_request' && notification.status === 'pending' && (
+                      <div>
+                        <Button
+                          color="success"
+                          size="sm"
+                          className="me-2"
+                          onClick={() => handleAction(notification._id, 'accepted')}
+                        >
+                          Accept
+                        </Button>
+                        <Button
+                          color="danger"
+                          size="sm"
+                          onClick={() => handleAction(notification._id, 'rejected')}
+                        >
+                          Reject
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                  {notification.actions && (
-                    <div className="d-flex gap-2">
-                      <Button color="danger" size="sm">Reject</Button>
-                      <Button color="warning" size="sm">Accept</Button>
-                    </div>
-                  )}
-                </div>
-              </div>
+                </Card>
+              </Col>
             ))}
-          </div>
-        </div>
+          </Row>
+        )}
       </Container>
     </UserDashboardLayout>
   );
