@@ -1,26 +1,47 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UserDashboardLayout from '../../components/layouts/UserDashboardLayout';
-import { Container, Row, Col, Input, Nav, NavItem, NavLink, Button, Badge } from 'reactstrap';
+import { Container, Row, Col, Input, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import Image from 'next/image';
-import { Search, MessageCircle, MoreVertical } from 'react-feather';
+import { Search } from 'react-feather';
 
-interface Friend {
-  id: string;
+interface User {
+  _id: string;
   name: string;
-  image: string;
-  mutualFriends: {
-    image: string;
-    count: number;
-  }[];
-  status?: 'request_sent' | 'add_friend';
+  profileImage?: string;
 }
 
 export default function Friends() {
   const [activeTab, setActiveTab] = useState('myFriends');
   const [searchQuery, setSearchQuery] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
-  const mockFriends: Friend[] = Array(6).fill({
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const filtered = users.filter(user => 
+      user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  }, [searchQuery, users]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('/api/users');
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data.data);
+        setFilteredUsers(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  const mockFriends = Array(6).fill({
     id: '1',
     name: 'Vernon Miller',
     image: '/user1.png',
@@ -29,7 +50,6 @@ export default function Friends() {
       { image: '/user1.png', count: 0 },
       { image: '/user1.png', count: 0 }
     ],
-    status: 'add_friend'
   });
 
   return (
@@ -94,24 +114,11 @@ export default function Friends() {
                                 height={24}
                                 className="rounded-circle border border-white"
                               />
-                              {mutual.count > 0 && (
-                                <Badge color="warning" className="position-absolute top-0 end-0 rounded-circle">
-                                  +{mutual.count}
-                                </Badge>
-                              )}
                             </div>
                           ))}
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <Button color="warning" size="sm" className="me-2">
-                      <MessageCircle size={16} />
-                    </Button>
-                    <Button color="light" size="sm">
-                      <MoreVertical size={16} />
-                    </Button>
                   </div>
                 </div>
               </Col>
@@ -119,44 +126,23 @@ export default function Friends() {
           </Row>
         ) : (
           <Row>
-            {mockFriends.map((friend, index) => (
-              <Col md={6} key={index} className="mb-3">
+            {filteredUsers.map((user) => (
+              <Col md={6} key={user._id} className="mb-3">
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={friend.image}
-                      alt={friend.name}
+                      src={user.profileImage || '/user1.png'}
+                      alt={user.name}
                       width={48}
                       height={48}
                       className="rounded-circle"
                     />
                     <div className="ms-3">
-                      <h6 className="mb-1">{friend.name}</h6>
-                      <div className="d-flex align-items-center">
-                        <small className="text-muted">Mutual Friend</small>
-                        <div className="d-flex align-items-center ms-2">
-                          {friend.mutualFriends.map((mutual, mIndex) => (
-                            <div key={mIndex} className="position-relative" style={{ marginLeft: mIndex > 0 ? '-8px' : 0 }}>
-                              <Image
-                                src={mutual.image}
-                                alt="Mutual friend"
-                                width={24}
-                                height={24}
-                                className="rounded-circle border border-white"
-                              />
-                            </div>
-                          ))}
-                          <small className="text-warning ms-2">+3</small>
-                        </div>
-                      </div>
+                      <h6 className="mb-1">{user.name}</h6>
                     </div>
                   </div>
-                  <Button
-                    color={friend.status === 'request_sent' ? 'success' : 'info'}
-                    size="sm"
-                    className={friend.status === 'request_sent' ? 'text-white' : ''}
-                  >
-                    {friend.status === 'request_sent' ? 'Request Sent' : 'Add Friend'}
+                  <Button color="info" size="sm">
+                    Add Friend
                   </Button>
                 </div>
               </Col>
