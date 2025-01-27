@@ -140,9 +140,13 @@ export default function UserDashboard() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={`/fortnite-banner.png`}
+                            src={`${
+                              tournament.images && tournament.images.length > 0
+                                ? tournament.images[0]
+                                : "/fortnite-banner.png"
+                            }`}
                             alt={tournament.name || "Game"}
-                       width={400}
+                            width={400}
                             height={200}
                             style={{
                               objectFit: "cover",
