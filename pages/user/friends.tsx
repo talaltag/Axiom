@@ -20,6 +20,14 @@ export default function Friends() {
   useEffect(() => {
     fetchUsers();
     fetchSentRequests();
+
+    const handleFriendRequest = () => {
+      fetchUsers();
+      fetchSentRequests();
+    };
+
+    window.addEventListener('friendRequestHandled', handleFriendRequest);
+    return () => window.removeEventListener('friendRequestHandled', handleFriendRequest);
   }, []);
 
   const fetchSentRequests = async () => {

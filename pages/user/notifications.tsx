@@ -41,7 +41,7 @@ export default function Notifications() {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ action })
+        body: JSON.stringify({ status: action })
       });
 
       if (response.ok) {
@@ -56,6 +56,10 @@ export default function Notifications() {
             },
             body: JSON.stringify({ status: action })
           });
+
+          // Emit event to refresh users list
+          const event = new CustomEvent('friendRequestHandled');
+          window.dispatchEvent(event);
         }
         fetchNotifications();
       }
