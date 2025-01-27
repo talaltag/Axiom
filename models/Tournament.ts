@@ -1,10 +1,9 @@
-
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TournamentSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   type: String,
   game: String,
@@ -27,12 +26,13 @@ const TournamentSchema = new mongoose.Schema({
   images: [String],
   status: {
     type: String,
-    default: 'Registration Open'
+    default: "Registration Open",
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export default mongoose.models.Tournament || mongoose.model('Tournament', TournamentSchema);
+export default mongoose.models.Tournament ||
+  mongoose.model("Tournament", TournamentSchema);

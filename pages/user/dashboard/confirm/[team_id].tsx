@@ -21,6 +21,7 @@ interface RegistrationData {
     prize: string;
     type: string;
     game: string;
+    images: String[];
   };
   team: {
     name: string;
@@ -32,7 +33,8 @@ interface RegistrationData {
 export default function ConfirmRegistration() {
   const router = useRouter();
   const { team_id } = router.query;
-  const [registrationData, setRegistrationData] = useState<RegistrationData | null>(null);
+  const [registrationData, setRegistrationData] =
+    useState<RegistrationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("wallet");
@@ -70,11 +72,14 @@ export default function ConfirmRegistration() {
 
   const handlePayment = async () => {
     try {
-      const response = await fetch(`/api/tournament-registrations/${team_id}/pay`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentMethod, cardDetails }),
-      });
+      const response = await fetch(
+        `/api/tournament-registrations/${team_id}/pay`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentMethod, cardDetails }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         router.push("/user/dashboard/tournaments");
@@ -91,7 +96,10 @@ export default function ConfirmRegistration() {
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <div className="d-flex align-items-center mb-4">
-          <a onClick={() => router.back()} className="text-decoration-none me-2">
+          <a
+            onClick={() => router.back()}
+            className="text-decoration-none me-2"
+          >
             ‹
           </a>
           <span>Dashboard / {registrationData.tournament.name}</span>
@@ -101,7 +109,12 @@ export default function ConfirmRegistration() {
           <Col md={8}>
             <div className="d-flex gap-4 mb-4">
               <Image
-                src="/fortnite-banner.png"
+                src={`${
+                  registrationData.tournament.images &&
+                  registrationData.tournament.images.length > 0
+                    ? registrationData.tournament.images[0]
+                    : "/fortnite-banner.png"
+                }`}
                 alt="Tournament Banner"
                 width={120}
                 height={120}
@@ -111,7 +124,8 @@ export default function ConfirmRegistration() {
               <div>
                 <h4>{registrationData.tournament.name}</h4>
                 <p className="text-muted">
-                  {registrationData.tournament.date} · {registrationData.tournament.startTime} -{" "}
+                  {registrationData.tournament.date} ·{" "}
+                  {registrationData.tournament.startTime} -{" "}
                   {registrationData.tournament.endTime} EST
                 </p>
               </div>
@@ -150,31 +164,37 @@ export default function ConfirmRegistration() {
                   </Col>
                 </Row>
 
-                {registrationData.paymentStatus === 'pending' && (
+                {registrationData.paymentStatus === "pending" && (
                   <>
                     <div className="mt-4">
                       <h5>Payment Method</h5>
                       <div className="d-flex gap-3 mt-3">
-                        <Card 
-                          className={`p-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border-warning' : ''}`}
-                          onClick={() => setPaymentMethod('wallet')}
+                        <Card
+                          className={`p-3 cursor-pointer ${
+                            paymentMethod === "wallet" ? "border-warning" : ""
+                          }`}
+                          onClick={() => setPaymentMethod("wallet")}
                         >
                           <div className="text-center">
                             <h6>$120.00</h6>
                             <small>Axiom Wallet</small>
                           </div>
                         </Card>
-                        <Card 
-                          className={`p-3 cursor-pointer ${paymentMethod === 'bank' ? 'border-warning' : ''}`}
-                          onClick={() => setPaymentMethod('bank')}
+                        <Card
+                          className={`p-3 cursor-pointer ${
+                            paymentMethod === "bank" ? "border-warning" : ""
+                          }`}
+                          onClick={() => setPaymentMethod("bank")}
                         >
                           <div className="text-center">
                             <h6>Bank Card</h6>
                           </div>
                         </Card>
-                        <Card 
-                          className={`p-3 cursor-pointer ${paymentMethod === 'stripe' ? 'border-warning' : ''}`}
-                          onClick={() => setPaymentMethod('stripe')}
+                        <Card
+                          className={`p-3 cursor-pointer ${
+                            paymentMethod === "stripe" ? "border-warning" : ""
+                          }`}
+                          onClick={() => setPaymentMethod("stripe")}
                         >
                           <div className="text-center">
                             <h6>Stripe</h6>
@@ -183,7 +203,7 @@ export default function ConfirmRegistration() {
                       </div>
                     </div>
 
-                    {paymentMethod === 'bank' && (
+                    {paymentMethod === "bank" && (
                       <div className="mt-4">
                         <h5>Card Information</h5>
                         <Form className="mt-3">
@@ -195,7 +215,12 @@ export default function ConfirmRegistration() {
                                 className="form-control"
                                 placeholder="XXXX XXXX XXXX"
                                 value={cardDetails.number}
-                                onChange={(e) => setCardDetails({...cardDetails, number: e.target.value})}
+                                onChange={(e) =>
+                                  setCardDetails({
+                                    ...cardDetails,
+                                    number: e.target.value,
+                                  })
+                                }
                               />
                             </Col>
                             <Col md={6} className="mb-3">
@@ -205,7 +230,12 @@ export default function ConfirmRegistration() {
                                 className="form-control"
                                 placeholder="XXXX XXXX XXXX"
                                 value={cardDetails.security}
-                                onChange={(e) => setCardDetails({...cardDetails, security: e.target.value})}
+                                onChange={(e) =>
+                                  setCardDetails({
+                                    ...cardDetails,
+                                    security: e.target.value,
+                                  })
+                                }
                               />
                             </Col>
                           </Row>
@@ -216,33 +246,58 @@ export default function ConfirmRegistration() {
                               className="form-control"
                               placeholder="XXXX XXXX XXXX"
                               value={cardDetails.name}
-                              onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
+                              onChange={(e) =>
+                                setCardDetails({
+                                  ...cardDetails,
+                                  name: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <Row>
                             <Col md={6}>
                               <label>Expiration Date</label>
-                              <select 
+                              <select
                                 className="form-select"
                                 value={cardDetails.expMonth}
-                                onChange={(e) => setCardDetails({...cardDetails, expMonth: e.target.value})}
+                                onChange={(e) =>
+                                  setCardDetails({
+                                    ...cardDetails,
+                                    expMonth: e.target.value,
+                                  })
+                                }
                               >
                                 <option value="">Month</option>
-                                {Array.from({length: 12}, (_, i) => i + 1).map(month => (
-                                  <option key={month} value={month}>{month}</option>
+                                {Array.from(
+                                  { length: 12 },
+                                  (_, i) => i + 1
+                                ).map((month) => (
+                                  <option key={month} value={month}>
+                                    {month}
+                                  </option>
                                 ))}
                               </select>
                             </Col>
                             <Col md={6}>
                               <label>&nbsp;</label>
-                              <select 
+                              <select
                                 className="form-select"
                                 value={cardDetails.expYear}
-                                onChange={(e) => setCardDetails({...cardDetails, expYear: e.target.value})}
+                                onChange={(e) =>
+                                  setCardDetails({
+                                    ...cardDetails,
+                                    expYear: e.target.value,
+                                  })
+                                }
                               >
                                 <option value="">Year</option>
-                                {Array.from({length: 10}, (_, i) => new Date().getFullYear() + i).map(year => (
-                                  <option key={year} value={year}>{year}</option>
+                                {Array.from(
+                                  { length: 10 },
+                                  (_, i) => new Date().getFullYear() + i
+                                ).map((year) => (
+                                  <option key={year} value={year}>
+                                    {year}
+                                  </option>
                                 ))}
                               </select>
                             </Col>
@@ -283,7 +338,10 @@ export default function ConfirmRegistration() {
                 </div>
 
                 {registrationData.team.members?.map((member, index) => (
-                  <div key={index} className="d-flex align-items-center gap-3 mb-2">
+                  <div
+                    key={index}
+                    className="d-flex align-items-center gap-3 mb-2"
+                  >
                     <Image
                       src={member.avatar || "/user1.png"}
                       alt={member.name}

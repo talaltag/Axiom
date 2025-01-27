@@ -1,26 +1,28 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcryptjs";
+import dbConnect from "../../../lib/dbConnect";
+import User from "../../../models/User";
 
-import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcryptjs';
-import dbConnect from '../../../lib/dbConnect';
-import User from '../../../models/User';
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const conn = await dbConnect();
     if (!conn) {
-      throw new Error('Database connection failed');
+      throw new Error("Database connection failed");
     }
 
-    if (req.method === 'GET') {
+    if (req.method === "GET") {
       try {
-        const { page = 1, limit = 10, search = '', role = '' } = req.query;
+        const { page = 1, limit = 10, search = "", role = "" } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
 
         const query: any = {};
         if (search) {
           query.$or = [
-            { name: { $regex: search, $options: 'i' } },
-            { email: { $regex: search, $options: 'i' } }
+            { name: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
           ];
         }
         if (role) {
@@ -28,7 +30,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         const users = await User.find(query)
-          .select('-password')
+          .where("role")
+          .ne("Admin")
+          .where("id")
+          .ne(req.user.id)
+          .select("-password")
           .sort({ createdAt: -1 });
 
         const total = await User.countDocuments(query);
@@ -38,20 +44,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           data: users,
           total,
           page: Number(page),
-          totalPages: Math.ceil(total / Number(limit))
+          totalPages: Math.ceil(total / Number(limit)),
         });
       } catch (error: any) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
         res.status(500).json({ success: false, message: error.message });
       }
-    } else if (req.method === 'POST') {
+    } else if (req.method === "POST") {
       try {
-        const { name, email, password, role = 'Basic', cName } = req.body;
+        const { name, email, password, role = "Basic", cName } = req.body;
 
         if (!name || !email || !password) {
           return res.status(400).json({
             success: false,
-            message: 'Please provide all required fields'
+            message: "Please provide all required fields",
           });
         }
 
@@ -59,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (existingUser) {
           return res.status(400).json({
             success: false,
-            message: 'Email already exists'
+            message: "Email already exists",
           });
         }
 
@@ -70,27 +76,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           email,
           password: hashedPassword,
           role,
-          cName
+          cName,
         });
 
         const userWithoutPassword = {
           ...user.toObject(),
-          password: undefined
+          password: undefined,
         };
 
         res.status(201).json({ success: true, data: userWithoutPassword });
       } catch (error: any) {
-        console.error('Error creating user:', error);
+        console.error("Error creating user:", error);
         res.status(500).json({
           success: false,
-          message: error.message
+          message: error.message,
         });
       }
     } else {
-      res.status(405).json({ success: false, message: 'Method not allowed' });
+      res.status(405).json({ success: false, message: "Method not allowed" });
     }
   } catch (error: any) {
-    console.error('Server error:', error);
+    console.error("Server error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 }

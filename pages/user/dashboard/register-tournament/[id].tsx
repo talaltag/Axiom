@@ -77,8 +77,8 @@ export default function TournamentRegistration() {
   const handleSendInvite = (friendId: string) => {
     setFriends((prevFriends) =>
       prevFriends.map((friend) =>
-        friend.id === friendId ? { ...friend, status: "invited" } : friend,
-      ),
+        friend.id === friendId ? { ...friend, status: "invited" } : friend
+      )
     );
   };
 
@@ -139,7 +139,7 @@ export default function TournamentRegistration() {
   };
 
   const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -158,7 +158,11 @@ export default function TournamentRegistration() {
             <Col md={8}>
               <div className="d-flex align-items-start gap-4">
                 <Image
-                  src={tournament?.image || "/fortnite-banner.png"}
+                  src={`${
+                    tournament?.images && tournament?.images?.length > 0
+                      ? tournament.images[0]
+                      : "/fortnite-banner.png"
+                  }`}
                   alt={tournament?.name || "Tournament"}
                   width={140}
                   height={140}

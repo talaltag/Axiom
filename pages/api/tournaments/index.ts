@@ -54,7 +54,9 @@ export default async function handler(
         });
       }
     } else if (req.method === "GET") {
+      console.log("Tournaments:", "asdasdasd");
       const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
+
       return res.status(200).json({ success: true, data: tournaments });
     } else if (req.method === "DELETE") {
       const { id } = req.query;

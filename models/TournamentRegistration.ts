@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Team from "./Team";
 
 const TournamentRegistrationSchema = new mongoose.Schema({
   tournament: {
@@ -8,7 +9,7 @@ const TournamentRegistrationSchema = new mongoose.Schema({
   },
   team: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Team",
+    ref: Team,
     required: true,
   },
   paymentStatus: {

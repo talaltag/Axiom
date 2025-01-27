@@ -38,7 +38,11 @@ export default function UserDashboardLayout({ children }) {
 
   const menuItems = [
     { text: "Dashboard", path: "/user/dashboard", icon: <Grid size={18} /> },
-    { text: "Tournaments", path: "/user/dashboard/tournaments", icon: <Award size={18} /> },
+    {
+      text: "Tournaments",
+      path: "/user/dashboard/tournaments",
+      icon: <Award size={18} />,
+    },
     { text: "Friends", path: "/user/friends", icon: <Users size={18} /> },
     { text: "Wallet", path: "/user/wallet", icon: <DollarSign size={18} /> },
     { text: "Chat", path: "/user/chat", icon: <MessageSquare size={18} /> },
@@ -90,7 +94,9 @@ export default function UserDashboardLayout({ children }) {
             <NavLink
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
-                router.pathname === item.path ? "bg-warning text-dark" : "text-muted"
+                router.pathname === item.path
+                  ? "bg-warning text-dark"
+                  : "text-muted"
               }`}
               style={{ textDecoration: "none" }}
             >
@@ -109,32 +115,52 @@ export default function UserDashboardLayout({ children }) {
         }}
       >
         <Navbar className="bg-white border-bottom px-4" container={false}>
-          <Nav className="ms-auto" navbar>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav>
-                <Bell size={20} />
-              </DropdownToggle>
-              <DropdownMenu end>
-                <DropdownItem>No new notifications</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-            <UncontrolledDropdown nav inNavbar className="ms-3">
-              <DropdownToggle nav>
-                <Image
-                  src="/user1.png"
-                  alt="User"
-                  width={32}
-                  height={32}
-                  className="rounded-circle"
-                />
-              </DropdownToggle>
-              <DropdownMenu end>
-                <DropdownItem onClick={handleLogout}>
-                  <LogOut size={14} className="me-2" />
-                  Logout
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+          <Nav className="ms-auto d-flex align-items-center" navbar>
+            <div className="d-flex align-items-center me-3">
+              <NavItem className="me-3">
+                <Button color="link" className="position-relative p-0">
+                  <Bell size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    2
+                  </Badge>
+                </Button>
+              </NavItem>
+              <NavItem>
+                <Button color="link" className="position-relative p-0">
+                  <MessageSquare size={20} className="text-muted" />
+                  <Badge
+                    color="danger"
+                    pill
+                    className="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    4
+                  </Badge>
+                </Button>
+              </NavItem>
+              <UncontrolledDropdown dropup inNavbar nav className="ms-3">
+                <DropdownToggle nav>
+                  <Image
+                    src="/user1.png"
+                    alt="User"
+                    width={32}
+                    height={32}
+                    className="rounded-circle"
+                  />
+                </DropdownToggle>
+                <DropdownMenu end className="position-absolute">
+                  <DropdownItem onClick={handleLogout}>
+                    <LogOut size={14} className="me-2" />
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </div>
           </Nav>
         </Navbar>
         <main className="p-4">{children}</main>

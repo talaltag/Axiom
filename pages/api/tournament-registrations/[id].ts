@@ -1,23 +1,33 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import dbConnect from "../../../lib/dbConnect";
+import TournamentRegistration from "../../../models/TournamentRegistration";
 
-import type { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '../../../lib/dbConnect';
-import TournamentRegistration from '../../../models/TournamentRegistration';
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { method } = req;
   const { id } = req.query;
 
   await dbConnect();
 
   switch (method) {
-    case 'GET':
+    case "GET":
       try {
         const registration = await TournamentRegistration.findById(id)
-          .populate('tournament')
-          .populate('team');
+          .populate("tournament")
+          .populate({
+            path: "team",
+            populate: {
+              path: "members",
+              select: "-password",
+            },
+          });
 
         if (!registration) {
-          return res.status(404).json({ success: false, message: 'Registration not found' });
+          return res
+            .status(404)
+            .json({ success: false, message: "Registration not found" });
         }
 
         res.status(200).json({ success: true, data: registration });
@@ -27,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
 
     default:
-      res.status(405).json({ success: false, message: 'Method not allowed' });
+      res.status(405).json({ success: false, message: "Method not allowed" });
       break;
   }
 }
