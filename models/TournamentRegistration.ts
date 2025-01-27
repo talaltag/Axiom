@@ -8,7 +8,7 @@ const TournamentRegistrationSchema = new mongoose.Schema({
   },
   team: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Teams",
+    ref: "Team",
     required: true,
   },
   paymentStatus: {

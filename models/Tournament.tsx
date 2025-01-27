@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 
 const TournamentSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { Teamtype: String, required: true },
   type: { type: String, required: true },
   game: { type: String, required: true },
   platform: { type: String, required: true },
