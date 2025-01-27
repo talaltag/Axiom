@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Modal,
   ModalHeader,
@@ -10,8 +9,8 @@ import {
   Label,
   Input,
   Button,
-  Alert
-} from 'reactstrap';
+  Alert,
+} from "reactstrap";
 
 interface CreateUserModalProps {
   isOpen: boolean;
@@ -20,15 +19,20 @@ interface CreateUserModalProps {
   onSuccess: () => void;
 }
 
-export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }: CreateUserModalProps) {
+export default function CreateUserModal({
+  isOpen,
+  toggle,
+  editUser,
+  onSuccess,
+}: CreateUserModalProps) {
   const [formData, setFormData] = useState({
-    name: editUser?.name || '',
-    email: editUser?.email || '',
-    password: '',
-    cName: editUser?.cName || '',
-    role: 'User'
+    name: editUser?.name || "",
+    email: editUser?.email || "",
+    password: "",
+    cName: editUser?.cName || "",
+    role: "User",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -36,16 +40,20 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
   };
 
   const validateForm = () => {
-    if (!formData.name || !formData.email || (!editUser && !formData.password)) {
-      setError('Please fill in all required fields');
+    if (
+      !formData.name ||
+      !formData.email ||
+      (!editUser && !formData.password)
+    ) {
+      setError("Please fill in all required fields");
       return false;
     }
     if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return false;
     }
     if (!editUser && formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return false;
     }
     return true;
@@ -56,16 +64,15 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
     if (!validateForm()) return;
 
     setLoading(true);
-    setError('');
-
+    setError("");
     try {
-      const url = editUser ? `/api/users/${editUser._id}` : '/api/users';
-      const method = editUser ? 'PUT' : 'POST';
+      const url = editUser ? `/api/users/${editUser._id}` : "/api/users";
+      const method = editUser ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -74,7 +81,7 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
       toggle();
       onSuccess();
     } catch (err) {
-      setError(err.message || 'Something went wrong');
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -83,7 +90,7 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>
-        {editUser ? 'Edit User' : 'Create New User'}
+        {editUser ? "Edit User" : "Create New User"}
       </ModalHeader>
       <Form onSubmit={handleSubmit}>
         <ModalBody>
@@ -132,12 +139,13 @@ export default function CreateUserModal({ isOpen, toggle, editUser, onSuccess }:
               placeholder="Enter username"
             />
           </FormGroup>
-          
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
           <Button color="primary" type="submit" disabled={loading}>
-            {loading ? 'Saving...' : (editUser ? 'Update' : 'Create')}
+            {loading ? "Saving..." : editUser ? "Update" : "Create"}
           </Button>
         </ModalFooter>
       </Form>

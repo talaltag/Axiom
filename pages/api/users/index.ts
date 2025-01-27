@@ -35,7 +35,10 @@ export default async function handler(
         let loggedInUserId;
 
         try {
-          const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+          const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET || "your-secret-key",
+          ) as any;
           loggedInUserId = decoded.userId;
         } catch (error) {
           console.error("Token verification failed:", error);
@@ -64,7 +67,7 @@ export default async function handler(
       }
     } else if (req.method === "POST") {
       try {
-        const { name, email, password, role = "Basic", cName } = req.body;
+        const { name, email, password, role = "User", cName } = req.body;
 
         if (!name || !email || !password) {
           return res.status(400).json({
@@ -82,7 +85,6 @@ export default async function handler(
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const user = await User.create({
           name,
           email,
