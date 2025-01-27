@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import UserDashboardLayout from '../../components/layouts/UserDashboardLayout';
 import { Container, Row, Col, Input, Nav, NavItem, NavLink, Button } from 'reactstrap';
@@ -30,7 +29,12 @@ export default function Friends() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users');
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setUsers(data.data);

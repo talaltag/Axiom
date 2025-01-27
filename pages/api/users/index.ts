@@ -33,13 +33,10 @@ export default async function handler(
         // Get the logged-in user from the request headers
         const token = req.headers.authorization?.split(" ")[1];
         let loggedInUserId;
-        console.log("req.user", req.user);
+
         try {
-          const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET || "your-secret-key",
-          ) as any;
-          console.log("decoded", decoded);
+          const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+          loggedInUserId = decoded.userId;
         } catch (error) {
           console.error("Token verification failed:", error);
         }
@@ -47,7 +44,7 @@ export default async function handler(
         const users = await User.find({
           ...query,
           role: { $ne: "Admin" },
-          _id: { $ne: req.user._id },
+          _id: { $ne: loggedInUserId }, // Use loggedInUserId here
         })
           .select("-password")
           .sort({ createdAt: -1 });
