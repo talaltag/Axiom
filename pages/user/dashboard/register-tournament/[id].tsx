@@ -77,8 +77,8 @@ export default function TournamentRegistration() {
   const handleSendInvite = (friendId: string) => {
     setFriends((prevFriends) =>
       prevFriends.map((friend) =>
-        friend.id === friendId ? { ...friend, status: "invited" } : friend
-      )
+        friend.id === friendId ? { ...friend, status: "invited" } : friend,
+      ),
     );
   };
 
@@ -128,7 +128,7 @@ export default function TournamentRegistration() {
 
       const data = await response.json();
       if (data.success) {
-        router.push(`/user/dashboard/confirm/${data.data.team_id}`);
+        router.push(`/user/dashboard/confirm/${data.data.registration_id}`);
       } else {
         alert(data.message || "Registration failed");
       }
@@ -139,7 +139,7 @@ export default function TournamentRegistration() {
   };
 
   const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
