@@ -15,6 +15,7 @@ export default function Friends() {
   const [searchQuery, setSearchQuery] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchUsers();
@@ -145,8 +146,33 @@ export default function Friends() {
                       <h6 className="mb-1">{user.name}</h6>
                     </div>
                   </div>
-                  <Button color="info" size="sm">
-                    Add Friend
+                  <Button 
+                    color={sentRequests.has(user._id) ? "success" : "info"}
+                    size="sm"
+                    onClick={async () => {
+                      if (!sentRequests.has(user._id)) {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const response = await fetch('/api/friend-requests', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ receiverId: user._id })
+                          });
+
+                          if (response.ok) {
+                            setSentRequests(prev => new Set([...prev, user._id]));
+                          }
+                        } catch (error) {
+                          console.error('Error sending friend request:', error);
+                        }
+                      }
+                    }}
+                    disabled={sentRequests.has(user._id)}
+                  >
+                    {sentRequests.has(user._id) ? 'Request Sent' : 'Add Friend'}
                   </Button>
                 </div>
               </Col>
