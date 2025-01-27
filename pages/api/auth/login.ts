@@ -4,6 +4,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnect from '../../../lib/dbConnect';
 import User from '../../../models/User';
+if (!User) {
+  throw new Error('Failed to import User model');
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
