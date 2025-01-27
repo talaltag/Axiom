@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Bell, MoreVertical } from 'react-feather';
@@ -34,12 +33,11 @@ const NotificationsDropdown = () => {
       </DropdownToggle>
       <DropdownMenu end className="notification-dropdown p-0" style={{ width: '400px', maxHeight: '600px', overflow: 'auto' }}>
         <div className="p-3 border-bottom">
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center w-100">
             <h5 className="mb-0">Notifications</h5>
-            <div className="d-flex gap-2">
-              <Button color="link" className="text-dark p-0">All</Button>
-              <Button color="link" className="text-muted p-0">Unread</Button>
-            </div>
+            <Link href="/user/notifications" className="text-decoration-none">
+              <small className="text-primary">View All</small>
+            </Link>
           </div>
         </div>
         <div>
