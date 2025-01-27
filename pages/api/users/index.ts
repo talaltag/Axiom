@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 
@@ -29,9 +30,20 @@ export default async function handler(
           query.role = role;
         }
 
+        // Get the logged-in user from the request headers
+        const token = req.headers.authorization?.split(' ')[1];
+        let loggedInUserId;
+        
+        if (token) {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+          loggedInUserId = decoded.id;
+        }
+
         const users = await User.find(query)
           .where("role")
           .ne("Admin")
+          .where("_id")
+          .ne(loggedInUserId)
           .select("-password")
           .sort({ createdAt: -1 });
 
