@@ -29,9 +29,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ success: false, message: 'Friend request already sent' });
       }
 
+      const sender = await User.findById(senderId);
       const friendRequest = await FriendRequest.create({
         sender: senderId,
         receiver: receiverId,
+        status: 'pending'
+      });
+
+      await Notification.create({
+        recipient: receiverId,
+        type: 'friend_request',
+        title: `${sender.name} sent you a friend request`,
+        relatedId: friendRequest._id,
         status: 'pending'
       });
 

@@ -7,6 +7,52 @@ import Image from 'next/image';
 export default function Notifications() {
   const [activeTab, setActiveTab] = useState('all');
 
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/notifications', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setNotifications(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAction = async (notificationId: string, action: 'accepted' | 'rejected') => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/notifications/${notificationId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action })
+      });
+      
+      if (response.ok) {
+        fetchNotifications();
+      }
+    } catch (error) {
+      console.error('Error handling notification action:', error);
+    }
+  };
+
   const notifications = [
     {
       type: 'friend_request',
