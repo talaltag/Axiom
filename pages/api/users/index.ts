@@ -32,8 +32,6 @@ export default async function handler(
         const users = await User.find(query)
           .where("role")
           .ne("Admin")
-          .where("id")
-          .ne(req.user.id)
           .select("-password")
           .sort({ createdAt: -1 });
 
