@@ -39,6 +39,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
       res.status(500).json({ success: false, message: 'Error creating friend request' });
     }
+  } else if (req.method === 'GET') {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as any;
+      const userId = decoded.userId;
+
+      const requests = await FriendRequest.find({
+        sender: userId,
+        status: 'pending'
+      });
+
+      const sentRequestIds = requests.map(request => request.receiver.toString());
+      res.status(200).json({ success: true, data: sentRequestIds });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Error fetching friend requests' });
+    }
   } else {
     res.status(405).json({ success: false, message: 'Method not allowed' });
   }

@@ -19,7 +19,25 @@ export default function Friends() {
 
   useEffect(() => {
     fetchUsers();
+    fetchSentRequests();
   }, []);
+
+  const fetchSentRequests = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/friend-requests', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSentRequests(new Set(data.data));
+      }
+    } catch (error) {
+      console.error('Error fetching sent requests:', error);
+    }
+  };
 
   useEffect(() => {
     const filtered = users.filter(user => 
