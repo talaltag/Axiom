@@ -1,3 +1,4 @@
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -32,23 +33,27 @@ export default async function handler(
 
         // Get the logged-in user from the request headers
         const token = req.headers.authorization?.split(" ")[1];
-        let loggedInUserId;
-
-        try {
-          const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET || "your-secret-key",
-          ) as any;
-          loggedInUserId = decoded.userId;
-        } catch (error) {
-          console.error("Token verification failed:", error);
+        if (!token) {
+          return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
 
-        const users = await User.find({
-          ...query,
-          role: { $ne: "Admin" },
-          _id: { $ne: loggedInUserId }, // Use loggedInUserId here
-        })
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+        const userId = decoded.userId;
+
+        // Get current user with friends list
+        const currentUser = await User.findById(userId);
+        if (!currentUser) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Exclude current user and their friends from results
+        query._id = { 
+          $ne: userId,
+          $nin: currentUser.friends
+        };
+        query.role = { $ne: "Admin" };
+
+        const users = await User.find(query)
           .select("-password")
           .sort({ createdAt: -1 });
 
