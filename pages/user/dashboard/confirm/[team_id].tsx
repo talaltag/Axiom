@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Card, CardBody, Button } from "reactstrap";
+import { Container, Row, Col, Card, CardBody, Button, Form } from "reactstrap";
 
 interface Member {
   name: string;
@@ -78,7 +78,7 @@ export default function ConfirmRegistration() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ paymentMethod, cardDetails }),
-        }
+        },
       );
       const data = await response.json();
       if (data.success) {
@@ -270,7 +270,7 @@ export default function ConfirmRegistration() {
                                 <option value="">Month</option>
                                 {Array.from(
                                   { length: 12 },
-                                  (_, i) => i + 1
+                                  (_, i) => i + 1,
                                 ).map((month) => (
                                   <option key={month} value={month}>
                                     {month}
@@ -293,7 +293,7 @@ export default function ConfirmRegistration() {
                                 <option value="">Year</option>
                                 {Array.from(
                                   { length: 10 },
-                                  (_, i) => new Date().getFullYear() + i
+                                  (_, i) => new Date().getFullYear() + i,
                                 ).map((year) => (
                                   <option key={year} value={year}>
                                     {year}
