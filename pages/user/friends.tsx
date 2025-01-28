@@ -83,15 +83,6 @@ export default function Friends() {
     }
   };
 
-  const [friends, setFriends] = useState<User[]>([]);
-  
-
-  useEffect(() => {
-    fetchFriends();
-  }, []);
-
-  
-
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem('token');
