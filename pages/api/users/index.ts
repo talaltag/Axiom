@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
+import FriendRequest from "../../../models/FriendRequest";
 
 export default async function handler(
   req: NextApiRequest,
@@ -49,10 +50,28 @@ export default async function handler(
         // Get friend IDs as strings
         const friendIds = currentUser.friends.map(friend => friend._id.toString());
 
-        // Exclude current user and their friends from results
+        // Get users with accepted friend requests
+        const acceptedFriendRequests = await FriendRequest.find({
+          $or: [
+            { sender: userId, status: 'accepted' },
+            { receiver: userId, status: 'accepted' }
+          ]
+        });
+
+        // Extract user IDs from accepted friend requests
+        const acceptedUserIds = acceptedFriendRequests.map(request => 
+          request.sender.toString() === userId ? 
+            request.receiver.toString() : 
+            request.sender.toString()
+        );
+
+        // Combine friend IDs and accepted request IDs
+        const excludeIds = [...new Set([...friendIds, ...acceptedUserIds])];
+
+        // Exclude current user, friends, and users with accepted requests
         query._id = { 
           $ne: userId,
-          $nin: friendIds
+          $nin: excludeIds
         };
         query.role = { $ne: "Admin" };
 
