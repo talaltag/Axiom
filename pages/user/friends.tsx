@@ -15,14 +15,18 @@ export default function Friends() {
   const [searchQuery, setSearchQuery] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [friends, setFriends] = useState<User[]>([]);
+  const [filteredFriends, setFilteredFriends] = useState<User[]>([]);
   const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchUsers();
+    fetchFriends();
     fetchSentRequests();
 
     const handleFriendRequest = () => {
       fetchUsers();
+      fetchFriends();
       fetchSentRequests();
     };
 
