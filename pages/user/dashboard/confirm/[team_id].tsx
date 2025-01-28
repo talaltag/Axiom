@@ -3,7 +3,9 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Button, Form } from "reactstrap";
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { StripePaymentForm } from "../../../../components/stripe/StripePaymentForm";
 
 interface Member {
   name: string;
@@ -41,8 +43,13 @@ export default function ConfirmRegistration() {
   const [paymentMethod, setPaymentMethod] = useState("wallet");
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
-
-
+  const [cardDetails, setCardDetails] = useState({
+    number: "",
+    name: "",
+    expMonth: "",
+    expYear: "",
+    security: "",
+  });
   useEffect(() => {
     if (team_id) {
       fetchRegistrationDetails();
@@ -69,25 +76,27 @@ export default function ConfirmRegistration() {
 
   useEffect(() => {
     if (paymentMethod === "stripe") {
-      const loadStripe = async () => {
-        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      const loadStripeData = async () => {
+        const stripe = await loadStripe(
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
+        );
         setStripePromise(stripe);
 
         // Create payment intent
-        const response = await fetch('/api/create-payment-intent', {
-          method: 'POST',
+        const response = await fetch("/api/create-payment-intent", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             amount: registrationData?.tournament?.entryFee,
-            teamId: team_id 
+            teamId: team_id,
           }),
         });
         const data = await response.json();
         setClientSecret(data.clientSecret);
       };
-      loadStripe();
+      loadStripeData();
     }
   }, [paymentMethod, team_id, registrationData?.tournament?.entryFee]);
 
@@ -113,7 +122,7 @@ export default function ConfirmRegistration() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ paymentMethod }), // cardDetails removed as not used for other methods
-          },
+          }
         );
         const data = await response.json();
         if (data.success) {
@@ -306,7 +315,7 @@ export default function ConfirmRegistration() {
                                 <option value="">Month</option>
                                 {Array.from(
                                   { length: 12 },
-                                  (_, i) => i + 1,
+                                  (_, i) => i + 1
                                 ).map((month) => (
                                   <option key={month} value={month}>
                                     {month}
@@ -329,7 +338,7 @@ export default function ConfirmRegistration() {
                                 <option value="">Year</option>
                                 {Array.from(
                                   { length: 10 },
-                                  (_, i) => new Date().getFullYear() + i,
+                                  (_, i) => new Date().getFullYear() + i
                                 ).map((year) => (
                                   <option key={year} value={year}>
                                     {year}
@@ -342,13 +351,24 @@ export default function ConfirmRegistration() {
                       </div>
                     )}
 
+                    {paymentMethod === "stripe" &&
+                      stripePromise &&
+                      clientSecret && (
+                        <Elements
+                          stripe={stripePromise}
+                          options={{ clientSecret }}
+                        >
+                          <StripePaymentForm clientSecret={clientSecret} />
+                        </Elements>
+                      )}
+
                     <div className="d-flex justify-content-between mt-4">
                       <Button color="secondary" onClick={handleBack}>
                         Back
                       </Button>
-                      <Button color="warning" onClick={handlePayment}>
+                      {/* <Button color="warning" onClick={handlePayment}>
                         Pay Now
-                      </Button>
+                      </Button> */}
                     </div>
                   </>
                 )}
