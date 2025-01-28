@@ -17,29 +17,53 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as any;
-      const friendRequest = await FriendRequest.findById(id);
+      const friendRequest = await FriendRequest.findById(id).populate('sender receiver');
 
       if (!friendRequest) {
         return res.status(404).json({ success: false, message: 'Friend request not found' });
       }
 
       const { status } = req.body;
+      
+      // Check if the request has already been handled
+      if (friendRequest.status !== 'pending') {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'This friend request has already been processed' 
+        });
+      }
+
       friendRequest.status = status;
       await friendRequest.save();
 
       if (status === 'accepted') {
-        // Update both users' friend lists
-        const receiver = await User.findById(friendRequest.receiver);
-        const sender = await User.findById(friendRequest.sender);
+        const sender = friendRequest.sender;
+        const receiver = friendRequest.receiver;
 
-        if (receiver && sender) {
-          if (!receiver.friends) receiver.friends = [];
-          if (!sender.friends) sender.friends = [];
+        // Initialize friends arrays if they don't exist
+        if (!sender.friends) sender.friends = [];
+        if (!receiver.friends) receiver.friends = [];
 
-          receiver.friends.push(friendRequest.sender);
-          sender.friends.push(friendRequest.receiver);
+        // Add each user to the other's friends list if not already there
+        if (!sender.friends.includes(receiver._id)) {
+          sender.friends.push(receiver._id);
+        }
+        if (!receiver.friends.includes(sender._id)) {
+          receiver.friends.push(sender._id);
+        }
 
-          await Promise.all([receiver.save(), sender.save()]);
+        // Save both users
+        try {
+          await Promise.all([
+            User.findByIdAndUpdate(sender._id, { friends: sender.friends }),
+            User.findByIdAndUpdate(receiver._id, { friends: receiver.friends })
+          ]);
+        } catch (error) {
+          console.error('Error updating friends lists:', error);
+          return res.status(500).json({ 
+            success: false, 
+            message: 'Error updating friends lists' 
+          });
         }
       }
 
