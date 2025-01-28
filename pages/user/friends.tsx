@@ -48,11 +48,18 @@ export default function Friends() {
   };
 
   useEffect(() => {
-    const filtered = users.filter(user => 
-      user.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredUsers(filtered);
-  }, [searchQuery, users]);
+    if (activeTab === 'players') {
+      const filtered = users.filter(user => 
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    } else {
+      const filtered = friends.filter(friend => 
+        friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredFriends(filtered);
+    }
+  }, [searchQuery, users, friends, activeTab]);
 
   const fetchUsers = async () => {
     try {
@@ -73,19 +80,13 @@ export default function Friends() {
   };
 
   const [friends, setFriends] = useState<User[]>([]);
-  const [searchFriendQuery, setSearchFriendQuery] = useState('');
-  const [filteredFriends, setFilteredFriends] = useState<User[]>([]);
+  
 
   useEffect(() => {
     fetchFriends();
   }, []);
 
-  useEffect(() => {
-    const filtered = friends.filter(friend => 
-      friend.name.toLowerCase().includes(searchFriendQuery.toLowerCase())
-    );
-    setFilteredFriends(filtered);
-  }, [searchFriendQuery, friends]);
+  
 
   const fetchFriends = async () => {
     try {
@@ -142,17 +143,6 @@ export default function Friends() {
 
         {activeTab === 'myFriends' ? (
           <Row>
-            <div className="mb-4">
-              <div className="position-relative" style={{ width: '300px' }}>
-                <Search size={18} className="position-absolute" style={{ top: '10px', left: '10px' }} />
-                <Input
-                  placeholder="Search Friends"
-                  value={searchFriendQuery}
-                  onChange={(e) => setSearchFriendQuery(e.target.value)}
-                  className="ps-5"
-                />
-              </div>
-            </div>
             {filteredFriends.map((friend) => (
               <Col md={6} key={friend._id} className="mb-3">
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
