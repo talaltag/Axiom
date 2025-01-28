@@ -358,7 +358,7 @@ export default function ConfirmRegistration() {
                           stripe={stripePromise}
                           options={{ clientSecret }}
                         >
-                          <StripePaymentForm clientSecret={clientSecret} />
+                          <StripePaymentForm clientSecret={clientSecret} teamId={team_id as string} />
                         </Elements>
                       )}
 
