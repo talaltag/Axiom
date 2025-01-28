@@ -32,6 +32,46 @@ export default async function handler(
           query.role = role;
         }
 
+        // Get current user
+        const token = req.headers.authorization?.split(" ")[1];
+        if (!token) {
+          return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+        const userId = decoded.userId;
+
+        const currentUser = await User.findById(userId);
+        if (!currentUser) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Different behavior based on user role
+        if (currentUser.role === 'Admin') {
+          // For admin, show all users except themselves
+          query._id = { $ne: userId };
+        } else {
+          // For regular users, only show non-admin users excluding friends and friend requests
+          const friendIds = currentUser.friends.map(friend => friend.toString());
+          const friendRequests = await FriendRequest.find({
+            $or: [
+              { sender: userId },
+              { receiver: userId }
+            ]
+          });
+          const requestUserIds = friendRequests.map(request => 
+            request.sender.toString() === userId ? 
+              request.receiver.toString() : 
+              request.sender.toString()
+          );
+          const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+          query._id = { 
+            $ne: userId,
+            $nin: excludeIds
+          };
+          query.role = { $ne: "Admin" };
+        }
+
         // Get the logged-in user from the request headers
         const token = req.headers.authorization?.split(" ")[1];
         if (!token) {
