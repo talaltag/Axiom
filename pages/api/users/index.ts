@@ -32,7 +32,7 @@ export default async function handler(
           query.role = role;
         }
 
-        // Get current user
+        // Get current user with authentication
         const token = req.headers.authorization?.split(" ")[1];
         if (!token) {
           return res.status(401).json({ success: false, message: 'Not authenticated' });
@@ -41,7 +41,8 @@ export default async function handler(
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
         const userId = decoded.userId;
 
-        const currentUser = await User.findById(userId);
+        // Get current user with friends list
+        const currentUser = await User.findById(userId).populate('friends');
         if (!currentUser) {
           return res.status(404).json({ success: false, message: 'User not found' });
         }
@@ -70,21 +71,6 @@ export default async function handler(
             $nin: excludeIds
           };
           query.role = { $ne: "Admin" };
-        }
-
-        // Get the logged-in user from the request headers
-        const token = req.headers.authorization?.split(" ")[1];
-        if (!token) {
-          return res.status(401).json({ success: false, message: 'Not authenticated' });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
-        const userId = decoded.userId;
-
-        // Get current user with friends list
-        const currentUser = await User.findById(userId).populate('friends');
-        if (!currentUser) {
-          return res.status(404).json({ success: false, message: 'User not found' });
         }
 
         // Get friend IDs as strings
