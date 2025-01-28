@@ -32,8 +32,6 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         setErrorMessage(error.message);
         console.error(error);
       } else {
-        console.log(paymentMethod);
-
         const { error: confirmError, paymentIntent } =
           await stripe.confirmCardPayment(clientSecret, {
             payment_method: paymentMethod.id,
@@ -44,7 +42,7 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           console.error(confirmError);
         } else {
           console.log(paymentIntent);
-          // Handle successful payment here
+          alert("Payment successful");
         }
       }
     }
