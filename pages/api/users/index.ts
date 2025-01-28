@@ -1,3 +1,4 @@
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,25 +8,21 @@ import FriendRequest from "../../../models/FriendRequest";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   try {
-    const conn = await dbConnect();
-    if (!conn) {
-      throw new Error("Database connection failed");
-    }
+    await dbConnect();
 
     if (req.method === "GET") {
+      // Get authentication token
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+
+      const token = authHeader.split(' ')[1];
+      
       try {
-        const { page = 1, limit = 10, search = "", role = "" } = req.query;
-        const skip = (Number(page) - 1) * Number(limit);
-
-        // Get authentication token
-        const token = req.headers.authorization?.split(" ")[1];
-        if (!token) {
-          return res.status(401).json({ success: false, message: 'Not authenticated' });
-        }
-
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
         const userId = decoded.userId;
 
@@ -33,6 +30,9 @@ export default async function handler(
         if (!currentUser) {
           return res.status(404).json({ success: false, message: 'User not found' });
         }
+
+        const { page = 1, limit = 10, search = "", role = "" } = req.query;
+        const skip = (Number(page) - 1) * Number(limit);
 
         let query: any = {};
 
@@ -49,10 +49,8 @@ export default async function handler(
 
         // Different behavior based on user role
         if (currentUser.role === 'Admin') {
-          // For admin, show all users except themselves
           query._id = { $ne: userId };
         } else {
-          // For regular users, only show non-admin users excluding friends and friend requests
           const friendIds = currentUser.friends?.map(friend => friend.toString()) || [];
           const friendRequests = await FriendRequest.find({
             $or: [
@@ -60,15 +58,16 @@ export default async function handler(
               { receiver: userId }
             ]
           });
+
           const requestUserIds = friendRequests.map(request => 
             request.sender.toString() === userId ? 
               request.receiver.toString() : 
               request.sender.toString()
           );
-          const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+
           query._id = { 
             $ne: userId,
-            $nin: excludeIds
+            $nin: [...new Set([...friendIds, ...requestUserIds])]
           };
           query.role = { $ne: "Admin" };
         }
@@ -81,63 +80,63 @@ export default async function handler(
 
         const total = await User.countDocuments(query);
 
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           data: users,
           total,
           page: Number(page),
           totalPages: Math.ceil(total / Number(limit)),
         });
-      } catch (error: any) {
-        console.error("Error fetching users:", error);
-        res.status(500).json({ success: false, message: error.message });
+      } catch (error) {
+        return res.status(401).json({ success: false, message: 'Invalid token' });
       }
     } else if (req.method === "POST") {
-      try {
-        const { name, email, password, role = "User", cName } = req.body;
+      const { name, email, password, role = "User", cName } = req.body;
 
-        if (!name || !email || !password) {
-          return res.status(400).json({
-            success: false,
-            message: "Please provide all required fields",
-          });
-        }
-
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-          return res.status(400).json({
-            success: false,
-            message: "Email already exists",
-          });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({
-          name,
-          email,
-          password: hashedPassword,
-          role,
-          cName
-        });
-
-        const userWithoutPassword = {
-          ...user.toObject(),
-          password: undefined,
-        };
-
-        res.status(201).json({ success: true, data: userWithoutPassword });
-      } catch (error: any) {
-        console.error("Error creating user:", error);
-        res.status(500).json({
+      if (!name || !email || !password) {
+        return res.status(400).json({
           success: false,
-          message: error.message,
+          message: "Please provide all required fields",
         });
       }
-    } else {
-      res.status(405).json({ success: false, message: "Method not allowed" });
+
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already exists",
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        cName
+      });
+
+      const userWithoutPassword = {
+        ...user.toObject(),
+        password: undefined,
+      };
+
+      return res.status(201).json({ 
+        success: true, 
+        data: userWithoutPassword 
+      });
     }
+
+    return res.status(405).json({ 
+      success: false, 
+      message: "Method not allowed" 
+    });
   } catch (error: any) {
     console.error("Server error:", error);
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
   }
 }
