@@ -41,15 +41,18 @@ export default async function handler(
         const userId = decoded.userId;
 
         // Get current user with friends list
-        const currentUser = await User.findById(userId);
+        const currentUser = await User.findById(userId).populate('friends');
         if (!currentUser) {
           return res.status(404).json({ success: false, message: 'User not found' });
         }
 
+        // Get friend IDs as strings
+        const friendIds = currentUser.friends.map(friend => friend._id.toString());
+
         // Exclude current user and their friends from results
         query._id = { 
           $ne: userId,
-          $nin: currentUser.friends
+          $nin: friendIds
         };
         query.role = { $ne: "Admin" };
 
