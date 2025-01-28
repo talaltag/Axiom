@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Button, Form } from "reactstrap";
+import { loadStripe } from '@stripe/stripe-js';
 
 interface Member {
   name: string;
@@ -38,13 +39,9 @@ export default function ConfirmRegistration() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("wallet");
-  const [cardDetails, setCardDetails] = useState({
-    number: "",
-    name: "",
-    expMonth: "",
-    expYear: "",
-    security: "",
-  });
+  const [stripePromise, setStripePromise] = useState(null);
+  const [clientSecret, setClientSecret] = useState("");
+
 
   useEffect(() => {
     if (team_id) {
@@ -70,22 +67,61 @@ export default function ConfirmRegistration() {
 
   const handleBack = () => router.back();
 
+  useEffect(() => {
+    if (paymentMethod === "stripe") {
+      const loadStripe = async () => {
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+        setStripePromise(stripe);
+
+        // Create payment intent
+        const response = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            amount: registrationData?.tournament?.entryFee,
+            teamId: team_id 
+          }),
+        });
+        const data = await response.json();
+        setClientSecret(data.clientSecret);
+      };
+      loadStripe();
+    }
+  }, [paymentMethod, team_id, registrationData?.tournament?.entryFee]);
+
   const handlePayment = async () => {
-    try {
-      const response = await fetch(
-        `/api/tournament-registrations/${team_id}/pay`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paymentMethod, cardDetails }),
-        },
-      );
-      const data = await response.json();
-      if (data.success) {
-        router.push("/user/dashboard/tournaments");
+    if (paymentMethod === "stripe" && stripePromise && clientSecret) {
+      try {
+        const stripe = await stripePromise;
+        const result = await stripe.redirectToCheckout({
+          sessionId: clientSecret,
+        });
+        if (result.error) {
+          setError(result.error.message);
+        }
+      } catch (error) {
+        setError("Payment failed");
       }
-    } catch (error) {
-      setError("Payment failed");
+    } else {
+      //Handle other payment methods
+      try {
+        const response = await fetch(
+          `/api/tournament-registrations/${team_id}/pay`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paymentMethod }), // cardDetails removed as not used for other methods
+          },
+        );
+        const data = await response.json();
+        if (data.success) {
+          router.push("/user/dashboard/tournaments");
+        }
+      } catch (error) {
+        setError("Payment failed");
+      }
     }
   };
 
