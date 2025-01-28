@@ -2,9 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Team from "../../../models/Team";
 import TournamentRegistration from "../../../models/TournamentRegistration";
-import { withAuth } from "../../../middleware/auth";
 
-export default withAuth(async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -57,4 +56,4 @@ export default withAuth(async function handler(
     }
     res.status(500).json({ success: false, message: error.message });
   }
-});
+}
