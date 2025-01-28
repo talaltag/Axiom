@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Eye, EyeOff } from 'react-feather';
+import { signIn } from 'next-auth/react'; // Import signIn from next-auth
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -16,9 +17,16 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password);
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    });
+    if (result.error) {
+      console.error(result.error);
+    }
   };
 
   return (

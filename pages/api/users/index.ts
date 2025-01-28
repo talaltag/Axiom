@@ -6,7 +6,9 @@ import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import FriendRequest from "../../../models/FriendRequest";
 
-export default async function handler(
+import { withAuth } from '../../../middleware/withAuth';
+
+export default withAuth(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
