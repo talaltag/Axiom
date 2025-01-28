@@ -32,16 +32,16 @@ export default function Notifications() {
     }
   };
 
-  const handleAction = async (notificationId: string, action: 'accepted' | 'rejected') => {
+  const handleAction = async (notificationId: string, action: string) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/notifications/${notificationId}`, {
-        method: 'PUT',
+      const response = await fetch(`/api/notifications/${notificationId}/handle`, {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: action })
+        body: JSON.stringify({ action })
       });
 
       if (response.ok) {
@@ -60,8 +60,16 @@ export default function Notifications() {
           // Emit event to refresh users list
           const event = new CustomEvent('friendRequestHandled');
           window.dispatchEvent(event);
+
+          // Update notifications state locally
+          setNotifications(prevNotifications => 
+            prevNotifications.map(notification => 
+              notification._id === notificationId 
+                ? { ...notification, status: action }
+                : notification
+            )
+          );
         }
-        fetchNotifications();
       }
     } catch (error) {
       console.error('Error handling notification action:', error);
