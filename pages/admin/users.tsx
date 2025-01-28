@@ -50,13 +50,26 @@ export default function UserManagement() {
 
   const fetchUsers = async () => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/auth/login');
+        return;
+      }
+
       const res = await fetch(
-        `/api/users?page=${page}&limit=${limit}&search=${search}&type=${filterType}`
+        `/api/users?page=${page}&limit=${limit}&search=${search}&type=${filterType}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
       );
       const data = await res.json();
       if (data.success) {
         setUsers(data.data);
         setTotal(data.total);
+      } else if (data.message === 'Not authenticated') {
+        router.push('/auth/login');
       }
     } catch (error) {
       console.error('Error fetching users:', error);
