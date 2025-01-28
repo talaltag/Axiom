@@ -1,12 +1,9 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import FriendRequest from "../../../models/FriendRequest";
-
-import { withAuth } from '../../../middleware/withAuth';
+import { withAuth } from "../../../middleware/withAuth";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -16,21 +13,14 @@ export default withAuth(async function handler(
     await dbConnect();
 
     if (req.method === "GET") {
-      // Get authentication token
-      const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ success: false, message: 'Not authenticated' });
-      }
-
-      const token = authHeader.split(' ')[1];
-      
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
-        const userId = decoded.userId;
+        const userId = null;
 
-        const currentUser = await User.findById(userId);
+        const currentUser = await User.findById(req.user.id);
         if (!currentUser) {
-          return res.status(404).json({ success: false, message: 'User not found' });
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
         }
 
         const { page = 1, limit = 10, search = "", role = "" } = req.query;
@@ -49,27 +39,24 @@ export default withAuth(async function handler(
           query.role = role;
         }
 
-        // Different behavior based on user role
-        if (currentUser.role === 'Admin') {
+        if (currentUser.role === "Admin") {
           query._id = { $ne: userId };
         } else {
-          const friendIds = currentUser.friends?.map(friend => friend.toString()) || [];
+          const friendIds =
+            currentUser.friends?.map((friend) => friend.toString()) || [];
           const friendRequests = await FriendRequest.find({
-            $or: [
-              { sender: userId },
-              { receiver: userId }
-            ]
+            $or: [{ sender: userId }, { receiver: userId }],
           });
 
-          const requestUserIds = friendRequests.map(request => 
-            request.sender.toString() === userId ? 
-              request.receiver.toString() : 
-              request.sender.toString()
+          const requestUserIds = friendRequests.map((request) =>
+            request.sender.toString() === userId
+              ? request.receiver.toString()
+              : request.sender.toString()
           );
 
-          query._id = { 
+          query._id = {
             $ne: userId,
-            $nin: [...new Set([...friendIds, ...requestUserIds])]
+            $nin: Array.from(new Set([...friendIds, ...requestUserIds])),
           };
           query.role = { $ne: "Admin" };
         }
@@ -90,7 +77,9 @@ export default withAuth(async function handler(
           totalPages: Math.ceil(total / Number(limit)),
         });
       } catch (error) {
-        return res.status(401).json({ success: false, message: 'Invalid token' });
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid token" });
       }
     } else if (req.method === "POST") {
       const { name, email, password, role = "User", cName } = req.body;
@@ -116,7 +105,7 @@ export default withAuth(async function handler(
         email,
         password: hashedPassword,
         role,
-        cName
+        cName,
       });
 
       const userWithoutPassword = {
@@ -124,21 +113,21 @@ export default withAuth(async function handler(
         password: undefined,
       };
 
-      return res.status(201).json({ 
-        success: true, 
-        data: userWithoutPassword 
+      return res.status(201).json({
+        success: true,
+        data: userWithoutPassword,
       });
     }
 
-    return res.status(405).json({ 
-      success: false, 
-      message: "Method not allowed" 
+    return res.status(405).json({
+      success: false,
+      message: "Method not allowed",
     });
   } catch (error: any) {
     console.error("Server error:", error);
-    return res.status(500).json({ 
-      success: false, 
-      message: error.message 
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
-}
+});

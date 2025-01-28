@@ -1,8 +1,7 @@
-
-import { useState, useEffect } from 'react';
-import CreateUserModal from '../../components/users/CreateUserModal';
-import DeleteUserModal from '../../components/users/DeleteUserModal';
-import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
+import { useState, useEffect } from "react";
+import CreateUserModal from "../../components/users/CreateUserModal";
+import DeleteUserModal from "../../components/users/DeleteUserModal";
+import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import {
   Box,
   Typography,
@@ -23,9 +22,9 @@ import {
   Checkbox,
   FormControl,
   InputLabel,
-} from '@mui/material';
-import { Search, FilterList, MoreVert, Add } from '@mui/icons-material';
-import { useRouter } from 'next/router';
+} from "@mui/material";
+import { Search, FilterList, MoreVert, Add } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 export default function UserManagement() {
   const router = useRouter();
@@ -33,14 +32,14 @@ export default function UserManagement() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
-  const [search, setSearch] = useState('');
-  const [filterType, setFilterType] = useState('');
+  const [search, setSearch] = useState("");
+  const [filterType, setFilterType] = useState("");
   const [selected, setSelected] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  
+
   const toggleCreateModal = () => setCreateModalOpen(!createModalOpen);
   const toggleDeleteModal = () => setDeleteModalOpen(!deleteModalOpen);
 
@@ -50,9 +49,9 @@ export default function UserManagement() {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        router.push('/auth/login');
+        router.push("/auth/login");
         return;
       }
 
@@ -60,19 +59,19 @@ export default function UserManagement() {
         `/api/users?page=${page}&limit=${limit}&search=${search}&type=${filterType}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const data = await res.json();
       if (data.success) {
         setUsers(data.data);
         setTotal(data.total);
-      } else if (data.message === 'Not authenticated') {
-        router.push('/auth/login');
+      } else if (data.message === "Not authenticated") {
+        router.push("/auth/login");
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error("Error fetching users:", error);
     }
   };
 
@@ -98,7 +97,7 @@ export default function UserManagement() {
 
   const handleSelectAll = (event) => {
     if (event.target.checked) {
-      setSelected(users.map(user => user._id));
+      setSelected(users.map((user) => user._id));
     } else {
       setSelected([]);
     }
@@ -111,7 +110,7 @@ export default function UserManagement() {
     if (selectedIndex === -1) {
       newSelected = [...selected, id];
     } else {
-      newSelected = selected.filter(item => item !== id);
+      newSelected = selected.filter((item) => item !== id);
     }
 
     setSelected(newSelected);
@@ -120,7 +119,7 @@ export default function UserManagement() {
   return (
     <AdminDashboardLayout>
       <Box sx={{ p: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
           <Typography variant="h5">User Management</Typography>
           <Button
             variant="contained"
@@ -134,7 +133,7 @@ export default function UserManagement() {
           </Button>
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+        <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
           <TextField
             placeholder="Search users..."
             variant="outlined"
@@ -142,7 +141,9 @@ export default function UserManagement() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
-              startAdornment: <Search sx={{ color: 'text.secondary', mr: 1 }} />,
+              startAdornment: (
+                <Search sx={{ color: "text.secondary", mr: 1 }} />
+              ),
             }}
             sx={{ flexGrow: 1 }}
           />
@@ -189,7 +190,7 @@ export default function UserManagement() {
                   </TableCell>
                   <TableCell>{(page - 1) * limit + index + 1}</TableCell>
                   <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <Avatar src={user.profileImage} alt={user.name} />
                       {user.name}
                     </Box>
@@ -210,7 +211,7 @@ export default function UserManagement() {
           </Table>
         </TableContainer>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
           <Select
             size="small"
             value={limit}
@@ -221,7 +222,8 @@ export default function UserManagement() {
             <MenuItem value={30}>30 per page</MenuItem>
           </Select>
           <Box>
-            Showing {(page - 1) * limit + 1} - {Math.min(page * limit, total)} of {total}
+            Showing {(page - 1) * limit + 1} - {Math.min(page * limit, total)}{" "}
+            of {total}
           </Box>
         </Box>
 
@@ -230,8 +232,20 @@ export default function UserManagement() {
           open={Boolean(anchorEl)}
           onClose={handleActionClose}
         >
-          <MenuItem onClick={() => handleEdit(users.find(u => u._id === anchorEl?.id))}>Edit</MenuItem>
-          <MenuItem onClick={() => handleDelete(users.find(u => u._id === anchorEl?.id))}>Delete</MenuItem>
+          <MenuItem
+            onClick={() =>
+              handleEdit(users.find((u) => u._id === anchorEl?.id))
+            }
+          >
+            Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              handleDelete(users.find((u) => u._id === anchorEl?.id))
+            }
+          >
+            Delete
+          </MenuItem>
         </Menu>
 
         <CreateUserModal

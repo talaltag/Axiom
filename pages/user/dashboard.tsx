@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { ArrowRight } from "react-feather";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 interface Tournament {
   title: string;
@@ -32,6 +33,10 @@ interface Tournament {
 export default function UserDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
+
+  const session = useSession();
+
+  console.log(session);
 
   const gameStats = [
     { name: "Fortnite", lastScore: "102234", progress: 75 },
@@ -58,23 +63,13 @@ export default function UserDashboard() {
     fetchTournaments();
   }, []);
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (!userData) {
-      router.push("/auth/login");
-      return;
-    }
-    setUser(JSON.parse(userData));
-  }, [router]);
-
-  if (!user) return null;
-
+  if (!session) return null;
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <Row className="mb-4">
           <Col>
-            <h4 className="mb-1">Welcome back, {user.name}</h4>
+            <h4 className="mb-1">Welcome back, {session.data?.user?.name}</h4>
             <p className="text-muted mb-0">
               Track your gaming progress and upcoming tournaments
             </p>
@@ -87,18 +82,18 @@ export default function UserDashboard() {
               <Card className="border-0 shadow-sm">
                 <CardBody>
                   <CardTitle tag="h5">{game.name}</CardTitle>
-                  <CardText>
+                  <CardText tag="div">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span>Last Score</span>
                       <span className="fw-bold">{game.lastScore}</span>
                     </div>
-                    <Progress
-                      value={game.progress}
-                      className="mt-2"
-                      color="warning"
-                      style={{ height: "8px" }}
-                    />
                   </CardText>
+                  <Progress
+                    value={game.progress}
+                    className="mt-2"
+                    color="warning"
+                    style={{ height: "8px" }}
+                  />
                 </CardBody>
               </Card>
             </Col>

@@ -112,17 +112,10 @@ export default function TournamentRegistration() {
       .map((f) => f.id);
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        router.push('/auth/login');
-        return;
-      }
-
       const response = await fetch("/api/tournaments/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           team_name: teamName,

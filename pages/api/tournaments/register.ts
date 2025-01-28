@@ -2,10 +2,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Team from "../../../models/Team";
 import TournamentRegistration from "../../../models/TournamentRegistration";
+import { withAuth } from "../../../middleware/withAuth";
 
-export default async function handler(
+export default withAuth(async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   if (req.method !== "POST") {
     return res
@@ -31,14 +32,12 @@ export default async function handler(
       members: user_ids,
     });
 
-    // Create tournament registration
-    console.log("req.user", req.user);
     const registration = await TournamentRegistration.create({
       tournament: tournament_id,
       team: team._id,
       paymentMethod: payment_method,
       paymentToken: payment_token,
-      organizer: req.user._id, // Logged in user as organizer
+      organizer: req.user.id, // Logged in user as organizer
     });
 
     res.status(201).json({
@@ -56,4 +55,4 @@ export default async function handler(
     }
     res.status(500).json({ success: false, message: error.message });
   }
-}
+});

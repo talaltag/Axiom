@@ -1,49 +1,62 @@
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import User from "../../../models/User";
+import dbConnect from "../../../lib/dbConnect";
+import bcrypt from "bcryptjs";
 
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '../../../models/User';
-import dbConnect from '../../../lib/dbConnect';
+declare module "next-auth" {
+  interface Session {
+    user: {
+      name?: string;
+      email?: string;
+      image?: string;
+      role?: string;
+      id?: string;
+    };
+  }
+}
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         await dbConnect();
         const user = await User.findOne({ email: credentials.email });
-        
-        if (user && user.password === credentials.password) {
-          return {
-            id: user._id.toString(),
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
+        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+          if (user) {
+            return {
+              id: user._id.toString(),
+              email: user.email,
+              name: user.name,
+              role: user.role,
+            };
+          }
+          return null;
         }
-        return null;
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as any).role;
         token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role;
-      session.user.id = token.id;
+      session.user.role = token.role as string;
+      session.user.id = token.id as string;
       return session;
-    }
+    },
   },
   pages: {
-    signIn: '/auth/login',
+    signIn: "/auth/login",
   },
   secret: process.env.JWT_SECRET,
 });

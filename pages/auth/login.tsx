@@ -6,36 +6,41 @@ import Logo from "../../components/auth/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { error, isLoading, user } = useSelector((state: RootState) => state.auth);
+  const { error, isLoading, user } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
     if (user) {
-      const route = user.role === "Admin" || user.role === "admin" 
-        ? "/admin/dashboard" 
-        : "/user/dashboard";
+      const route =
+        user.role === "Admin" || user.role === "admin"
+          ? "/admin/dashboard"
+          : "/user/dashboard";
       router.push(route);
     }
   }, [user, router]);
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      const resultAction = await dispatch(loginUser({ email, password }));
-      if (loginUser.fulfilled.match(resultAction)) {
-        const { user, token } = resultAction.payload;
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', token);
-        if (user.role === "Admin" || user.role === "admin") {
-          router.push("/admin/dashboard");
-        } else {
-          router.push("/user/dashboard");
-        }
-      }
-    } catch (err) {
-      console.error("Login failed:", err);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+    if (result.error) {
+      console.error(result.error);
+    }
+    if (result.ok) {
+      const user = await fetch("/api/auth/session").then((res) => res.json());
+      const route =
+        user.role === "Admin" || user.role === "admin"
+          ? "/admin/dashboard"
+          : "/user/dashboard";
+      router.push(route);
     }
   };
 
