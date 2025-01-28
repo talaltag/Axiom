@@ -50,23 +50,23 @@ export default async function handler(
         // Get friend IDs as strings
         const friendIds = currentUser.friends.map(friend => friend._id.toString());
 
-        // Get users with accepted friend requests
-        const acceptedFriendRequests = await FriendRequest.find({
+        // Get all friend requests (both accepted and pending)
+        const friendRequests = await FriendRequest.find({
           $or: [
-            { sender: userId, status: 'accepted' },
-            { receiver: userId, status: 'accepted' }
+            { sender: userId },
+            { receiver: userId }
           ]
         });
 
-        // Extract user IDs from accepted friend requests
-        const acceptedUserIds = acceptedFriendRequests.map(request => 
+        // Extract user IDs from all friend requests
+        const requestUserIds = friendRequests.map(request => 
           request.sender.toString() === userId ? 
             request.receiver.toString() : 
             request.sender.toString()
         );
 
-        // Combine friend IDs and accepted request IDs
-        const excludeIds = [...new Set([...friendIds, ...acceptedUserIds])];
+        // Combine friend IDs and all request IDs
+        const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
 
         // Exclude current user, friends, and users with accepted requests
         query._id = { 
