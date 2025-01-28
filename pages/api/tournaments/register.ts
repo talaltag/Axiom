@@ -32,6 +32,7 @@ export default async function handler(
     });
 
     // Create tournament registration
+    console.log("req.user", req.user);
     const registration = await TournamentRegistration.create({
       tournament: tournament_id,
       team: team._id,
