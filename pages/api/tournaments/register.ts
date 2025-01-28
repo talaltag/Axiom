@@ -32,11 +32,12 @@ export default async function handler(
     });
 
     // Create tournament registration
-    const registration = await   TournamentRegistration.create({
+    const registration = await TournamentRegistration.create({
       tournament: tournament_id,
       team: team._id,
       paymentMethod: payment_method,
       paymentToken: payment_token,
+      organizer: req.user._id, // Logged in user as organizer
     });
 
     res.status(201).json({

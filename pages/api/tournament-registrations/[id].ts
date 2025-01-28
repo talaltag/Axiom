@@ -22,7 +22,8 @@ export default async function handler(
               path: "members",
               select: "-password",
             },
-          });
+          })
+          .populate('organizer', 'name email');
 
         if (!registration) {
           return res

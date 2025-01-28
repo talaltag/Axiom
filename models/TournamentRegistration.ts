@@ -7,6 +7,11 @@ const TournamentRegistrationSchema = new mongoose.Schema({
     ref: "Tournament",
     required: true,
   },
+  organizer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Team,
