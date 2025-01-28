@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -21,18 +20,7 @@ export default async function handler(
         const { page = 1, limit = 10, search = "", role = "" } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
 
-        const query: any = {};
-        if (search) {
-          query.$or = [
-            { name: { $regex: search, $options: "i" } },
-            { email: { $regex: search, $options: "i" } },
-          ];
-        }
-        if (role) {
-          query.role = role;
-        }
-
-        // Get current user with authentication
+        // Get authentication token
         const token = req.headers.authorization?.split(" ")[1];
         if (!token) {
           return res.status(401).json({ success: false, message: 'Not authenticated' });
@@ -41,10 +29,22 @@ export default async function handler(
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
         const userId = decoded.userId;
 
-        // Get current user with friends list
-        const currentUser = await User.findById(userId).populate('friends');
+        const currentUser = await User.findById(userId);
         if (!currentUser) {
           return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        let query: any = {};
+
+        if (search) {
+          query.$or = [
+            { name: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+          ];
+        }
+
+        if (role) {
+          query.role = role;
         }
 
         // Different behavior based on user role
@@ -53,7 +53,7 @@ export default async function handler(
           query._id = { $ne: userId };
         } else {
           // For regular users, only show non-admin users excluding friends and friend requests
-          const friendIds = currentUser.friends.map(friend => friend.toString());
+          const friendIds = currentUser.friends?.map(friend => friend.toString()) || [];
           const friendRequests = await FriendRequest.find({
             $or: [
               { sender: userId },
@@ -73,37 +73,11 @@ export default async function handler(
           query.role = { $ne: "Admin" };
         }
 
-        // Get friend IDs as strings
-        const friendIds = currentUser.friends.map(friend => friend._id.toString());
-
-        // Get all friend requests (both accepted and pending)
-        const friendRequests = await FriendRequest.find({
-          $or: [
-            { sender: userId },
-            { receiver: userId }
-          ]
-        });
-
-        // Extract user IDs from all friend requests
-        const requestUserIds = friendRequests.map(request => 
-          request.sender.toString() === userId ? 
-            request.receiver.toString() : 
-            request.sender.toString()
-        );
-
-        // Combine friend IDs and all request IDs
-        const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
-
-        // Exclude current user, friends, and users with accepted requests
-        query._id = { 
-          $ne: userId,
-          $nin: excludeIds
-        };
-        query.role = { $ne: "Admin" };
-
         const users = await User.find(query)
           .select("-password")
-          .sort({ createdAt: -1 });
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(Number(limit));
 
         const total = await User.countDocuments(query);
 
@@ -143,7 +117,7 @@ export default async function handler(
           email,
           password: hashedPassword,
           role,
-          cName,
+          cName
         });
 
         const userWithoutPassword = {
