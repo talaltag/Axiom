@@ -96,12 +96,11 @@ export default function Tournaments() {
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
-                            src={`${
-                              registration.tournament.images &&
-                              registration.tournament.images.length > 0
+                            src={
+                              registration?.tournament?.images?.length > 0
                                 ? registration.tournament.images[0]
                                 : "/fortnite-banner.png"
-                            }`}
+                            }
                             alt={registration.tournament.game || "Game"}
                             width={400}
                             height={200}

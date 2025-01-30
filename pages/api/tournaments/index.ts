@@ -57,28 +57,20 @@ export default async function handler(
     } else if (req.method === "GET") {
       const { filter, userId } = req.query;
 
-      if (filter === 'my') {
-        const registrations = await TournamentRegistration.find({})
-          .populate('tournament')
-          .populate('team')
-          .populate('organizer');
-
-        const userRegistrations = registrations.filter(reg => {
-          if (!reg.tournament) return false;
-          if (reg.organizer && reg.organizer._id.toString() === userId) {
-            return true;
-          }
-          return reg.team && 
-                 reg.team.members && 
-                 reg.team.members.includes(userId) && 
-                 reg.paymentStatus === 'completed';
-        });
-
-        return res.status(200).json({ success: true, data: userRegistrations });
+      try {
+        if (filter === 'my' && userId) {
+          const registrations = await TournamentRegistration.find({ user: userId })
+            .populate('tournament')
+            .populate('team')
+            .lean();
+          return res.status(200).json({ success: true, data: registrations });
+        } else {
+          const tournaments = await Tournament.find({}).lean();
+          return res.status(200).json({ success: true, data: tournaments });
+        }
+      } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
       }
-
-      const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
-      return res.status(200).json({ success: true, data: tournaments });
     } else if (req.method === "DELETE") {
       const { id } = req.query;
       const deletedTournament = await Tournament.findByIdAndDelete(id);
