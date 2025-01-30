@@ -51,3 +51,29 @@ a {
 
   box-sizing: border-box;
 }
+
+
+.tournament-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tournament-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.tournament-image-wrapper {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.tournament-image {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.tournament-card:hover .tournament-image {
+  transform: scale(1.05);
+}

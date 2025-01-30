@@ -62,23 +62,59 @@ export default async function handler(
       );
       try {
         if (filter === "my" && userIdObject) {
-          const registrations = await TournamentRegistration.find({
-            $or: [
-              { organizer: userIdObject },
-              {
-                $and: [
-                  { "team.members": { $in: [userIdObject] } },
-                  { paymentStatus: "completed" },
-                ],
-              },
-            ],
-          })
-            .populate("tournament")
-            .populate("team")
-            .lean();
+          const registrations = await TournamentRegistration.aggregate([
+            {
+              $lookup: {
+                from: "teams",
+                localField: "team",
+                foreignField: "_id",
+                as: "teamData"
+              }
+            },
+            {
+              $unwind: "$teamData"
+            },
+            {
+              $match: {
+                $or: [
+                  { organizer: userIdObject },
+                  {
+                    $and: [
+                      { "teamData.members": userIdObject },
+                      { paymentStatus: "completed" }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              $lookup: {
+                from: "tournaments",
+                localField: "tournament",
+                foreignField: "_id",
+                as: "tournamentData"
+              }
+            },
+            {
+              $unwind: "$tournamentData"
+            },
+            {
+              $project: {
+                _id: 1,
+                tournament: "$tournamentData",
+                team: "$teamData",
+                organizer: 1,
+                paymentStatus: 1,
+                createdAt: 1
+              }
+            }
+          ]);
 
-          const validRegistrations = registrations.filter(
-            (reg) => reg.tournament !== null
+          return res.status(200).json({ 
+            success: true, 
+            data: registrations,
+            count: registrations.length
+          });
           );
           return res
             .status(200)
