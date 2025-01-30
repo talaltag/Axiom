@@ -63,9 +63,13 @@ export default function ConfirmRegistration() {
       if (data.success) {
         setRegistrationData(data.data);
         
-        // Check if user is organizer
-        const isOrganizer = data.data.organizer === session?.user?.id;
-        if (isOrganizer || data.data.paymentStatus === 'completed') {
+        // Check if user has already paid
+        const currentUserId = session?.user?.id;
+        const userPayment = data.data.memberPayments?.find(
+          payment => payment.userId === currentUserId
+        );
+        
+        if (userPayment?.paymentStatus === 'completed') {
           setShowPaymentForm(false);
         }
       } else {
