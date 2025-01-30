@@ -45,21 +45,32 @@ export default function UserDashboard() {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [activeTab, setActiveTab] = useState("upcoming");
 
+  const [registeredTournaments, setRegisteredTournaments] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
-        const response = await fetch("/api/tournaments");
+        const url = activeTab === "my" 
+          ? `/api/tournaments?filter=my&userId=${session?.data?.user?.id}`
+          : "/api/tournaments";
+        const response = await fetch(url);
         const data = await response.json();
         if (data.success) {
-          setTournaments(data.data);
+          if (activeTab === "my") {
+            setRegisteredTournaments(data.data);
+          } else {
+            setTournaments(data.data);
+          }
         }
       } catch (error) {
         console.error("Error fetching tournaments:", error);
       }
     };
 
-    fetchTournaments();
-  }, []);
+    if (session?.data?.user?.id) {
+      fetchTournaments();
+    }
+  }, [activeTab, session?.data?.user?.id]);
 
   if (!session) return null;
   return (
@@ -128,7 +139,54 @@ export default function UserDashboard() {
                   </div>
                 </div>
                 <Row>
-                  {tournaments.map((tournament, index) => (
+                  {activeTab === "my" ? (
+                    registeredTournaments.map((registration) => (
+                      <Col md={4} key={registration._id} className="mb-4">
+                        <Card className="border-0 shadow-sm h-100">
+                          <div style={{ height: "200px", position: "relative" }}>
+                            <Image
+                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
+                              alt={registration?.tournament?.name || "Tournament"}
+                              width={400}
+                              height={200}
+                              style={{
+                                objectFit: "cover",
+                                width: "100%",
+                                height: "100%",
+                              }}
+                              priority
+                            />
+                          </div>
+                          <CardBody>
+                            <CardTitle tag="h5">{registration.tournament.name}</CardTitle>
+                            <CardText>
+                              <small className="text-muted d-block mb-2">
+                                {registration.tournament.date} • {registration.tournament.time}
+                              </small>
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                  <small className="text-muted">Team</small>
+                                  <h6 className="mb-0">{registration.team?.name}</h6>
+                                </div>
+                                <div className="text-end">
+                                  <small className="text-muted">Status</small>
+                                  <h6 className="mb-0 text-capitalize">{registration.paymentStatus}</h6>
+                                </div>
+                              </div>
+                              <Button
+                                color="warning"
+                                block
+                                onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
+                              >
+                                View Details <ArrowRight size={16} className="ms-2" />
+                              </Button>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Col>
+                    ))
+                  ) : (
+                    tournaments.map((tournament, index) => (
                     <Col md={4} key={index}>
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
