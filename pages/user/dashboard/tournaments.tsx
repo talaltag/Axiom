@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import UserDashboardLayout from "../../../components/layouts/UserDashboardLayout";
 import {
   Container,
@@ -20,6 +21,7 @@ import Loader from "../../../components/common/Loader";
 import { useRouter } from "next/router";
 
 export default function Tournaments() {
+  const { data: session } = useSession();
   const router = useRouter();
   const [tournaments, setTournaments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +33,10 @@ export default function Tournaments() {
     const fetchTournaments = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/api/tournaments");
+        const url = activeTab === 'my' 
+          ? `/api/tournaments?filter=my&userId=${session?.user?.id}`
+          : '/api/tournaments';
+        const response = await fetch(url);
         const data = await response.json();
         if (data.success) {
           setTournaments(data.data);
@@ -43,8 +48,10 @@ export default function Tournaments() {
       }
     };
 
-    fetchTournaments();
-  }, []);
+    if (session?.user?.id) {
+      fetchTournaments();
+    }
+  }, [activeTab, session?.user?.id]);
 
   const closeRegistrationModal = () => setRegistrationModalOpen(false);
 

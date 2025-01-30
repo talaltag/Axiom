@@ -54,9 +54,25 @@ export default async function handler(
         });
       }
     } else if (req.method === "GET") {
-      console.log("Tournaments:", "asdasdasd");
-      const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
+      const { filter, userId } = req.query;
 
+      if (filter === 'my') {
+        const registrations = await TournamentRegistration.find({})
+          .populate('tournament')
+          .populate('team')
+          .populate('organizer');
+
+        const userTournaments = registrations.filter(reg => {
+          if (reg.organizer?._id.toString() === userId) {
+            return true;
+          }
+          return reg.team?.members.includes(userId) && reg.paymentStatus === 'completed';
+        }).map(reg => reg.tournament);
+
+        return res.status(200).json({ success: true, data: userTournaments });
+      }
+
+      const tournaments = await Tournament.find({}).sort({ createdAt: -1 });
       return res.status(200).json({ success: true, data: tournaments });
     } else if (req.method === "DELETE") {
       const { id } = req.query;
