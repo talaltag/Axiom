@@ -12,18 +12,8 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { error, isLoading, user } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
-
-  useEffect(() => {
-    if (user) {
-      const route =
-        user.role === "Admin" || user.role === "admin"
-          ? "/admin/dashboard"
-          : "/user/dashboard";
-      router.push(route);
-    }
-  }, [user, router]);
 
   const handleLogin = async (email: string, password: string) => {
     const result = await signIn("credentials", {
