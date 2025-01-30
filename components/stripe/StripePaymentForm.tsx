@@ -1,4 +1,3 @@
-
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "reactstrap";
 import { useState } from "react";
@@ -10,7 +9,7 @@ interface StripePaymentFormProps {
 
 export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   clientSecret,
-  teamId
+  teamId,
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -40,9 +39,10 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           return;
         }
 
-        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: paymentMethod.id,
-        });
+        const { error: confirmError, paymentIntent } =
+          await stripe.confirmCardPayment(clientSecret, {
+            payment_method: paymentMethod.id,
+          });
 
         if (confirmError) {
           setErrorMessage(confirmError.message);
@@ -51,16 +51,20 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         }
 
         // Update tournament registration status
-        const response = await fetch(`/api/tournament-registrations/${teamId}/pay`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            paymentToken: paymentIntent.id,
-            paymentStatus: 'completed'
-          })
-        });
+        const response = await fetch(
+          `/api/tournament-registrations/${teamId}/pay`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              paymentToken: paymentIntent.id,
+              paymentStatus: "completed",
+              paymentMethod: "stripe",
+            }),
+          }
+        );
 
         if (response.ok) {
           alert("Payment successful");
@@ -85,7 +89,7 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         color="warning"
         disabled={!stripe || isProcessing}
       >
-        {isProcessing ? 'Processing...' : 'Pay Now'}
+        {isProcessing ? "Processing..." : "Pay Now"}
       </Button>
       {errorMessage && <div className="text-danger mt-2">{errorMessage}</div>}
     </form>

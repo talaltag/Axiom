@@ -1,60 +1,88 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '../../../../lib/dbConnect';
-import TournamentRegistration from '../../../../models/TournamentRegistration';
-import { getSession } from 'next-auth/react';
+import { NextApiRequest, NextApiResponse } from "next";
+import dbConnect from "../../../../lib/dbConnect";
+import TournamentRegistration from "../../../../models/TournamentRegistration";
+import { withAuth } from "../../../../middleware/withAuth";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
+export default withAuth(async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, message: "Method not allowed" });
   }
 
-  const session = await getSession({ req });
-  if (!session) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  const userId = req.user.id;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const { id } = req.query;
-  const { paymentToken, paymentMethod, teamMembers, tournamentAmount } = req.body;
-  const userId = session.user.id;
+  const { paymentToken, paymentMethod } = req.body;
 
   if (!paymentToken || !paymentMethod) {
-    return res.status(400).json({ success: false, message: 'Payment details required' });
-  }
-
-  if (!teamMembers || teamMembers.length === 0) {
-    return res.status(400).json({ success: false, message: 'Team members required' });
-  }
-
-  if (!tournamentAmount || tournamentAmount <=0){
-    return res.status(400).json({ success: false, message: 'Tournament amount required' });
+    return res
+      .status(400)
+      .json({ success: false, message: "Payment details required" });
   }
 
   try {
     await dbConnect();
 
-    let registration = await TournamentRegistration.findById(id);
-    if (!registration) {
-      // Create new registration if it doesn't exist.  This assumes the 'id' refers to a team ID or a newly created tournament.
-      registration = new TournamentRegistration({
-        _id: id, // Assuming 'id' is pre-generated
-        teamMembers: teamMembers.map(member => ({ userId: member, paymentStatus: 'pending', tournamentAmount: tournamentAmount })),
-        tournamentAmount: tournamentAmount
-      });
+    // Check if the TournamentRegistration exists
+    const tournamentRegistration = await TournamentRegistration.findById(id);
+    if (!tournamentRegistration) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tournament registration not found" });
     }
 
-    //Update existing registration
-    const updatedMemberPayments = registration.teamMembers.map(member => {
-      if (member.userId.toString() === userId) {
-        return { ...member, paymentStatus: 'completed', paymentToken, paymentMethod, paidAt: new Date() };
-      }
-      return member;
-    });
+    // Initialize the memberPayments array if it doesn't exist
+    if (!tournamentRegistration.memberPayments) {
+      tournamentRegistration.memberPayments = [];
+    }
 
-    registration.teamMembers = updatedMemberPayments;
-    await registration.save();
-    res.status(200).json({ success: true, data: registration });
+    // Check if the user already has a payment record in the tournament registration
+    const existingPayment =
+      tournamentRegistration.memberPayments?.find(
+        (payment: { userId: any }) =>
+          payment.userId.toString() === userId.toString()
+      ) || null;
+
+    if (existingPayment) {
+      // If payment exists, update it
+      existingPayment.paymentStatus = "completed";
+      existingPayment.paymentToken = paymentToken;
+      existingPayment.paymentMethod = paymentMethod;
+      existingPayment.paidAt = new Date();
+
+      // Save the updated tournament registration
+      await tournamentRegistration.save();
+      return res
+        .status(200)
+        .json({ success: true, data: tournamentRegistration });
+    } else {
+      // If no existing payment found, add a new payment record
+      tournamentRegistration.memberPayments.push({
+        userId,
+        paymentStatus: "completed",
+        paymentToken,
+        paymentMethod,
+        paidAt: new Date(),
+      });
+
+      // Save the new payment record in the tournament registration
+      await tournamentRegistration.save();
+      return res
+        .status(200)
+        .json({ success: true, data: tournamentRegistration });
+    }
   } catch (error) {
-    console.error('Error updating payment status:', error);
-    res.status(500).json({ success: false, message: 'Error updating payment status' });
+    console.error("Error updating payment status:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Error updating payment status" });
   }
-}
+});

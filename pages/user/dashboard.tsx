@@ -36,8 +36,6 @@ export default function UserDashboard() {
 
   const session = useSession();
 
-  console.log(session);
-
   const gameStats = [
     { name: "Fortnite", lastScore: "102234", progress: 75 },
     { name: "Pubg", lastScore: "102234", progress: 85 },

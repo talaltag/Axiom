@@ -6,6 +6,7 @@ import { Container, Row, Col, Card, CardBody, Button, Form } from "reactstrap";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripePaymentForm } from "../../../../components/stripe/StripePaymentForm";
+import { useSession } from "next-auth/react";
 
 interface Member {
   name: string;
@@ -30,7 +31,7 @@ interface RegistrationData {
     name: string;
     members: Member[];
   };
-  memberPayments: {userId: string, paymentStatus: string}[];
+  memberPayments: { userId: string; paymentStatus: string }[];
 }
 
 export default function ConfirmRegistration() {
@@ -38,6 +39,7 @@ export default function ConfirmRegistration() {
   const { team_id } = router.query;
   const [registrationData, setRegistrationData] =
     useState<RegistrationData | null>(null);
+  const session = useSession();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("wallet");
@@ -65,14 +67,12 @@ export default function ConfirmRegistration() {
       if (data.success) {
         setRegistrationData(data.data);
 
-        // Check if user has already paid
-        const currentUserId = session?.user?.id; // Assuming session object exists with user ID
+        const currentUserId = session?.data?.user?.id;
         const userPayment = data.data.memberPayments?.find(
-          payment => payment.userId === currentUserId
+          (payment) => payment.userId === currentUserId
         );
 
-        setUserPaymentStatus(userPayment?.paymentStatus || "not_paid"); // Set payment status, default to "not_paid"
-
+        setUserPaymentStatus(userPayment?.paymentStatus || "not_paid");
       } else {
         setError("Failed to fetch registration details");
       }
@@ -110,40 +110,6 @@ export default function ConfirmRegistration() {
       loadStripeData();
     }
   }, [paymentMethod, team_id, registrationData?.tournament?.entryFee]);
-
-  const handlePayment = async () => {
-    if (paymentMethod === "stripe" && stripePromise && clientSecret) {
-      try {
-        const stripe = await stripePromise;
-        const result = await stripe.redirectToCheckout({
-          sessionId: clientSecret,
-        });
-        if (result.error) {
-          setError(result.error.message);
-        }
-      } catch (error) {
-        setError("Payment failed");
-      }
-    } else {
-      //Handle other payment methods
-      try {
-        const response = await fetch(
-          `/api/tournament-registrations/${team_id}/pay`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ paymentMethod }), // cardDetails removed as not used for other methods
-          }
-        );
-        const data = await response.json();
-        if (data.success) {
-          router.push("/user/dashboard/tournaments");
-        }
-      } catch (error) {
-        setError("Payment failed");
-      }
-    }
-  };
 
   if (loading) return <div>Loading...</div>;
   if (!registrationData) return <div>Registration not found</div>;
@@ -227,10 +193,19 @@ export default function ConfirmRegistration() {
                       (mp: any) => mp.userId === member._id
                     );
                     return (
-                      <div key={member._id} className="d-flex justify-content-between align-items-center mb-2">
+                      <div
+                        key={member._id}
+                        className="d-flex justify-content-between align-items-center mb-2"
+                      >
                         <span>{member.name}</span>
-                        <span className={`badge ${memberPayment?.paymentStatus === 'completed' ? 'bg-success' : 'bg-warning'}`}>
-                          {memberPayment?.paymentStatus || 'pending'}
+                        <span
+                          className={`badge ${
+                            memberPayment?.paymentStatus === "completed"
+                              ? "bg-success"
+                              : "bg-warning"
+                          }`}
+                        >
+                          {memberPayment?.paymentStatus || "pending"}
                         </span>
                       </div>
                     );
@@ -239,8 +214,7 @@ export default function ConfirmRegistration() {
                 {registrationData.memberPayments && (
                   <p>Your Payment Status: {userPaymentStatus}</p>
                 )}
-
-                {registrationData.paymentStatus === "pending" && (
+                {userPaymentStatus !== "completed" && (
                   <>
                     <div className="mt-4">
                       <h5>Payment Method</h5>
@@ -389,7 +363,10 @@ export default function ConfirmRegistration() {
                           stripe={stripePromise}
                           options={{ clientSecret }}
                         >
-                          <StripePaymentForm clientSecret={clientSecret} teamId={team_id as string} />
+                          <StripePaymentForm
+                            clientSecret={clientSecret}
+                            teamId={team_id as string}
+                          />
                         </Elements>
                       )}
 
@@ -398,8 +375,8 @@ export default function ConfirmRegistration() {
                         Back
                       </Button>
                       {/* <Button color="warning" onClick={handlePayment}>
-                        Pay Now
-                      </Button> */}
+                      Pay Now
+                    </Button> */}
                     </div>
                   </>
                 )}

@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import Team from "./Team";
 
@@ -6,16 +5,16 @@ const MemberPaymentSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    required: true,
   },
   paymentStatus: {
     type: String,
     enum: ["pending", "completed"],
-    default: "pending"
+    default: "pending",
   },
   paymentToken: String,
   paymentMethod: String,
-  paidAt: Date
+  paidAt: Date,
 });
 
 const TournamentRegistrationSchema = new mongoose.Schema({

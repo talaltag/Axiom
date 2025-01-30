@@ -79,10 +79,7 @@ export default async function handler(
                 $or: [
                   { organizer: userIdObject },
                   {
-                    $and: [
-                      { "teamData.members": userIdObject },
-                      { paymentStatus: "completed" },
-                    ],
+                    $and: [{ "teamData.members": userIdObject }],
                   },
                 ],
               },
