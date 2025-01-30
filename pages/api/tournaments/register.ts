@@ -32,12 +32,20 @@ export default withAuth(async function handler(
       members: user_ids,
     });
 
+    // Initialize payment records for each team member
+    const memberPayments = user_ids.map(userId => ({
+      userId,
+      paymentStatus: 'pending',
+      paymentToken: null,
+      paymentMethod: null,
+      paidAt: null
+    }));
+
     const registration = await TournamentRegistration.create({
       tournament: tournament_id,
       team: team._id,
-      paymentMethod: payment_method,
-      paymentToken: payment_token,
-      organizer: req.user.id, // Logged in user as organizer
+      organizer: req.user.id,
+      memberPayments
     });
 
     res.status(201).json({

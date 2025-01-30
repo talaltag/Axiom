@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../../lib/dbConnect';
 import TournamentRegistration from '../../../../models/TournamentRegistration';
@@ -15,39 +14,43 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const { id } = req.query;
-  const { paymentToken, paymentMethod } = req.body;
+  const { paymentToken, paymentMethod, teamMembers, tournamentAmount } = req.body;
   const userId = session.user.id;
+
+  if (!paymentToken || !paymentMethod) {
+    return res.status(400).json({ success: false, message: 'Payment details required' });
+  }
+
+  if (!teamMembers || teamMembers.length === 0) {
+    return res.status(400).json({ success: false, message: 'Team members required' });
+  }
+
+  if (!tournamentAmount || tournamentAmount <=0){
+    return res.status(400).json({ success: false, message: 'Tournament amount required' });
+  }
 
   try {
     await dbConnect();
 
-    const registration = await TournamentRegistration.findById(id);
+    let registration = await TournamentRegistration.findById(id);
     if (!registration) {
-      return res.status(404).json({ success: false, message: 'Registration not found' });
-    }
-
-    const memberPaymentIndex = registration.memberPayments.findIndex(
-      mp => mp.userId.toString() === userId
-    );
-
-    if (memberPaymentIndex === -1) {
-      registration.memberPayments.push({
-        userId,
-        paymentStatus: 'completed',
-        paymentToken,
-        paymentMethod,
-        paidAt: new Date()
+      // Create new registration if it doesn't exist.  This assumes the 'id' refers to a team ID or a newly created tournament.
+      registration = new TournamentRegistration({
+        _id: id, // Assuming 'id' is pre-generated
+        teamMembers: teamMembers.map(member => ({ userId: member, paymentStatus: 'pending', tournamentAmount: tournamentAmount })),
+        tournamentAmount: tournamentAmount
       });
-    } else {
-      registration.memberPayments[memberPaymentIndex] = {
-        ...registration.memberPayments[memberPaymentIndex],
-        paymentStatus: 'completed',
-        paymentToken,
-        paymentMethod,
-        paidAt: new Date()
-      };
     }
 
+    //Update existing registration
+    const updatedMemberPayments = registration.teamMembers.map(member => {
+      if (member.userId.toString() === userId) {
+        return { ...member, paymentStatus: 'completed', paymentToken, paymentMethod, paidAt: new Date() };
+      }
+      return member;
+    });
+
+    registration.teamMembers = updatedMemberPayments;
     await registration.save();
     res.status(200).json({ success: true, data: registration });
   } catch (error) {

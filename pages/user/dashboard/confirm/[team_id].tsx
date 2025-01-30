@@ -220,6 +220,22 @@ export default function ConfirmRegistration() {
                   </Col>
                 </Row>
 
+                <div className="mb-4">
+                  <h5>Team Member Payments</h5>
+                  {registrationData.team.members.map((member: any) => {
+                    const memberPayment = registrationData.memberPayments?.find(
+                      (mp: any) => mp.userId === member._id
+                    );
+                    return (
+                      <div key={member._id} className="d-flex justify-content-between align-items-center mb-2">
+                        <span>{member.name}</span>
+                        <span className={`badge ${memberPayment?.paymentStatus === 'completed' ? 'bg-success' : 'bg-warning'}`}>
+                          {memberPayment?.paymentStatus || 'pending'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
                 {registrationData.memberPayments && (
                   <p>Your Payment Status: {userPaymentStatus}</p>
                 )}
