@@ -12,6 +12,7 @@ import {
   Button,
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { useRouter } from "next/router";
 import { ArrowRight } from "react-feather";
 import Image from "next/image";
