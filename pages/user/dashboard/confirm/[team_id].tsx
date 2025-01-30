@@ -30,7 +30,7 @@ interface RegistrationData {
     name: string;
     members: Member[];
   };
-  paymentStatus: string;
+  memberPayments: {userId: string, paymentStatus: string}[];
 }
 
 export default function ConfirmRegistration() {
@@ -50,6 +50,8 @@ export default function ConfirmRegistration() {
     expYear: "",
     security: "",
   });
+  const [userPaymentStatus, setUserPaymentStatus] = useState(""); // Added state for user's payment status
+
   useEffect(() => {
     if (team_id) {
       fetchRegistrationDetails();
@@ -62,16 +64,15 @@ export default function ConfirmRegistration() {
       const data = await response.json();
       if (data.success) {
         setRegistrationData(data.data);
-        
+
         // Check if user has already paid
-        const currentUserId = session?.user?.id;
+        const currentUserId = session?.user?.id; // Assuming session object exists with user ID
         const userPayment = data.data.memberPayments?.find(
           payment => payment.userId === currentUserId
         );
-        
-        if (userPayment?.paymentStatus === 'completed') {
-          setShowPaymentForm(false);
-        }
+
+        setUserPaymentStatus(userPayment?.paymentStatus || "not_paid"); // Set payment status, default to "not_paid"
+
       } else {
         setError("Failed to fetch registration details");
       }
@@ -218,6 +219,10 @@ export default function ConfirmRegistration() {
                     </div>
                   </Col>
                 </Row>
+
+                {registrationData.memberPayments && (
+                  <p>Your Payment Status: {userPaymentStatus}</p>
+                )}
 
                 {registrationData.paymentStatus === "pending" && (
                   <>
