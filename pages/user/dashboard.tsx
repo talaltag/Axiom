@@ -11,6 +11,7 @@ import {
   Progress,
   Button,
 } from "reactstrap";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { useRouter } from "next/router";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { ArrowRight } from "react-feather";
