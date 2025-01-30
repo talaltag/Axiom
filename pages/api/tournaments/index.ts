@@ -63,12 +63,19 @@ export default async function handler(
           .populate('team')
           .populate('organizer');
 
-        const userTournaments = registrations.filter(reg => {
-          if (reg.organizer?._id.toString() === userId) {
-            return true;
-          }
-          return reg.team?.members.includes(userId) && reg.paymentStatus === 'completed';
-        }).map(reg => reg.tournament);
+        const userTournaments = registrations
+          .filter(reg => {
+            if (!reg.tournament) return false;
+            if (reg.organizer && reg.organizer._id.toString() === userId) {
+              return true;
+            }
+            return reg.team && 
+                   reg.team.members && 
+                   reg.team.members.includes(userId) && 
+                   reg.paymentStatus === 'completed';
+          })
+          .map(reg => reg.tournament)
+          .filter(tournament => tournament !== null);
 
         return res.status(200).json({ success: true, data: userTournaments });
       }
