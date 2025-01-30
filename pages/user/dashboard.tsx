@@ -13,7 +13,6 @@ import {
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { useRouter } from "next/router";
-import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { ArrowRight } from "react-feather";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
