@@ -175,6 +175,18 @@ export default function Tournaments() {
                                   </h6>
                                 </div>
                               </div>
+                              <Button
+                                color="warning"
+                                block
+                                onClick={() =>
+                                  router.push(
+                                    `/user/dashboard/confirm/${registration._id}`
+                                  )
+                                }
+                              >
+                                View Details{" "}
+                                <ArrowRight size={16} className="ms-2" />
+                              </Button>
                             </CardText>
                           </CardBody>
                         </Card>
@@ -229,33 +241,19 @@ export default function Tournaments() {
                                   </h6>
                                 </div>
                               </div>
-                              {activeTab === "my" ? (
-                                <Button
-                                  color="primary"
-                                  block
-                                  onClick={() =>
-                                    router.push(
-                                      `/user/dashboard/confirm/${registration._id}`
-                                    )
-                                  }
-                                >
-                                  View Details{" "}
-                                  <ArrowRight size={16} className="ms-2" />
-                                </Button>
-                              ) : (
-                                <Button
-                                  color="warning"
-                                  block
-                                  onClick={() =>
-                                    router.push(
-                                      `/user/dashboard/register-tournament/${tournament._id}`
-                                    )
-                                  }
-                                >
-                                  Register Now{" "}
-                                  <ArrowRight size={16} className="ms-2" />
-                                </Button>
-                              )}
+
+                              <Button
+                                color="warning"
+                                block
+                                onClick={() =>
+                                  router.push(
+                                    `/user/dashboard/register-tournament/${tournament._id}`
+                                  )
+                                }
+                              >
+                                Register Now{" "}
+                                <ArrowRight size={16} className="ms-2" />
+                              </Button>
                             </CardText>
                           </CardBody>
                         </Card>
