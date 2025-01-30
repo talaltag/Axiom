@@ -14,6 +14,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  CardText,
 } from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
@@ -33,9 +34,9 @@ export default function Tournaments() {
     const fetchTournaments = async () => {
       try {
         setIsLoading(true);
-        const url = activeTab === 'my' 
+        const url = activeTab === "my"
           ? `/api/tournaments?filter=my&userId=${session?.user?.id}`
-          : '/api/tournaments';
+          : "/api/tournaments";
         const response = await fetch(url);
         const data = await response.json();
         if (data.success) {
@@ -89,17 +90,18 @@ export default function Tournaments() {
                   </div>
                 </div>
                 <Row>
-                  {tournaments.map((tournament, index) => (
-                    <Col md={4} key={tournament._id} className="mb-4">
+                  {tournaments.map((registration, index) => (
+                    <Col md={4} key={registration._id} className="mb-4">
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
                           <Image
                             src={`${
-                              tournament.images && tournament.images.length > 0
-                                ? tournament.images[0]
+                              registration.tournament.images &&
+                              registration.tournament.images.length > 0
+                                ? registration.tournament.images[0]
                                 : "/fortnite-banner.png"
                             }`}
-                            alt={tournament.game || "Game"}
+                            alt={registration.tournament.game || "Game"}
                             width={400}
                             height={200}
                             style={{
@@ -121,43 +123,47 @@ export default function Tournaments() {
                               fontSize: "12px",
                             }}
                           >
-                            {tournament.status}
+                            {registration.tournament.status}
                           </div>
                         </div>
                         <CardBody>
-                          <CardTitle tag="h5">{tournament.name}</CardTitle>
-                          <div className="text-muted small mb-2">
-                            {tournament.date} • {tournament.time}
-                          </div>
-                          <div className="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                              <small className="text-muted d-block">
-                                Prize Pool
-                              </small>
-                              <div className="h6 mb-0">
-                                ${tournament.totalPrizePool}
+                          <CardTitle tag="h5" className="mb-3">
+                            {registration.tournament.name}
+                          </CardTitle>
+                          <CardText>
+                            <small className="text-muted">
+                              {registration.tournament.date} •{" "}
+                              {registration.tournament.time}
+                            </small>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <div>
+                                <small className="text-muted">Team</small>
+                                <h6 className="mb-0">
+                                  {registration.team?.name}
+                                </h6>
+                              </div>
+                              <div className="text-end">
+                                <small className="text-muted">Status</small>
+                                <h6 className="mb-0 text-capitalize">
+                                  {registration.paymentStatus}
+                                </h6>
                               </div>
                             </div>
-                            <div className="text-end">
-                              <small className="text-muted d-block">
-                                Entry Fee
-                              </small>
-                              <div className="h6 mb-0">
-                                ${tournament.entryFee}
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <div>
+                                <small className="text-muted">Prize Pool</small>
+                                <h6 className="mb-0">
+                                  ${registration.tournament.totalPrizePool}
+                                </h6>
+                              </div>
+                              <div className="text-end">
+                                <small className="text-muted">Entry Fee</small>
+                                <h6 className="mb-0">
+                                  ${registration.tournament.entryFee}
+                                </h6>
                               </div>
                             </div>
-                          </div>
-                          <Button
-                            color="warning"
-                            onClick={() =>
-                              router.push(
-                                `/user/dashboard/register-tournament/${tournament._id}`
-                              )
-                            }
-                          >
-                            Register Now{" "}
-                            <ArrowRight size={16} className="ms-2" />
-                          </Button>
+                          </CardText>
                         </CardBody>
                       </Card>
                     </Col>
