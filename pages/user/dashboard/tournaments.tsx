@@ -16,7 +16,7 @@ import {
   ModalFooter,
   CardText,
   Spinner,
-  Alert
+  Alert,
 } from "reactstrap";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
@@ -108,17 +108,9 @@ export default function Tournaments() {
                   </div>
                 </div>
                 <Row>
-                  {isLoading ? (
+                  {error ? (
                     <Col xs={12}>
-                      <div className="text-center py-5">
-                        <Spinner color="primary" />
-                      </div>
-                    </Col>
-                  ) : error ? (
-                    <Col xs={12}>
-                      <Alert color="danger">
-                        {error}
-                      </Alert>
+                      <Alert color="danger">{error}</Alert>
                     </Col>
                   ) : activeTab === "my" ? (
                     registeredTournaments.map((registration) => (
@@ -126,8 +118,13 @@ export default function Tournaments() {
                         <Card className="border-0 shadow-sm h-100 tournament-card">
                           <div className="tournament-image-wrapper">
                             <Image
-                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
-                              alt={registration?.tournament?.name || "Tournament"}
+                              src={
+                                registration?.tournament?.images?.[0] ||
+                                "/fortnite-banner.png"
+                              }
+                              alt={
+                                registration?.tournament?.name || "Tournament"
+                              }
                               width={400}
                               height={200}
                               className="tournament-image"
@@ -185,9 +182,7 @@ export default function Tournaments() {
                     ))
                   ) : tournaments.length === 0 ? (
                     <Col xs={12}>
-                      <Alert color="info">
-                        No tournaments found.
-                      </Alert>
+                      <Alert color="info">No tournaments found.</Alert>
                     </Col>
                   ) : (
                     tournaments.map((tournament) => (
@@ -195,7 +190,9 @@ export default function Tournaments() {
                         <Card className="border-0 shadow-sm h-100 tournament-card">
                           <div className="tournament-image-wrapper">
                             <Image
-                              src={tournament.images?.[0] || "/fortnite-banner.png"}
+                              src={
+                                tournament.images?.[0] || "/fortnite-banner.png"
+                              }
                               alt={tournament.name || "Tournament"}
                               width={400}
                               height={200}

@@ -68,11 +68,11 @@ export default async function handler(
                 from: "teams",
                 localField: "team",
                 foreignField: "_id",
-                as: "teamData"
-              }
+                as: "teamData",
+              },
             },
             {
-              $unwind: "$teamData"
+              $unwind: "$teamData",
             },
             {
               $match: {
@@ -81,22 +81,22 @@ export default async function handler(
                   {
                     $and: [
                       { "teamData.members": userIdObject },
-                      { paymentStatus: "completed" }
-                    ]
-                  }
-                ]
-              }
+                      { paymentStatus: "completed" },
+                    ],
+                  },
+                ],
+              },
             },
             {
               $lookup: {
                 from: "tournaments",
                 localField: "tournament",
                 foreignField: "_id",
-                as: "tournamentData"
-              }
+                as: "tournamentData",
+              },
             },
             {
-              $unwind: "$tournamentData"
+              $unwind: "$tournamentData",
             },
             {
               $project: {
@@ -105,20 +105,16 @@ export default async function handler(
                 team: "$teamData",
                 organizer: 1,
                 paymentStatus: 1,
-                createdAt: 1
-              }
-            }
+                createdAt: 1,
+              },
+            },
           ]);
 
-          return res.status(200).json({ 
-            success: true, 
+          return res.status(200).json({
+            success: true,
             data: registrations,
-            count: registrations.length
+            count: registrations.length,
           });
-          );
-          return res
-            .status(200)
-            .json({ success: true, data: validRegistrations });
         } else {
           const tournaments = await Tournament.find({}).lean();
           return res.status(200).json({ success: true, data: tournaments });
