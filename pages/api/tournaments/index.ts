@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Tournament from "../../../models/Tournament";
 import TournamentRegistration from "../../../models/TournamentRegistration";
+import mongoose from "mongoose";
 
 export default async function handler(
   req: NextApiRequest,
@@ -56,14 +57,32 @@ export default async function handler(
       }
     } else if (req.method === "GET") {
       const { filter, userId } = req.query;
-
+      const userIdObject = new mongoose.Types.ObjectId(
+        Array.isArray(userId) ? userId[0] : userId
+      );
       try {
-        if (filter === 'my' && userId) {
-          const registrations = await TournamentRegistration.find({ user: userId })
-            .populate('tournament')
-            .populate('team')
+        if (filter === "my" && userIdObject) {
+          const registrations = await TournamentRegistration.find({
+            $or: [
+              { organizer: userIdObject },
+              {
+                $and: [
+                  { "team.members": { $in: [userIdObject] } },
+                  { paymentStatus: "completed" },
+                ],
+              },
+            ],
+          })
+            .populate("tournament")
+            .populate("team")
             .lean();
-          return res.status(200).json({ success: true, data: registrations });
+
+          const validRegistrations = registrations.filter(
+            (reg) => reg.tournament !== null
+          );
+          return res
+            .status(200)
+            .json({ success: true, data: validRegistrations });
         } else {
           const tournaments = await Tournament.find({}).lean();
           return res.status(200).json({ success: true, data: tournaments });

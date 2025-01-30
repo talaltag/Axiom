@@ -36,7 +36,7 @@ export default function TournamentRegistration() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/api/users");
+        const response = await fetch("/api/users/me/friends");
         const data = await response.json();
         if (data.success) {
           const users = data.data.map((user: any) => ({
