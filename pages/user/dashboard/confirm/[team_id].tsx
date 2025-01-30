@@ -62,6 +62,12 @@ export default function ConfirmRegistration() {
       const data = await response.json();
       if (data.success) {
         setRegistrationData(data.data);
+        
+        // Check if user is organizer
+        const isOrganizer = data.data.organizer === session?.user?.id;
+        if (isOrganizer || data.data.paymentStatus === 'completed') {
+          setShowPaymentForm(false);
+        }
       } else {
         setError("Failed to fetch registration details");
       }
