@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Tournament from "../../../models/Tournament";
+import TournamentRegistration from "../../../models/TournamentRegistration";
 
 export default async function handler(
   req: NextApiRequest,
