@@ -90,7 +90,8 @@ export default function Tournaments() {
                   </div>
                 </div>
                 <Row>
-                  {tournaments.map((registration, index) => (
+                  {activeTab === 'my' ? (
+                    tournaments.map((registration, index) => (
                     <Col md={4} key={registration._id} className="mb-4">
                       <Card className="border-0 shadow-sm h-100">
                         <div style={{ height: "200px", position: "relative" }}>
@@ -167,7 +168,75 @@ export default function Tournaments() {
                         </CardBody>
                       </Card>
                     </Col>
-                  ))}
+                  ))) : (
+                    tournaments.map((tournament, index) => (
+                      <Col md={4} key={tournament._id} className="mb-4">
+                        <Card className="border-0 shadow-sm h-100">
+                          <div style={{ height: "200px", position: "relative" }}>
+                            <Image
+                              src={tournament.images && tournament.images.length > 0 
+                                ? tournament.images[0] 
+                                : "/fortnite-banner.png"}
+                              alt={tournament.game || "Game"}
+                              width={400}
+                              height={200}
+                              style={{
+                                objectFit: "cover",
+                                width: "100%",
+                                height: "100%",
+                              }}
+                              priority={index === 0}
+                            />
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                background: "rgba(255,0,0,0.8)",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                                color: "white",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {tournament.status}
+                            </div>
+                          </div>
+                          <CardBody>
+                            <CardTitle tag="h5" className="mb-3">
+                              {tournament.name}
+                            </CardTitle>
+                            <CardText>
+                              <small className="text-muted">
+                                {tournament.date} • {tournament.time}
+                              </small>
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                  <small className="text-muted">Prize Pool</small>
+                                  <h6 className="mb-0">
+                                    ${tournament.totalPrizePool}
+                                  </h6>
+                                </div>
+                                <div className="text-end">
+                                  <small className="text-muted">Entry Fee</small>
+                                  <h6 className="mb-0">
+                                    ${tournament.entryFee}
+                                  </h6>
+                                </div>
+                              </div>
+                              <Button 
+                                color="warning" 
+                                block
+                                onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                              >
+                                Register Now <ArrowRight size={16} className="ms-2" />
+                              </Button>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Col>
+                    ))
+                  )}
                 </Row>
               </CardBody>
             </Card>
