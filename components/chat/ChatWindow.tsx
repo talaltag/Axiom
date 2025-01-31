@@ -31,7 +31,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const roomId = [currentUser._id, receiver._id].sort().join('-');
 
   useEffect(() => {
-    socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || '');
+    socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://0.0.0.0:3000');
     socketRef.current.emit('join', roomId);
 
     socketRef.current.on('message', (message: Message) => {
