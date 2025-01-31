@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Box, Grid, Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
+import { Box, Grid, Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText, CircularProgress } from '@mui/material';
 import UserDashboardLayout from '../components/layouts/UserDashboardLayout';
 import ChatWindow from '../components/chat/ChatWindow';
 
@@ -14,6 +14,8 @@ export default function ChatPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadCurrentUser = () => {
@@ -23,19 +25,44 @@ export default function ChatPage() {
 
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const response = await fetch('/api/users');
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data.users);
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
         }
+        const data = await response.json();
+        setUsers(data.data || []);
       } catch (error) {
         console.error('Error fetching users:', error);
+        setError('Failed to load users');
+      } finally {
+        setLoading(false);
       }
     };
 
     loadCurrentUser();
     fetchUsers();
   }, []);
+
+  if (loading) {
+    return (
+      <UserDashboardLayout>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <CircularProgress />
+        </Box>
+      </UserDashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <UserDashboardLayout>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          {error}
+        </Box>
+      </UserDashboardLayout>
+    );
+  }
 
   return (
     <UserDashboardLayout>
@@ -44,7 +71,7 @@ export default function ChatPage() {
           <Grid item xs={3}>
             <Paper sx={{ height: '100%', overflow: 'auto' }}>
               <List>
-                {users.map((user) => (
+                {users && users.map((user) => (
                   <ListItem
                     button
                     key={user._id}
