@@ -8,11 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     try {
-      const { userId, receiverId } = req.query;
+      const { sender, receiver } = req.query;
       const messages = await Chat.find({
         $or: [
-          { sender: userId, receiver: receiverId },
-          { sender: receiverId, receiver: userId }
+          { sender, receiver },
+          { sender: receiver, receiver: sender }
         ]
       })
       .sort({ createdAt: 1 })

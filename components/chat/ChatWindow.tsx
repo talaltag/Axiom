@@ -1,6 +1,8 @@
+
 import { useState, useEffect, useRef } from "react";
-import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import { Box, TextField, Button, Typography, Paper, CircularProgress } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { io } from "socket.io-client";
 
 interface User {
   _id: string;
@@ -23,24 +25,40 @@ interface ChatWindowProps {
 export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const socketRef = useRef<any>(null);
+  const roomId = [currentUser._id, receiver._id].sort().join('-');
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  useEffect(() => {
+    socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || '');
+    socketRef.current.emit('join', roomId);
+
+    socketRef.current.on('message', (message: Message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socketRef.current.emit('leave', roomId);
+      socketRef.current.disconnect();
+    };
+  }, [roomId]);
 
   useEffect(() => {
     fetchMessages();
-    const interval = setInterval(fetchMessages, 5000);
-    return () => clearInterval(interval);
   }, [currentUser._id, receiver._id]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const fetchMessages = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         `/api/chat?sender=${currentUser._id}&receiver=${receiver._id}`
       );
@@ -50,6 +68,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       }
     } catch (error) {
       console.error("Error fetching messages:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,24 +78,35 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     if (!newMessage.trim()) return;
 
     try {
+      const messageData = {
+        sender: currentUser._id,
+        receiver: receiver._id,
+        content: newMessage,
+        roomId,
+      };
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sender: currentUser._id,
-          receiver: receiver._id,
-          content: newMessage,
-        }),
+        body: JSON.stringify(messageData),
       });
 
       if (response.ok) {
+        socketRef.current.emit('message', messageData);
         setNewMessage("");
-        fetchMessages();
       }
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -84,37 +115,27 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       </Box>
 
       <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
-        {messages &&
-          messages.map((message) => (
-            <Box
-              key={message._id}
+        {messages.map((message) => (
+          <Box
+            key={message._id}
+            sx={{
+              display: "flex",
+              justifyContent: message.sender === currentUser._id ? "flex-end" : "flex-start",
+              mb: 2,
+            }}
+          >
+            <Paper
               sx={{
-                display: "flex",
-                justifyContent:
-                  message.sender === currentUser._id
-                    ? "flex-end"
-                    : "flex-start",
-                mb: 2,
+                p: 2,
+                maxWidth: "70%",
+                bgcolor: message.sender === currentUser._id ? "primary.main" : "grey.100",
+                color: message.sender === currentUser._id ? "white" : "text.primary",
               }}
             >
-              <Paper
-                sx={{
-                  p: 2,
-                  maxWidth: "70%",
-                  bgcolor:
-                    message.sender === currentUser._id
-                      ? "primary.main"
-                      : "grey.100",
-                  color:
-                    message.sender === currentUser._id
-                      ? "white"
-                      : "text.primary",
-                }}
-              >
-                <Typography>{message.content}</Typography>
-              </Paper>
-            </Box>
-          ))}
+              <Typography>{message.content}</Typography>
+            </Paper>
+          </Box>
+        ))}
         <div ref={messagesEndRef} />
       </Box>
 
