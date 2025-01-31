@@ -10,7 +10,7 @@ import {
   ListItemText,
   CircularProgress,
 } from "@mui/material";
-import UserDashboardLayout from "../components/layouts/UserDashboardLayout";
+import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout";
 import ChatWindow from "../components/chat/ChatWindow";
 import { useSession } from "next-auth/react";
 
@@ -78,7 +78,7 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <UserDashboardLayout>
+      <AdminDashboardLayout>
         <Box
           display="flex"
           justifyContent="center"
@@ -87,13 +87,13 @@ export default function ChatPage() {
         >
           <CircularProgress />
         </Box>
-      </UserDashboardLayout>
+      </AdminDashboardLayout>
     );
   }
 
   if (error) {
     return (
-      <UserDashboardLayout>
+      <AdminDashboardLayout>
         <Box
           display="flex"
           justifyContent="center"
@@ -102,12 +102,12 @@ export default function ChatPage() {
         >
           {error}
         </Box>
-      </UserDashboardLayout>
+      </AdminDashboardLayout>
     );
   }
 
   return (
-    <UserDashboardLayout>
+    <AdminDashboardLayout>
       <Box sx={{ flexGrow: 1, height: "calc(100vh - 100px)" }}>
         <Grid container spacing={2} sx={{ height: "100%" }}>
           <Grid item xs={3}>
@@ -151,6 +151,6 @@ export default function ChatPage() {
           </Grid>
         </Grid>
       </Box>
-    </UserDashboardLayout>
+    </AdminDashboardLayout>
   );
 }

@@ -18,7 +18,16 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
-import { Grid, Award, Users, DollarSign, MessageSquare, Settings, ChevronsLeft, LogOut } from "react-feather";
+import {
+  Grid,
+  Award,
+  Users,
+  DollarSign,
+  MessageSquare,
+  Settings,
+  ChevronsLeft,
+  LogOut,
+} from "react-feather";
 import Link from "next/link";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
 
@@ -36,7 +45,7 @@ export default function UserDashboardLayout({ children }) {
     },
     { text: "Friends", path: "/user/friends", icon: <Users size={18} /> },
     { text: "Wallet", path: "/user/wallet", icon: <DollarSign size={18} /> },
-    { text: "Chat", path: "/user/chat", icon: <MessageSquare size={18} /> },
+    { text: "Chat", path: "/chat", icon: <MessageSquare size={18} /> },
     { text: "Settings", path: "/user/settings", icon: <Settings size={18} /> },
   ];
 
@@ -108,7 +117,8 @@ export default function UserDashboardLayout({ children }) {
         <Navbar className="bg-white border-bottom px-4" container={false}>
           <Nav className="ms-auto d-flex align-items-center" navbar>
             <div className="d-flex align-items-center me-3">
-              <NotificationsDropdown /> {/* Placeholder for NotificationsDropdown */}
+              <NotificationsDropdown />{" "}
+              {/* Placeholder for NotificationsDropdown */}
               <UncontrolledDropdown dropup inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image

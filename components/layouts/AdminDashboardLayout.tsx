@@ -59,7 +59,7 @@ export default function AdminDashboardLayout({
       icon: <DollarSign size={20} />,
       path: "/admin/payouts",
     },
-    { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin/chat" },
+    { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin-chat" },
     { text: "Settings", icon: <Settings size={20} />, path: "/admin/settings" },
   ];
 
@@ -194,10 +194,14 @@ export default function AdminDashboardLayout({
                   <DropdownItem>Profile</DropdownItem>
                   <DropdownItem>Settings</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem onClick={() => {
-                    dispatch(logout());
-                    router.push('/auth/login');
-                  }}>Logout</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      dispatch(logout());
+                      router.push("/auth/login");
+                    }}
+                  >
+                    Logout
+                  </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </div>

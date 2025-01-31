@@ -1,6 +1,12 @@
-
 import { useState, useEffect, useRef } from "react";
-import { Box, TextField, Button, Typography, Paper, CircularProgress } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { io } from "socket.io-client";
 
@@ -28,18 +34,20 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const socketRef = useRef<any>(null);
-  const roomId = [currentUser._id, receiver._id].sort().join('-');
+  const roomId = [currentUser._id, receiver._id].sort().join("-");
 
   useEffect(() => {
-    socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://0.0.0.0:3000');
-    socketRef.current.emit('join', roomId);
+    socketRef.current = io(
+      process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000"
+    );
+    socketRef.current.emit("join", roomId);
 
-    socketRef.current.on('message', (message: Message) => {
+    socketRef.current.on("message", (message: Message) => {
       setMessages((prev) => [...prev, message]);
     });
 
     return () => {
-      socketRef.current.emit('leave', roomId);
+      socketRef.current.emit("leave", roomId);
       socketRef.current.disconnect();
     };
   }, [roomId]);
@@ -92,7 +100,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       });
 
       if (response.ok) {
-        socketRef.current.emit('message', messageData);
+        socketRef.current.emit("message", messageData);
         setNewMessage("");
       }
     } catch (error) {
@@ -102,7 +110,14 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -115,27 +130,38 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       </Box>
 
       <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
-        {messages.map((message) => (
-          <Box
-            key={message._id}
-            sx={{
-              display: "flex",
-              justifyContent: message.sender === currentUser._id ? "flex-end" : "flex-start",
-              mb: 2,
-            }}
-          >
-            <Paper
+        {messages.map((message) => {
+          return (
+            <Box
+              key={message._id}
               sx={{
-                p: 2,
-                maxWidth: "70%",
-                bgcolor: message.sender === currentUser._id ? "primary.main" : "grey.100",
-                color: message.sender === currentUser._id ? "white" : "text.primary",
+                display: "flex",
+                justifyContent:
+                  message.sender === currentUser._id
+                    ? "flex-end"
+                    : "flex-start",
+                mb: 2,
               }}
             >
-              <Typography>{message.content}</Typography>
-            </Paper>
-          </Box>
-        ))}
+              <Paper
+                sx={{
+                  p: 2,
+                  maxWidth: "70%",
+                  bgcolor:
+                    message.sender == currentUser._id
+                      ? "primary.main"
+                      : "grey.100",
+                  color:
+                    message.sender == currentUser._id
+                      ? "white"
+                      : "text.primary",
+                }}
+              >
+                <Typography>{message.content}</Typography>
+              </Paper>
+            </Box>
+          );
+        })}
         <div ref={messagesEndRef} />
       </Box>
 
