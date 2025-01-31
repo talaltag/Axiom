@@ -1,9 +1,9 @@
 
-import { Server as SocketServer } from 'socket.io';
-import { Server as HTTPServer } from 'http';
-import { Server as HTTPSServer } from 'https';
+const { Server: SocketServer } = require('socket.io');
+const { Server: HTTPServer } = require('http');
+const { Server: HTTPSServer } = require('https');
 
-export function initSocket(server: HTTPServer | HTTPSServer) {
+function initSocket(server) {
   const io = new SocketServer(server, {
     cors: {
       origin: '*',
@@ -17,12 +17,12 @@ export function initSocket(server: HTTPServer | HTTPSServer) {
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
 
-    socket.on('join', (roomId: string) => {
+    socket.on('join', (roomId) => {
       socket.join(roomId);
       console.log(`User joined room: ${roomId}`);
     });
 
-    socket.on('leave', (roomId: string) => {
+    socket.on('leave', (roomId) => {
       socket.leave(roomId);
       console.log(`User left room: ${roomId}`);
     });
@@ -39,3 +39,5 @@ export function initSocket(server: HTTPServer | HTTPSServer) {
 
   return io;
 }
+
+module.exports = { initSocket };
