@@ -1,9 +1,10 @@
+
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
-import { getSession } from "next-auth/react";
-import Stripe from "stripe";
+import Deposit from "../../../models/Deposit";
 import { withAuth } from "../../../middleware/withAuth";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
@@ -36,7 +37,21 @@ export default withAuth(async function handler(
     }
 
     await dbConnect();
-    const user = await User.findById(userId);
+    
+    // Create deposit record
+    const deposit = await Deposit.create({
+      userId,
+      amount,
+      status: 'completed',
+      paymentIntentId
+    });
+
+    // Update user's wallet balance
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { walletBalance: amount } },
+      { new: true }
+    );
 
     if (!user) {
       return res
@@ -44,12 +59,13 @@ export default withAuth(async function handler(
         .json({ success: false, message: "User not found" });
     }
 
-    // Update wallet balance
-    user.walletBalance = (user.walletBalance || 0) + amount;
-    await user.save();
-
-    res.status(200).json({ success: true, balance: user.walletBalance });
+    res.status(200).json({ 
+      success: true, 
+      balance: user.walletBalance,
+      deposit: deposit 
+    });
   } catch (error) {
+    console.error("Deposit error:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
