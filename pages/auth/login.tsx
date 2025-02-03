@@ -6,7 +6,7 @@ import Logo from "../../components/auth/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
@@ -14,6 +14,18 @@ export default function Login() {
   const { error, isLoading, user } = useSelector(
     (state: RootState) => state.auth
   );
+
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.data?.user) {
+      const route =
+        session.data.user.role === "Admin" || session.data.user.role === "admin"
+          ? "/admin/dashboard"
+          : "/user/dashboard";
+      router.push(route);
+    }
+  }, [session]);
 
   const handleLogin = async (email: string, password: string) => {
     const result = await signIn("credentials", {

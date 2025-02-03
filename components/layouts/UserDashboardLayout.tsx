@@ -30,6 +30,7 @@ import {
 } from "react-feather";
 import Link from "next/link";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
+import { signOut } from "next-auth/react";
 
 export default function UserDashboardLayout({ children }) {
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function UserDashboardLayout({ children }) {
 
   const handleLogout = () => {
     dispatch(logout());
+    signOut({ redirect: false });
     router.push("/auth/login");
   };
 

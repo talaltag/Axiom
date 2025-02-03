@@ -32,6 +32,7 @@ import {
   ChevronDown,
   ChevronsLeft,
 } from "react-feather";
+import { signOut } from "next-auth/react";
 
 export default function AdminDashboardLayout({
   children,
@@ -197,6 +198,7 @@ export default function AdminDashboardLayout({
                   <DropdownItem
                     onClick={() => {
                       dispatch(logout());
+                      signOut({ redirect: false });
                       router.push("/auth/login");
                     }}
                   >
