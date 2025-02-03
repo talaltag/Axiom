@@ -31,29 +31,23 @@ export default withAuth(async function handler(
   }
 
   // Validate payment amount matches tournament fee
-  const tournament = await Tournament.findById(tournamentRegistration.tournament);
-  if (!tournament) {
-    return res.status(404).json({ success: false, message: "Tournament not found" });
+  const tournamentRegistration = await TournamentRegistration.findById(id);
+  if (!tournamentRegistration) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Tournament not found" });
   }
 
-  const tournamentFee = parseFloat(tournament.entryFee);
-  if (paymentMethod === 'stripe' && Math.abs(amount - tournamentFee) > 0.01) {
-    return res.status(400).json({ 
-      success: false, 
-      message: "Payment amount does not match tournament fee" 
+  const tournamentFee = parseFloat(tournamentRegistration.tournament.entryFee);
+  if (Math.abs(amount - tournamentFee) > 0.01) {
+    return res.status(400).json({
+      success: false,
+      message: "Payment amount does not match tournament fee",
     });
   }
 
   try {
     await dbConnect();
-
-    // Check if the TournamentRegistration exists
-    const tournamentRegistration = await TournamentRegistration.findById(id);
-    if (!tournamentRegistration) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Tournament registration not found" });
-    }
 
     // Initialize the memberPayments array if it doesn't exist
     if (!tournamentRegistration.memberPayments) {
@@ -90,20 +84,28 @@ export default withAuth(async function handler(
       });
 
       // Get tournament entry fee
-      const tournament = await Tournament.findById(tournamentRegistration.tournament);
+      const tournament = await Tournament.findById(
+        tournamentRegistration.tournament
+      );
       if (!tournament) {
-        return res.status(404).json({ success: false, message: "Tournament not found" });
+        return res
+          .status(404)
+          .json({ success: false, message: "Tournament not found" });
       }
 
       if (paymentMethod === "wallet") {
         // Get user and check balance
         const user = await User.findById(userId);
         if (!user) {
-          return res.status(404).json({ success: false, message: "User not found" });
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
         }
 
         if (user.walletBalance < tournament.entryFee) {
-          return res.status(400).json({ success: false, message: "Insufficient wallet balance" });
+          return res
+            .status(400)
+            .json({ success: false, message: "Insufficient wallet balance" });
         }
 
         // Deduct from wallet

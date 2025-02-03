@@ -46,8 +46,6 @@ export default function ConfirmRegistration() {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [walletBalance, setWalletBalance] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [cardDetails, setCardDetails] = useState({
     number: "",
     name: "",
@@ -66,13 +64,13 @@ export default function ConfirmRegistration() {
 
   const fetchWalletBalance = async () => {
     try {
-      const response = await fetch('/api/wallet/balance');
+      const response = await fetch("/api/wallet/balance");
       const data = await response.json();
       if (data.success) {
         setWalletBalance(data.balance);
       }
     } catch (error) {
-      console.error('Error fetching wallet balance:', error);
+      console.error("Error fetching wallet balance:", error);
     }
   };
 
@@ -391,26 +389,34 @@ export default function ConfirmRegistration() {
                         Back
                       </Button>
                       {paymentMethod === "wallet" && (
-                        <Button 
-                          color="warning" 
+                        <Button
+                          color="warning"
                           onClick={async () => {
                             try {
                               setLoading(true);
                               setError("");
-                              
-                              if (walletBalance < parseFloat(registrationData.tournament.entryFee)) {
+
+                              if (
+                                walletBalance <
+                                parseFloat(registrationData.tournament.entryFee)
+                              ) {
                                 setError("Insufficient wallet balance");
                                 return;
                               }
 
-                              const response = await fetch(`/api/tournament-registrations/${team_id}/pay`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                  paymentMethod: "wallet",
-                                  paymentToken: Date.now().toString()
-                                })
-                              });
+                              const response = await fetch(
+                                `/api/tournament-registrations/${team_id}/pay`,
+                                {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    paymentMethod: "wallet",
+                                    paymentToken: Date.now().toString(),
+                                  }),
+                                }
+                              );
 
                               const data = await response.json();
                               if (data.success) {

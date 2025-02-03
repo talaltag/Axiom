@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 interface Tournament {
+  _id: string;
   title: string;
   date: string;
   time: string;
@@ -181,7 +182,15 @@ export default function UserDashboard() {
                                 <h6 className="mb-0">${tournament.entryFee}</h6>
                               </div>
                             </div>
-                            <Button color="warning" block>
+                            <Button
+                              color="warning"
+                              block
+                              onClick={() =>
+                                router.push(
+                                  `/user/dashboard/register-tournament/${tournament._id}`
+                                )
+                              }
+                            >
                               Register Now{" "}
                               <ArrowRight size={16} className="ms-2" />
                             </Button>
