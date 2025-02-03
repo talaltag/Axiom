@@ -22,12 +22,26 @@ export default withAuth(async function handler(
   }
 
   const { id } = req.query;
-  const { paymentToken, paymentMethod } = req.body;
+  const { paymentToken, paymentMethod, amount } = req.body;
 
   if (!paymentToken || !paymentMethod) {
     return res
       .status(400)
       .json({ success: false, message: "Payment details required" });
+  }
+
+  // Validate payment amount matches tournament fee
+  const tournament = await Tournament.findById(tournamentRegistration.tournament);
+  if (!tournament) {
+    return res.status(404).json({ success: false, message: "Tournament not found" });
+  }
+
+  const tournamentFee = parseFloat(tournament.entryFee);
+  if (paymentMethod === 'stripe' && Math.abs(amount - tournamentFee) > 0.01) {
+    return res.status(400).json({ 
+      success: false, 
+      message: "Payment amount does not match tournament fee" 
+    });
   }
 
   try {

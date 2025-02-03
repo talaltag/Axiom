@@ -50,6 +50,12 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           return;
         }
 
+        if (paymentIntent.status !== 'succeeded') {
+          setErrorMessage('Payment was not successful');
+          setIsProcessing(false);
+          return;
+        }
+
         // Update tournament registration status
         const response = await fetch(
           `/api/tournament-registrations/${teamId}/pay`,
@@ -62,9 +68,17 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
               paymentToken: paymentIntent.id,
               paymentStatus: "completed",
               paymentMethod: "stripe",
+              amount: paymentIntent.amount / 100, // Convert from cents back to dollars
             }),
           }
         );
+
+        const data = await response.json();
+        if (!data.success) {
+          setErrorMessage(data.message || 'Failed to update registration status');
+          setIsProcessing(false);
+          return;
+        }
 
         if (response.ok) {
           alert("Payment successful");
