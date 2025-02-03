@@ -12,7 +12,7 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { error, isLoading, user } = useSelector(
-    (state: RootState) => state.auth,
+    (state: RootState) => state.auth
   );
 
   const handleLogin = async (email: string, password: string) => {
@@ -25,9 +25,9 @@ export default function Login() {
       console.error(result.error);
     }
     if (result.ok) {
-      const user = await fetch("/api/auth/session").then((res) => res.json());
+      const data = await fetch("/api/auth/session").then((res) => res.json());
       const route =
-        user.role === "Admin" || user.role === "admin"
+        data.user.role === "Admin" || data.user.role === "admin"
           ? "/admin/dashboard"
           : "/user/dashboard";
       router.push(route);

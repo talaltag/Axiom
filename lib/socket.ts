@@ -3,7 +3,6 @@ const { Server: HTTPServer } = require("http");
 const { Server: HTTPSServer } = require("https");
 
 function initSocket(server) {
-  console.log("asdasdasd");
   const io = new SocketServer(server, {
     cors: {
       origin: "*",

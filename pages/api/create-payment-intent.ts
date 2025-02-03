@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import { withAuth } from "../../middleware/withAuth";
 
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
 });
 
-export default async function handler(
+export default withAuth(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -29,4 +30,4 @@ export default async function handler(
     console.error("Error creating payment intent:", error);
     res.status(500).json({ message: "Error creating payment intent" });
   }
-}
+});
