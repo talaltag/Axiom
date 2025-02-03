@@ -6,6 +6,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  walletBalance: {
+    type: Number,
+    default: 0,
+  },
   email: {
     type: String,
     required: true,
