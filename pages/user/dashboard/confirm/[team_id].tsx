@@ -45,6 +45,9 @@ export default function ConfirmRegistration() {
   const [paymentMethod, setPaymentMethod] = useState("wallet");
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [cardDetails, setCardDetails] = useState({
     number: "",
     name: "",
@@ -57,8 +60,21 @@ export default function ConfirmRegistration() {
   useEffect(() => {
     if (team_id) {
       fetchRegistrationDetails();
+      fetchWalletBalance();
     }
   }, [team_id]);
+
+  const fetchWalletBalance = async () => {
+    try {
+      const response = await fetch('/api/wallet/balance');
+      const data = await response.json();
+      if (data.success) {
+        setWalletBalance(data.balance);
+      }
+    } catch (error) {
+      console.error('Error fetching wallet balance:', error);
+    }
+  };
 
   const fetchRegistrationDetails = async () => {
     try {
@@ -226,7 +242,7 @@ export default function ConfirmRegistration() {
                           onClick={() => setPaymentMethod("wallet")}
                         >
                           <div className="text-center">
-                            <h6>$120.00</h6>
+                            <h6>${walletBalance}</h6>
                             <small>Axiom Wallet</small>
                           </div>
                         </Card>
@@ -374,9 +390,46 @@ export default function ConfirmRegistration() {
                       <Button color="secondary" onClick={handleBack}>
                         Back
                       </Button>
-                      {/* <Button color="warning" onClick={handlePayment}>
-                      Pay Now
-                    </Button> */}
+                      {paymentMethod === "wallet" && (
+                        <Button 
+                          color="warning" 
+                          onClick={async () => {
+                            try {
+                              setLoading(true);
+                              setError("");
+                              
+                              if (walletBalance < parseFloat(registrationData.tournament.entryFee)) {
+                                setError("Insufficient wallet balance");
+                                return;
+                              }
+
+                              const response = await fetch(`/api/tournament-registrations/${team_id}/pay`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  paymentMethod: "wallet",
+                                  paymentToken: Date.now().toString()
+                                })
+                              });
+
+                              const data = await response.json();
+                              if (data.success) {
+                                router.push("/user/dashboard/tournaments");
+                              } else {
+                                setError(data.message || "Payment failed");
+                              }
+                            } catch (err) {
+                              setError("Payment failed");
+                            } finally {
+                              setLoading(false);
+                            }
+                          }}
+                          disabled={loading}
+                        >
+                          {loading ? "Processing..." : "Pay with Wallet"}
+                        </Button>
+                      )}
+                      {error && <div className="text-danger mt-2">{error}</div>}
                     </div>
                   </>
                 )}
