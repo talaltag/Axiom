@@ -35,15 +35,29 @@ export default function Wallet() {
     }
   };
 
-  const handleDeposit = async () => {
+  const [depositAmount, setDepositAmount] = useState('');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const handleDeposit = () => {
+    setIsModalOpen(true);
+    setShowPaymentForm(false);
+    setDepositAmount('');
+  };
+
+  const handleNext = async () => {
+    if (!depositAmount || parseFloat(depositAmount) <= 0) {
+      alert('Please enter a valid amount');
+      return;
+    }
+
     const response = await fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: 0 }) // Amount will be set in StripeDepositForm
+      body: JSON.stringify({ amount: parseFloat(depositAmount) })
     });
     const data = await response.json();
     setClientSecret(data.clientSecret);
-    setIsModalOpen(true);
+    setShowPaymentForm(true);
   };
 
   return (
@@ -93,10 +107,27 @@ export default function Wallet() {
         <Modal isOpen={isModalOpen} toggle={() => setIsModalOpen(false)}>
           <ModalHeader toggle={() => setIsModalOpen(false)}>Deposit Funds</ModalHeader>
           <ModalBody>
-            {stripePromise && clientSecret && (
-              <Elements stripe={stripePromise} options={{ clientSecret }}>
-                <StripeDepositForm clientSecret={clientSecret} />
-              </Elements>
+            {!showPaymentForm ? (
+              <div>
+                <div className="form-group mb-3">
+                  <label>Amount to Deposit ($)</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={depositAmount}
+                    onChange={(e) => setDepositAmount(e.target.value)}
+                    min="1"
+                    required
+                  />
+                </div>
+                <Button color="primary" onClick={handleNext}>Next</Button>
+              </div>
+            ) : (
+              stripePromise && clientSecret && (
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <StripeDepositForm clientSecret={clientSecret} />
+                </Elements>
+              )
             )}
           </ModalBody>
         </Modal>
