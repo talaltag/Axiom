@@ -15,7 +15,9 @@ export default withAuth(async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, message: "Method not allowed" });
   }
 
   const userId = req.user.id;
@@ -24,36 +26,43 @@ export default withAuth(async function handler(
   }
 
   try {
-    const { amount, accountId } = req.body;
+    const { amount, paymentIntentId } = req.body;
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      amount: Math.round(amount * 100),
-      currency: "usd",
-      payment_intent_data: {
-        application_fee_amount: 0,
-        transfer_data: {
-          destination: accountId,
-        },
-      },
-      success_url: `${process.env.NEXT_PUBLIC_URL}/user/wallet?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/user/wallet?success=false`,
-    });
+    // Verify payment intent
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    if (paymentIntent.status !== "succeeded") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Payment not successful" });
+    }
 
     await dbConnect();
     
-    // Create pending deposit record
-    await Deposit.create({
+    // Create deposit record
+    const deposit = await Deposit.create({
       userId,
       amount,
-      status: 'pending',
-      paymentIntentId: session.payment_intent as string
+      status: 'completed',
+      paymentIntentId
     });
 
+    // Update user's wallet balance
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { walletBalance: amount } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
     res.status(200).json({ 
-      success: true,
-      checkoutUrl: session.url
+      success: true, 
+      balance: user.walletBalance,
+      deposit: deposit 
     });
   } catch (error) {
     console.error("Deposit error:", error);
