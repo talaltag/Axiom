@@ -1,65 +1,49 @@
 import { useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "reactstrap";
 
 interface StripeDepositFormProps {
-  clientSecret: string;
+  accountId: string;
   amount: string;
 }
 
 export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
-  clientSecret,
+  accountId,
   amount,
 }) => {
-  const stripe = useStripe();
-  const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stripe || !elements || isProcessing) {
-      return;
-    }
+    if (isProcessing) return;
 
     setIsProcessing(true);
-    const cardElement = elements.getElement(CardElement);
+    try {
+      // Create payment intent for Connect
+      const response = await fetch("/api/wallet/deposit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: parseFloat(amount),
+          accountId,
+        }),
+      });
 
-    if (cardElement) {
-      try {
-        const { error: paymentError, paymentIntent } =
-          await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-              card: cardElement,
-            },
-          });
-
-        if (paymentError) {
-          setError(paymentError.message || "Payment failed");
-          return;
-        }
-
-        // Update wallet balance
-        const response = await fetch("/api/wallet/deposit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: parseFloat(amount),
-            paymentIntentId: paymentIntent.id,
-          }),
-        });
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      } catch (err) {
-        setError("An error occurred during payment");
-      } finally {
-        setIsProcessing(false);
+      if (!response.ok) {
+        throw new Error("Failed to process deposit");
       }
+
+      const data = await response.json();
+
+      // Redirect to Stripe Connect payment page
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setError("An error occurred during payment");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -68,16 +52,13 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
       <div className="mb-3">
         <label className="form-label">Amount to Deposit ($)</label>
       </div>
-      <div className="mb-3 border p-3 rounded">
-        <CardElement />
-      </div>
       <Button
         type="submit"
         color="warning"
-        disabled={!stripe || isProcessing}
+        disabled={isProcessing}
         className="w-100"
       >
-        {isProcessing ? "Processing..." : "Deposit Funds"}
+        {isProcessing ? "Processing..." : "Continue to Payment"}
       </Button>
       {error && <div className="text-danger mt-2">{error}</div>}
     </form>
