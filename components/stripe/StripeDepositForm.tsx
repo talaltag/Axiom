@@ -52,9 +52,9 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
           }),
         });
 
-        // if (response.ok) {
-        //   window.location.reload();
-        // }
+        if (response.ok) {
+          window.location.reload();
+        }
       } catch (err) {
         setError("An error occurred during payment");
       } finally {
