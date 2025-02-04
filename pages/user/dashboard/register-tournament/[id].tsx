@@ -134,8 +134,8 @@ export default function TournamentRegistration() {
                   </p>
                 </div>
                 <div className="d-flex align-items-center">
-                  <div>
-                    <small className="text-muted d-block mb-1">Entry Cost</small>
+                  <div className="ms-auto">
+                    <small className="text-muted d-block mb-1 text-end">Entry Cost</small>
                     <h3 className="text-danger fs-2 fw-bold mb-0">$200</h3>
                   </div>
                 </div>
