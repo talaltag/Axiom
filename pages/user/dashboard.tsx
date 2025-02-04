@@ -237,7 +237,7 @@ export default function UserDashboard() {
                   style={{
                     background: "#FFD600",
                     borderRadius: "16px",
-                    padding: "32px 24px",
+                    padding: "40px 24px 32px",
                   }}
                 >
                   <div 
@@ -246,45 +246,59 @@ export default function UserDashboard() {
                       top: "50%",
                       left: "50%",
                       transform: "translate(-50%, -50%)",
-                      width: "300px",
-                      height: "300px",
+                      width: "400px",
+                      height: "400px",
                       background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)"
                     }}
                   />
-                  <div className="d-flex justify-content-between align-items-end mb-5">
-                    <div className="text-center" style={{ flex: 1, position: "relative", top: "24px" }}>
-                      <div className="mb-2">MirayK</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
-                        <div className="mb-1">2nd</div>
-                        <div style={{ color: "#FFD600" }}>1223</div>
+                  <div className="d-flex justify-content-between align-items-end position-relative" style={{ marginBottom: "80px" }}>
+                    <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
+                      <Image
+                        src="/user1.png"
+                        alt="MirayK"
+                        width={56}
+                        height={56}
+                        className="rounded-circle mx-auto mb-2"
+                      />
+                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>MirayK</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
+                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>2nd</div>
+                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>1223</div>
                       </div>
                     </div>
-                    <div className="text-center" style={{ flex: 1, position: "relative" }}>
-                      <div style={{ position: "relative", marginBottom: "8px" }}>
-                        <div className="position-absolute" style={{ top: "-28px", left: "50%", transform: "translateX(-50%)" }}>
-                          <div className="d-flex align-items-center justify-content-center" style={{ width: "24px", height: "24px", background: "#FFD600", borderRadius: "50%" }}>
-                            <Image src="/crown-icon.svg" width={14} height={14} alt="Crown" />
+                    <div className="text-center" style={{ flex: 1, position: "relative", bottom: "24px" }}>
+                      <div style={{ position: "relative", marginBottom: "12px" }}>
+                        <div className="position-absolute" style={{ top: "-32px", left: "50%", transform: "translateX(-50%)" }}>
+                          <div className="d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", background: "white", borderRadius: "50%", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
+                            <Image src="/crown-icon.svg" width={20} height={20} alt="Crown" />
                           </div>
                         </div>
                         <Image
                           src="/user1.png"
                           alt="Mert Kahveci"
-                          width={56}
-                          height={56}
+                          width={72}
+                          height={72}
                           className="rounded-circle mx-auto"
                         />
                       </div>
-                      <div className="mb-2">Mert Kahveci</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
-                        <div className="mb-1">1st</div>
-                        <div style={{ color: "#FFD600" }}>1452</div>
+                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Mert Kahveci</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
+                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>1st</div>
+                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>1452</div>
                       </div>
                     </div>
-                    <div className="text-center" style={{ flex: 1, position: "relative", top: "24px" }}>
-                      <div className="mb-2">Onur O.</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
-                        <div className="mb-1">3rd</div>
-                        <div style={{ color: "#FFD600" }}>968</div>
+                    <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
+                      <Image
+                        src="/user1.png"
+                        alt="Onur O."
+                        width={56}
+                        height={56}
+                        className="rounded-circle mx-auto mb-2"
+                      />
+                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Onur O.</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
+                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>3rd</div>
+                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>968</div>
                       </div>
                     </div>
                   </div>
