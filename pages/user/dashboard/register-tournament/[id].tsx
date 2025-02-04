@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Input, Button, Form } from "reactstrap";
+import { Container, Row, Col, Input, Button, Form, Badge } from "reactstrap";
 import Image from "next/image";
 import { Search, ArrowLeft, Bell } from "react-feather";
 
