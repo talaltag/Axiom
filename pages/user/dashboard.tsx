@@ -225,55 +225,91 @@ export default function UserDashboard() {
           <Col md={8}>
             <Card className="border-0 mb-4">
               <CardBody>
-                <CardTitle tag="h5" className="mb-4">Last Game Stats</CardTitle>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <CardTitle tag="h5" className="mb-0">Last Game Stats</CardTitle>
+                </div>
                 {gameStats.map((stat, index) => (
                   <div key={index} className="mb-4">
                     <div className="d-flex justify-content-between mb-2">
-                      <span>{stat.name}</span>
-                      <span>{stat.lastScore}</span>
+                      <span className="text-dark">{stat.name}</span>
+                      <span className="text-dark">{stat.lastScore}</span>
                     </div>
-                    <Progress value={stat.score} color="warning" />
+                    <Progress 
+                      value={stat.score} 
+                      style={{
+                        height: "8px",
+                        backgroundColor: "#F4F4F4",
+                      }}
+                      color="warning"
+                    />
                   </div>
                 ))}
+                <div className="mt-4 p-3 text-center" style={{ backgroundColor: "#FFD600", borderRadius: "8px" }}>
+                  <div className="fw-bold mb-1">98%</div>
+                  <div className="text-muted">Winning streak</div>
+                </div>
               </CardBody>
             </Card>
           </Col>
           <Col md={4}>
             <Card className="border-0">
               <CardBody>
-                <CardTitle tag="h5" className="mb-4">Leaderboard</CardTitle>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <CardTitle tag="h5" className="mb-0">Leaderboard</CardTitle>
+                  <span className="text-muted" style={{ cursor: "pointer" }}>More</span>
+                </div>
+                <div className="text-center mb-4 position-relative">
+                  <div className="d-flex justify-content-around align-items-end mb-4">
+                    <div className="text-center order-1" style={{ marginBottom: "20px" }}>
+                      <Image src="/user1.png" alt="2nd" width={48} height={48} className="rounded-circle mb-2" />
+                      <div className="text-muted">Mirayk</div>
+                      <div className="text-muted small">2nd</div>
+                    </div>
+                    <div className="text-center order-0">
+                      <div className="position-relative">
+                        <Image src="/user1.png" alt="1st" width={64} height={64} className="rounded-circle mb-2" />
+                        <span className="position-absolute top-0 start-100 translate-middle">
+                          👑
+                        </span>
+                      </div>
+                      <div className="text-muted">Matt Safaied</div>
+                      <div className="text-muted small">1st</div>
+                    </div>
+                    <div className="text-center order-2" style={{ marginBottom: "20px" }}>
+                      <Image src="/user1.png" alt="3rd" width={48} height={48} className="rounded-circle mb-2" />
+                      <div className="text-muted">Omar O.</div>
+                      <div className="text-muted small">3rd</div>
+                    </div>
+                  </div>
+                </div>
                 {leaderboardData.map((player, index) => (
-                  <div key={index} className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="d-flex align-items-center">
-                      <div 
-                        className="me-3" 
-                        style={{ 
-                          width: "24px", 
-                          height: "24px", 
-                          borderRadius: "50%", 
-                          backgroundColor: "#F4F6F8", 
-                          display: "flex", 
-                          alignItems: "center", 
-                          justifyContent: "center",
-                          fontSize: "12px",
-                          color: "#6C757D"
-                        }}
-                      >
-                        {player.rank}
-                      </div>
-                      <div className="d-flex align-items-center">
-                        <Image
-                          src={player.avatar}
-                          alt={player.name}
-                          width={32}
-                          height={32}
-                          className="rounded-circle me-2"
-                        />
-                        <div>
-                          <div style={{ fontSize: "14px" }}>{player.name}</div>
-                          <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
-                        </div>
-                      </div>
+                  <div key={index} className="d-flex align-items-center mb-3 p-2" style={{ backgroundColor: "#F8F9FA", borderRadius: "8px" }}>
+                    <div 
+                      className="me-3" 
+                      style={{ 
+                        width: "24px", 
+                        height: "24px", 
+                        borderRadius: "50%", 
+                        backgroundColor: "#FFFFFF", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center",
+                        fontSize: "12px",
+                        color: "#6C757D"
+                      }}
+                    >
+                      {player.rank}
+                    </div>
+                    <Image
+                      src={player.avatar}
+                      alt={player.name}
+                      width={32}
+                      height={32}
+                      className="rounded-circle me-2"
+                    />
+                    <div>
+                      <div style={{ fontSize: "14px" }}>{player.name}</div>
+                      <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
                     </div>
                   </div>
                 ))}
