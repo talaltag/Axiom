@@ -222,11 +222,56 @@ export default function UserDashboard() {
         </div>
 
         <Row className="pt-5" style={{ paddingTop: "128px" }}>
-          <Col md={8}>
-            <Card className="border-0 mb-4">
+          <Col md={4}>
+            <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "linear-gradient(to bottom, #fff, #fafafa)" }}>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <CardTitle tag="h5" className="mb-0">Last Game Stats</CardTitle>
+                  <CardTitle tag="h5" className="mb-0 fw-bold">Leaderboard</CardTitle>
+                  <span className="text-muted" style={{ cursor: "pointer", fontSize: "14px" }}>More</span>
+                </div>
+                <div className="text-center mb-4 position-relative">
+                  <div className="d-flex justify-content-around align-items-end mb-4">
+                    <div className="text-center order-1" style={{ marginBottom: "20px" }}>
+                      <div className="position-relative">
+                        <Image src="/user1.png" alt="2nd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid #FFD600" }} />
+                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "#FFD600", padding: "2px 8px", borderRadius: "12px", fontSize: "12px" }}>2nd</div>
+                      </div>
+                      <div className="mt-3 fw-bold">Mirayk</div>
+                    </div>
+                    <div className="text-center order-0">
+                      <div className="position-relative">
+                        <Image src="/user1.png" alt="1st" width={64} height={64} className="rounded-circle mb-2" style={{ border: "3px solid #FFD600" }} />
+                        <span className="position-absolute top-0 start-100 translate-middle">👑</span>
+                      </div>
+                      <div className="mt-3 fw-bold">Matt Safaied</div>
+                    </div>
+                    <div className="text-center order-2" style={{ marginBottom: "20px" }}>
+                      <div className="position-relative">
+                        <Image src="/user1.png" alt="3rd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid #FFD600" }} />
+                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "#FFD600", padding: "2px 8px", borderRadius: "12px", fontSize: "12px" }}>3rd</div>
+                      </div>
+                      <div className="mt-3 fw-bold">Omar O.</div>
+                    </div>
+                  </div>
+                </div>
+                {leaderboardData.map((player, index) => (
+                  <div key={index} className="d-flex align-items-center mb-3 p-3" style={{ backgroundColor: "rgba(255, 214, 0, 0.05)", borderRadius: "12px", transition: "all 0.3s ease" }}>
+                    <div className="me-3 fw-bold" style={{ color: "#FFD600", width: "24px" }}>{player.rank}</div>
+                    <Image src={player.avatar} alt={player.name} width={32} height={32} className="rounded-circle me-3" style={{ border: "2px solid #FFD600" }} />
+                    <div className="flex-grow-1">
+                      <div className="fw-bold" style={{ fontSize: "14px" }}>{player.name}</div>
+                      <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
+                    </div>
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={8}>
+            <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "linear-gradient(to bottom, #fff, #fafafa)" }}>
+              <CardBody>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <CardTitle tag="h5" className="mb-0 fw-bold">Last Game Stats</CardTitle>
                 </div>
                 {gameStats.map((stat, index) => (
                   <div key={index} className="mb-4">
@@ -238,15 +283,20 @@ export default function UserDashboard() {
                       value={stat.score} 
                       style={{
                         height: "8px",
-                        backgroundColor: "#F4F4F4",
+                        borderRadius: "4px",
+                        backgroundColor: "rgba(255, 214, 0, 0.1)",
                       }}
                       color="warning"
                     />
                   </div>
                 ))}
-                <div className="mt-4 p-3 text-center" style={{ backgroundColor: "#FFD600", borderRadius: "8px" }}>
-                  <div className="fw-bold mb-1">98%</div>
-                  <div className="text-muted">Winning streak</div>
+                <div className="mt-4 p-4 text-center" style={{ 
+                  background: "linear-gradient(45deg, #FFD600, #FFC107)",
+                  borderRadius: "16px",
+                  boxShadow: "0 4px 12px rgba(255, 214, 0, 0.2)"
+                }}>
+                  <div className="fw-bold mb-1" style={{ fontSize: "24px", color: "#fff" }}>98%</div>
+                  <div style={{ color: "rgba(255, 255, 255, 0.9)" }}>Winning streak</div>
                 </div>
               </CardBody>
             </Card>
