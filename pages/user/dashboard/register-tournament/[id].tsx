@@ -114,10 +114,10 @@ export default function TournamentRegistration() {
   return (
     <UserDashboardLayout>
       <Container fluid>
-        <Row>
+        <Row className="mb-4">
           <Col md={8}>
             <div
-              className="d-flex gap-4 p-4 mb-4 bg-white rounded-3 shadow-sm"
+              className="d-flex gap-4 p-4 h-100 bg-white rounded-3 shadow-sm"
               style={{
                 boxShadow:
                   "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
@@ -354,11 +354,12 @@ export default function TournamentRegistration() {
           </Col>
           <Col md={4}>
             <div
-              className="bg-white p-4 rounded-3"
+              className="bg-white p-4 rounded-3 h-100"
               style={{
                 boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                 border: "1px solid #EAECF0",
-                background: "#FFF"
+                background: "#FFF",
+                height: "100%"
               }}
             >
               <div className="d-flex flex-column">
