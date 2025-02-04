@@ -87,7 +87,7 @@ export default function UserDashboard() {
             </Button>
           </div>
           
-          <div className="position-absolute" style={{ bottom: "-80px", left: "32px", right: "32px" }}>
+          <div className="position-absolute" style={{ bottom: "-120px", left: "32px", right: "32px" }}>
             <Row className="g-4">
           {[
             {
