@@ -140,7 +140,7 @@ export default function TournamentRegistration() {
               </div>
             </div>
 
-            <div className="mb-5">
+            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
               <h5 className="mb-3">Create Team</h5>
               <div className="d-flex align-items-center gap-3 mb-4">
                 <Image
@@ -162,7 +162,7 @@ export default function TournamentRegistration() {
               </div>
             </div>
 
-            <div className="mb-5">
+            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
               <h5 className="mb-3">Invite Friends</h5>
               <div className="position-relative mb-4">
                 <Search
@@ -214,7 +214,7 @@ export default function TournamentRegistration() {
               ))}
             </div>
 
-            <div className="mb-5">
+            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
               <h5 className="mb-3">Terms & Conditions</h5>
               <ul className="ps-3">
                 <li className="mb-2">
