@@ -64,8 +64,8 @@ export default function TournamentRegistration() {
   const handleSendInvite = (friendId: string) => {
     setFriends((prevFriends) =>
       prevFriends.map((friend) =>
-        friend.id === friendId ? { ...friend, status: "invited" } : friend
-      )
+        friend.id === friendId ? { ...friend, status: "invited" } : friend,
+      ),
     );
   };
 
@@ -108,16 +108,21 @@ export default function TournamentRegistration() {
   };
 
   const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <UserDashboardLayout>
       <Container fluid>
-
         <Row>
           <Col md={8}>
-            <div className="d-flex gap-4 p-4 mb-4 bg-white rounded-3 shadow-sm" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+            <div
+              className="d-flex gap-4 p-4 mb-4 bg-white rounded-3 shadow-sm"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+              }}
+            >
               <div className="d-flex align-items-center gap-4 w-100">
                 <Image
                   src={tournament?.images?.[0] || "/fortnite-banner.png"}
@@ -129,18 +134,26 @@ export default function TournamentRegistration() {
                 />
                 <div className="flex-grow-1">
                   <h2 className="fs-3 mb-2">Fortnite Summer Battle</h2>
-                  <p className="text-muted mb-0" style={{ fontSize: '14px' }}>
-                    May 23, 2023  9:00PM - 10:30PM EST
+                  <p className="text-muted mb-0" style={{ fontSize: "14px" }}>
+                    May 23, 2023 9:00PM - 10:30PM EST
                   </p>
                 </div>
                 <div className="text-end">
-                  <div className="text-muted mb-1" style={{ fontSize: '14px' }}>Entry Cost</div>
+                  <div className="text-muted mb-1" style={{ fontSize: "14px" }}>
+                    Entry Cost
+                  </div>
                   <h3 className="text-danger fs-2 fw-bold mb-0">$200</h3>
                 </div>
               </div>
             </div>
 
-            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+            <div
+              className="mb-5 p-4 bg-white rounded-3"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+              }}
+            >
               <h5 className="mb-3">Create Team</h5>
               <div className="d-flex align-items-center gap-3 mb-4">
                 <Image
@@ -162,14 +175,26 @@ export default function TournamentRegistration() {
               </div>
             </div>
 
-            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+            <div
+              className="mb-5 p-4 bg-white rounded-3"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+              }}
+            >
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h5 className="mb-0">Invite Friends</h5>
                 <div className="position-relative" style={{ width: "300px" }}>
                   <Search
                     size={20}
                     className="position-absolute"
-                    style={{ top: "50%", transform: "translateY(-50%)", left: "12px", color: "#667085", zIndex: 1 }}
+                    style={{
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      left: "12px",
+                      color: "#667085",
+                      zIndex: 1,
+                    }}
                   />
                   <Input
                     placeholder="Search Friends"
@@ -180,7 +205,7 @@ export default function TournamentRegistration() {
                       backgroundColor: "#fff",
                       border: "1px solid #D0D5DD",
                       borderRadius: "8px",
-                      height: "40px"
+                      height: "40px",
                     }}
                   />
                 </div>
@@ -200,7 +225,13 @@ export default function TournamentRegistration() {
                       className="rounded-circle me-3"
                     />
                     <div>
-                      <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          color: "#101828",
+                        }}
+                      >
                         {friend.name}
                       </div>
                       <div style={{ fontSize: "14px", color: "#667085" }}>
@@ -214,53 +245,111 @@ export default function TournamentRegistration() {
                     onClick={() => handleSendInvite(friend.id)}
                     disabled={friend.status === "invited"}
                     style={{
-                      backgroundColor: friend.status === "invited" ? "#FFF" : "#FFD600",
-                      border: friend.status === "invited" ? "1px solid #D0D5DD" : "1px solid #FFD600",
+                      backgroundColor:
+                        friend.status === "invited" ? "#FFF" : "#FFD600",
+                      border:
+                        friend.status === "invited"
+                          ? "1px solid #D0D5DD"
+                          : "1px solid #FFD600",
                       color: "#101828",
                       borderRadius: "8px",
                       padding: "6px 12px",
                       fontSize: "14px",
-                      fontWeight: 500
+                      fontWeight: 500,
                     }}
                   >
-                    {friend.status === "invited" ? "Sent Invite" : "Send Invite"}
+                    {friend.status === "invited"
+                      ? "Sent Invite"
+                      : "Send Invite"}
                   </Button>
                 </div>
               ))}
             </div>
 
-            <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
-              <h5 style={{ fontSize: "18px", fontWeight: 500, color: "#101828", marginBottom: "24px" }}>Terms and Conditions</h5>
+            <div
+              className="mb-5 p-4 bg-white rounded-3"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+              }}
+            >
+              <h5
+                style={{
+                  fontSize: "18px",
+                  fontWeight: 500,
+                  color: "#101828",
+                  marginBottom: "24px",
+                }}
+              >
+                Terms and Conditions
+              </h5>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
-                  The Tournament entry fee deduction and winning payment distribution shall
-                  be made equally among the respective team members
+                <li
+                  style={{
+                    color: "#475467",
+                    fontSize: "14px",
+                    marginBottom: "16px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  The Tournament entry fee deduction and winning payment
+                  distribution shall be made equally among the respective team
+                  members
                 </li>
-                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
-                  Your invited team member will received an email to confirm their
-                  registration and participation for this tournament
+                <li
+                  style={{
+                    color: "#475467",
+                    fontSize: "14px",
+                    marginBottom: "16px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  Your invited team member will received an email to confirm
+                  their registration and participation for this tournament
                 </li>
-                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
-                  Once all team members have confirmed their registration, the entry fee
-                  will be automatically deducted from their linked active wallet
+                <li
+                  style={{
+                    color: "#475467",
+                    fontSize: "14px",
+                    marginBottom: "16px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  Once all team members have confirmed their registration, the
+                  entry fee will be automatically deducted from their linked
+                  active wallet
                 </li>
-                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
-                  You can find your overall team registration status in Tournaments section
+                <li
+                  style={{
+                    color: "#475467",
+                    fontSize: "14px",
+                    marginBottom: "16px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  You can find your overall team registration status in
+                  Tournaments section
                 </li>
               </ul>
-              <div className="mt-3" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                className="mt-3"
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
                 <input
                   type="checkbox"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
                   id="terms"
-                  style={{ 
-                    width: "16px", 
+                  style={{
+                    width: "16px",
                     height: "16px",
-                    accentColor: "#FFD600"
+                    accentColor: "#FFD600",
                   }}
                 />
-                <label htmlFor="terms" style={{ fontSize: "14px", color: "#475467", margin: 0 }}>
+                <label
+                  htmlFor="terms"
+                  style={{ fontSize: "14px", color: "#475467", margin: 0 }}
+                >
                   I have read Terms and Conditions and agree
                 </label>
               </div>
@@ -268,9 +357,17 @@ export default function TournamentRegistration() {
           </Col>
 
           <Col md={4}>
-            <div className="bg-white p-4 rounded-3 shadow-sm" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+            <div
+              className="bg-white p-4 rounded-3 shadow-sm"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+              }}
+            >
               <div className="mb-3">
-                <span className="badge bg-success bg-opacity-10 text-success">New</span>
+                <span className="badge bg-success bg-opacity-10 text-success">
+                  New
+                </span>
               </div>
 
               <div className="mb-4">
@@ -330,13 +427,12 @@ export default function TournamentRegistration() {
               </div>
             </div>
           </Col>
-        </Row>
-
-        <div className="d-flex justify-content-end gap-3 mt-4">
+          <Col>
+            <div className="d-flex justify-content-end gap-3 mt-4">
               <Button
                 color="light"
                 onClick={() => router.back()}
-                style={{ 
+                style={{
                   padding: "10px 24px",
                   fontSize: "14px",
                   fontWeight: 500,
@@ -344,7 +440,7 @@ export default function TournamentRegistration() {
                   backgroundColor: "#FFFFFF",
                   border: "1px solid #D0D5DD",
                   borderRadius: "8px",
-                  boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                  boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                 }}
               >
                 ← Back
@@ -360,12 +456,14 @@ export default function TournamentRegistration() {
                   border: "none",
                   borderRadius: "8px",
                   boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                  minWidth: "120px"
+                  minWidth: "120px",
                 }}
               >
                 Register
               </Button>
             </div>
+          </Col>
+        </Row>
       </Container>
     </UserDashboardLayout>
   );
