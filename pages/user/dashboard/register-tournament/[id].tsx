@@ -253,7 +253,7 @@ export default function TournamentRegistration() {
                       padding: "6px 12px",
                       fontSize: "14px",
                       fontWeight: 500,
-                      width: "90px"
+                      width: "100px"
                     }}
                   >
                     {friend.status === "invited" ? "Sent" : "Send Invite"}
