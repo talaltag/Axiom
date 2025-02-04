@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
 import { Container, Row, Col, Input, Button, Form } from "reactstrap";
 import Image from "next/image";
-import { Search, ArrowLeft } from "react-feather";
+import { Search, ArrowLeft, Bell } from "react-feather";
 
 interface Friend {
   id: string;
