@@ -362,8 +362,9 @@ export default function TournamentRegistration() {
             <div
               className="bg-white p-4 rounded-3"
               style={{
-                boxShadow:
-                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                border: "1px solid #EAECF0",
+                background: "#FFF"
               }}
             >
               <div className="d-flex justify-content-between align-items-center mb-4">
