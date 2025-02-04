@@ -355,7 +355,6 @@ export default function TournamentRegistration() {
               </div>
             </div>
           </Col>
-
           <Col md={4}>
             <div
               className="bg-white p-4 rounded-3"
@@ -460,6 +459,8 @@ export default function TournamentRegistration() {
               </div>
             </div>
           </Col>
+        </Row>
+        <Row>
           <Col>
             <div className="d-flex justify-content-end gap-3 mt-4">
               <Button
