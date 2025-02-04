@@ -117,10 +117,11 @@ export default function TournamentRegistration() {
         <Row className="mb-4">
           <Col md={8}>
             <div
-              className="d-flex gap-4 p-4 h-100 bg-white rounded-3 shadow-sm"
+              className="d-flex gap-4 p-4 h-100 bg-white rounded-3"
               style={{
                 boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0"
               }}
             >
               <div className="d-flex align-items-center gap-4 w-100">
@@ -163,14 +164,22 @@ export default function TournamentRegistration() {
                   width={48}
                   height={48}
                   className="rounded-circle"
+                  style={{ border: "2px solid #FFD600" }}
                 />
                 <div className="flex-grow-1">
-                  <div className="mb-1">Team Name *</div>
+                  <div className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Team Name *</div>
                   <Input
                     value={teamName}
                     onChange={(e) => setTeamName(e.target.value)}
-                    placeholder="Team Name"
+                    placeholder="Enter team name"
                     required
+                    style={{
+                      height: "44px",
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      padding: "10px 14px",
+                      fontSize: "16px"
+                    }}
                   />
                 </div>
               </div>
