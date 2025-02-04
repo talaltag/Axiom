@@ -113,7 +113,6 @@ export default function ForgotPasswordForm() {
               disabled={!email}
               style={{
                 backgroundColor: !email ? "rgba(16, 24, 40, 0.25)" : "#FFD600",
-                boxShadow: "0px 4px 4px rgba(16, 24, 40, 0.25)",
                 borderRadius: "8px",
               }}
             >
