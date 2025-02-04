@@ -426,17 +426,15 @@ export default function UserDashboard() {
             </Card>
           </Col>
           <Col md={4}>
+            <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>Last Game Stats</h5>
             <Card
               className="border-0 mb-4 shadow-sm"
               style={{
                 borderRadius: "16px",
-                background: "#FFFFFF",
+                background: "linear-gradient(90deg, rgba(100, 105, 228, 0.75) 0%, #F8CA15 100%)",
               }}
             >
               <CardBody className="p-4">
-                <CardTitle tag="h5" className="mb-4 fw-bold" style={{ fontSize: "16px" }}>
-                  Last Game Stats
-                </CardTitle>
                 {gameStats.map((stat, index) => (
                   <div key={index} className="mb-4">
                     <div className="d-flex flex-column mb-1">
