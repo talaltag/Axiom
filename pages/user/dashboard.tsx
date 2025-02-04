@@ -50,19 +50,40 @@ export default function UserDashboard() {
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <Card className="mb-4 border-0">
-          <div className="position-relative" style={{ height: "300px", borderRadius: "16px", overflow: "hidden" }}>
+        <Card className="mb-4 border-0 position-relative overflow-hidden" style={{ borderRadius: "16px" }}>
+          <div className="position-relative" style={{ height: "400px" }}>
             <Image
               src="/fortnite-banner.png"
               alt="Warzone"
               fill
+              sizes="100vw"
               style={{ objectFit: "cover" }}
             />
-            <div className="position-absolute p-4 text-white">
-              <h2 className="mb-1">Warzone</h2>
-              <p className="mb-2">May 23, 2023 9:00PM - 10:30PM EST</p>
-              <h3 className="mb-3">2022 world champs gaming</h3>
-              <Button color="warning" style={{ backgroundColor: "#FFD600", border: "none" }}>
+            <div 
+              className="position-absolute text-white" 
+              style={{ 
+                top: "32px",
+                left: "32px",
+                right: "32px"
+              }}
+            >
+              <div className="d-flex justify-content-between align-items-start mb-2">
+                <h2 className="mb-0" style={{ fontSize: "32px", fontWeight: 600 }}>Warzone</h2>
+                <div className="text-end">
+                  <div style={{ fontSize: "14px" }}>May 23, 2023</div>
+                  <div style={{ fontSize: "14px" }}>9:00PM - 10:30PM EST</div>
+                </div>
+              </div>
+              <h3 style={{ fontSize: "40px", fontWeight: 700, marginBottom: "24px" }}>2022 world champs gaming</h3>
+              <Button 
+                color="warning" 
+                style={{ 
+                  backgroundColor: "#FFD600",
+                  border: "none",
+                  padding: "8px 16px",
+                  fontWeight: 600
+                }}
+              >
                 Register Now
               </Button>
             </div>
@@ -105,31 +126,41 @@ export default function UserDashboard() {
             }
           ].map((tournament, index) => (
             <Col md={3} key={index}>
-              <Card className="border-0 h-100" style={{ borderRadius: "16px", overflow: "hidden" }}>
-                <div style={{ height: "150px", position: "relative" }}>
+              <Card className="border-0 h-100 tournament-card" style={{ borderRadius: "12px", overflow: "hidden" }}>
+                <div style={{ height: "180px", position: "relative" }}>
                   <Image
                     src={tournament.image}
                     alt={tournament.name}
                     fill
+                    sizes="100vw"
                     style={{ objectFit: "cover" }}
                   />
                 </div>
                 <CardBody>
-                  <h5 className="mb-3">{tournament.name}</h5>
+                  <h5 className="mb-3" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.name}</h5>
+                  <div style={{ fontSize: "14px" }} className="text-muted mb-2">
+                    {tournament.date}<br/>
+                    {tournament.time}
+                  </div>
                   <div className="d-flex justify-content-between mb-2">
-                    <div className="text-muted">Prize</div>
-                    <div className="text-muted">Entry Cost</div>
+                    <div className="text-muted" style={{ fontSize: "14px" }}>Prize</div>
+                    <div className="text-muted" style={{ fontSize: "14px" }}>Entry Cost</div>
                   </div>
                   <div className="d-flex justify-content-between mb-3">
-                    <div className="text-danger">{tournament.prize}</div>
-                    <div className="text-danger">{tournament.entryCost}</div>
+                    <div className="text-danger" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.prize}</div>
+                    <div className="text-danger" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.entryCost}</div>
                   </div>
                   <Button 
-                    color="warning" 
-                    className="w-100"
-                    style={{ backgroundColor: "#FFD600", border: "none" }}
+                    color="link"
+                    className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2"
+                    style={{ 
+                      color: "#FFD600",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      padding: "8px"
+                    }}
                   >
-                    Register Now
+                    Register Now <span>→</span>
                   </Button>
                 </CardBody>
               </Card>
