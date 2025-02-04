@@ -226,41 +226,44 @@ export default function UserDashboard() {
             <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "rgba(248, 202, 21, 1)" }}>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <CardTitle tag="h5" className="mb-0 fw-bold">Leaderboard</CardTitle>
-                  <span className="text-muted" style={{ cursor: "pointer", fontSize: "14px" }}>More</span>
+                  <CardTitle tag="h5" className="mb-0" style={{ fontSize: "16px", fontWeight: 600 }}>Leaderboard</CardTitle>
+                  <span style={{ cursor: "pointer", fontSize: "14px", color: "#101828" }}>More</span>
                 </div>
-                <div className="text-center mb-4 position-relative">
+                <div className="text-center mb-4">
                   <div className="d-flex justify-content-around align-items-end mb-4">
                     <div className="text-center order-1" style={{ marginBottom: "20px" }}>
                       <div className="position-relative">
-                        <Image src="/user1.png" alt="2nd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid #FFD600" }} />
-                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "#FFD600", padding: "2px 8px", borderRadius: "12px", fontSize: "12px" }}>2nd</div>
+                        <Image src="/user1.png" alt="2nd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid white" }} />
+                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "white", padding: "4px 12px", borderRadius: "16px", fontSize: "12px", fontWeight: 500 }}>2nd</div>
                       </div>
-                      <div className="mt-3 fw-bold">Mirayk</div>
+                      <div className="mt-3" style={{ fontSize: "14px", fontWeight: 500 }}>MirayK</div>
+                      <div style={{ fontSize: "12px", color: "#101828" }}>1223</div>
                     </div>
                     <div className="text-center order-0">
                       <div className="position-relative">
-                        <Image src="/user1.png" alt="1st" width={64} height={64} className="rounded-circle mb-2" style={{ border: "3px solid #FFD600" }} />
-                        <span className="position-absolute top-0 start-100 translate-middle">👑</span>
+                        <Image src="/user1.png" alt="1st" width={64} height={64} className="rounded-circle mb-2" style={{ border: "3px solid white" }} />
+                        <span className="position-absolute" style={{ top: "-15px", right: "-15px", fontSize: "24px" }}>👑</span>
                       </div>
-                      <div className="mt-3 fw-bold">Matt Safaied</div>
+                      <div className="mt-3" style={{ fontSize: "14px", fontWeight: 500 }}>Mert Kahveci</div>
+                      <div style={{ fontSize: "12px", color: "#101828" }}>1452</div>
                     </div>
                     <div className="text-center order-2" style={{ marginBottom: "20px" }}>
                       <div className="position-relative">
-                        <Image src="/user1.png" alt="3rd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid #FFD600" }} />
-                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "#FFD600", padding: "2px 8px", borderRadius: "12px", fontSize: "12px" }}>3rd</div>
+                        <Image src="/user1.png" alt="3rd" width={48} height={48} className="rounded-circle mb-2" style={{ border: "2px solid white" }} />
+                        <div className="position-absolute" style={{ bottom: "-10px", left: "50%", transform: "translateX(-50%)", background: "white", padding: "4px 12px", borderRadius: "16px", fontSize: "12px", fontWeight: 500 }}>3rd</div>
                       </div>
-                      <div className="mt-3 fw-bold">Omar O.</div>
+                      <div className="mt-3" style={{ fontSize: "14px", fontWeight: 500 }}>Onur O.</div>
+                      <div style={{ fontSize: "12px", color: "#101828" }}>968</div>
                     </div>
                   </div>
                 </div>
                 {leaderboardData.map((player, index) => (
-                  <div key={index} className="d-flex align-items-center mb-3 p-3" style={{ backgroundColor: "rgba(255, 214, 0, 0.05)", borderRadius: "12px", transition: "all 0.3s ease" }}>
-                    <div className="me-3 fw-bold" style={{ color: "#FFD600", width: "24px" }}>{player.rank}</div>
-                    <Image src={player.avatar} alt={player.name} width={32} height={32} className="rounded-circle me-3" style={{ border: "2px solid #FFD600" }} />
+                  <div key={index} className="d-flex align-items-center mb-3 p-3" style={{ backgroundColor: "white", borderRadius: "12px", transition: "all 0.3s ease" }}>
+                    <div className="me-3" style={{ color: "#101828", width: "24px", fontSize: "14px", fontWeight: 500 }}>{player.rank}</div>
+                    <Image src={player.avatar} alt={player.name} width={32} height={32} className="rounded-circle me-3" style={{ border: "2px solid white" }} />
                     <div className="flex-grow-1">
-                      <div className="fw-bold" style={{ fontSize: "14px" }}>{player.name}</div>
-                      <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>{player.name}</div>
+                      <div style={{ fontSize: "12px", color: "#101828" }}>{player.time}</div>
                     </div>
                   </div>
                 ))}
