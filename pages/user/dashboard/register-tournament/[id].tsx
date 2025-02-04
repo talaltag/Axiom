@@ -246,16 +246,17 @@ export default function TournamentRegistration() {
                     onClick={() => handleSendInvite(friend.id)}
                     disabled={friend.status === "invited"}
                     style={{
-                      backgroundColor: friend.status === "invited" ? "#ECFDF3" : "#FFD600",
-                      border: friend.status === "invited" ? "none" : "1px solid #FFD600",
-                      color: friend.status === "invited" ? "#027A48" : "#101828",
+                      backgroundColor: friend.status === "invited" ? "#FFFFFF" : "#FFD600",
+                      border: friend.status === "invited" ? "1px solid #D0D5DD" : "1px solid #FFD600",
+                      color: "#101828",
                       borderRadius: "8px",
                       padding: "6px 12px",
                       fontSize: "14px",
                       fontWeight: 500,
+                      minWidth: "90px"
                     }}
                   >
-                    {friend.status === "invited" ? "Sent" : "Send Invite"}
+                    {friend.status === "invited" ? "Sent" : "Send"}
                   </Button>
                 </div>
               ))}
