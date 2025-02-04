@@ -99,12 +99,25 @@ export default function Tournaments() {
                     </Button>
                   </div>
                   <div className="d-flex align-items-center">
-                    <Input
-                      type="search"
-                      className="form-control me-2"
-                      placeholder="Search tournaments..."
-                      style={{ width: "250px" }}
-                    />
+                    <div className="position-relative">
+                      <Search
+                        size={20}
+                        className="position-absolute"
+                        style={{
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          left: "12px",
+                          color: "#667085",
+                          zIndex: 1,
+                        }}
+                      />
+                      <Input
+                        type="search"
+                        className="form-control me-2 ps-5"
+                        placeholder="Search tournaments..."
+                        style={{ width: "250px" }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <Row>
