@@ -103,6 +103,11 @@ export default function ForgotPasswordForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="py-2 rounded-3"
+                style={{ 
+                  border: "1px solid #D0D5DD",
+                  outline: "none",
+                  boxShadow: "none"
+                }}
                 required
               />
             </FormGroup>
