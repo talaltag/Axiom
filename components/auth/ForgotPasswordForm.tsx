@@ -114,6 +114,7 @@ export default function ForgotPasswordForm() {
               style={{
                 backgroundColor: !email ? "rgba(16, 24, 40, 0.25)" : "#FFD600",
                 borderRadius: "8px",
+                borderColor: !email ? "rgba(16, 24, 40, 0.25)" : "#FFD600",
               }}
             >
               Submit
