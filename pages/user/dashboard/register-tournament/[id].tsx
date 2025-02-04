@@ -332,43 +332,38 @@ export default function TournamentRegistration() {
           </Col>
         </Row>
 
-        <div className="fixed-bottom bg-white py-3" style={{ boxShadow: "0px -1px 3px rgba(16, 24, 40, 0.1), 0px -1px 2px rgba(16, 24, 40, 0.06)" }}>
-          <Container>
-            <div className="d-flex justify-content-between">
-              <Button
-                color="light"
-                onClick={() => router.back()}
-                style={{ 
-                  padding: "10px 18px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "#344054",
-                  backgroundColor: "#FFFFFF",
-                  border: "1px solid #D0D5DD",
-                  borderRadius: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px"
-                }}
-              >
-                ← Back
-              </Button>
-              <Button
-                color="warning"
-                onClick={handleSubmit}
-                style={{
-                  padding: "10px 18px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  backgroundColor: "#FFD600",
-                  border: "none",
-                  borderRadius: "8px"
-                }}
-              >
-                Register
-              </Button>
-            </div>
-          </Container>
+        <div className="d-flex justify-content-end gap-3 mt-4">
+          <Button
+            color="light"
+            onClick={() => router.back()}
+            style={{ 
+              padding: "10px 16px",
+              fontSize: "14px",
+              fontWeight: 500,
+              color: "#344054",
+              backgroundColor: "#FFFFFF",
+              border: "1px solid #D0D5DD",
+              borderRadius: "8px",
+              width: "97px"
+            }}
+          >
+            ← Back
+          </Button>
+          <Button
+            color="warning"
+            onClick={handleSubmit}
+            style={{
+              padding: "10px 16px",
+              fontSize: "14px",
+              fontWeight: 500,
+              backgroundColor: "#FFD600",
+              border: "none",
+              borderRadius: "8px",
+              width: "97px"
+            }}
+          >
+            Register
+          </Button>
         </div>
       </Container>
     </UserDashboardLayout>
