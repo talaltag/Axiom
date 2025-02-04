@@ -1,4 +1,32 @@
 
+:root {
+  --primary-color: #FFD600;
+  --text-muted: #6C757D;
+  --danger: #DC3545;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  background-color: var(--primary-color);
+}
+
+.btn-warning {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+
 .notification-dropdown {
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   border-radius: 8px !important;
