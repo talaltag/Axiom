@@ -10,6 +10,11 @@ import {
   ModalHeader,
   ModalBody,
   Table,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { loadStripe } from "@stripe/stripe-js";
@@ -22,6 +27,9 @@ export default function Wallet() {
   const [clientSecret, setClientSecret] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [depositHistory, setDepositHistory] = useState([]);
+  const [activeTab, setActiveTab] = useState('deposit');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setStripePromise(
@@ -72,89 +80,176 @@ export default function Wallet() {
     setShowPaymentForm(true);
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setPreviewUrl(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUpload = () => {
+    // Implement your upload logic here.  This is a placeholder.
+    console.log("Uploading:", selectedFile);
+    // Consider using a FormData object for file uploads.
+    alert("Screenshot Uploaded!")
+    setSelectedFile(null);
+    setPreviewUrl(null);
+  };
+
+  const toggle = (tab: string) => {
+    if (activeTab !== tab) setActiveTab(tab);
+  }
+
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <Row>
-          <Col md={8}>
-            <Card className="mb-4">
-              <CardBody>
-                <h4>Axiom Wallet</h4>
-                <div className="d-flex justify-content-between align-items-center mb-4">
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={(activeTab === 'deposit' ? 'active' : '')}
+              onClick={() => { toggle('deposit'); }}
+            >
+              Deposit
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={(activeTab === 'screenshot' ? 'active' : '')}
+              onClick={() => { toggle('screenshot'); }}
+            >
+              Screenshot
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={activeTab}>
+          <TabPane tabId="deposit">
+            <Row>
+              <Col md={8}>
+                <Card className="mb-4">
+                  <CardBody>
+                    <h4>Axiom Wallet</h4>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                      <div>
+                        <h2>${balance.toFixed(2)}</h2>
+                        <small className="text-muted">Available Balance</small>
+                      </div>
+                      <Button color="warning" onClick={handleDeposit}>
+                        Deposit
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+
+                <Card>
+                  <CardBody>
+                    <h5>Deposit History</h5>
+                    <Table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {depositHistory.map((deposit: any) => (
+                          <tr key={deposit._id}>
+                            <td>
+                              {new Date(deposit.createdAt).toLocaleDateString()}
+                            </td>
+                            <td>${deposit.amount.toFixed(2)}</td>
+                            <td>{deposit.status}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+
+            <Modal isOpen={isModalOpen} toggle={() => setIsModalOpen(false)}>
+              <ModalHeader toggle={() => setIsModalOpen(false)}>
+                Deposit Funds
+              </ModalHeader>
+              <ModalBody>
+                {!showPaymentForm ? (
                   <div>
-                    <h2>${balance.toFixed(2)}</h2>
-                    <small className="text-muted">Available Balance</small>
+                    <div className="form-group mb-3">
+                      <label>Amount to Deposit ($)</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={depositAmount}
+                        onChange={(e) => setDepositAmount(e.target.value)}
+                        min="1"
+                        required
+                      />
+                    </div>
+                    <Button color="primary" onClick={handleNext}>
+                      Next
+                    </Button>
                   </div>
-                  <Button color="warning" onClick={handleDeposit}>
-                    Deposit
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
-
-            <Card>
-              <CardBody>
-                <h5>Deposit History</h5>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {depositHistory.map((deposit: any) => (
-                      <tr key={deposit._id}>
-                        <td>
-                          {new Date(deposit.createdAt).toLocaleDateString()}
-                        </td>
-                        <td>${deposit.amount.toFixed(2)}</td>
-                        <td>{deposit.status}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
-        <Modal isOpen={isModalOpen} toggle={() => setIsModalOpen(false)}>
-          <ModalHeader toggle={() => setIsModalOpen(false)}>
-            Deposit Funds
-          </ModalHeader>
-          <ModalBody>
-            {!showPaymentForm ? (
-              <div>
-                <div className="form-group mb-3">
-                  <label>Amount to Deposit ($)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={depositAmount}
-                    onChange={(e) => setDepositAmount(e.target.value)}
-                    min="1"
-                    required
-                  />
-                </div>
-                <Button color="primary" onClick={handleNext}>
-                  Next
-                </Button>
-              </div>
-            ) : (
-              stripePromise &&
-              clientSecret && (
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <StripeDepositForm
-                    clientSecret={clientSecret}
-                    amount={depositAmount}
-                  />
-                </Elements>
-              )
-            )}
-          </ModalBody>
-        </Modal>
+                ) : (
+                  stripePromise &&
+                  clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                      <StripeDepositForm
+                        clientSecret={clientSecret}
+                        amount={depositAmount}
+                      />
+                    </Elements>
+                  )
+                )}
+              </ModalBody>
+            </Modal>
+          </TabPane>
+          <TabPane tabId="screenshot">
+            <Row>
+              <Col md={8}>
+                <Card className="mb-4">
+                  <CardBody>
+                    <h4 className="mb-4">Upload Screenshot</h4>
+                    <div className="mb-4">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileSelect}
+                        className="form-control"
+                      />
+                    </div>
+                    {previewUrl && (
+                      <div className="mb-4">
+                        <img
+                          src={previewUrl}
+                          alt="Preview"
+                          style={{ maxWidth: '100%', maxHeight: '400px' }}
+                          className="rounded"
+                        />
+                      </div>
+                    )}
+                    <Button
+                      color="warning"
+                      onClick={handleUpload}
+                      disabled={!selectedFile}
+                      style={{
+                        backgroundColor: "#FFD600",
+                        borderColor: "#FFD600"
+                      }}
+                    >
+                      Upload Screenshot
+                    </Button>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
       </Container>
     </UserDashboardLayout>
   );
