@@ -239,10 +239,6 @@ export default function UserDashboard() {
 
         <Row style={{ paddingTop: "128px" }}>
           <Col md={8}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="mb-0" style={{ fontSize: "16px", fontWeight: 600 }}>Leaderboard</h5>
-              <span style={{ cursor: "pointer", fontSize: "14px", color: "#101828" }}>More</span>
-            </div>
             <Card
               className="border-0 mb-4"
               style={{
@@ -359,6 +355,12 @@ export default function UserDashboard() {
                             background: "white",
                             padding: "4px 12px",
                             borderRadius: "16px",
+
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="mb-0" style={{ fontSize: "16px", fontWeight: 600 }}>Leaderboard</h5>
+              <span style={{ cursor: "pointer", fontSize: "14px", color: "#101828" }}>More</span>
+            </div>
+
                             fontSize: "12px",
                             fontWeight: 500,
                           }}
