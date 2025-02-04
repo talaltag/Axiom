@@ -44,8 +44,8 @@ export default function ForgotPasswordForm() {
     const code = verificationCode.join("");
     setVerificationError(null);
     
-    if (code.length !== 6 || code.includes("")) {
-      setVerificationError("Verification code is not valid.\nPlease try again!");
+    if (code.includes("")) {
+      setVerificationError("Please enter the complete verification code.");
       return;
     }
     
