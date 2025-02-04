@@ -38,27 +38,9 @@ export default function UserDashboard() {
   ];
 
   const leaderboardData = [
-    { rank: "1st", name: "Mert Kahveci", score: "8456", avatar: "/user1.png" },
-    { rank: "2nd", name: "MirayK", score: "8233", avatar: "/user1.png" },
-    { rank: "3rd", name: "Omar O.", score: "8105", avatar: "/user1.png" },
-    {
-      rank: "4",
-      name: "Jennings Stohler",
-      time: "912 Points",
-      avatar: "/user1.png",
-    },
-    {
-      rank: "5",
-      name: "Scotty Tovias",
-      time: "845 Points",
-      avatar: "/user1.png",
-    },
-    {
-      rank: "6",
-      name: "Ameline Aquila",
-      time: "789 Points",
-      avatar: "/user1.png",
-    },
+    { rank: "4", name: "Jennings Stohler", time: "912 Points", avatar: "/user1.png" },
+    { rank: "5", name: "Scotty Tovias", time: "846 Points", avatar: "/user1.png" },
+    { rank: "6", name: "Amelina Aguila", time: "771 Points", avatar: "/user1.png" },
   ];
 
   return (
@@ -242,11 +224,11 @@ export default function UserDashboard() {
           <Col md={8}>
             <Card className="border-0 mb-4">
               <CardBody className="p-4">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <CardTitle tag="h5" className="mb-0" style={{ fontSize: "18px", fontWeight: 600 }}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <CardTitle tag="h5" className="mb-0" style={{ fontSize: "16px", fontWeight: 600, color: "#101828" }}>
                     Leaderboard
                   </CardTitle>
-                  <Button color="link" className="text-muted p-0" style={{ fontSize: "14px", textDecoration: "none" }}>
+                  <Button color="link" className="text-muted p-0" style={{ fontSize: "14px", textDecoration: "none", color: "#667085" }}>
                     More
                   </Button>
                 </div>
@@ -254,65 +236,76 @@ export default function UserDashboard() {
                   className="position-relative"
                   style={{
                     background: "#FFD600",
-                    borderRadius: "24px",
-                    padding: "24px",
+                    borderRadius: "16px",
+                    padding: "32px 24px",
                   }}
                 >
-                  <div className="d-flex justify-content-between align-items-end mb-5 px-4">
-                    {leaderboardData.slice(0, 3).map((player, index) => (
-                      <div key={index} className="text-center" style={{ position: "relative", top: index === 1 ? "-20px" : "0" }}>
-                        <div style={{ position: "relative" }}>
-                          <Image
-                            src={player.avatar}
-                            alt={player.name}
-                            width={48}
-                            height={48}
-                            className="rounded-circle mb-2"
-                          />
-                          <div 
-                            style={{
-                              position: "absolute",
-                              top: "-24px",
-                              left: "50%",
-                              transform: "translateX(-50%)",
-                              background: index === 1 ? "#FFD600" : "transparent",
-                              borderRadius: "50%",
-                              width: "24px",
-                              height: "24px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontSize: "14px",
-                              fontWeight: "600"
-                            }}
-                          >
-                            {index === 1 && "1"}
+                  <div 
+                    className="position-absolute"
+                    style={{
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: "300px",
+                      height: "300px",
+                      background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)"
+                    }}
+                  />
+                  <div className="d-flex justify-content-between align-items-end mb-5">
+                    <div className="text-center" style={{ flex: 1, position: "relative", top: "24px" }}>
+                      <div className="mb-2">MirayK</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
+                        <div className="mb-1">2nd</div>
+                        <div style={{ color: "#FFD600" }}>1223</div>
+                      </div>
+                    </div>
+                    <div className="text-center" style={{ flex: 1, position: "relative" }}>
+                      <div style={{ position: "relative", marginBottom: "8px" }}>
+                        <div className="position-absolute" style={{ top: "-28px", left: "50%", transform: "translateX(-50%)" }}>
+                          <div className="d-flex align-items-center justify-content-center" style={{ width: "24px", height: "24px", background: "#FFD600", borderRadius: "50%" }}>
+                            <Image src="/crown-icon.svg" width={14} height={14} alt="Crown" />
                           </div>
                         </div>
-                        <div style={{ fontSize: "14px", fontWeight: "500", marginBottom: "4px" }}>{player.name}</div>
-                        <div style={{ fontSize: "14px", color: "#1C1C1C", marginBottom: "4px" }}>{player.score} Points</div>
-                        <div style={{ fontSize: "14px", fontWeight: "600" }}>{player.rank}</div>
+                        <Image
+                          src="/user1.png"
+                          alt="Mert Kahveci"
+                          width={56}
+                          height={56}
+                          className="rounded-circle mx-auto"
+                        />
                       </div>
-                    ))}
+                      <div className="mb-2">Mert Kahveci</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
+                        <div className="mb-1">1st</div>
+                        <div style={{ color: "#FFD600" }}>1452</div>
+                      </div>
+                    </div>
+                    <div className="text-center" style={{ flex: 1, position: "relative", top: "24px" }}>
+                      <div className="mb-2">Onur O.</div>
+                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content" }}>
+                        <div className="mb-1">3rd</div>
+                        <div style={{ color: "#FFD600" }}>968</div>
+                      </div>
+                    </div>
                   </div>
                   {leaderboardData.slice(3).map((player, index) => (
                     <div
                       key={index}
-                      className="d-flex align-items-center mb-2 bg-white rounded-3 p-3"
-                      style={{ boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)" }}
+                      className="d-flex align-items-center bg-white rounded-3 p-3 mb-2"
+                      style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}
                     >
-                      <div className="me-3" style={{ fontSize: "14px", fontWeight: "500", width: "20px" }}>{player.rank}</div>
+                      <div style={{ width: "24px", fontSize: "14px", marginRight: "12px" }}>{player.rank}</div>
+                      <div className="d-flex align-items-center flex-grow-1">
+                        <div style={{ fontSize: "14px", fontWeight: 500 }}>{player.name}</div>
+                        <div className="ms-2" style={{ fontSize: "14px", color: "#667085" }}>{player.time}</div>
+                      </div>
                       <Image
                         src={player.avatar}
                         alt={player.name}
                         width={32}
                         height={32}
-                        className="rounded-circle me-3"
+                        className="rounded-circle"
                       />
-                      <div className="flex-grow-1">
-                        <div style={{ fontSize: "14px", fontWeight: "500" }}>{player.name}</div>
-                        <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
-                      </div>
                     </div>
                   ))}
                 </div>
