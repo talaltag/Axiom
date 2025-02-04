@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import PlatformManagementModal from "../../components/common/PlatformManagementModal";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import classnames from "classnames";
 import {
@@ -33,6 +34,7 @@ export default function Settings() {
     friendRequests: false
   });
   const [message, setMessage] = useState({ type: "", content: "" });
+  const [showPlatformModal, setShowPlatformModal] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("/user1.png");
   const { data: session } = useSession();
@@ -449,6 +451,7 @@ export default function Settings() {
                   <Button
                     color="warning"
                     className="px-3 py-2"
+                    onClick={() => setShowPlatformModal(true)}
                     style={{
                       backgroundColor: '#FFD600',
                       border: 'none',
@@ -459,6 +462,15 @@ export default function Settings() {
                     <i className="fas fa-plus me-2"></i>
                     Add Platform
                   </Button>
+                  <PlatformManagementModal
+                    isOpen={showPlatformModal}
+                    toggle={() => setShowPlatformModal(!showPlatformModal)}
+                    onAddPlatform={(data) => {
+                      console.log('Platform data:', data);
+                      // Add your platform integration logic here
+                      setShowPlatformModal(false);
+                    }}
+                  />
                 </div>
 
                 {[
