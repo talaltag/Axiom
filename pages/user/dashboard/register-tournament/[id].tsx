@@ -120,8 +120,13 @@ export default function TournamentRegistration() {
             size={20}
             onClick={() => router.back()}
           />
-          <span style={{ color: "#667085" }}>
-            Dashboard / Tournament Name
+          <span style={{ color: "#667085", fontSize: "14px" }}>
+            Dashboard{" "}
+            {tournament?.name && (
+              <>
+                / <span className="text-dark">{tournament.name}</span>
+              </>
+            )}
           </span>
         </div>
 
