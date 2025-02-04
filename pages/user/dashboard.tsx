@@ -430,47 +430,44 @@ export default function UserDashboard() {
               className="border-0 mb-4 shadow-sm"
               style={{
                 borderRadius: "16px",
-                background: "linear-gradient(to bottom, #fff, #fafafa)",
+                background: "#FFFFFF",
               }}
             >
-              <CardBody>
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <CardTitle tag="h5" className="mb-0 fw-bold">
-                    Last Game Stats
-                  </CardTitle>
-                </div>
+              <CardBody className="p-4">
+                <CardTitle tag="h5" className="mb-4 fw-bold" style={{ fontSize: "16px" }}>
+                  Last Game Stats
+                </CardTitle>
                 {gameStats.map((stat, index) => (
                   <div key={index} className="mb-4">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="text-dark">{stat.name}</span>
-                      <span className="text-dark">{stat.lastScore}</span>
+                    <div className="d-flex flex-column mb-1">
+                      <span style={{ fontSize: "14px", color: "#344054", marginBottom: "4px" }}>
+                        {stat.name}
+                      </span>
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <small className="text-muted" style={{ fontSize: "12px" }}>
+                          Last Score
+                        </small>
+                        <span style={{ fontSize: "12px", color: "#344054" }}>
+                          {stat.lastScore}
+                        </span>
+                      </div>
                     </div>
                     <Progress
                       value={stat.score}
                       style={{
                         height: "8px",
-                        borderRadius: "4px",
-                        backgroundColor: "rgba(255, 214, 0, 0.1)",
+                        borderRadius: "16px",
+                        backgroundColor: "#F2F4F7",
                       }}
                       color="warning"
                     />
                   </div>
                 ))}
-                <div
-                  className="mt-4 p-4 text-center"
-                  style={{
-                    background: "linear-gradient(45deg, #FFD600, #FFC107)",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 12px rgba(255, 214, 0, 0.2)",
-                  }}
-                >
-                  <div
-                    className="fw-bold mb-1"
-                    style={{ fontSize: "24px", color: "#fff" }}
-                  >
+                <div className="mt-4 p-3 text-center" style={{ background: "#FFD600", borderRadius: "8px" }}>
+                  <div className="fw-bold mb-1" style={{ fontSize: "24px", color: "#101828" }}>
                     98%
                   </div>
-                  <div style={{ color: "rgba(255, 255, 255, 0.9)" }}>
+                  <div style={{ fontSize: "14px", color: "#101828" }}>
                     Winning streak
                   </div>
                 </div>
