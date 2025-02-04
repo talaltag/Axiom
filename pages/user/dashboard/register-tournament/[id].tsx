@@ -117,34 +117,30 @@ export default function TournamentRegistration() {
         <Row className="mb-4">
           <Col md={8}>
             <div
-              className="d-flex gap-4 p-4 h-100 bg-white rounded-3"
+              className="d-flex align-items-center gap-4 p-4 bg-white rounded-3"
               style={{
                 boxShadow:
                   "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
                 border: "1px solid #EAECF0"
               }}
             >
-              <div className="d-flex align-items-center gap-4 w-100">
-                <Image
-                  src={tournament?.images?.[0] || "/fortnite-banner.png"}
-                  alt="Tournament"
-                  width={120}
-                  height={120}
-                  className="rounded-3"
-                  style={{ objectFit: "cover" }}
-                />
-                <div className="flex-grow-1">
-                  <h2 className="fs-3 mb-2">Fortnite Summer Battle</h2>
-                  <p className="text-muted mb-0" style={{ fontSize: "14px" }}>
-                    May 23, 2023 9:00PM - 10:30PM EST
-                  </p>
-                </div>
-                <div className="text-end">
-                  <div className="text-muted mb-1" style={{ fontSize: "14px" }}>
-                    Entry Cost
-                  </div>
-                  <h3 className="text-danger fs-2 fw-bold mb-0">$200</h3>
-                </div>
+              <Image
+                src={tournament?.images?.[0] || "/fortnite-banner.png"}
+                alt="Tournament"
+                width={80}
+                height={80}
+                className="rounded-3"
+                style={{ objectFit: "cover" }}
+              />
+              <div className="flex-grow-1">
+                <h2 style={{ fontSize: "18px", fontWeight: 500, marginBottom: "4px" }}>Fortnite Summer Battle</h2>
+                <p className="text-muted mb-0" style={{ fontSize: "14px" }}>
+                  May 23, 2023 9:00PM - 10:30PM EST
+                </p>
+              </div>
+              <div className="text-end">
+                <div className="text-muted mb-1" style={{ fontSize: "12px" }}>Entry Cost</div>
+                <h3 className="text-danger fw-bold mb-0" style={{ fontSize: "16px" }}>$200</h3>
               </div>
             </div>
 
