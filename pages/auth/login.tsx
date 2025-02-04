@@ -41,6 +41,8 @@ export default function Login() {
       const route =
         data.user.role === "Admin" || data.user.role === "admin"
           ? "/admin/dashboard"
+          : data.user.role === "Agent"
+          ? "/support-agent"
           : "/user/dashboard";
       router.push(route);
     }
