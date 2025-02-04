@@ -19,7 +19,7 @@ import {
   Alert,
 } from "reactstrap";
 import Image from "next/image";
-import { ArrowRight } from "react-feather";
+import { ArrowRight, Search } from "react-feather";
 import Loader from "../../../components/common/Loader";
 import { useRouter } from "next/router";
 
