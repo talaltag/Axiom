@@ -150,8 +150,9 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                border: "1px solid #EAECF0"
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0",
               }}
             >
               <h5 className="mb-3">Create Team</h5>
@@ -178,8 +179,9 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                border: "1px solid #EAECF0"
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0",
               }}
             >
               <div className="d-flex justify-content-between align-items-center mb-4">
@@ -269,8 +271,9 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                border: "1px solid #EAECF0"
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0",
               }}
             >
               <h5
@@ -359,70 +362,92 @@ export default function TournamentRegistration() {
             <div
               className="bg-white p-4 rounded-3"
               style={{
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
               }}
             >
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h4 className="fs-2 fw-bold text-dark mb-0">$500</h4>
-                <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: '12px' }}>
+                <span
+                  className="badge bg-success bg-opacity-10 text-success px-2 py-1"
+                  style={{ fontSize: "12px" }}
+                >
                   New
                 </span>
               </div>
-              <p className="text-muted mb-4" style={{ fontSize: '14px' }}>Prize</p>
+              <p className="text-muted mb-4" style={{ fontSize: "14px" }}>
+                Prize
+              </p>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Entry Fee</span>
-                  <span style={{ fontSize: '14px' }}>$25</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Entry Fee
+                  </span>
+                  <span style={{ fontSize: "14px" }}>$25</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Platform</span>
-                  <span style={{ fontSize: '14px' }}>XBOX</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Platform
+                  </span>
+                  <span style={{ fontSize: "14px" }}>XBOX</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Tournament Type</span>
-                  <span style={{ fontSize: '14px' }}>KILL RACE</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Tournament Type
+                  </span>
+                  <span style={{ fontSize: "14px" }}>KILL RACE</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Tournament Size</span>
-                  <span style={{ fontSize: '14px' }}>0 of 64 teams</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Tournament Size
+                  </span>
+                  <span style={{ fontSize: "14px" }}>0 of 64 teams</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Team Size</span>
-                  <span style={{ fontSize: '14px' }}>Quad</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Team Size
+                  </span>
+                  <span style={{ fontSize: "14px" }}>Quad</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Country</span>
-                  <span style={{ fontSize: '14px' }}>USA</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Country
+                  </span>
+                  <span style={{ fontSize: "14px" }}>USA</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Game</span>
-                  <span style={{ fontSize: '14px' }}>Call of Duty</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Game
+                  </span>
+                  <span style={{ fontSize: "14px" }}>Call of Duty</span>
                 </div>
               </div>
 
               <div className="mb-4">
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>Game Mode</span>
-                  <span style={{ fontSize: '14px' }}>Battle Royale</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    Game Mode
+                  </span>
+                  <span style={{ fontSize: "14px" }}>Battle Royale</span>
                 </div>
               </div>
 
@@ -443,24 +468,33 @@ export default function TournamentRegistration() {
               </Button>
 
               <div className="mt-2">
-                <h6 className="mb-3" style={{ fontSize: '14px', color: '#101828' }}>Prizes</h6>
+                <h6
+                  className="mb-3"
+                  style={{ fontSize: "14px", color: "#101828" }}
+                >
+                  Prizes
+                </h6>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>1st Winner Prize</span>
-                  <span style={{ fontSize: '14px' }}>$776</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    1st Winner Prize
+                  </span>
+                  <span style={{ fontSize: "14px" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>2nd Winner Prize</span>
-                  <span style={{ fontSize: '14px' }}>$776</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    2nd Winner Prize
+                  </span>
+                  <span style={{ fontSize: "14px" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <span className="text-muted" style={{ fontSize: '14px' }}>3rd Winner Prize</span>
-                  <span style={{ fontSize: '14px' }}>$776</span>
+                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                    3rd Winner Prize
+                  </span>
+                  <span style={{ fontSize: "14px" }}>$776</span>
                 </div>
               </div>
             </div>
           </Col>
-        </Row>
-        <Row>
           <Col>
             <div className="d-flex justify-content-end gap-3 mt-4">
               <Button
