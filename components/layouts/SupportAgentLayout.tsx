@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
-import { MessageSquare, ChevronsLeft, LogOut } from "react-feather";
+import { MessageSquare, ChevronsLeft, LogOut, Settings } from "react-feather";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
 import { signOut } from "next-auth/react";
 
@@ -25,6 +25,11 @@ export default function SupportAgentLayout({ children }) {
 
   const menuItems = [
     { text: "Chat", path: "/support-agent", icon: <MessageSquare size={18} /> },
+    {
+      text: "Settings",
+      path: "/support-agent/settings",
+      icon: <Settings size={18} />,
+    },
   ];
 
   const handleLogout = () => {

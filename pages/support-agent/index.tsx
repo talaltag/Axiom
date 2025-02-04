@@ -1,38 +1,36 @@
-
 import { useState, useEffect } from "react";
 import {
   Container,
   Row,
   Col,
   ListGroup,
-  Tab,
+  ListGroupItem,
   Nav,
+  NavItem,
+  NavLink,
   Badge,
-  Image,
-} from "react-bootstrap";
+} from "reactstrap";
 import SupportAgentLayout from "../../components/layouts/SupportAgentLayout";
 import ChatWindow from "../../components/chat/ChatWindow";
+import { useSession } from "next-auth/react";
 
 interface User {
   _id: string;
   name: string;
   profileImage?: string;
-  role: string;
 }
 
 export default function SupportAgentChatScreen() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [currentAgent] = useState<User>({
-    _id: "support-agent",
-    name: "Support Agent",
-    role: "Support"
-  });
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState("users");
+
+  const session = useSession();
 
   const fetchUsers = async (role: string = "User") => {
     try {
-      const response = await fetch(`/api/users?role=${role}`);
+      const response = await fetch(`/api/agent/users?role=${role}`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data.data);
@@ -46,60 +44,71 @@ export default function SupportAgentChatScreen() {
     fetchUsers(activeTab === "users" ? "User" : "Admin");
   }, [activeTab]);
 
+  useEffect(() => {
+    if (session.data?.user?.id && session.data.user.name) {
+      setCurrentUser({
+        _id: session.data.user.id,
+        name: session.data.user.name,
+        profileImage: session.data.user.image,
+      });
+    }
+  }, [session.data]);
+
   return (
     <SupportAgentLayout>
       <Container fluid className="h-100">
         <Row className="h-100">
           <Col md={3} className="border-end p-0">
-            <Nav 
-              variant="pills" 
-              className="bg-light p-2 justify-content-center"
-              onSelect={(k) => {
-                setActiveTab(k || "users");
-                setSelectedUser(null);
-              }}
-            >
-              <Nav.Item>
-                <Nav.Link eventKey="users" active={activeTab === "users"}>
+            <Nav pills className="bg-light p-2 justify-content-center">
+              <NavItem>
+                <NavLink
+                  active={activeTab === "users"}
+                  onClick={() => {
+                    setActiveTab("users");
+                    setSelectedUser(null);
+                  }}
+                >
                   Users
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="admin" active={activeTab === "admin"}>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  active={activeTab === "admin"}
+                  onClick={() => {
+                    setActiveTab("admin");
+                    setSelectedUser(null);
+                  }}
+                >
                   Admin
-                </Nav.Link>
-              </Nav.Item>
+                </NavLink>
+              </NavItem>
             </Nav>
-            <ListGroup variant="flush">
+            <ListGroup flush>
               {users.map((user) => (
-                <ListGroup.Item
+                <ListGroupItem
                   key={user._id}
                   action
                   active={selectedUser?._id === user._id}
                   className="d-flex align-items-center p-3"
                   onClick={() => setSelectedUser(user)}
                 >
-                  <Image
+                  <img
                     src={user.profileImage || "/user1.png"}
-                    roundedCircle
+                    className="rounded-circle me-3"
                     width={40}
                     height={40}
-                    className="me-3"
+                    alt={user.name}
                   />
                   <div>
                     <div className="fw-bold">{user.name}</div>
-                    <small className="text-muted">{user.role}</small>
                   </div>
-                </ListGroup.Item>
+                </ListGroupItem>
               ))}
             </ListGroup>
           </Col>
           <Col md={9} className="p-0">
             {selectedUser ? (
-              <ChatWindow
-                currentUser={currentAgent}
-                receiver={selectedUser}
-              />
+              <ChatWindow currentUser={currentUser} receiver={selectedUser} />
             ) : (
               <div className="h-100 d-flex align-items-center justify-content-center text-muted">
                 Select a user to start chatting
