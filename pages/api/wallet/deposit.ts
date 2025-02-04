@@ -1,4 +1,3 @@
-
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
@@ -37,13 +36,13 @@ export default withAuth(async function handler(
     }
 
     await dbConnect();
-    
+
     // Create deposit record
     const deposit = await Deposit.create({
       userId,
       amount,
-      status: 'completed',
-      paymentIntentId
+      status: "completed",
+      paymentIntentId,
     });
 
     // Update user's wallet balance
@@ -59,10 +58,10 @@ export default withAuth(async function handler(
         .json({ success: false, message: "User not found" });
     }
 
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       balance: user.walletBalance,
-      deposit: deposit 
+      deposit: deposit,
     });
   } catch (error) {
     console.error("Deposit error:", error);
