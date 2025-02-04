@@ -361,18 +361,21 @@ export default function TournamentRegistration() {
                 background: "#FFF"
               }}
             >
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="fs-2 fw-bold text-dark mb-0">$500</h4>
-                <span
-                  className="badge bg-success bg-opacity-10 text-success px-2 py-1"
-                  style={{ fontSize: "12px" }}
-                >
-                  New
-                </span>
+              <div className="d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <div>
+                    <div style={{ fontSize: "12px", color: "#667085" }}>Entry Cost</div>
+                    <div className="fs-2 fw-bold text-dark">$500</div>
+                  </div>
+                  <span
+                    className="badge bg-success bg-opacity-10 text-success px-2 py-1"
+                    style={{ fontSize: "12px" }}
+                  >
+                    New
+                  </span>
+                </div>
+                <div style={{ fontSize: "14px", color: "#667085", marginBottom: "24px" }}>Prize</div>
               </div>
-              <p className="text-muted mb-4" style={{ fontSize: "14px" }}>
-                Prize
-              </p>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
@@ -462,7 +465,7 @@ export default function TournamentRegistration() {
                 Register
               </Button>
 
-              <div className="mt-2">
+              <div>
                 <h6
                   className="mb-3"
                   style={{ fontSize: "14px", color: "#101828" }}
@@ -470,22 +473,22 @@ export default function TournamentRegistration() {
                   Prizes
                 </h6>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                  <span style={{ fontSize: "12px", color: "#667085" }}>
                     1st Winner Prize
                   </span>
-                  <span style={{ fontSize: "14px" }}>$776</span>
+                  <span style={{ fontSize: "12px", color: "#101828" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                  <span className="text-muted" style={{ fontSize: "12px" }}>
                     2nd Winner Prize
                   </span>
-                  <span style={{ fontSize: "14px" }}>$776</span>
+                  <span style={{ fontSize: "12px" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <span className="text-muted" style={{ fontSize: "14px" }}>
+                  <span className="text-muted" style={{ fontSize: "12px" }}>
                     3rd Winner Prize
                   </span>
-                  <span style={{ fontSize: "14px" }}>$776</span>
+                  <span style={{ fontSize: "12px" }}>$776</span>
                 </div>
               </div>
             </div>
