@@ -222,7 +222,7 @@ export default function UserDashboard() {
         </div>
 
         <Row className="pt-5" style={{ paddingTop: "128px" }}>
-          <Col md={4}>
+          <Col md={8}>
             <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "linear-gradient(to bottom, #fff, #fafafa)" }}>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
@@ -267,7 +267,7 @@ export default function UserDashboard() {
               </CardBody>
             </Card>
           </Col>
-          <Col md={8}>
+          <Col md={4}>
             <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "linear-gradient(to bottom, #fff, #fafafa)" }}>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
