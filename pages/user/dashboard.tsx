@@ -223,7 +223,7 @@ export default function UserDashboard() {
 
         <Row className="pt-5" style={{ paddingTop: "128px" }}>
           <Col md={8}>
-            <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "linear-gradient(to bottom, #fff, #fafafa)" }}>
+            <Card className="border-0 mb-4 shadow-sm" style={{ borderRadius: "16px", background: "rgba(248, 202, 21, 1)" }}>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <CardTitle tag="h5" className="mb-0 fw-bold">Leaderboard</CardTitle>
@@ -301,7 +301,7 @@ export default function UserDashboard() {
               </CardBody>
             </Card>
           </Col>
-          
+
         </Row>
       </Container>
     </UserDashboardLayout>
