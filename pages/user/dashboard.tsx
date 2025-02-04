@@ -6,45 +6,48 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText,
-  Badge,
-  Progress,
   Button,
+  Progress,
 } from "reactstrap";
 import { useRouter } from "next/router";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
-import { ArrowRight } from "react-feather";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 interface Tournament {
   _id: string;
-  title: string;
+  name: string;
   date: string;
   time: string;
   prize: string;
   entryCost: string;
   image: string;
-  name: string;
   totalPrizePool: string;
   entryFee: string;
-  images: string[];
+}
+
+interface GameStats {
+  name: string;
+  lastScore: string;
+  score: number;
 }
 
 export default function UserDashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-
   const session = useSession();
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
 
   const gameStats = [
-    { name: "Fortnite", lastScore: "102234", progress: 75 },
-    { name: "Pubg", lastScore: "102234", progress: 85 },
-    { name: "Apex", lastScore: "102234", progress: 90 },
+    { name: "Fortnite", lastScore: "102234", score: 75 },
+    { name: "Pubg", lastScore: "102234", score: 85 },
+    { name: "Apex", lastScore: "102234", score: 90 },
   ];
 
-  const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const leaderboardData = [
+    { rank: 1, name: "John Anderson", score: 8733, avatar: "/user1.png" },
+    { rank: 2, name: "MiracK", score: 8456, avatar: "/user1.png" },
+    { rank: 3, name: "Omar O.", score: 8105, avatar: "/user1.png" },
+  ];
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -62,157 +65,113 @@ export default function UserDashboard() {
     fetchTournaments();
   }, []);
 
-  if (!session) return null;
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <Row className="mb-4">
-          <Col>
-            <h4 className="mb-1">Welcome back, {session.data?.user?.name}</h4>
-            <p className="text-muted mb-0">
-              Track your gaming progress and upcoming tournaments
-            </p>
-          </Col>
-        </Row>
+        {/* Banner Section */}
+        <Card className="mb-4 border-0 overflow-hidden">
+          <div className="position-relative" style={{ height: "300px" }}>
+            <Image
+              src="/fortnite-banner.png"
+              alt="Warzone"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+            <div className="position-absolute p-4 text-white" style={{ top: 0, left: 0, right: 0 }}>
+              <h2>Warzone</h2>
+              <p>May 18, 2023 9:00PM - 10:30PM EST</p>
+              <h3>2022 world champs gaming</h3>
+              <Button color="warning" className="mt-2">Register Now</Button>
+            </div>
+          </div>
+        </Card>
 
-        <Row className="mb-4">
-          {gameStats.map((game, index) => (
-            <Col md={4} key={index}>
-              <Card className="border-0 shadow-sm">
-                <CardBody>
-                  <CardTitle tag="h5">{game.name}</CardTitle>
-                  <CardText tag="div">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span>Last Score</span>
-                      <span className="fw-bold">{game.lastScore}</span>
-                    </div>
-                  </CardText>
-                  <Progress
-                    value={game.progress}
-                    className="mt-2"
-                    color="warning"
-                    style={{ height: "8px" }}
+        {/* Tournaments Section */}
+        <Row className="g-4 mb-4">
+          {tournaments.map((tournament) => (
+            <Col md={3} key={tournament._id}>
+              <Card className="border-0 h-100">
+                <div style={{ height: "150px", position: "relative" }}>
+                  <Image
+                    src={tournament.image || "/fortnite-banner.png"}
+                    alt={tournament.name}
+                    fill
+                    style={{ objectFit: "cover" }}
                   />
+                </div>
+                <CardBody>
+                  <h5>{tournament.name}</h5>
+                  <div className="d-flex justify-content-between mb-2">
+                    <small className="text-muted">Prize</small>
+                    <small className="text-muted">Entry Cost</small>
+                  </div>
+                  <div className="d-flex justify-content-between mb-3">
+                    <span className="text-danger">${tournament.totalPrizePool}</span>
+                    <span className="text-danger">${tournament.entryFee}</span>
+                  </div>
+                  <Button 
+                    color="warning" 
+                    block
+                    onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                  >
+                    Register Now
+                  </Button>
                 </CardBody>
               </Card>
             </Col>
           ))}
         </Row>
 
-        <Row className="mb-4">
-          <Col>
-            <Card className="border-0 shadow-sm">
+        <Row>
+          {/* Leaderboard Section */}
+          <Col md={8}>
+            <Card className="border-0 mb-4">
               <CardBody>
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div>
-                    <Button
-                      color={activeTab === "upcoming" ? "warning" : "light"}
-                      className="me-2"
-                      onClick={() => setActiveTab("upcoming")}
-                    >
-                      Upcoming Tournaments
-                    </Button>
-                    <Button
-                      color={activeTab === "my" ? "warning" : "light"}
-                      onClick={() => setActiveTab("my")}
-                    >
-                      My Tournaments
-                    </Button>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="search"
-                      className="form-control me-2"
-                      placeholder="Search tournaments..."
-                      style={{ width: "250px" }}
-                    />
-                  </div>
-                </div>
-                <Row>
-                  {tournaments.map((tournament, index) => (
-                    <Col md={4} key={index}>
-                      <Card className="border-0 shadow-sm h-100">
-                        <div style={{ height: "200px", position: "relative" }}>
-                          <Image
-                            src={`${
-                              tournament.images && tournament.images.length > 0
-                                ? tournament.images[0]
-                                : "/fortnite-banner.png"
-                            }`}
-                            alt={tournament.name || "Game"}
-                            width={400}
-                            height={200}
-                            style={{
-                              objectFit: "cover",
-                              width: "100%",
-                              height: "100%",
-                            }}
-                            priority
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              right: "10px",
-                              background: "rgba(255,0,0,0.8)",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                              color: "white",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Closing in 10:88:00
-                          </div>
-                        </div>
-                        <CardBody>
-                          <CardTitle tag="h5">{tournament.name}</CardTitle>
-                          <CardText>
-                            <small className="text-muted d-block mb-2">
-                              {tournament.date} • {tournament.time}
-                            </small>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <div>
-                                <small className="text-muted">Prize Pool</small>
-                                <h6 className="mb-0">
-                                  ${tournament.totalPrizePool}
-                                </h6>
-                              </div>
-                              <div className="text-end">
-                                <small className="text-muted">Entry Fee</small>
-                                <h6 className="mb-0">${tournament.entryFee}</h6>
-                              </div>
-                            </div>
-                            <Button
-                              color="warning"
-                              block
-                              onClick={() =>
-                                router.push(
-                                  `/user/dashboard/register-tournament/${tournament._id}`
-                                )
-                              }
-                            >
-                              Register Now{" "}
-                              <ArrowRight size={16} className="ms-2" />
-                            </Button>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Col>
+                <CardTitle tag="h5" className="mb-4">Leaderboard</CardTitle>
+                <div className="position-relative" style={{ height: "300px", background: "#FFD600", borderRadius: "15px", padding: "20px" }}>
+                  {leaderboardData.map((player, index) => (
+                    <div key={index} className="d-flex align-items-center mb-3">
+                      <Image
+                        src={player.avatar}
+                        alt={player.name}
+                        width={40}
+                        height={40}
+                        className="rounded-circle me-3"
+                      />
+                      <div className="flex-grow-1">
+                        <h6 className="mb-0">{player.name}</h6>
+                        <small>{player.score} Points</small>
+                      </div>
+                      <span className="badge bg-white text-dark">#{index + 1}</span>
+                    </div>
                   ))}
-                </Row>
+                </div>
               </CardBody>
             </Card>
           </Col>
-        </Row>
 
-        <Row>
+          {/* Game Stats Section */}
           <Col md={4}>
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0 mb-4">
               <CardBody>
-                <h5 className="mb-3">Winning Streak</h5>
-                <div className="text-center">
-                  <h2 className="mb-0 text-warning">98%</h2>
-                  <p className="text-muted">Current Win Rate</p>
+                <CardTitle tag="h5" className="mb-4">Last Game Stats</CardTitle>
+                {gameStats.map((game, index) => (
+                  <div key={index} className="mb-4">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>{game.name}</span>
+                      <span>{game.lastScore}</span>
+                    </div>
+                    <Progress
+                      value={game.score}
+                      className="mb-2"
+                      color="warning"
+                      style={{ height: "8px" }}
+                    />
+                  </div>
+                ))}
+                <div className="text-center mt-4">
+                  <h2 className="mb-0">98%</h2>
+                  <small className="text-muted">Winning Streak</small>
                 </div>
               </CardBody>
             </Card>
