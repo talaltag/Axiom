@@ -114,36 +114,6 @@ export default function TournamentRegistration() {
   return (
     <UserDashboardLayout>
       <Container fluid>
-        <div className="d-flex justify-content-between align-items-center py-2 px-4 border-bottom">
-          <div className="d-flex align-items-center gap-2">
-            <ArrowLeft
-              className="cursor-pointer"
-              size={20}
-              onClick={() => router.back()}
-            />
-            <span style={{ color: "#667085", fontSize: "14px" }}>
-              Dashboard{" "}
-              {tournament?.name && (
-                <>
-                  / <span className="text-dark">{tournament.name}</span>
-                </>
-              )}
-            </span>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <Button color="link" className="p-0 position-relative">
-              <Bell size={20} className="text-muted" />
-              <Badge color="danger" pill className="position-absolute top-0 end-0" style={{ width: "8px", height: "8px", padding: 0 }} />
-            </Button>
-            <Image
-              src="/user1.png" 
-              alt="Profile"
-              width={32}
-              height={32}
-              className="rounded-circle"
-            />
-          </div>
-        </div>
 
         <Row>
           <Col md={8}>
