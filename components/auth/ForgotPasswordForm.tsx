@@ -38,14 +38,21 @@ export default function ForgotPasswordForm() {
     setCanResend(false);
   };
 
+  const [verificationError, setVerificationError] = useState<string | null>(null);
+
   const handleVerifyCode = async () => {
     const code = verificationCode.join("");
-    if (code.length === 6) {
-      // Add your verification logic here
-      console.log("Verifying code:", code);
-      // Show set new password screen on successful verification
-      setShowResetScreen(true);
+    setVerificationError(null);
+    
+    if (code.length !== 6 || code.includes("")) {
+      setVerificationError("Verification code is not valid.\nPlease try again!");
+      return;
     }
+    
+    // Add your verification logic here
+    console.log("Verifying code:", code);
+    // Show set new password screen on successful verification
+    setShowResetScreen(true);
   };
 
   const handleResendCode = () => {
@@ -219,7 +226,7 @@ export default function ForgotPasswordForm() {
               <Button
                 color="warning"
                 block
-                className="py-2 mb-4"
+                className="py-2 mb-2"
                 onClick={handleVerifyCode}
                 style={{
                   backgroundColor: "#FFD600",
@@ -227,8 +234,13 @@ export default function ForgotPasswordForm() {
                   borderColor: "#FFD600"
                 }}
               >
-                Verify Code
+                Verify Now
               </Button>
+              {verificationError && (
+                <div className="text-danger text-center" style={{ whiteSpace: 'pre-line' }}>
+                  {verificationError}
+                </div>
+              )}
             </div>
           </Col>
         </Row>
