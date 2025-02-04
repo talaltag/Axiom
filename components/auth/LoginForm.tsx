@@ -58,7 +58,7 @@ export default function LoginForm({
           color="link"
           className="position-absolute end-0 top-50 translate-middle-y border-0 p-0 me-2"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ color: "#6C757D", transform: "translateY(-50%)" }}
+          style={{ color: "#6C757D", transform: "translateY(-50%)", marginTop: "14px !important" }}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
