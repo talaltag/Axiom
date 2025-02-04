@@ -180,18 +180,61 @@ export default function Settings() {
                         </label>
                       </div>
                     </div>
+                    <Button
+                      color="warning"
+                      className="ms-3"
+                      onClick={handleImageUpload}
+                      style={{
+                        backgroundColor: "#FFD600",
+                        border: "none",
+                        height: "40px"
+                      }}
+                    >
+                      Update Image
+                    </Button>
                   </div>
 
                   <FormGroup className="mb-4">
                     <Label for="username">Axiom Username</Label>
-                    <Input
-                      type="text"
-                      id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Enter your username"
-                      className="mb-2"
-                    />
+                    <div className="d-flex gap-2">
+                      <Input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Enter your username"
+                      />
+                      <Button
+                        color="warning"
+                        onClick={async () => {
+                          try {
+                            const response = await fetch("/api/users/me", {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({ username }),
+                            });
+                            
+                            if (response.ok) {
+                              alert("Username updated successfully!");
+                            } else {
+                              alert("Failed to update username");
+                            }
+                          } catch (error) {
+                            console.error("Error updating username:", error);
+                            alert("Error updating username");
+                          }
+                        }}
+                        style={{
+                          backgroundColor: "#FFD600",
+                          border: "none",
+                          width: "120px"
+                        }}
+                      >
+                        Update
+                      </Button>
+                    </div>
                   </FormGroup>
 
                   <h5 className="mb-4">Change Password</h5>
