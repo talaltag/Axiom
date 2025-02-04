@@ -230,33 +230,37 @@ export default function TournamentRegistration() {
             </div>
 
             <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
-              <h5 className="mb-3">Terms & Conditions</h5>
-              <ul className="ps-3">
-                <li className="mb-2">
+              <h5 style={{ fontSize: "18px", fontWeight: 500, color: "#101828", marginBottom: "24px" }}>Terms and Conditions</h5>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
                   The Tournament entry fee deduction and winning payment distribution shall
                   be made equally among the respective team members
                 </li>
-                <li className="mb-2">
+                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
                   Your invited team member will received an email to confirm their
                   registration and participation for this tournament
                 </li>
-                <li className="mb-2">
+                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
                   Once all team members have confirmed their registration, the entry fee
                   will be automatically deducted from their linked active wallet
                 </li>
-                <li className="mb-2">
+                <li style={{ color: "#475467", fontSize: "14px", marginBottom: "16px", lineHeight: "20px" }}>
                   You can find your overall team registration status in Tournaments section
                 </li>
               </ul>
-              <div className="form-check mt-3">
+              <div className="mt-3" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <input
                   type="checkbox"
-                  className="form-check-input"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
                   id="terms"
+                  style={{ 
+                    width: "16px", 
+                    height: "16px",
+                    accentColor: "#FFD600"
+                  }}
                 />
-                <label className="form-check-label" htmlFor="terms">
+                <label htmlFor="terms" style={{ fontSize: "14px", color: "#475467", margin: 0 }}>
                   I have read Terms and Conditions and agree
                 </label>
               </div>
@@ -332,19 +336,33 @@ export default function TournamentRegistration() {
           <Container>
             <div className="d-flex justify-content-between">
               <Button
-                color="secondary"
+                color="light"
                 onClick={() => router.back()}
-                style={{ minWidth: "120px" }}
+                style={{ 
+                  padding: "10px 18px",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#344054",
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid #D0D5DD",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px"
+                }}
               >
-                Back
+                ← Back
               </Button>
               <Button
                 color="warning"
                 onClick={handleSubmit}
                 style={{
-                  minWidth: "120px",
+                  padding: "10px 18px",
+                  fontSize: "14px",
+                  fontWeight: 500,
                   backgroundColor: "#FFD600",
                   border: "none",
+                  borderRadius: "8px"
                 }}
               >
                 Register
