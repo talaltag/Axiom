@@ -240,10 +240,11 @@ export default function UserDashboard() {
         <Row style={{ paddingTop: "128px" }}>
           <Col md={8}>
             <Card
-              className="border-0 mb-4 shadow-sm"
+              className="border-0 mb-4"
               style={{
                 borderRadius: "16px",
                 background: "rgba(248, 202, 21, 1)",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)"
               }}
             >
               <CardBody>
@@ -429,10 +430,11 @@ export default function UserDashboard() {
           <Col md={4}>
             <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>Last Game Stats</h5>
             <Card
-              className="border-0 mb-4 shadow-sm"
+              className="border-0 mb-4"
               style={{
                 borderRadius: "16px",
                 background: "#FFFFFF",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)"
               }}
             >
               <CardBody className="p-4">
