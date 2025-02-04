@@ -332,19 +332,19 @@ export default function TournamentRegistration() {
           </Col>
         </Row>
 
-        <div className="d-flex justify-content-end gap-3 mt-4">
+        <div className="d-flex justify-content-between mt-4">
           <Button
             color="light"
             onClick={() => router.back()}
             style={{ 
-              padding: "10px 16px",
+              padding: "10px 24px",
               fontSize: "14px",
               fontWeight: 500,
               color: "#344054",
               backgroundColor: "#FFFFFF",
               border: "1px solid #D0D5DD",
               borderRadius: "8px",
-              width: "97px"
+              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
             }}
           >
             ← Back
@@ -353,13 +353,14 @@ export default function TournamentRegistration() {
             color="warning"
             onClick={handleSubmit}
             style={{
-              padding: "10px 16px",
+              padding: "10px 24px",
               fontSize: "14px",
               fontWeight: 500,
               backgroundColor: "#FFD600",
               border: "none",
               borderRadius: "8px",
-              width: "97px"
+              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+              minWidth: "120px"
             }}
           >
             Register
