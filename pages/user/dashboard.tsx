@@ -248,10 +248,11 @@ export default function UserDashboard() {
               style={{
                 borderRadius: "16px",
                 background: "#FFD600",
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)"
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                height: "500px"
               }}
             >
-              <CardBody>
+              <CardBody style={{ maxHeight: "100%", overflowY: "auto" }}>
                 <div className="text-center mb-4">
                   <div className="d-flex justify-content-between align-items-end mb-4 px-5">
                     <div className="text-center" style={{ marginTop: "40px" }}>
