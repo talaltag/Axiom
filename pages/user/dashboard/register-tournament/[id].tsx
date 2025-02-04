@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
+import { Container, Row, Col, Input, Button, Form } from "reactstrap";
 import Image from "next/image";
 import { Search, ArrowLeft } from "react-feather";
 
@@ -30,8 +19,13 @@ export default function TournamentRegistration() {
   const [teamName, setTeamName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [teamImage, setTeamImage] = useState("");
-  const [teamImageError, setTeamImageError] = useState("");
+  const [agreed, setAgreed] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      fetchTournamentDetails();
+    }
+  }, [id]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -54,13 +48,6 @@ export default function TournamentRegistration() {
 
     fetchUsers();
   }, []);
-  const [agreed, setAgreed] = useState(false);
-
-  useEffect(() => {
-    if (id) {
-      fetchTournamentDetails();
-    }
-  }, [id]);
 
   const fetchTournamentDetails = async () => {
     try {
@@ -80,24 +67,6 @@ export default function TournamentRegistration() {
         friend.id === friendId ? { ...friend, status: "invited" } : friend
       )
     );
-  };
-
-  const handleTeamImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setTeamImage(reader.result as string);
-        setTeamImageError("");
-      };
-      reader.onerror = () => {
-        setTeamImageError("Error reading image");
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setTeamImage("");
-      setTeamImageError("");
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -120,9 +89,9 @@ export default function TournamentRegistration() {
         body: JSON.stringify({
           team_name: teamName,
           tournament_id: id,
-          user_ids: [...selectedFriends], // Include current user
-          payment_method: "stripe", // You can make this dynamic
-          payment_token: null, // Will be added during payment
+          user_ids: [...selectedFriends],
+          payment_method: "stripe",
+          payment_token: null,
         }),
       });
 
@@ -144,299 +113,238 @@ export default function TournamentRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid className="p-4">
-        <div className="mb-4 d-flex align-items-center">
+      <Container fluid>
+        <div className="d-flex align-items-center gap-2 mb-4">
           <ArrowLeft
-            className="cursor-pointer me-2"
+            className="cursor-pointer"
+            size={20}
             onClick={() => router.back()}
           />
-          <span>Dashboard / {tournament?.name}</span>
+          <span style={{ color: "#667085" }}>
+            Dashboard / Tournament Name
+          </span>
         </div>
 
-        <div className="tournament-header mb-5">
-          <Row>
-            <Col md={8}>
-              <div className="d-flex align-items-start gap-4">
-                <Image
-                  src={`${
-                    tournament?.images && tournament?.images?.length > 0
-                      ? tournament.images[0]
-                      : "/fortnite-banner.png"
-                  }`}
-                  alt={tournament?.name || "Tournament"}
-                  width={140}
-                  height={140}
-                  className="rounded-3"
-                  style={{ objectFit: "cover" }}
-                />
-                <div>
-                  <h1 className="h2 mb-2">
-                    {tournament?.name || "Fortnite Summer Battle"}
-                  </h1>
-                  <p className="text-muted mb-3">
-                    {tournament?.date || "May 23, 2023"}{" "}
-                    {tournament?.startTime || "9:00PM"} -{" "}
-                    {tournament?.endTime || "10:30PM"} EST
-                  </p>
-                  <div className="d-flex align-items-center gap-3">
-                    <div>
-                      <small className="text-muted d-block mb-1">
-                        Entry Cost
-                      </small>
-                      <h3 className="text-danger mb-0">
-                        ${tournament?.entryFee || "200"}
-                      </h3>
-                    </div>
+        <Row>
+          <Col md={8}>
+            <div className="d-flex gap-3 mb-4">
+              <Image
+                src={tournament?.images?.[0] || "/fortnite-banner.png"}
+                alt="Tournament"
+                width={180}
+                height={180}
+                className="rounded-3"
+                style={{ objectFit: "cover" }}
+              />
+              <div>
+                <h2>Fortnite Summer Battle</h2>
+                <p className="text-muted">
+                  May 23, 2023 9:00PM - 10:30PM EST
+                </p>
+                <div className="d-flex align-items-center gap-3">
+                  <div>
+                    <small className="text-muted d-block">Entry Cost</small>
+                    <h3 className="text-danger mb-0">$200</h3>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <Card className="mt-4 border-0 shadow-sm">
-                <CardBody>
-                  <Form id="registrationForm" onSubmit={handleSubmit}>
-                    <div className="d-flex align-items-center gap-3 mb-4">
-                      <div className="position-relative">
-                        <Image
-                          src={teamImage || "/user1.png"}
-                          alt="Team Avatar"
-                          width={80}
-                          height={80}
-                          className="rounded-circle"
-                        />
-                        <label
-                          className="position-absolute bottom-0 end-0 bg-warning p-2 rounded-circle d-flex align-items-center justify-content-center"
-                          style={{
-                            cursor: "pointer",
-                            width: "32px",
-                            height: "32px",
-                          }}
-                          htmlFor="teamImageInput"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle>
-                          </svg>
-                        </label>
-                        <input
-                          type="file"
-                          id="teamImageInput"
-                          accept="image/*"
-                          className="d-none"
-                          onChange={handleTeamImageChange}
-                        />
-                        {teamImageError && (
-                          <p style={{ color: "red" }}>{teamImageError}</p>
-                        )}
-                      </div>
-                      <div className="flex-grow-1">
-                        <h5 className="mb-4">Create Team</h5>
-                        <FormGroup className="mb-0">
-                          <Label for="teamName">
-                            Team Name <span className="text-danger">*</span>
-                          </Label>
-                          <Input
-                            id="teamName"
-                            value={teamName}
-                            onChange={(e) => setTeamName(e.target.value)}
-                            placeholder="Enter team name"
-                            className="form-control-lg"
-                            required
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-
-                    <h5 className="mt-5 mb-4">Invite Friends</h5>
-                    <div className="mb-4">
-                      <div className="search-box position-relative">
-                        <Search
-                          size={18}
-                          className="position-absolute"
-                          style={{ top: "12px", left: "12px" }}
-                        />
-                        <Input
-                          placeholder="Search Friends"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="ps-5"
-                        />
-                      </div>
-                    </div>
-
-                    {filteredFriends.map((friend) => (
-                      <div
-                        key={friend.id}
-                        className="d-flex align-items-center justify-content-between mb-3 p-2"
-                      >
-                        <div className="d-flex align-items-center">
-                          <Image
-                            src={friend.avatar}
-                            alt={friend.name}
-                            width={40}
-                            height={40}
-                            className="rounded-circle"
-                          />
-                          <div className="ms-3">
-                            <div>{friend.name}</div>
-                            <small className="text-muted">Member</small>
-                          </div>
-                        </div>
-                        <Button
-                          color="warning"
-                          size="sm"
-                          outline={friend.status === "invited"}
-                          onClick={() => handleSendInvite(friend.id)}
-                          disabled={friend.status === "invited"}
-                        >
-                          {friend.status === "invited"
-                            ? "Sent Invite"
-                            : "Send Invite"}
-                        </Button>
-                      </div>
-                    ))}
-
-                    <div className="mt-5">
-                      <h5 className="mb-4">Terms & Conditions</h5>
-                      <ul className="ps-3">
-                        <li className="mb-2">
-                          The Tournament entry fee deduction and winning payment
-                          distribution shall be made equally among the
-                          respective team members
-                        </li>
-                        <li className="mb-2">
-                          Your invited team member will received an email to
-                          confirm their registration and participation for this
-                          tournament
-                        </li>
-                        <li className="mb-2">
-                          Once all team members have confirmed their
-                          registration, the entry fee will be automatically
-                          deducted from their linked active wallet.
-                        </li>
-                        <li className="mb-2">
-                          You can find your overall team registration status in
-                          Tournaments section
-                        </li>
-                      </ul>
-                      <FormGroup check className="mt-3">
-                        <Input
-                          type="checkbox"
-                          checked={agreed}
-                          onChange={(e) => setAgreed(e.target.checked)}
-                        />
-                        <Label check>
-                          I have read Terms and Conditions and agree
-                        </Label>
-                      </FormGroup>
-                    </div>
-                  </Form>
-                </CardBody>
-              </Card>
-              <div className="fixed-bottom bg-white py-3 shadow-lg">
-                <Container>
-                  <div className="d-flex justify-content-end gap-3">
-                    <Button
-                      color="secondary"
-                      onClick={() => router.push("/user/dashboard/tournaments")}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="submit"
-                      form="registrationForm"
-                      color="warning"
-                    >
-                      Register
-                    </Button>
-                  </div>
-                </Container>
+            <div className="mb-5">
+              <h5 className="mb-3">Create Team</h5>
+              <div className="d-flex align-items-center gap-3 mb-4">
+                <Image
+                  src="/user1.png"
+                  alt="Team Avatar"
+                  width={48}
+                  height={48}
+                  className="rounded-circle"
+                />
+                <div className="flex-grow-1">
+                  <div className="mb-1">Team Name *</div>
+                  <Input
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)}
+                    placeholder="Team Name"
+                    required
+                  />
+                </div>
               </div>
-            </Col>
+            </div>
 
-            <Col md={4}>
-              <Card className="border-0 shadow-sm">
-                <CardBody>
-                  <div className="mb-3">
-                    <div
-                      className="text-success d-inline-block px-2 py-1 rounded"
-                      style={{ backgroundColor: "#E8F5E9" }}
-                    >
-                      New
+            <div className="mb-5">
+              <h5 className="mb-3">Invite Friends</h5>
+              <div className="position-relative mb-4">
+                <Search
+                  size={20}
+                  className="position-absolute"
+                  style={{ top: "10px", left: "12px", color: "#667085" }}
+                />
+                <Input
+                  placeholder="Search Friends"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="ps-5"
+                />
+              </div>
+
+              {filteredFriends.map((friend) => (
+                <div
+                  key={friend.id}
+                  className="d-flex align-items-center justify-content-between mb-3"
+                >
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={friend.avatar}
+                      alt={friend.name}
+                      width={40}
+                      height={40}
+                      className="rounded-circle me-3"
+                    />
+                    <div>
+                      <div>{friend.name}</div>
+                      <small className="text-muted">Member</small>
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <small className="text-muted d-block">Entry Cost</small>
-                    <h4 className="mb-0">${tournament?.entryFee || 25}</h4>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Prize</small>
-                    <h4 className="text-danger mb-0">
-                      ${tournament?.totalPrizePool || 200}
-                    </h4>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Platform</small>
-                    <div>{tournament?.platform || "XBOX"}</div>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">
-                      Tournament Type
-                    </small>
-                    <div>{tournament?.type || "KILL RACE"}</div>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">
-                      Tournament Size
-                    </small>
-                    <div>0 of 64 teams</div>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Team Size</small>
-                    <div>Quad</div>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Country</small>
-                    <div>USA</div>
-                  </div>
-                  <div className="mb-3 pb-3 border-bottom">
-                    <small className="text-muted d-block">Game</small>
-                    <div>Call of Duty</div>
-                  </div>
-                  <div className="mb-4">
-                    <small className="text-muted d-block">Game Mode</small>
-                    <div>Battle Royale</div>
-                  </div>
-
-                  <h6 className="mb-3">Prizes</h6>
-                  <div className="d-flex justify-content-between mb-2">
-                    <span>1st Winner Prize</span>
-                    <span>${tournament?.totalPrizePool * 0.5 || 775}</span>
-                  </div>
-                  <div className="d-flex justify-content-between mb-2">
-                    <span>2nd Winner Prize</span>
-                    <span>${tournament?.totalPrizePool * 0.3 || 775}</span>
-                  </div>
-                  <div className="d-flex justify-content-between mb-4">
-                    <span>3rd Winner Prize</span>
-                    <span>${tournament?.totalPrizePool * 0.2 || 775}</span>
-                  </div>
-
-                  <Button color="warning" block size="lg">
-                    Register
+                  <Button
+                    color="warning"
+                    size="sm"
+                    onClick={() => handleSendInvite(friend.id)}
+                    disabled={friend.status === "invited"}
+                    style={{
+                      backgroundColor: friend.status === "invited" ? "#FFF" : "#FFD600",
+                      border: "1px solid #FFD600",
+                      color: friend.status === "invited" ? "#000" : "#000",
+                    }}
+                  >
+                    {friend.status === "invited" ? "Sent Invite" : "Send Invite"}
                   </Button>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                </div>
+              ))}
+            </div>
+
+            <div className="mb-5">
+              <h5 className="mb-3">Terms & Conditions</h5>
+              <ul className="ps-3">
+                <li className="mb-2">
+                  The Tournament entry fee deduction and winning payment distribution shall
+                  be made equally among the respective team members
+                </li>
+                <li className="mb-2">
+                  Your invited team member will received an email to confirm their
+                  registration and participation for this tournament
+                </li>
+                <li className="mb-2">
+                  Once all team members have confirmed their registration, the entry fee
+                  will be automatically deducted from their linked active wallet
+                </li>
+                <li className="mb-2">
+                  You can find your overall team registration status in Tournaments section
+                </li>
+              </ul>
+              <div className="form-check mt-3">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  id="terms"
+                />
+                <label className="form-check-label" htmlFor="terms">
+                  I have read Terms and Conditions and agree
+                </label>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={4}>
+            <div className="bg-white p-4 rounded-3">
+              <div className="mb-3">
+                <span className="badge bg-success bg-opacity-10 text-success">New</span>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Entry Cost</div>
+                <h5 className="mb-0">$25</h5>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Platform</div>
+                <div>XBOX</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Tournament Type</div>
+                <div>KILL RACE</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Tournament Size</div>
+                <div>0 of 64 teams</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Team Size</div>
+                <div>Quad</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Country</div>
+                <div>USA</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Game</div>
+                <div>Call of Duty</div>
+              </div>
+
+              <div className="mb-4">
+                <div className="text-muted mb-1">Game Mode</div>
+                <div>Battle Royale</div>
+              </div>
+
+              <div className="mb-4">
+                <h6>Prizes</h6>
+                <div className="d-flex justify-content-between mb-2">
+                  <span>1st Winner Prize</span>
+                  <span>$775</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span>2nd Winner Prize</span>
+                  <span>$775</span>
+                </div>
+                <div className="d-flex justify-content-between">
+                  <span>3rd Winner Prize</span>
+                  <span>$775</span>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+
+        <div className="fixed-bottom bg-white py-3 shadow-lg">
+          <Container>
+            <div className="d-flex justify-content-between">
+              <Button
+                color="secondary"
+                onClick={() => router.back()}
+                style={{ minWidth: "120px" }}
+              >
+                Back
+              </Button>
+              <Button
+                color="warning"
+                onClick={handleSubmit}
+                style={{
+                  minWidth: "120px",
+                  backgroundColor: "#FFD600",
+                  border: "none",
+                }}
+              >
+                Register
+              </Button>
+            </div>
+          </Container>
         </div>
       </Container>
     </UserDashboardLayout>
