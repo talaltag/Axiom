@@ -358,10 +358,9 @@ export default function TournamentRegistration() {
 
           <Col md={4}>
             <div
-              className="bg-white p-4 rounded-3 shadow-sm"
+              className="bg-white p-4 rounded-3"
               style={{
-                boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
               }}
             >
               <div className="mb-3">
