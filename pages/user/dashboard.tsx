@@ -10,7 +10,7 @@ import {
   Progress,
 } from "reactstrap";
 import { useRouter } from "next/router";
-import UserDashboardLayout from "@/components/layouts/UserDashboardLayout";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 
