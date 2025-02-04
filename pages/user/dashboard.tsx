@@ -243,7 +243,7 @@ export default function UserDashboard() {
               className="border-0 mb-4"
               style={{
                 borderRadius: "16px",
-                background: "rgba(248, 202, 21, 1)",
+                background: "#FFD600",
                 boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)"
               }}
             >
@@ -267,75 +267,87 @@ export default function UserDashboard() {
                   </span>
                 </div>
                 <div className="text-center mb-4">
-                  <div className="d-flex justify-content-around align-items-end mb-4">
-                    <div
-                      className="text-center order-1"
-                      style={{ marginTop: "80px" }}
-                    >
-                      <div className="position-relative">
+                  <div className="d-flex justify-content-between align-items-end mb-4 px-5">
+                    <div className="text-center" style={{ marginTop: "40px" }}>
+                      <div className="position-relative d-inline-block">
                         <Image
                           src="/user1.png"
                           alt="2nd"
-                          width={48}
-                          height={48}
-                          className="rounded-circle mb-2"
-                          style={{ border: "2px solid white" }}
+                          width={56}
+                          height={56}
+                          className="rounded-circle"
+                          style={{ border: "3px solid white" }}
                         />
                         <div
                           className="position-absolute"
                           style={{
-                            bottom: "-10px",
+                            bottom: "-8px",
                             left: "50%",
                             transform: "translateX(-50%)",
                             background: "white",
-                            padding: "4px 12px",
-                            borderRadius: "16px",
+                            padding: "2px 8px",
+                            borderRadius: "12px",
                             fontSize: "12px",
-                            fontWeight: 500,
+                            fontWeight: 600,
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
                           }}
                         >
-                          2nd
+                          2
                         </div>
                       </div>
-                      <div
-                        className="mt-3"
-                        style={{ fontSize: "14px", fontWeight: 500 }}
-                      >
-                        MirayK
-                      </div>
-                      <div style={{ fontSize: "12px", color: "#101828" }}>
-                        1223
+                      <div className="mt-2">
+                        <div style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>
+                          MirayK
+                        </div>
+                        <div style={{ fontSize: "12px", color: "#101828", opacity: 0.8 }}>
+                          1223
+                        </div>
                       </div>
                     </div>
-                    <div className="text-center order-0" style={{ marginTop: "20px", marginLeft: "40px", marginRight: "40px" }}>
-                      <div className="position-relative">
+                    <div className="text-center" style={{ marginTop: "-20px" }}>
+                      <div className="position-relative d-inline-block">
                         <Image
                           src="/user1.png"
                           alt="1st"
-                          width={64}
-                          height={64}
-                          className="rounded-circle mb-2"
-                          style={{ border: "3px solid white" }}
+                          width={80}
+                          height={80}
+                          className="rounded-circle"
+                          style={{ border: "4px solid white" }}
                         />
                         <span
                           className="position-absolute"
                           style={{
-                            top: "-15px",
-                            right: "-15px",
-                            fontSize: "24px",
+                            top: "-20px",
+                            right: "-12px",
+                            fontSize: "28px",
                           }}
                         >
                           👑
                         </span>
+                        <div
+                          className="position-absolute"
+                          style={{
+                            bottom: "-8px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            background: "white",
+                            padding: "2px 8px",
+                            borderRadius: "12px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
+                          }}
+                        >
+                          1
+                        </div>
                       </div>
-                      <div
-                        className="mt-3"
-                        style={{ fontSize: "14px", fontWeight: 500 }}
-                      >
-                        Mert Kahveci
-                      </div>
-                      <div style={{ fontSize: "12px", color: "#101828" }}>
-                        1452
+                      <div className="mt-2">
+                        <div style={{ fontSize: "16px", fontWeight: 600, color: "#101828" }}>
+                          Mert Kahveci
+                        </div>
+                        <div style={{ fontSize: "14px", color: "#101828", opacity: 0.8 }}>
+                          1452
+                        </div>
                       </div>
                     </div>
                     <div
@@ -382,10 +394,10 @@ export default function UserDashboard() {
                 {leaderboardData.map((player, index) => (
                   <div
                     key={index}
-                    className="d-flex align-items-center mb-3 p-3"
+                    className="d-flex align-items-center mb-2 p-3"
                     style={{
                       backgroundColor: "white",
-                      borderRadius: "12px",
+                      borderRadius: "8px",
                       transition: "all 0.3s ease",
                     }}
                   >
@@ -393,9 +405,9 @@ export default function UserDashboard() {
                       className="me-3"
                       style={{
                         color: "#101828",
-                        width: "24px",
+                        width: "20px",
                         fontSize: "14px",
-                        fontWeight: 500,
+                        fontWeight: 600,
                       }}
                     >
                       {player.rank}
@@ -403,22 +415,22 @@ export default function UserDashboard() {
                     <Image
                       src={player.avatar}
                       alt={player.name}
-                      width={32}
-                      height={32}
+                      width={36}
+                      height={36}
                       className="rounded-circle me-3"
-                      style={{ border: "2px solid white" }}
+                      style={{ border: "2px solid #FFD600" }}
                     />
                     <div className="flex-grow-1">
                       <div
                         style={{
                           fontSize: "14px",
-                          fontWeight: 500,
+                          fontWeight: 600,
                           color: "#101828",
                         }}
                       >
                         {player.name}
                       </div>
-                      <div style={{ fontSize: "12px", color: "#101828" }}>
+                      <div style={{ fontSize: "12px", color: "#666", fontWeight: 500 }}>
                         {player.time}
                       </div>
                     </div>
