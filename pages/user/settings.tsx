@@ -401,8 +401,100 @@ export default function Settings() {
           </TabPane>
           <TabPane tabId="platformIntegration">
             <div className="bg-white rounded-3 p-4">
-              <h5>Platform Integration</h5>
-              <p>Coming soon...</p>
+              <h4 className="mb-3">Connect your Platforms</h4>
+              <p className="text-muted mb-4">Connect these account to integrate with your Axiom Gaming portal</p>
+              
+              <div className="d-flex flex-wrap gap-4 mb-5">
+                {[
+                  { name: 'Dota', image: '/game-icons/dota.png' },
+                  { name: 'Freefire', image: '/game-icons/freefire.png' },
+                  { name: 'Pubg', image: '/game-icons/pubg.png' },
+                  { name: 'Counterstrike', image: '/game-icons/counterstrike.png' },
+                  { name: 'Fortnite', image: '/game-icons/fortnite.png' },
+                  { name: 'Dark Souls', image: '/game-icons/dark-souls.png' },
+                  { name: 'GTA', image: '/game-icons/gta.png' },
+                  { name: 'League of Legends', image: '/game-icons/lol.png' },
+                  { name: 'Valorant', image: '/game-icons/valorant.png' },
+                ].map((platform) => (
+                  <div 
+                    key={platform.name}
+                    className="text-center"
+                    style={{ width: '80px', cursor: 'pointer' }}
+                  >
+                    <div 
+                      className="rounded-circle mb-2 mx-auto"
+                      style={{
+                        width: '80px',
+                        height: '80px',
+                        overflow: 'hidden',
+                        border: '2px solid #E4E7EC'
+                      }}
+                    >
+                      <Image
+                        src={platform.image}
+                        alt={platform.name}
+                        width={76}
+                        height={76}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div style={{ fontSize: '14px', color: '#101828' }}>{platform.name}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h5 className="mb-0">Added Platforms</h5>
+                  <Button
+                    color="warning"
+                    className="px-3 py-2"
+                    style={{
+                      backgroundColor: '#FFD600',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <i className="fas fa-plus me-2"></i>
+                    Add Platform
+                  </Button>
+                </div>
+
+                {[
+                  { name: 'Dota', image: '/game-icons/dota.png' },
+                  { name: 'Freefire', image: '/game-icons/freefire.png' },
+                  { name: 'Counterstrike', image: '/game-icons/counterstrike.png' },
+                  { name: 'Fortnite', image: '/game-icons/fortnite.png' },
+                  { name: 'Dark Souls', image: '/game-icons/dark-souls.png' },
+                  { name: 'GTA', image: '/game-icons/gta.png' },
+                  { name: 'League of Legends', image: '/game-icons/lol.png' },
+                  { name: 'Valorant', image: '/game-icons/valorant.png' },
+                ].map((platform) => (
+                  <div 
+                    key={platform.name}
+                    className="d-flex align-items-center justify-content-between p-3 mb-3 bg-light rounded"
+                  >
+                    <div className="d-flex align-items-center">
+                      <Image
+                        src={platform.image}
+                        alt={platform.name}
+                        width={32}
+                        height={32}
+                        className="rounded-circle me-3"
+                      />
+                      <span style={{ fontSize: '14px', color: '#101828' }}>{platform.name}</span>
+                    </div>
+                    <Button
+                      color="link"
+                      className="p-0"
+                      style={{ color: '#101828' }}
+                    >
+                      <i className="fas fa-pen"></i>
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
           </TabPane>
           <TabPane tabId="privacyPolicy">
