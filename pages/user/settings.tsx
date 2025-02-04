@@ -32,6 +32,10 @@ export default function Settings() {
     tournamentReminders: true,
     friendRequests: false
   });
+  const [message, setMessage] = useState({ type: "", content: "" });
+  const [profileImage, setProfileImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("/user1.png");
+  const { data: session } = useSession();
 
   const handleNotificationToggle = (setting: string) => {
     setNotificationSettings(prev => ({
@@ -39,10 +43,6 @@ export default function Settings() {
       [setting]: !prev[setting]
     }));
   };
-  const [message, setMessage] = useState({ type: "", content: "" });
-  const [profileImage, setProfileImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("/user1.png");
-  const { data: session } = useSession();
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -359,6 +359,25 @@ export default function Settings() {
               </div>
             </div>
           </TabPane>
+          <TabPane tabId="billings">
+            <div className="bg-white rounded-3 p-4">
+              <h5>Billing Information</h5>
+              <p>Coming soon...</p>
+            </div>
+          </TabPane>
+          <TabPane tabId="platformIntegration">
+            <div className="bg-white rounded-3 p-4">
+              <h5>Platform Integration</h5>
+              <p>Coming soon...</p>
+            </div>
+          </TabPane>
+          <TabPane tabId="privacyPolicy">
+            <div className="bg-white rounded-3 p-4">
+              <h5>Privacy & Safety</h5>
+              <p>Coming soon...</p>
+            </div>
+          </TabPane>
+        </TabContent>
       </Container>
     </UserDashboardLayout>
   );
