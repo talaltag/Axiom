@@ -10,9 +10,10 @@ import {
   Progress,
 } from "reactstrap";
 import { useRouter } from "next/router";
-import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 
 interface Tournament {
   _id: string;
@@ -219,141 +220,8 @@ export default function UserDashboard() {
             </Row>
           </div>
         </div>
-
-        <Row style={{ paddingTop: "128px" }}>
-          <Col md={8}>
-            <Card className="border-0 mb-4">
-              <CardBody className="p-4">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <CardTitle tag="h5" className="mb-0" style={{ fontSize: "16px", fontWeight: 600, color: "#101828" }}>
-                    Leaderboard
-                  </CardTitle>
-                  <Button color="link" className="text-muted p-0" style={{ fontSize: "14px", textDecoration: "none", color: "#667085" }}>
-                    More
-                  </Button>
-                </div>
-                <div
-                  className="position-relative"
-                  style={{
-                    background: "#FFD600",
-                    borderRadius: "16px",
-                    padding: "40px 24px 32px",
-                  }}
-                >
-                  <div 
-                    className="position-absolute"
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      width: "400px",
-                      height: "400px",
-                      background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)"
-                    }}
-                  />
-                  <div className="d-flex justify-content-between align-items-end position-relative" style={{ marginBottom: "80px" }}>
-                    <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
-                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
-                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>2nd</div>
-                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>1223</div>
-                      </div>
-                      <div className="mt-3" style={{ fontSize: "14px", fontWeight: 500 }}>MirayK</div>
-                      </div>
-                    </div>
-                    <div className="text-center" style={{ flex: 1, position: "relative", bottom: "24px" }}>
-                      <div style={{ position: "relative", marginBottom: "12px" }}>
-                        <div className="position-absolute" style={{ top: "-32px", left: "50%", transform: "translateX(-50%)" }}>
-                          <div className="d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", background: "white", borderRadius: "50%", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
-                            <Image src="/crown-icon.svg" width={20} height={20} alt="Crown" />
-                          </div>
-                        </div>
-                        <Image
-                          src="/user1.png"
-                          alt="Mert Kahveci"
-                          width={72}
-                          height={72}
-                          className="rounded-circle mx-auto"
-                        />
-                      </div>
-                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Mert Kahveci</div>
-                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
-                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>1st</div>
-                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>1452</div>
-                      </div>
-                    </div>
-                    <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
-                      <Image
-                        src="/user1.png"
-                        alt="Onur O."
-                        width={56}
-                        height={56}
-                        className="rounded-circle mx-auto mb-2"
-                      />
-                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Onur O.</div>
-                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
-                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>3rd</div>
-                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>968</div>
-                      </div>
-                    </div>
-                  </div>
-                  {leaderboardData.slice(3).map((player, index) => (
-                    <div
-                      key={index}
-                      className="d-flex align-items-center bg-white rounded-3 p-3 mb-2"
-                      style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}
-                    >
-                      <div style={{ width: "24px", fontSize: "14px", marginRight: "12px" }}>{player.rank}</div>
-                      <div className="d-flex align-items-center flex-grow-1">
-                        <div style={{ fontSize: "14px", fontWeight: 500 }}>{player.name}</div>
-                        <div className="ms-2" style={{ fontSize: "14px", color: "#667085" }}>{player.time}</div>
-                      </div>
-                      <Image
-                        src={player.avatar}
-                        alt={player.name}
-                        width={32}
-                        height={32}
-                        className="rounded-circle"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col md={4}>
-            <Card className="border-0 mb-4">
-              <CardBody className="p-4">
-                <CardTitle tag="h5" className="mb-4" style={{ fontSize: "18px", fontWeight: 600 }}>
-                  Last Game Stats
-                </CardTitle>
-                {gameStats.map((game, index) => (
-                  <div key={index} className="mb-4">
-                    <div className="d-flex justify-content-between mb-2" style={{ fontSize: "14px" }}>
-                      <span style={{ fontWeight: "500" }}>{game.name}</span>
-                      <span>{game.lastScore}</span>
-                    </div>
-                    <Progress
-                      value={game.score}
-                      className="mb-2"
-                      style={{ 
-                        height: "8px", 
-                        backgroundColor: "#F2F4F7",
-                        borderRadius: "100px",
-                      }}
-                      color="warning"
-                    />
-                  </div>
-                ))}
-                <div className="text-center mt-4 p-3" style={{ background: "#FFD600", borderRadius: "16px" }}>
-                  <h2 className="mb-1" style={{ fontSize: "24px", fontWeight: "600" }}>98%</h2>
-                  <div style={{ fontSize: "14px", color: "#1C1C1C" }}>Winning Streak</div>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
       </Container>
     </UserDashboardLayout>
   );
+
 }
