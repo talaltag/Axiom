@@ -268,7 +268,7 @@ export default function UserDashboard() {
                   <div className="d-flex justify-content-around align-items-end mb-4">
                     <div
                       className="text-center order-1"
-                      style={{ marginTop: "80px", marginRight: "-30px" }}
+                      style={{ marginTop: "80px" }}
                     >
                       <div className="position-relative">
                         <Image
@@ -305,7 +305,7 @@ export default function UserDashboard() {
                         1223
                       </div>
                     </div>
-                    <div className="text-center order-0" style={{ marginTop: "20px" }}>
+                    <div className="text-center order-0" style={{ marginTop: "20px", marginLeft: "40px", marginRight: "40px" }}>
                       <div className="position-relative">
                         <Image
                           src="/user1.png"
@@ -338,7 +338,7 @@ export default function UserDashboard() {
                     </div>
                     <div
                       className="text-center order-2"
-                      style={{ marginTop: "80px", marginLeft: "-30px" }}
+                      style={{ marginTop: "80px" }}
                     >
                       <div className="position-relative">
                         <Image
