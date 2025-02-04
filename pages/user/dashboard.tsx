@@ -253,17 +253,11 @@ export default function UserDashboard() {
                   />
                   <div className="d-flex justify-content-between align-items-end position-relative" style={{ marginBottom: "80px" }}>
                     <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
-                      <Image
-                        src="/user1.png"
-                        alt="MirayK"
-                        width={56}
-                        height={56}
-                        className="rounded-circle mx-auto mb-2"
-                      />
-                      <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>MirayK</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
-                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>2nd</div>
-                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>1223</div>
+                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
+                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>2nd</div>
+                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>1223</div>
+                      </div>
+                      <div className="mt-3" style={{ fontSize: "14px", fontWeight: 500 }}>MirayK</div>
                       </div>
                     </div>
                     <div className="text-center" style={{ flex: 1, position: "relative", bottom: "24px" }}>
@@ -282,9 +276,9 @@ export default function UserDashboard() {
                         />
                       </div>
                       <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Mert Kahveci</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
-                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>1st</div>
-                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>1452</div>
+                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
+                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>1st</div>
+                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>1452</div>
                       </div>
                     </div>
                     <div className="text-center" style={{ flex: 1, position: "relative", top: "40px" }}>
@@ -296,9 +290,9 @@ export default function UserDashboard() {
                         className="rounded-circle mx-auto mb-2"
                       />
                       <div className="mb-2" style={{ fontSize: "14px", fontWeight: 500 }}>Onur O.</div>
-                      <div className="bg-white rounded-4 py-2 px-4 mx-auto" style={{ width: "fit-content", minWidth: "100px" }}>
-                        <div className="mb-1" style={{ fontSize: "14px", fontWeight: 600 }}>3rd</div>
-                        <div style={{ color: "#FFD600", fontSize: "16px", fontWeight: 600 }}>968</div>
+                      <div className="bg-white rounded-circle p-3 mx-auto d-flex flex-column align-items-center justify-content-center" style={{ width: "120px", height: "120px" }}>
+                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>3rd</div>
+                        <div style={{ fontSize: "24px", fontWeight: 600, color: "#FFD600" }}>968</div>
                       </div>
                     </div>
                   </div>
