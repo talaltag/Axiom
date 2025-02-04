@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -47,8 +46,8 @@ export default function ConfirmRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid>
-        <div className="d-flex align-items-center mb-4 px-4 pt-4">
+      <Container fluid className="px-4">
+        <div className="d-flex align-items-center mb-4 pt-4">
           <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
           <span className="mx-2" style={{ color: "#667085" }}>/</span>
           <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
