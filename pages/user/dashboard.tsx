@@ -455,7 +455,7 @@ export default function UserDashboard() {
                       style={{
                         height: "8px",
                         borderRadius: "16px",
-                        backgroundColor: "#F2F4F7",
+                        backgroundColor: "rgba(100, 105, 228, 0.75)",
                       }}
                       color="warning"
                     />
