@@ -1,22 +1,4 @@
 
-.tooltip-container:hover .password-requirements {
-  display: block !important;
-}
-
-.password-requirements::before {
-  content: "";
-  position: absolute;
-  right: -6px;
-  top: 25px;
-  width: 12px;
-  height: 12px;
-  background: white;
-  transform: rotate(45deg);
-  border-right: 1px solid #ddd;
-  border-top: 1px solid #ddd;
-}
-
-
 .notification-dropdown {
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   border-radius: 8px !important;
