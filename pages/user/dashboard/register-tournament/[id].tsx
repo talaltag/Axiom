@@ -117,7 +117,7 @@ export default function TournamentRegistration() {
 
         <Row>
           <Col md={8}>
-            <div className="d-flex gap-3 mb-4">
+            <div className="d-flex gap-3 mb-4 p-4 bg-white rounded-3 shadow-sm" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
               <Image
                 src={tournament?.images?.[0] || "/fortnite-banner.png"}
                 alt="Tournament"
@@ -181,7 +181,8 @@ export default function TournamentRegistration() {
               {filteredFriends.map((friend) => (
                 <div
                   key={friend.id}
-                  className="d-flex align-items-center justify-content-between mb-3"
+                  className="d-flex align-items-center justify-content-between mb-3 p-3 bg-white rounded-3 shadow-sm"
+                  style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}
                 >
                   <div className="d-flex align-items-center">
                     <Image
@@ -248,7 +249,7 @@ export default function TournamentRegistration() {
           </Col>
 
           <Col md={4}>
-            <div className="bg-white p-4 rounded-3">
+            <div className="bg-white p-4 rounded-3 shadow-sm" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
               <div className="mb-3">
                 <span className="badge bg-success bg-opacity-10 text-success">New</span>
               </div>
@@ -312,7 +313,7 @@ export default function TournamentRegistration() {
           </Col>
         </Row>
 
-        <div className="fixed-bottom bg-white py-3 shadow-lg">
+        <div className="fixed-bottom bg-white py-3" style={{ boxShadow: "0px -1px 3px rgba(16, 24, 40, 0.1), 0px -1px 2px rgba(16, 24, 40, 0.06)" }}>
           <Container>
             <div className="d-flex justify-content-between">
               <Button
