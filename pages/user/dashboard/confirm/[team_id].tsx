@@ -25,8 +25,8 @@ export default function ConfirmRegistration() {
     name: "Fortnite Summer Battle",
     date: "May 23, 2023",
     time: "9:00PM - 10:30PM EST",
+    entryCost: "$200",
     prize: "$500",
-    entryFee: "$200",
     platform: "XBOX",
     tournamentType: "KILL RACE",
     tournamentSize: "0 of 64 teams",
@@ -48,13 +48,13 @@ export default function ConfirmRegistration() {
   return (
     <UserDashboardLayout>
       <Container fluid>
-        <div className="d-flex align-items-center mb-4 p-4">
-          <Link href="/dashboard" className="text-decoration-none text-muted">Dashboard</Link>
-          <span className="mx-2">/</span>
-          <span className="text-dark">{tournamentDetails.name}</span>
+        <div className="d-flex align-items-center mb-4 px-4 pt-4">
+          <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
+          <span className="mx-2" style={{ color: "#667085" }}>/</span>
+          <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
         </div>
 
-        <div className="d-flex gap-4 p-4 mb-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+        <div className="d-flex gap-4 px-4 mb-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", padding: "24px" }}>
           <Image
             src="/fortnite-banner.png"
             alt="Tournament"
@@ -63,19 +63,17 @@ export default function ConfirmRegistration() {
             className="rounded-3"
             style={{ objectFit: "cover" }}
           />
-          <div className="d-flex flex-column justify-content-between">
-            <div>
-              <h4 className="mb-2">{tournamentDetails.name}</h4>
-              <p className="text-muted mb-0">{tournamentDetails.date} · {tournamentDetails.time}</p>
-            </div>
+          <div className="flex-grow-1">
+            <h4 className="mb-2" style={{ fontSize: "18px", color: "#101828" }}>{tournamentDetails.name}</h4>
+            <p className="text-muted mb-4" style={{ fontSize: "14px", color: "#667085" }}>{tournamentDetails.date} · {tournamentDetails.time}</p>
             <div className="d-flex gap-4">
               <div>
-                <div className="text-muted mb-1">Entry Cost</div>
-                <div className="text-danger fw-bold fs-5">${tournamentDetails.entryFee}</div>
+                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Entry Cost</div>
+                <div style={{ fontSize: "16px", color: "#DC3545", fontWeight: 600 }}>{tournamentDetails.entryCost}</div>
               </div>
               <div>
-                <div className="text-muted mb-1">Prize</div>
-                <div className="text-danger fw-bold fs-5">${tournamentDetails.prize}</div>
+                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Prize</div>
+                <div style={{ fontSize: "16px", color: "#DC3545", fontWeight: 600 }}>{tournamentDetails.prize}</div>
               </div>
             </div>
           </div>
@@ -84,72 +82,112 @@ export default function ConfirmRegistration() {
         <Row>
           <Col md={8}>
             <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
-              <h5 className="mb-4">Payment Method</h5>
+              <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
-                  className={`p-4 rounded-3 text-center cursor-pointer ${paymentMethod === 'wallet' ? 'border border-warning' : 'border'}`}
-                  style={{ minWidth: "200px", cursor: "pointer" }}
+                  className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border border-warning' : 'border'}`}
+                  style={{ 
+                    minWidth: "200px", 
+                    cursor: "pointer",
+                    borderColor: paymentMethod === 'wallet' ? '#FFD600' : '#D0D5DD'
+                  }}
                   onClick={() => setPaymentMethod('wallet')}
                 >
-                  <h5 className="mb-1">${walletBalance}</h5>
-                  <div className="text-muted">Axiom Wallet</div>
+                  <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>${walletBalance}</h5>
+                  <div style={{ fontSize: "14px", color: "#667085" }}>Axiom Wallet</div>
                 </div>
                 <div 
-                  className={`p-4 rounded-3 text-center cursor-pointer ${paymentMethod === 'bank' ? 'border border-warning' : 'border'}`}
-                  style={{ minWidth: "200px", cursor: "pointer" }}
+                  className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'bank' ? 'border border-warning' : 'border'}`}
+                  style={{ 
+                    minWidth: "200px", 
+                    cursor: "pointer",
+                    borderColor: paymentMethod === 'bank' ? '#FFD600' : '#D0D5DD'
+                  }}
                   onClick={() => setPaymentMethod('bank')}
                 >
-                  <h5 className="mb-1">Bank Card</h5>
+                  <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>Bank Card</h5>
                 </div>
                 <div 
-                  className={`p-4 rounded-3 text-center cursor-pointer ${paymentMethod === 'stripe' ? 'border border-warning' : 'border'}`}
-                  style={{ minWidth: "200px", cursor: "pointer" }}
+                  className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'stripe' ? 'border border-warning' : 'border'}`}
+                  style={{ 
+                    minWidth: "200px", 
+                    cursor: "pointer",
+                    borderColor: paymentMethod === 'stripe' ? '#FFD600' : '#D0D5DD'
+                  }}
                   onClick={() => setPaymentMethod('stripe')}
                 >
-                  <h5 className="mb-1">Stripe</h5>
+                  <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>Stripe</h5>
                 </div>
               </div>
 
               {paymentMethod === 'bank' && (
                 <div>
-                  <h5 className="mb-4">Card Information</h5>
+                  <h5 className="mb-4" style={{ fontSize: "14px", color: "#101828" }}>Card Information</h5>
                   <Row>
                     <Col md={6} className="mb-3">
-                      <label className="mb-2">Card Number</label>
+                      <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Card Number</label>
                       <Input
                         type="text"
                         placeholder="XXXX XXXX XXXX"
                         value={cardDetails.number}
                         onChange={(e) => setCardDetails({...cardDetails, number: e.target.value})}
+                        style={{ 
+                          height: "44px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          fontSize: "14px",
+                          color: "#101828"
+                        }}
                       />
                     </Col>
                     <Col md={6} className="mb-3">
-                      <label className="mb-2">Security Code</label>
+                      <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Security Code</label>
                       <Input
                         type="text"
                         placeholder="XXXX XXXX XXXX"
                         value={cardDetails.security}
                         onChange={(e) => setCardDetails({...cardDetails, security: e.target.value})}
+                        style={{ 
+                          height: "44px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          fontSize: "14px",
+                          color: "#101828"
+                        }}
                       />
                     </Col>
                   </Row>
                   <div className="mb-3">
-                    <label className="mb-2">Name on Card</label>
+                    <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Name on Card</label>
                     <Input
                       type="text"
                       placeholder="XXXX XXXX XXXX"
                       value={cardDetails.name}
                       onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
+                      style={{ 
+                        height: "44px",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "#101828"
+                      }}
                     />
                   </div>
                   <Row>
                     <Col md={6}>
-                      <label className="mb-2">Expiration Date</label>
+                      <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Expiration Date</label>
                       <div className="d-flex gap-2">
                         <Input
                           type="select"
                           value={cardDetails.expMonth}
                           onChange={(e) => setCardDetails({...cardDetails, expMonth: e.target.value})}
+                          style={{ 
+                            height: "44px",
+                            border: "1px solid #D0D5DD",
+                            borderRadius: "8px",
+                            fontSize: "14px",
+                            color: "#101828"
+                          }}
                         >
                           <option value="">Month</option>
                           {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -160,6 +198,13 @@ export default function ConfirmRegistration() {
                           type="select"
                           value={cardDetails.expYear}
                           onChange={(e) => setCardDetails({...cardDetails, expYear: e.target.value})}
+                          style={{ 
+                            height: "44px",
+                            border: "1px solid #D0D5DD",
+                            borderRadius: "8px",
+                            fontSize: "14px",
+                            color: "#101828"
+                          }}
                         >
                           <option value="">Year</option>
                           {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map((year) => (
@@ -178,8 +223,8 @@ export default function ConfirmRegistration() {
             <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <div className="mb-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">My Team</h5>
-                  <div className="badge bg-success bg-opacity-10 text-success px-2 py-1">New</div>
+                  <h5 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
+                  <div className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</div>
                 </div>
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <Image
@@ -189,7 +234,7 @@ export default function ConfirmRegistration() {
                     height={40}
                     className="rounded-circle"
                   />
-                  <h6 className="mb-0">{tournamentDetails.team.name}</h6>
+                  <h6 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{tournamentDetails.team.name}</h6>
                 </div>
 
                 {tournamentDetails.team.members.map((member, index) => (
@@ -202,27 +247,27 @@ export default function ConfirmRegistration() {
                       className="rounded-circle"
                     />
                     <div className="flex-grow-1">
-                      <p className="mb-0">{member.name}</p>
-                      <small className="text-muted">{member.role}</small>
+                      <p className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{member.name}</p>
+                      <small style={{ fontSize: "12px", color: "#667085" }}>{member.role}</small>
                     </div>
-                    <span className="text-success">{member.status}</span>
+                    <span style={{ fontSize: "12px", color: "#12B76A" }}>{member.status}</span>
                   </div>
                 ))}
               </div>
 
               <div>
-                <h5 className="mb-3">Prizes</h5>
+                <h5 className="mb-3" style={{ fontSize: "14px", color: "#101828" }}>Prizes</h5>
                 <div className="d-flex justify-content-between mb-2">
-                  <span>1st Winner Prize</span>
-                  <span>$776</span>
+                  <span style={{ fontSize: "14px", color: "#667085" }}>1st Winner Prize</span>
+                  <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span>2nd Winner Prize</span>
-                  <span>$776</span>
+                  <span style={{ fontSize: "14px", color: "#667085" }}>2nd Winner Prize</span>
+                  <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <span>3rd Winner Prize</span>
-                  <span>$776</span>
+                  <span style={{ fontSize: "14px", color: "#667085" }}>3rd Winner Prize</span>
+                  <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
                 </div>
               </div>
             </div>
@@ -243,6 +288,7 @@ export default function ConfirmRegistration() {
                   backgroundColor: "#FFFFFF",
                   border: "1px solid #D0D5DD",
                   borderRadius: "8px",
+                  color: "#344054"
                 }}
               >
                 Back
@@ -257,6 +303,7 @@ export default function ConfirmRegistration() {
                   backgroundColor: "#FFD600",
                   border: "none",
                   borderRadius: "8px",
+                  color: "#101828"
                 }}
               >
                 Pay Now
