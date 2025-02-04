@@ -150,8 +150,8 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0"
               }}
             >
               <h5 className="mb-3">Create Team</h5>
@@ -178,8 +178,8 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0"
               }}
             >
               <div className="d-flex justify-content-between align-items-center mb-4">
@@ -269,8 +269,8 @@ export default function TournamentRegistration() {
             <div
               className="mb-5 p-4 bg-white rounded-3"
               style={{
-                boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                border: "1px solid #EAECF0"
               }}
             >
               <h5
