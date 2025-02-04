@@ -361,8 +361,42 @@ export default function Settings() {
           </TabPane>
           <TabPane tabId="billings">
             <div className="bg-white rounded-3 p-4">
-              <h5>Billing Information</h5>
-              <p>Coming soon...</p>
+              <h5 className="mb-4">Payment method</h5>
+              <div className="d-flex align-items-center">
+                <div 
+                  className="border rounded-3 p-3 me-4" 
+                  style={{ 
+                    width: "200px",
+                    cursor: "pointer",
+                    borderColor: "#E4E7EC"
+                  }}
+                >
+                  <div className="d-flex align-items-center justify-content-center">
+                    <Image
+                      src="/stripe-logo.png"
+                      alt="Stripe"
+                      width={100}
+                      height={40}
+                      style={{ objectFit: "contain" }}
+                    />
+                  </div>
+                  <div className="text-center mt-2" style={{ fontSize: "14px", color: "#101828" }}>
+                    Stripe
+                  </div>
+                </div>
+                <div 
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  style={{ 
+                    width: "48px",
+                    height: "48px",
+                    backgroundColor: "#F04438",
+                    color: "white",
+                    fontSize: "18px"
+                  }}
+                >
+                  M
+                </div>
+              </div>
             </div>
           </TabPane>
           <TabPane tabId="platformIntegration">
