@@ -163,26 +163,33 @@ export default function TournamentRegistration() {
             </div>
 
             <div className="mb-5 p-4 bg-white rounded-3" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
-              <h5 className="mb-3">Invite Friends</h5>
-              <div className="position-relative mb-4">
-                <Search
-                  size={20}
-                  className="position-absolute"
-                  style={{ top: "10px", left: "12px", color: "#667085" }}
-                />
-                <Input
-                  placeholder="Search Friends"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="ps-5"
-                />
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h5 className="mb-0">Invite Friends</h5>
+                <div className="position-relative" style={{ width: "300px" }}>
+                  <Search
+                    size={20}
+                    className="position-absolute"
+                    style={{ top: "50%", transform: "translateY(-50%)", left: "12px", color: "#667085", zIndex: 1 }}
+                  />
+                  <Input
+                    placeholder="Search Friends"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="ps-5"
+                    style={{
+                      backgroundColor: "#fff",
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      height: "40px"
+                    }}
+                  />
+                </div>
               </div>
 
               {filteredFriends.map((friend) => (
                 <div
                   key={friend.id}
-                  className="d-flex align-items-center justify-content-between mb-3 p-3 bg-white rounded-3 shadow-sm"
-                  style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}
+                  className="d-flex align-items-center justify-content-between mb-3"
                 >
                   <div className="d-flex align-items-center">
                     <Image
@@ -193,8 +200,12 @@ export default function TournamentRegistration() {
                       className="rounded-circle me-3"
                     />
                     <div>
-                      <div>{friend.name}</div>
-                      <small className="text-muted">Member</small>
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>
+                        {friend.name}
+                      </div>
+                      <div style={{ fontSize: "14px", color: "#667085" }}>
+                        Member
+                      </div>
                     </div>
                   </div>
                   <Button
@@ -204,8 +215,12 @@ export default function TournamentRegistration() {
                     disabled={friend.status === "invited"}
                     style={{
                       backgroundColor: friend.status === "invited" ? "#FFF" : "#FFD600",
-                      border: "1px solid #FFD600",
-                      color: friend.status === "invited" ? "#000" : "#000",
+                      border: friend.status === "invited" ? "1px solid #D0D5DD" : "1px solid #FFD600",
+                      color: "#101828",
+                      borderRadius: "8px",
+                      padding: "6px 12px",
+                      fontSize: "14px",
+                      fontWeight: 500
                     }}
                   >
                     {friend.status === "invited" ? "Sent Invite" : "Send Invite"}
