@@ -193,9 +193,9 @@ export default function TournamentRegistration() {
                 border: "1px solid #EAECF0",
               }}
             >
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h5 className="mb-0">Invite Friends</h5>
-                <div className="position-relative" style={{ width: "300px" }}>
+              <div className="d-flex flex-column gap-3">
+                <h5 className="mb-0" style={{ fontSize: "14px", color: "#344054" }}>Invite Friends</h5>
+                <div className="position-relative">
                   <Search
                     size={20}
                     className="position-absolute"
@@ -220,55 +220,55 @@ export default function TournamentRegistration() {
                     }}
                   />
                 </div>
-              </div>
 
-              {filteredFriends.map((friend) => (
-                <div
-                  key={friend.id}
-                  className="d-flex align-items-center justify-content-between mb-3"
-                >
-                  <div className="d-flex align-items-center">
-                    <Image
-                      src={friend.avatar}
-                      alt={friend.name}
-                      width={40}
-                      height={40}
-                      className="rounded-circle me-3"
-                    />
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          color: "#101828",
-                        }}
-                      >
-                        {friend.name}
-                      </div>
-                      <div style={{ fontSize: "14px", color: "#667085" }}>
-                        Member
+                {filteredFriends.map((friend) => (
+                  <div
+                    key={friend.id}
+                    className="d-flex align-items-center justify-content-between mb-3"
+                  >
+                    <div className="d-flex align-items-center">
+                      <Image
+                        src={friend.avatar}
+                        alt={friend.name}
+                        width={40}
+                        height={40}
+                        className="rounded-circle me-3"
+                      />
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            color: "#101828",
+                          }}
+                        >
+                          {friend.name}
+                        </div>
+                        <div style={{ fontSize: "14px", color: "#667085" }}>
+                          Member
+                        </div>
                       </div>
                     </div>
+                    <Button
+                      size="sm"
+                      onClick={() => handleSendInvite(friend.id)}
+                      disabled={friend.status === "invited"}
+                      style={{
+                        backgroundColor: friend.status === "invited" ? "#12B76A" : "#FFD600",
+                        border: "none",
+                        color: friend.status === "invited" ? "#FFFFFF" : "#101828",
+                        borderRadius: "8px",
+                        padding: "6px 12px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        width: "100px"
+                      }}
+                    >
+                      {friend.status === "invited" ? "Sent" : "Send Invite"}
+                    </Button>
                   </div>
-                  <Button
-                    size="sm"
-                    onClick={() => handleSendInvite(friend.id)}
-                    disabled={friend.status === "invited"}
-                    style={{
-                      backgroundColor: friend.status === "invited" ? "#12B76A" : "#FFD600",
-                      border: "none",
-                      color: friend.status === "invited" ? "#FFFFFF" : "#101828",
-                      borderRadius: "8px",
-                      padding: "6px 12px",
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      width: "100px"
-                    }}
-                  >
-                    {friend.status === "invited" ? "Sent" : "Send Invite"}
-                  </Button>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div
