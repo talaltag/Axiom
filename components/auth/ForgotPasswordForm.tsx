@@ -112,7 +112,7 @@ export default function ForgotPasswordForm() {
               className="py-2 mb-4"
               disabled={!email}
               style={{
-                backgroundColor: "#FFD600",
+                backgroundColor: !email ? "rgba(16, 24, 40, 0.25)" : "#FFD600",
                 boxShadow: "0px 4px 4px rgba(16, 24, 40, 0.25)",
                 borderRadius: "8px",
               }}
