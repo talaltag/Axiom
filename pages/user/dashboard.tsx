@@ -169,7 +169,7 @@ export default function UserDashboard() {
           </div>
         </div>
 
-        <Row>
+        <Row className="pt-5" style={{ paddingTop: "128px" }}>
           <Col md={8}>
             <Card className="border-0 mb-4">
               <CardBody>
