@@ -65,7 +65,7 @@ export default function LoginForm({
       </FormGroup>
       <div className="d-flex justify-content-end mb-4">
         <a
-          href="#"
+          href="/auth/forgot-password"
           className="text-decoration-none text-muted"
           style={{ fontSize: "14px" }}
         >
