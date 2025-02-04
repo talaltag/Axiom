@@ -103,6 +103,7 @@ export default function UserDashboard() {
             <Button
               color="warning"
               className="px-4"
+              onClick={() => router.push('/user/dashboard/register-tournament/1')}
               style={{
                 backgroundColor: "#FFD600",
                 border: "none",
