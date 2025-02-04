@@ -8,50 +8,11 @@ export default function ForgotPasswordForm() {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""]);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [countdown, setCountdown] = useState(45);
-  const [canResend, setCanResend] = useState(false);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isVerifying && countdown > 0) {
-      timer = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            setCanResend(true);
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [isVerifying, countdown]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsEmailSent(true);
     setIsVerifying(true);
-    setCountdown(45);
-    setCanResend(false);
-  };
-
-  const handleVerifyCode = async () => {
-    const code = verificationCode.join("");
-    if (code.length === 6) {
-      // Add your verification logic here
-      console.log("Verifying code:", code);
-      // Navigate to set new password screen on successful verification
-      setIsVerifying(false);
-    }
-  };
-
-  const handleResendCode = () => {
-    if (canResend) {
-      setCountdown(45);
-      setCanResend(false);
-      // Add your resend code logic here
-    }
   };
 
   const handleVerificationCodeChange = (index: number, value: string) => {
@@ -129,24 +90,12 @@ export default function ForgotPasswordForm() {
                 />
               ))}
             </div>
-            <p className="text-muted mb-4">
-              {canResend ? (
-                <span
-                  onClick={handleResendCode}
-                  style={{ cursor: "pointer", textDecoration: "underline" }}
-                >
-                  Resend code
-                </span>
-              ) : (
-                `Resend code in ${String(Math.floor(countdown / 60)).padStart(2, '0')}:${String(countdown % 60).padStart(2, '0')}`
-              )}
-            </p>
+            <p className="text-muted mb-4">Resend code in 00:45</p>
             <Button
               color="warning"
               block
               className="py-2 mb-4"
               onClick={handleVerifyCode}
-              disabled={verificationCode.some(digit => digit === "")}
               style={{
                 backgroundColor: "#FFD600",
                 borderRadius: "8px",
