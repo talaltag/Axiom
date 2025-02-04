@@ -25,6 +25,19 @@ export default function Settings() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [notificationSettings, setNotificationSettings] = useState({
+    messageNotifications: true,
+    tournamentAnnouncements: false,
+    tournamentReminders: true,
+    friendRequests: false
+  });
+
+  const handleNotificationToggle = (setting: string) => {
+    setNotificationSettings(prev => ({
+      ...prev,
+      [setting]: !prev[setting]
+    }));
+  };
   const [message, setMessage] = useState({ type: "", content: "" });
   const [profileImage, setProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("/user1.png");
@@ -105,7 +118,51 @@ export default function Settings() {
         <p className="text-muted mb-4">Manage your team and preferences here.</p>
 
         <Nav tabs className="mb-4 border-0">
-          {/* ... existing tab items ... */}
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'myAccount' })}
+              onClick={() => setActiveTab('myAccount')}
+              style={{ cursor: 'pointer' }}
+            >
+              My Account
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'notifications' })}
+              onClick={() => setActiveTab('notifications')}
+              style={{ cursor: 'pointer' }}
+            >
+              Notifications
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'billings' })}
+              onClick={() => setActiveTab('billings')}
+              style={{ cursor: 'pointer' }}
+            >
+              Billings
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'platformIntegration' })}
+              onClick={() => setActiveTab('platformIntegration')}
+              style={{ cursor: 'pointer' }}
+            >
+              Platform Integration
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === 'privacyPolicy' })}
+              onClick={() => setActiveTab('privacyPolicy')}
+              style={{ cursor: 'pointer' }}
+            >
+              Privacy & Safety
+            </NavLink>
+          </NavItem>
         </Nav>
 
         <TabContent activeTab={activeTab}>
@@ -228,8 +285,79 @@ export default function Settings() {
               </Form>
             </div>
           </TabPane>
-          {/* ... other tab panes ... */}
-        </TabContent>
+          <TabPane tabId="notifications">
+            <div className="bg-white rounded-3 p-4">
+              <div className="mb-4">
+                <h5 className="mb-3">Incoming Message Notifications</h5>
+                <div className="bg-light p-3 rounded mb-4">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                      <h6 className="mb-1">Message Notifications</h6>
+                      <small className="text-muted">Show notifications for new messages</small>
+                    </div>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={notificationSettings.messageNotifications}
+                        onChange={() => handleNotificationToggle('messageNotifications')}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <h5 className="mb-3">Tournament Notifications</h5>
+                <div className="bg-light p-3 rounded mb-4">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                      <h6 className="mb-1">Announcement</h6>
+                      <small className="text-muted">Show notifications for new tournaments</small>
+                    </div>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={notificationSettings.tournamentAnnouncements}
+                        onChange={() => handleNotificationToggle('tournamentAnnouncements')}
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 className="mb-1">Reminder</h6>
+                      <small className="text-muted">Remind me about tournament registration</small>
+                    </div>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={notificationSettings.tournamentReminders}
+                        onChange={() => handleNotificationToggle('tournamentReminders')}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <h5 className="mb-3">Friends Notifications</h5>
+                <div className="bg-light p-3 rounded">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 className="mb-1">User Requests</h6>
+                      <small className="text-muted">When another user sends you a friend request</small>
+                    </div>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={notificationSettings.friendRequests}
+                        onChange={() => handleNotificationToggle('friendRequests')}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabPane>
       </Container>
     </UserDashboardLayout>
   );
