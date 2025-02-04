@@ -144,39 +144,41 @@ export default function TournamentRegistration() {
               </div>
             </div>
 
-            <div
-              className="mb-5 p-4 bg-white rounded-3"
-              style={{
-                boxShadow:
-                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                border: "1px solid #EAECF0",
-              }}
-            >
-              <h5 className="mb-3">Create Team</h5>
-              <div className="d-flex align-items-center gap-3 mb-4">
-                <Image
-                  src="/user1.png"
-                  alt="Team Avatar"
-                  width={48}
-                  height={48}
-                  className="rounded-circle"
-                  style={{ border: "2px solid #FFD600" }}
-                />
-                <div className="flex-grow-1">
-                  <div className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Team Name *</div>
-                  <Input
-                    value={teamName}
-                    onChange={(e) => setTeamName(e.target.value)}
-                    placeholder="Enter team name"
-                    required
-                    style={{
-                      height: "44px",
-                      border: "1px solid #D0D5DD",
-                      borderRadius: "8px",
-                      padding: "10px 14px",
-                      fontSize: "16px"
-                    }}
+            <div className="mt-5">
+              <div
+                className="mb-5 p-4 bg-white rounded-3"
+                style={{
+                  boxShadow:
+                    "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                  border: "1px solid #EAECF0",
+                }}
+              >
+                <h5 className="mb-3">Create Team</h5>
+                <div className="d-flex align-items-center gap-3 mb-4">
+                  <Image
+                    src="/user1.png"
+                    alt="Team Avatar"
+                    width={48}
+                    height={48}
+                    className="rounded-circle"
+                    style={{ border: "2px solid #FFD600" }}
                   />
+                  <div className="flex-grow-1">
+                    <div className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Team Name *</div>
+                    <Input
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      placeholder="Enter team name"
+                      required
+                      style={{
+                        height: "44px",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        padding: "10px 14px",
+                        fontSize: "16px"
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
