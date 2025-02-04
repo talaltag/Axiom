@@ -220,8 +220,68 @@ export default function UserDashboard() {
             </Row>
           </div>
         </div>
+
+        <Row className="pt-5" style={{ paddingTop: "128px" }}>
+          <Col md={8}>
+            <Card className="border-0 mb-4">
+              <CardBody>
+                <CardTitle tag="h5" className="mb-4">Last Game Stats</CardTitle>
+                {gameStats.map((stat, index) => (
+                  <div key={index} className="mb-4">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>{stat.name}</span>
+                      <span>{stat.lastScore}</span>
+                    </div>
+                    <Progress value={stat.score} color="warning" />
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card className="border-0">
+              <CardBody>
+                <CardTitle tag="h5" className="mb-4">Leaderboard</CardTitle>
+                {leaderboardData.map((player, index) => (
+                  <div key={index} className="d-flex align-items-center justify-content-between mb-3">
+                    <div className="d-flex align-items-center">
+                      <div 
+                        className="me-3" 
+                        style={{ 
+                          width: "24px", 
+                          height: "24px", 
+                          borderRadius: "50%", 
+                          backgroundColor: "#F4F6F8", 
+                          display: "flex", 
+                          alignItems: "center", 
+                          justifyContent: "center",
+                          fontSize: "12px",
+                          color: "#6C757D"
+                        }}
+                      >
+                        {player.rank}
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <Image
+                          src={player.avatar}
+                          alt={player.name}
+                          width={32}
+                          height={32}
+                          className="rounded-circle me-2"
+                        />
+                        <div>
+                          <div style={{ fontSize: "14px" }}>{player.name}</div>
+                          <div style={{ fontSize: "12px", color: "#6C757D" }}>{player.time}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     </UserDashboardLayout>
   );
-
 }
