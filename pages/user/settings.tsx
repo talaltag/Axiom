@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import {
@@ -17,6 +16,7 @@ import {
   Button,
 } from "reactstrap";
 import classnames from "classnames";
+import Image from "next/image";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("myAccount");
@@ -24,30 +24,76 @@ export default function Settings() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [notificationSettings, setNotificationSettings] = useState({
-    email: false,
-    push: false,
-    tournament: false,
-    friends: false
-  });
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
+
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+
+      try {
+        const response = await fetch("/api/users/me/profile-image", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          // Handle success - maybe update UI or show notification
+          console.log("Profile image updated successfully");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
-  const handlePasswordChange = (e: React.FormEvent) => {
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add password change logic here
+    if (newPassword !== confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/users/me/password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oldPassword,
+          newPassword,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Password updated successfully!");
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        const data = await response.json();
+        alert(data.message || "Error updating password");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <h3 className="mb-2">Settings</h3>
-        <p className="text-muted mb-4">Manage your team and preferences here.</p>
-        
+        <div className="d-flex align-items-center mb-4">
+          <h3 className="mb-0">Settings</h3>
+        </div>
+        <p className="text-muted">Manage your team and preferences here.</p>
+
         <Nav tabs className="mb-4">
           <NavItem>
             <NavLink
@@ -99,45 +145,102 @@ export default function Settings() {
         <TabContent activeTab={activeTab}>
           <TabPane tabId="myAccount">
             <Row>
-              <Col md={6}>
-                <h5 className="mb-4">Profile Picture</h5>
-                <div className="mb-4">
-                  <Input type="file" onChange={handleImageUpload} accept="image/*" />
-                </div>
+              <Col md={8}>
+                <div className="bg-white rounded p-4 mb-4">
+                  <div className="d-flex align-items-center mb-4">
+                    <div className="position-relative" style={{ width: "100px", height: "100px" }}>
+                      <Image
+                        src={file ? URL.createObjectURL(file) : "/user1.png"}
+                        alt="Profile"
+                        layout="fill"
+                        className="rounded-circle"
+                        objectFit="cover"
+                      />
+                      <div
+                        className="position-absolute d-flex align-items-center justify-content-center"
+                        style={{
+                          bottom: "0",
+                          right: "0",
+                          width: "32px",
+                          height: "32px",
+                          backgroundColor: "#FFD600",
+                          borderRadius: "50%",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <label htmlFor="profile-image" style={{ cursor: "pointer", margin: 0 }}>
+                          <span>📷</span>
+                          <Input
+                            type="file"
+                            id="profile-image"
+                            onChange={handleImageUpload}
+                            accept="image/*"
+                            style={{ display: "none" }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
 
-                <h5 className="mb-4">Change Password</h5>
-                <Form onSubmit={handlePasswordChange}>
-                  <FormGroup>
-                    <Label for="oldPassword">Current Password</Label>
+                  <FormGroup className="mb-4">
+                    <Label for="username">Axiom Username</Label>
                     <Input
-                      type="password"
-                      id="oldPassword"
-                      value={oldPassword}
-                      onChange={(e) => setOldPassword(e.target.value)}
+                      type="text"
+                      id="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Enter your username"
+                      className="mb-2"
                     />
                   </FormGroup>
-                  <FormGroup>
-                    <Label for="newPassword">New Password</Label>
-                    <Input
-                      type="password"
-                      id="newPassword"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="confirmPassword">Confirm New Password</Label>
-                    <Input
-                      type="password"
-                      id="confirmPassword"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                  </FormGroup>
-                  <Button color="warning" type="submit" style={{ backgroundColor: "#FFD600", border: "none" }}>
-                    Update Password
-                  </Button>
-                </Form>
+
+                  <h5 className="mb-4">Change Password</h5>
+                  <Form onSubmit={handlePasswordChange}>
+                    <Row>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label for="oldPassword">Old Password</Label>
+                          <Input
+                            type="password"
+                            id="oldPassword"
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label for="newPassword">New Password</Label>
+                          <Input
+                            type="password"
+                            id="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label for="confirmPassword">Confirm Password</Label>
+                          <Input
+                            type="password"
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Button
+                      color="warning"
+                      type="submit"
+                      disabled={loading}
+                      style={{ backgroundColor: "#FFD600", border: "none" }}
+                    >
+                      {loading ? "Updating..." : "Update Password"}
+                    </Button>
+                  </Form>
+                </div>
               </Col>
             </Row>
           </TabPane>
@@ -244,6 +347,12 @@ export default function Settings() {
                 </div>
               </Col>
             </Row>
+          </TabPane>
+          <TabPane tabId="platformIntegration">
+            {/* Platform Integration content */}
+          </TabPane>
+          <TabPane tabId="privacySafety">
+            {/* Privacy & Safety content */}
           </TabPane>
         </TabContent>
       </Container>
