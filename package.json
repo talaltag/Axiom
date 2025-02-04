@@ -28,6 +28,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
+    "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "formidable": "^3.5.2",
     "jose": "^5.9.6",
