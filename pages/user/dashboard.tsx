@@ -431,7 +431,7 @@ export default function UserDashboard() {
               className="border-0 mb-4 shadow-sm"
               style={{
                 borderRadius: "16px",
-                background: "linear-gradient(90deg, rgba(100, 105, 228, 0.75) 0%, #F8CA15 100%)",
+                background: "#FFFFFF",
               }}
             >
               <CardBody className="p-4">
@@ -455,9 +455,9 @@ export default function UserDashboard() {
                       style={{
                         height: "8px",
                         borderRadius: "16px",
-                        backgroundColor: "rgba(100, 105, 228, 0.75)",
+                        backgroundColor: "#F2F4F7",
+                        backgroundImage: "linear-gradient(90deg, #FFD600 75%, #F2F4F7 75%)"
                       }}
-                      color="warning"
                     />
                   </div>
                 ))}
