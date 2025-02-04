@@ -27,6 +27,7 @@ export default withAuth(async function handler(
     const form = formidable({
       uploadDir: "./public/uploads",
       keepExtensions: true,
+      maxFileSize: 5 * 1024 * 1024, // 5MB limit
     });
 
     form.parse(req, async (err, _, files) => {
@@ -40,13 +41,25 @@ export default withAuth(async function handler(
       }
 
       const imageFile = Array.isArray(image) ? image[0] : image;
+      
+      // Check file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (!allowedTypes.includes(imageFile.mimetype)) {
+        return res.status(400).json({ message: "Invalid file type. Only JPEG, PNG and GIF are allowed." });
+      }
+
       const imagePath = `/uploads/${path.basename(imageFile.filepath)}`;
 
-      await User.findByIdAndUpdate(req.user.id, { profileImage: imagePath });
+      const updatedUser = await User.findByIdAndUpdate(
+        req.user.id, 
+        { profileImage: imagePath },
+        { new: true }
+      ).select('-password');
 
       return res.status(200).json({
+        success: true,
         message: "Profile image updated successfully",
-        imagePath,
+        user: updatedUser
       });
     });
   } catch (error) {

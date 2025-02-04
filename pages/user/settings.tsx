@@ -27,26 +27,61 @@ export default function Settings() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+  const handleImageUpload = async () => {
+    if (!file) {
+      alert("Please select an image first");
+      return;
+    }
 
-      const formData = new FormData();
-      formData.append("image", e.target.files[0]);
+    const formData = new FormData();
+    formData.append("image", file);
 
-      try {
-        const response = await fetch("/api/users/me/profile-image", {
-          method: "POST",
-          body: formData,
-        });
+    try {
+      const response = await fetch("/api/users/me/profile-image", {
+        method: "POST",
+        body: formData,
+      });
 
-        if (response.ok) {
-          // Handle success - maybe update UI or show notification
-          console.log("Profile image updated successfully");
-        }
-      } catch (error) {
-        console.error("Error uploading image:", error);
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Profile image updated successfully");
+        // Update the session with new user data if needed
+      } else {
+        alert(data.message || "Error updating profile image");
       }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Error updating profile image");
+    }
+  };
+
+  const handleUsernameUpdate = async () => {
+    if (!username) {
+      alert("Please enter a username");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/users/me/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Username updated successfully");
+        // Update the session with new user data if needed
+      } else {
+        alert(data.message || "Error updating username");
+      }
+    } catch (error) {
+      console.error("Error updating username:", error);
+      alert("Error updating username");
     }
   };
 
