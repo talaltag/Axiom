@@ -50,47 +50,45 @@ export default function UserDashboard() {
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <Card className="mb-4 border-0 position-relative overflow-hidden" style={{ borderRadius: "16px" }}>
-          <div className="position-relative" style={{ height: "400px" }}>
-            <Image
-              src="/fortnite-banner.png"
-              alt="Warzone"
-              fill
-              sizes="100vw"
-              style={{ objectFit: "cover" }}
-            />
-            <div 
-              className="position-absolute text-white" 
+        <div className="position-relative mb-5" style={{ height: "400px" }}>
+          <Image
+            src="/fortnite-banner.png"
+            alt="Warzone"
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
+          />
+          <div 
+            className="position-absolute text-white" 
+            style={{ 
+              top: "32px",
+              left: "32px",
+              right: "32px"
+            }}
+          >
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <h2 className="mb-0" style={{ fontSize: "24px", fontWeight: 600 }}>Warzone</h2>
+                <div style={{ fontSize: "14px" }}>May 23, 2023 9:00PM - 10:30PM EST</div>
+              </div>
+            </div>
+            <h3 style={{ fontSize: "40px", fontWeight: 700, marginBottom: "24px" }}>2022 world champs gaming</h3>
+            <Button 
+              color="warning" 
+              className="px-4"
               style={{ 
-                top: "32px",
-                left: "32px",
-                right: "32px"
+                backgroundColor: "#FFD600",
+                border: "none",
+                padding: "8px 16px",
+                fontWeight: 600
               }}
             >
-              <div className="d-flex justify-content-between align-items-start mb-2">
-                <h2 className="mb-0" style={{ fontSize: "32px", fontWeight: 600 }}>Warzone</h2>
-                <div className="text-end">
-                  <div style={{ fontSize: "14px" }}>May 23, 2023</div>
-                  <div style={{ fontSize: "14px" }}>9:00PM - 10:30PM EST</div>
-                </div>
-              </div>
-              <h3 style={{ fontSize: "40px", fontWeight: 700, marginBottom: "24px" }}>2022 world champs gaming</h3>
-              <Button 
-                color="warning" 
-                style={{ 
-                  backgroundColor: "#FFD600",
-                  border: "none",
-                  padding: "8px 16px",
-                  fontWeight: 600
-                }}
-              >
-                Register Now
-              </Button>
-            </div>
+              Register Now
+            </Button>
           </div>
-        </Card>
-
-        <Row className="g-4 mb-4">
+          
+          <div className="position-absolute" style={{ bottom: "-80px", left: "32px", right: "32px" }}>
+            <Row className="g-4">
           {[
             {
               name: "Fortnite Summer Battle",
@@ -126,8 +124,8 @@ export default function UserDashboard() {
             }
           ].map((tournament, index) => (
             <Col md={3} key={index}>
-              <Card className="border-0 h-100 tournament-card" style={{ borderRadius: "12px", overflow: "hidden" }}>
-                <div style={{ height: "180px", position: "relative" }}>
+              <Card className="border-0 h-100 tournament-card bg-white" style={{ borderRadius: "12px", overflow: "hidden" }}>
+                <div style={{ height: "160px", position: "relative" }}>
                   <Image
                     src={tournament.image}
                     alt={tournament.name}
@@ -136,28 +134,29 @@ export default function UserDashboard() {
                     style={{ objectFit: "cover" }}
                   />
                 </div>
-                <CardBody>
-                  <h5 className="mb-3" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.name}</h5>
-                  <div style={{ fontSize: "14px" }} className="text-muted mb-2">
-                    {tournament.date}<br/>
-                    {tournament.time}
+                <CardBody className="p-3">
+                  <h5 className="mb-2" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.name}</h5>
+                  <div style={{ fontSize: "12px" }} className="text-muted mb-2">
+                    {tournament.date} {tournament.time}
                   </div>
-                  <div className="d-flex justify-content-between mb-2">
-                    <div className="text-muted" style={{ fontSize: "14px" }}>Prize</div>
-                    <div className="text-muted" style={{ fontSize: "14px" }}>Entry Cost</div>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <div className="text-danger" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.prize}</div>
-                    <div className="text-danger" style={{ fontSize: "16px", fontWeight: 600 }}>{tournament.entryCost}</div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <div className="text-muted mb-1" style={{ fontSize: "12px" }}>Prize</div>
+                      <div style={{ fontSize: "16px", fontWeight: 600, color: "#DC3545" }}>{tournament.prize}</div>
+                    </div>
+                    <div className="text-end">
+                      <div className="text-muted mb-1" style={{ fontSize: "12px" }}>Entry Cost</div>
+                      <div style={{ fontSize: "16px", fontWeight: 600, color: "#DC3545" }}>{tournament.entryCost}</div>
+                    </div>
                   </div>
                   <Button 
                     color="link"
-                    className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2"
+                    className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2 mt-3"
                     style={{ 
                       color: "#FFD600",
                       fontSize: "14px",
                       fontWeight: 600,
-                      padding: "8px"
+                      padding: "4px"
                     }}
                   >
                     Register Now <span>→</span>
@@ -166,7 +165,9 @@ export default function UserDashboard() {
               </Card>
             </Col>
           ))}
-        </Row>
+            </Row>
+          </div>
+        </div>
 
         <Row>
           <Col md={8}>
