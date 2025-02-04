@@ -118,26 +118,24 @@ export default function TournamentRegistration() {
         <Row>
           <Col md={8}>
             <div className="d-flex gap-4 p-4 mb-4 bg-white rounded-3 shadow-sm" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
-              <Image
-                src={tournament?.images?.[0] || "/fortnite-banner.png"}
-                alt="Tournament"
-                width={120}
-                height={120}
-                className="rounded-3"
-                style={{ objectFit: "cover" }}
-              />
-              <div className="d-flex flex-column justify-content-between">
-                <div>
+              <div className="d-flex align-items-center gap-4 w-100">
+                <Image
+                  src={tournament?.images?.[0] || "/fortnite-banner.png"}
+                  alt="Tournament"
+                  width={120}
+                  height={120}
+                  className="rounded-3"
+                  style={{ objectFit: "cover" }}
+                />
+                <div className="flex-grow-1">
                   <h2 className="fs-3 mb-2">Fortnite Summer Battle</h2>
-                  <p className="text-muted mb-4">
-                    May 23, 2023 9:00PM - 10:30PM EST
+                  <p className="text-muted mb-0" style={{ fontSize: '14px' }}>
+                    May 23, 2023  9:00PM - 10:30PM EST
                   </p>
                 </div>
-                <div className="d-flex align-items-center">
-                  <div className="ms-auto">
-                    <small className="text-muted d-block mb-1 text-end">Entry Cost</small>
-                    <h3 className="text-danger fs-2 fw-bold mb-0">$200</h3>
-                  </div>
+                <div className="text-end">
+                  <div className="text-muted mb-1" style={{ fontSize: '14px' }}>Entry Cost</div>
+                  <h3 className="text-danger fs-2 fw-bold mb-0">$200</h3>
                 </div>
               </div>
             </div>
