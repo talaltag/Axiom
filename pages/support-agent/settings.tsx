@@ -135,7 +135,6 @@ export default function SupportAgentSettings() {
                 </Row>
 
                 <h5 className="mt-4 mb-3">Password</h5>
-                <h5 className="mb-4" style={{color: '#101828', fontSize: '18px', fontWeight: '500'}}>Password</h5>
                 <Row>
                   <Col md={4}>
                     <FormGroup>
