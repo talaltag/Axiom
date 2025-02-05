@@ -262,7 +262,18 @@ export default function SupportAgentChat() {
                   variant={tab === 0 ? "contained" : "text"}
                   size="small"
                   onClick={() => setTab(0)}
-                  sx={{ textTransform: 'none' }}
+                  sx={{ 
+                    textTransform: 'none',
+                    backgroundColor: tab === 0 ? '#fff' : 'transparent',
+                    color: '#000',
+                    border: tab === 0 ? '1px solid #eee' : 'none',
+                    borderRadius: '20px',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      backgroundColor: tab === 0 ? '#fff' : '#f5f5f5',
+                      boxShadow: 'none'
+                    }
+                  }}
                 >
                   All
                 </Button>
@@ -270,12 +281,23 @@ export default function SupportAgentChat() {
                   variant={tab === 1 ? "contained" : "text"}
                   size="small"
                   onClick={() => setTab(1)}
-                  sx={{ textTransform: 'none' }}
+                  sx={{ 
+                    textTransform: 'none',
+                    backgroundColor: tab === 1 ? '#fff' : 'transparent',
+                    color: '#000',
+                    border: tab === 1 ? '1px solid #eee' : 'none',
+                    borderRadius: '20px',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      backgroundColor: tab === 1 ? '#fff' : '#f5f5f5',
+                      boxShadow: 'none'
+                    }
+                  }}
                 >
                   Unread
                 </Button>
               </Box>
-              <Typography variant="subtitle2" color="text.secondary">Chat</Typography>
+              <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '14px' }}>Chat</Typography>
             </Box>
             
             <List sx={{ flex: 1, overflow: 'auto', p: 0 }}>
