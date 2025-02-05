@@ -27,9 +27,65 @@ export default function SupportAgentSettings() {
     confirmPassword: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    
+    if (!formData.name.trim()) {
+      alert('Full name is required');
+      return;
+    }
+
+    // Check if any password field is filled
+    const isPasswordUpdate = formData.oldPassword || formData.newPassword || formData.confirmPassword;
+    
+    if (isPasswordUpdate) {
+      if (!formData.oldPassword || !formData.newPassword || !formData.confirmPassword) {
+        alert('All password fields are required when updating password');
+        return;
+      }
+      if (formData.newPassword !== formData.confirmPassword) {
+        alert('New password and confirm password do not match');
+        return;
+      }
+    }
+
+    try {
+      const formDataObj = new FormData();
+      formDataObj.append('name', formData.name);
+      
+      if (isPasswordUpdate) {
+        formDataObj.append('oldPassword', formData.oldPassword);
+        formDataObj.append('newPassword', formData.newPassword);
+      }
+
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        formDataObj.append('profileImage', fileInput.files[0]);
+      }
+
+      const response = await fetch('/api/agent/profile', {
+        method: 'PUT',
+        body: formDataObj,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Profile updated successfully');
+        // Reset password fields
+        setFormData(prev => ({
+          ...prev,
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        }));
+      } else {
+        throw new Error(data.message || 'Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert(error.message || 'Failed to update profile');
+    }
   };
 
   const togglePasswordVisibility = (field: string) => {
@@ -106,7 +162,25 @@ export default function SupportAgentSettings() {
                 >
                   <label>
                     <span style={{ fontSize: "1.2rem" }}>📸</span>
-                    <input type="file" className="d-none" />
+                    <input 
+                      type="file" 
+                      className="d-none" 
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          // Preview can be added here if needed
+                          const file = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            const img = document.querySelector('img[alt="Profile"]') as HTMLImageElement;
+                            if (img && typeof reader.result === 'string') {
+                              img.src = reader.result;
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
                   </label>
                 </div>
               </div>
