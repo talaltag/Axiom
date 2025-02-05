@@ -137,52 +137,50 @@ export default function Tournaments() {
                   ) : activeTab === "my" ? (
                     registeredTournaments.map((registration) => (
                       <Col md={4} key={registration._id} className="mb-4">
-                        <Card className="border-0 shadow-sm h-100 tournament-card">
-                          <div className="tournament-image-wrapper">
+                        <Card className="tournament-card" style={{ border: 'none', borderRadius: '12px', overflow: 'hidden' }}>
+                          <div style={{ position: 'relative', height: '200px' }}>
                             <Image
-                              src={
-                                registration?.tournament?.images?.[0] ||
-                                "/fortnite-banner.png"
-                              }
-                              alt={
-                                registration?.tournament?.name || "Tournament"
-                              }
-                              style={{
-                                objectFit: "cover",
-                                width: "100%",
-                              }}
-                              width={100}
-                              height={200}
-                              className="tournament-image"
+                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
+                              alt={registration?.tournament?.name || "Tournament"}
+                              style={{ objectFit: "cover" }}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               priority
                             />
-                            <div className="tournament-status">
-                              {registration.tournament.status}
+                            <div style={{
+                              position: 'absolute',
+                              top: '12px',
+                              left: '12px',
+                              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              fontSize: '12px',
+                              color: '#101828'
+                            }}>
+                              Closing in:10:88:00
                             </div>
                           </div>
-                          <CardBody>
-                            <CardTitle tag="h5" className="mb-3">
+                          <CardBody style={{ padding: '16px' }}>
+                            <CardTitle tag="h5" style={{ fontSize: '16px', fontWeight: 500, color: '#101828', marginBottom: '4px' }}>
                               {registration.tournament.name}
                             </CardTitle>
-                            <CardText>
-                              <small className="text-muted">
-                                {registration.tournament.date} •{" "}
-                                {registration.tournament.time}
-                              </small>
-                              <div className="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                  <small className="text-muted">Team</small>
-                                  <h6 className="mb-0">
-                                    {registration.team?.name}
-                                  </h6>
-                                </div>
-                                <div className="text-end">
-                                  <small className="text-muted">Status</small>
-                                  <h6 className="mb-0 text-capitalize">
-                                    {registration.paymentStatus}
-                                  </h6>
+                            <div style={{ fontSize: '14px', color: '#667085', marginBottom: '16px' }}>
+                              {registration.tournament.date} • {registration.tournament.time}
+                            </div>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <div>
+                                <div style={{ fontSize: '14px', color: '#667085', marginBottom: '4px' }}>Prize</div>
+                                <div style={{ fontSize: '16px', fontWeight: 500, color: '#DC3545' }}>
+                                  ${registration.tournament.totalPrizePool}
                                 </div>
                               </div>
+                              <div className="text-end">
+                                <div style={{ fontSize: '14px', color: '#667085', marginBottom: '4px' }}>Entry Cost</div>
+                                <div style={{ fontSize: '16px', fontWeight: 500, color: '#DC3545' }}>
+                                  ${registration.tournament.entryFee}
+                                </div>
+                              </div>
+                            </div>
                               <div className="d-flex justify-content-between align-items-center mb-3">
                                 <div>
                                   <small className="text-muted">
@@ -202,16 +200,22 @@ export default function Tournaments() {
                                 </div>
                               </div>
                               <Button
-                                color="warning"
+                                color="link"
                                 block
-                                onClick={() =>
-                                  router.push(
-                                    `/user/dashboard/confirm/${registration._id}`
-                                  )
-                                }
+                                onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
+                                style={{
+                                  color: '#FFD600',
+                                  textDecoration: 'none',
+                                  fontSize: '14px',
+                                  fontWeight: 600,
+                                  padding: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '8px'
+                                }}
                               >
-                                View Details{" "}
-                                <ArrowRight size={16} className="ms-2" />
+                                Register Now <span>→</span>
                               </Button>
                             </CardText>
                           </CardBody>
