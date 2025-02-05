@@ -282,6 +282,96 @@ export default function Tournaments() {
                     ))
                   )}
                 </Row>
+
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginTop: '24px',
+                  color: '#667085'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Button
+                      color="light"
+                      className="p-0"
+                      style={{ 
+                        minWidth: '32px',
+                        height: '32px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#fff'
+                      }}
+                    >
+                      ‹
+                    </Button>
+
+                    {[1, 2, 3, 4, 5, 6].map((page) => (
+                      <Button
+                        key={page}
+                        color={page === 2 ? "warning" : "light"}
+                        className="p-0"
+                        style={{ 
+                          minWidth: '32px',
+                          height: '32px',
+                          border: page === 2 ? 'none' : '1px solid #D0D5DD',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: page === 2 ? '#FFD700' : '#fff',
+                          fontWeight: page === 2 ? 600 : 400,
+                          fontSize: '14px'
+                        }}
+                      >
+                        {page}
+                      </Button>
+                    ))}
+
+                    <span style={{ margin: '0 4px' }}>...</span>
+
+                    <Button
+                      color="light"
+                      className="p-0"
+                      style={{ 
+                        minWidth: '32px',
+                        height: '32px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#fff',
+                        fontSize: '14px'
+                      }}
+                    >
+                      12
+                    </Button>
+
+                    <Button
+                      color="light"
+                      className="p-0"
+                      style={{ 
+                        minWidth: '32px',
+                        height: '32px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#fff'
+                      }}
+                    >
+                      ›
+                    </Button>
+                  </div>
+
+                  <div style={{ fontSize: '14px', color: '#667085' }}>
+                    1 - 3 of 10 items
+                  </div>
+                </div>
               </CardBody>
             </Card>
           </Col>
