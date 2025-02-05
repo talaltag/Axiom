@@ -221,19 +221,33 @@ export default function SupportAgentChat() {
           <Typography variant="h5" fontWeight={500}>Chat</Typography>
           <Box>
             <Button 
-              variant="contained" 
+              variant={tab === 0 ? "contained" : "text"}
+              onClick={() => setTab(0)}
               sx={{ 
                 mr: 1,
-                backgroundColor: '#FFD700',
-                color: '#000',
-                '&:hover': { backgroundColor: '#FFC700' }
+                ...(tab === 0 ? {
+                  backgroundColor: '#FFD700',
+                  color: '#000',
+                  '&:hover': { backgroundColor: '#FFC700' }
+                } : {
+                  color: '#666'
+                })
               }}
             >
               Users
             </Button>
             <Button 
-              variant="text" 
-              sx={{ color: '#666' }}
+              variant={tab === 1 ? "contained" : "text"}
+              onClick={() => setTab(1)}
+              sx={{ 
+                ...(tab === 1 ? {
+                  backgroundColor: '#FFD700',
+                  color: '#000',
+                  '&:hover': { backgroundColor: '#FFC700' }
+                } : {
+                  color: '#666'
+                })
+              }}
             >
               Admin
             </Button>
