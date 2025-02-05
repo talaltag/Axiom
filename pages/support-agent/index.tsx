@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import { io } from "socket.io-client";
 
 import { Tab } from "@mui/material";
+import { Spinner } from "reactstrap";
 
 const StyledTab = styled(Tab)({
   textTransform: "none",
@@ -177,6 +178,7 @@ export default function SupportAgentChat() {
   }, [socketRef, selectedUser, session.data?.user?.id]);
 
   const fetchUsers = async (role = "User") => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/agent/users?role=${role}`);
       if (response.ok) {
@@ -192,9 +194,9 @@ export default function SupportAgentChat() {
 
   useEffect(() => {
     if (session.data) {
-      fetchUsers();
+      fetchUsers(tab === 0 ? "User" : "Admin");
     }
-  }, [session.data]);
+  }, [tab, session.data]);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -244,6 +246,10 @@ export default function SupportAgentChat() {
     }
   };
 
+  useEffect(() => {
+    setSelectedUser(null);
+  }, [tab]);
+
   return (
     <SupportAgentLayout>
       <Box sx={{ p: 2, pt: 1 }}>
@@ -269,7 +275,6 @@ export default function SupportAgentChat() {
             <Button
               onClick={() => {
                 setTab(0);
-                fetchUsers();
               }}
               sx={{
                 textTransform: "none",
@@ -286,7 +291,6 @@ export default function SupportAgentChat() {
             <Button
               onClick={() => {
                 setTab(1);
-                fetchUsers("Admin");
               }}
               sx={{
                 textTransform: "none",
@@ -309,10 +313,15 @@ export default function SupportAgentChat() {
               <Box
                 sx={{ display: "flex", alignItems: "center", mb: 3, gap: 1.5 }}
               >
-                <Avatar src="/user1.png" sx={{ width: 40, height: 40 }} />
+                <Avatar
+                  src={
+                    session?.data?.user?.profileImage || "/profile-avatar.png"
+                  }
+                  sx={{ width: 40, height: 40 }}
+                />
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                    Alex Lucas Jack
+                    {session?.data?.user?.name}
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <Box
@@ -384,40 +393,49 @@ export default function SupportAgentChat() {
             </Box>
 
             <List sx={{ flex: 1, overflow: "auto", p: 0 }}>
-              {users.map((user) => (
-                <UserItem
-                  key={user._id}
-                  className={selectedUser?._id === user._id ? "selected" : ""}
-                  onClick={() => setSelectedUser(user)}
-                >
-                  <ListItemAvatar>
-                    <Avatar src="/user1.png" sx={{ width: 40, height: 40 }} />
-                  </ListItemAvatar>
-                  <UserInfo>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mb: 0.5,
-                      }}
-                    >
-                      <UserName>{user.name}</UserName>
-                      <MessageTime>9:15 AM</MessageTime>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <LastMessage>Typing Something...</LastMessage>
-                      <StatusDot sx={{ width: 6, height: 6, ml: 1 }} />
-                    </Box>
-                  </UserInfo>
-                </UserItem>
-              ))}
+              {!loading ? (
+                users.map((user) => (
+                  <UserItem
+                    key={user._id}
+                    className={selectedUser?._id === user._id ? "selected" : ""}
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    <ListItemAvatar>
+                      <Avatar
+                        src={"profile-avatar.png"}
+                        sx={{ width: 40, height: 40 }}
+                      />
+                    </ListItemAvatar>
+                    <UserInfo>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          mb: 0.5,
+                        }}
+                      >
+                        <UserName>{user.name}</UserName>
+                        <MessageTime>9:15 AM</MessageTime>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <LastMessage>Typing Something...</LastMessage>
+                        <StatusDot sx={{ width: 6, height: 6, ml: 1 }} />
+                      </Box>
+                    </UserInfo>
+                  </UserItem>
+                ))
+              ) : (
+                <div className="text-center my-3">
+                  <Spinner color="warning" />
+                </div>
+              )}
             </List>
           </Sidebar>
 
@@ -426,7 +444,10 @@ export default function SupportAgentChat() {
               <>
                 <Box sx={{ p: 2, borderBottom: "1px solid #eee" }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Avatar src="/user1.png" sx={{ width: 48, height: 48 }} />
+                    <Avatar
+                      src={"profile-avatar.png"}
+                      sx={{ width: 48, height: 48 }}
+                    />
                     <Box>
                       <Typography variant="subtitle1" fontWeight={500}>
                         {selectedUser.name}
@@ -444,7 +465,11 @@ export default function SupportAgentChat() {
                       isUser={msg.sender === session.data?.user?.id}
                     >
                       <Avatar
-                        src="/user1.png"
+                        src={
+                          msg.sender === session.data?.user?.id
+                            ? session.data?.user?.profileImage
+                            : "/profile-avatar.png"
+                        }
                         sx={{
                           order: msg.sender === session.data?.user?.id ? 1 : 0,
                         }}

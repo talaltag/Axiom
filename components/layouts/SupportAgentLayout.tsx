@@ -16,14 +16,14 @@ import { logout } from "../../store/authSlice";
 import Image from "next/image";
 import { MessageSquare, ChevronsLeft, LogOut, Settings } from "react-feather";
 import NotificationsDropdown from "../common/NotificationsDropdown";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function SupportAgentLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
+  const session = useSession();
   const menuItems = [
     { text: "Chat", path: "/support-agent", icon: <MessageSquare size={18} /> },
     {
@@ -107,7 +107,9 @@ export default function SupportAgentLayout({ children }) {
               <UncontrolledDropdown dropup inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image
-                    src="/user1.png"
+                    src={
+                      session?.data?.user?.profileImage || "/profile-avatar.png"
+                    }
                     alt="User"
                     width={32}
                     height={32}

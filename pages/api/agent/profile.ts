@@ -1,11 +1,8 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withAuth } from "../../../middleware/withAuth";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import formidable from "formidable";
-import fs from "fs";
-import path from "path";
 
 export const config = {
   api: {
@@ -34,11 +31,12 @@ export default withAuth(async function handler(
         return res.status(500).json({ message: "Error processing form data" });
       }
 
-      const { name } = fields;
+      // Ensure the name field is a string
+      const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
       const profileImage = files.profileImage?.[0];
-      
+
       const updateData: any = {};
-      
+
       if (name) {
         updateData.name = name;
       }
@@ -52,12 +50,12 @@ export default withAuth(async function handler(
         req.user.id,
         updateData,
         { new: true }
-      ).select('-password');
+      ).select("-password -walletBalance");
 
       return res.status(200).json({
         success: true,
         message: "Profile updated successfully",
-        user: updatedUser
+        user: updatedUser,
       });
     });
   } catch (error) {

@@ -9,7 +9,7 @@ declare module "next-auth" {
     user: {
       name?: string;
       email?: string;
-      image?: string;
+      profileImage?: string;
       role?: string;
       id?: string;
     };
@@ -34,6 +34,7 @@ export default NextAuth({
               email: user.email,
               name: user.name,
               role: user.role,
+              profileImage: user?.profileImage,
             };
           }
           return null;
@@ -50,8 +51,9 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role as string;
-      session.user.id = token.id as string;
+      await dbConnect();
+      const dbUser = await User.findById(token.id).select("-password");
+      session.user = { ...dbUser._doc, id: dbUser._id.toString() };
       return session;
     },
   },

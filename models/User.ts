@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema({
     default: "User",
   },
   cName: String,
+  profileImage: {
+    type: String,
+    required: false,
+  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,
