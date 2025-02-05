@@ -301,7 +301,7 @@ export default function SupportAgentChat() {
                 </Box>
               </Box>
             </Box>
-            <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '14px', mb: 1 }}>
+            <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '13px', mb: 1, ml: 0.5 }}>
               Chat
             </Typography>
             <Box sx={{ 
