@@ -280,48 +280,69 @@ export default function SupportAgentChat() {
         <ChatContainer>
           <Sidebar>
             <Box sx={{ p: 2, borderBottom: '1px solid #eee' }}>
-              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                <Button 
-                  variant={tab === 0 ? "contained" : "text"}
-                  size="small"
-                  onClick={() => setTab(0)}
-                  sx={{ 
-                    textTransform: 'none',
-                    backgroundColor: tab === 0 ? '#fff' : 'transparent',
-                    color: '#000',
-                    border: tab === 0 ? '1px solid #eee' : 'none',
-                    borderRadius: '20px',
-                    boxShadow: 'none',
-                    '&:hover': {
-                      backgroundColor: tab === 0 ? '#fff' : '#f5f5f5',
-                      boxShadow: 'none'
-                    }
-                  }}
-                >
-                  All
-                </Button>
-                <Button 
-                  variant={tab === 1 ? "contained" : "text"}
-                  size="small"
-                  onClick={() => setTab(1)}
-                  sx={{ 
-                    textTransform: 'none',
-                    backgroundColor: tab === 1 ? '#fff' : 'transparent',
-                    color: '#000',
-                    border: tab === 1 ? '1px solid #eee' : 'none',
-                    borderRadius: '20px',
-                    boxShadow: 'none',
-                    '&:hover': {
-                      backgroundColor: tab === 1 ? '#fff' : '#f5f5f5',
-                      boxShadow: 'none'
-                    }
-                  }}
-                >
-                  Unread
-                </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 1.5 }}>
+              <Avatar src="/user1.png" sx={{ width: 40, height: 40 }} />
+              <Box>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  Alex Lucas Jack
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Box
+                    sx={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      backgroundColor: '#4CAF50'
+                    }}
+                  />
+                  <Typography variant="caption" sx={{ color: '#666' }}>
+                    Online
+                  </Typography>
+                </Box>
               </Box>
-              <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '14px' }}>Chat</Typography>
             </Box>
+            <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '14px', mb: 1 }}>
+              Chat
+            </Typography>
+            <Box sx={{ display: 'flex', mb: 2 }}>
+              <Button
+                variant={tab === 0 ? "contained" : "text"}
+                onClick={() => setTab(0)}
+                sx={{
+                  flex: 1,
+                  textTransform: 'none',
+                  backgroundColor: tab === 0 ? '#f5f5f5' : 'transparent',
+                  color: '#000',
+                  borderRadius: '4px',
+                  boxShadow: 'none',
+                  '&:hover': {
+                    backgroundColor: tab === 0 ? '#f0f0f0' : '#f5f5f5',
+                    boxShadow: 'none'
+                  }
+                }}
+              >
+                All
+              </Button>
+              <Button
+                variant={tab === 1 ? "contained" : "text"}
+                onClick={() => setTab(1)}
+                sx={{
+                  flex: 1,
+                  textTransform: 'none',
+                  backgroundColor: tab === 1 ? '#f5f5f5' : 'transparent',
+                  color: '#000',
+                  borderRadius: '4px',
+                  boxShadow: 'none',
+                  '&:hover': {
+                    backgroundColor: tab === 1 ? '#f0f0f0' : '#f5f5f5',
+                    boxShadow: 'none'
+                  }
+                }}
+              >
+                Unread
+              </Button>
+            </Box>
+          </Box>
             
             <List sx={{ flex: 1, overflow: 'auto', p: 0 }}>
               {users.map((user) => (
