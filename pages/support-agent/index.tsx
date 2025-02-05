@@ -293,6 +293,36 @@ export default function SupportAgentChat() {
               </Button>
             </Box>
           </Box>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              onClick={() => setTab(0)}
+              sx={{
+                textTransform: 'none',
+                minWidth: '80px',
+                backgroundColor: tab === 0 ? '#FFD700' : 'transparent',
+                color: tab === 0 ? '#000' : '#666',
+                '&:hover': {
+                  backgroundColor: tab === 0 ? '#FFC700' : 'rgba(0,0,0,0.05)'
+                }
+              }}
+            >
+              Users
+            </Button>
+            <Button
+              onClick={() => setTab(1)}
+              sx={{
+                textTransform: 'none',
+                minWidth: '80px',
+                backgroundColor: tab === 1 ? '#FFD700' : 'transparent',
+                color: tab === 1 ? '#000' : '#666',
+                '&:hover': {
+                  backgroundColor: tab === 1 ? '#FFC700' : 'rgba(0,0,0,0.05)'
+                }
+              }}
+            >
+              Admin
+            </Button>
+          </Box>
         </Box>
 
         <ChatContainer>
