@@ -42,7 +42,8 @@ export default function ConfirmRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid style={{ padding: '24px', backgroundColor: '#F9FAFB' }}>
+      <div style={{ backgroundColor: '#F9FAFB', minHeight: '100vh' }}>
+      <Container fluid style={{ padding: '24px' }}>
         <div className="d-flex align-items-center mb-4">
           <Link href="/dashboard" style={{ color: "#667085", fontSize: "14px", textDecoration: 'none' }}>
             Dashboard
@@ -332,6 +333,7 @@ export default function ConfirmRegistration() {
           </div>
         </div>
       </Container>
+      </div>
     </UserDashboardLayout>
   );
 }
