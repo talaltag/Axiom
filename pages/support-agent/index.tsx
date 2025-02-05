@@ -35,6 +35,7 @@ const ChatContainer = styled(Box)({
   borderRadius: "8px",
   overflow: "hidden",
   border: "1px solid #eee",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
 });
 
 const Sidebar = styled(Box)({
@@ -462,6 +463,8 @@ export default function SupportAgentChat() {
                       minWidth: "auto",
                       backgroundColor: "#FFD700",
                       color: "#000",
+                      borderRadius: "50%",
+                      padding: "10px",
                       "&:hover": { backgroundColor: "#FFC700" },
                     }}
                   >
