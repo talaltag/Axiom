@@ -3,6 +3,7 @@ import { withAuth } from "../../../middleware/withAuth";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import formidable from "formidable";
+import bcrypt from "bcryptjs";
 
 export const config = {
   api: {
@@ -31,8 +32,14 @@ export default withAuth(async function handler(
         return res.status(500).json({ message: "Error processing form data" });
       }
 
-      // Ensure the name field is a string
+      // Ensure fields are strings
       const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+      const oldPassword = Array.isArray(fields.oldPassword)
+        ? fields.oldPassword[0]
+        : fields.oldPassword;
+      const newPassword = Array.isArray(fields.newPassword)
+        ? fields.newPassword[0]
+        : fields.newPassword;
       const profileImage = files.profileImage?.[0];
 
       const updateData: any = {};
@@ -46,6 +53,30 @@ export default withAuth(async function handler(
         updateData.profileImage = `/uploads/${fileName}`;
       }
 
+      // Fetch the current user from the database
+      const user = await User.findById(req.user.id).select("+password");
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if the user is updating their password
+      if (oldPassword && newPassword) {
+        // Verify the old password
+        const isPasswordValid = await bcrypt.compare(
+          oldPassword,
+          user.password
+        );
+
+        if (!isPasswordValid) {
+          return res.status(400).json({ message: "Old password is incorrect" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        updateData.password = hashedPassword;
+      }
+
+      // Update the user in the database
       const updatedUser = await User.findByIdAndUpdate(
         req.user.id,
         updateData,

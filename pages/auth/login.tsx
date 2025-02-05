@@ -34,7 +34,9 @@ export default function Login() {
       password,
     });
     if (result.error) {
-      console.error(result.error);
+      if (result.status == 401) {
+        alert("Wrong Credentials");
+      }
     }
     if (result.ok) {
       const data = await fetch("/api/auth/session").then((res) => res.json());
