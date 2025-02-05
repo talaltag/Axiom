@@ -1,122 +1,170 @@
+
 import { useState, useEffect } from "react";
 import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Nav,
-  NavItem,
-  NavLink,
-  Badge,
-} from "reactstrap";
+  Box,
+  Tabs,
+  Tab,
+  Avatar,
+  Typography,
+  TextField,
+  IconButton,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  styled,
+} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 import SupportAgentLayout from "../../components/layouts/SupportAgentLayout";
-import ChatWindow from "../../components/chat/ChatWindow";
-import { useSession } from "next-auth/react";
 
-interface User {
-  _id: string;
-  name: string;
-  profileImage?: string;
-}
+const StyledTab = styled(Tab)({
+  textTransform: "none",
+  minWidth: 80,
+  color: "#666",
+  "&.Mui-selected": {
+    color: "#000",
+    fontWeight: 600,
+  },
+});
 
-export default function SupportAgentChatScreen() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState("users");
+const ChatContainer = styled(Box)({
+  display: "flex",
+  height: "calc(100vh - 100px)",
+  backgroundColor: "#fff",
+  borderRadius: "8px",
+});
 
-  const session = useSession();
+const UsersList = styled(Box)({
+  width: "280px",
+  borderRight: "1px solid #eee",
+  overflowY: "auto",
+});
 
-  const fetchUsers = async (role: string = "User") => {
-    try {
-      const response = await fetch(`/api/agent/users?role=${role}`);
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching users:", error);
+const ChatArea = styled(Box)({
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+});
+
+const MessageInput = styled(Box)({
+  padding: "16px",
+  borderTop: "1px solid #eee",
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+});
+
+const UserListItem = styled(ListItem)({
+  padding: "12px 16px",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "#f5f5f5",
+  },
+  "&.selected": {
+    backgroundColor: "#007bff",
+    color: "white",
+  },
+});
+
+export default function SupportAgentChat() {
+  const [tab, setTab] = useState(0);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const users = [
+    { id: 1, name: "James", avatar: "/user1.png" },
+    { id: 2, name: "Damien Joe", avatar: "/user1.png" },
+    { id: 3, name: "lo", avatar: "/user1.png" },
+    { id: 4, name: "testing", avatar: "/user1.png" },
+    { id: 5, name: "Zubair", avatar: "/user1.png" },
+    { id: 6, name: "User", avatar: "/user1.png" },
+  ];
+
+  const handleSend = () => {
+    if (message.trim()) {
+      // Implement send message logic here
+      setMessage("");
     }
   };
 
-  useEffect(() => {
-    fetchUsers(activeTab === "users" ? "User" : "Admin");
-  }, [activeTab]);
-
-  useEffect(() => {
-    if (session.data?.user?.id && session.data.user.name) {
-      setCurrentUser({
-        _id: session.data.user.id,
-        name: session.data.user.name,
-        profileImage: session.data.user.image,
-      });
-    }
-  }, [session.data]);
-
   return (
     <SupportAgentLayout>
-      <Container fluid className="h-100">
-        <Row className="h-100">
-          <Col md={3} className="border-end p-0">
-            <Nav pills className="bg-light p-2 justify-content-center">
-              <NavItem>
-                <NavLink
-                  active={activeTab === "users"}
-                  onClick={() => {
-                    setActiveTab("users");
-                    setSelectedUser(null);
-                  }}
-                >
-                  Users
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  active={activeTab === "admin"}
-                  onClick={() => {
-                    setActiveTab("admin");
-                    setSelectedUser(null);
-                  }}
-                >
-                  Admin
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <ListGroup flush>
+      <Box sx={{ p: 3 }}>
+        <ChatContainer>
+          <UsersList>
+            <Box sx={{ px: 2, py: 1, borderBottom: "1px solid #eee" }}>
+              <Tabs 
+                value={tab} 
+                onChange={(_, newValue) => setTab(newValue)}
+                sx={{ minHeight: 36 }}
+              >
+                <StyledTab label="Users" />
+                <StyledTab label="Admin" />
+              </Tabs>
+            </Box>
+            <List sx={{ p: 0 }}>
               {users.map((user) => (
-                <ListGroupItem
-                  key={user._id}
-                  action
-                  active={selectedUser?._id === user._id}
-                  className="d-flex align-items-center p-3"
+                <UserListItem
+                  key={user.id}
+                  className={selectedUser?.id === user.id ? "selected" : ""}
                   onClick={() => setSelectedUser(user)}
                 >
-                  <img
-                    src={user.profileImage || "/user1.png"}
-                    className="rounded-circle me-3"
-                    width={40}
-                    height={40}
-                    alt={user.name}
-                  />
-                  <div>
-                    <div className="fw-bold">{user.name}</div>
-                  </div>
-                </ListGroupItem>
+                  <ListItemAvatar>
+                    <Avatar src={user.avatar} />
+                  </ListItemAvatar>
+                  <ListItemText primary={user.name} />
+                </UserListItem>
               ))}
-            </ListGroup>
-          </Col>
-          <Col md={9} className="p-0">
+            </List>
+          </UsersList>
+
+          <ChatArea>
             {selectedUser ? (
-              <ChatWindow currentUser={currentUser} receiver={selectedUser} />
+              <>
+                <Box sx={{ p: 2, borderBottom: "1px solid #eee" }}>
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    {selectedUser.name}
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1, p: 2, overflowY: "auto" }}>
+                  {/* Chat messages will go here */}
+                </Box>
+                <MessageInput>
+                  <TextField
+                    fullWidth
+                    placeholder="Type a message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    variant="outlined"
+                    size="small"
+                  />
+                  <Button
+                    variant="contained"
+                    endIcon={<SendIcon />}
+                    onClick={handleSend}
+                    sx={{ minWidth: 100 }}
+                  >
+                    Send
+                  </Button>
+                </MessageInput>
+              </>
             ) : (
-              <div className="h-100 d-flex align-items-center justify-content-center text-muted">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  color: "text.secondary",
+                }}
+              >
                 Select a user to start chatting
-              </div>
+              </Box>
             )}
-          </Col>
-        </Row>
-      </Container>
+          </ChatArea>
+        </ChatContainer>
+      </Box>
     </SupportAgentLayout>
   );
 }
