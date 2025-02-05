@@ -114,8 +114,17 @@ export default function Tournaments() {
                       <Input
                         type="search"
                         className="form-control me-2 ps-5"
-                        placeholder="Search tournaments..."
-                        style={{ width: "250px" }}
+                        placeholder="Search"
+                        style={{ 
+                          width: "360px",
+                          height: "40px",
+                          backgroundColor: "#F9FAFB",
+                          border: "1px solid #EAECF0",
+                          borderRadius: "8px",
+                          fontSize: "14px",
+                          color: "#667085",
+                          boxShadow: "none"
+                        }}
                       />
                     </div>
                   </div>
