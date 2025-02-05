@@ -10,8 +10,11 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import MicIcon from "@mui/icons-material/Mic";
+import StopIcon from "@mui/icons-material/Stop";
 import { io } from "socket.io-client";
 import Image from "next/image";
+import RecordRTC from "recordrtc";
 
 interface User {
   _id: string;
@@ -40,8 +43,12 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [file, setFile] = useState<File[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [recorder, setRecorder] = useState<RecordRTC | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const socketRef = useRef<any>(null);
   const roomId = [currentUser._id, receiver._id].sort().join("-");
 
@@ -88,6 +95,50 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const newRecorder = new RecordRTC(stream, {
+        type: 'audio',
+        mimeType: 'audio/webm',
+        recorderType: RecordRTC.StereoAudioRecorder
+      });
+      
+      newRecorder.startRecording();
+      setRecorder(newRecorder);
+      setIsRecording(true);
+      setRecordingTime(0);
+      
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (recorder) {
+      recorder.stopRecording(() => {
+        const blob = recorder.getBlob();
+        const audioFile = new File([blob], 'voice-message.webm', { type: 'audio/webm' });
+        setFile([audioFile]);
+        setIsRecording(false);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+        recorder.destroy();
+        setRecorder(null);
+      });
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +228,12 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           ) : null}
           {message.fileUrl && (
             <Box>
-              {message.fileType?.startsWith("image/") ? (
+              {message.fileType?.startsWith("audio/") ? (
+                <audio controls style={{ maxWidth: "200px" }}>
+                  <source src={`/${message.fileUrl}`} type={message.fileType} />
+                  Your browser does not support the audio element.
+                </audio>
+              ) : message.fileType?.startsWith("image/") ? (
                 <img
                   src={`/${message.fileUrl}`}
                   alt={message.fileName}
@@ -251,6 +307,18 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           >
             <AttachFileIcon />
           </IconButton>
+          <IconButton
+            onClick={isRecording ? stopRecording : startRecording}
+            size="small"
+            color={isRecording ? "error" : "default"}
+          >
+            {isRecording ? <StopIcon /> : <MicIcon />}
+          </IconButton>
+          {isRecording && (
+            <Typography variant="caption" color="error">
+              {formatTime(recordingTime)}
+            </Typography>
+          )}
           <TextField
             fullWidth
             size="small"
