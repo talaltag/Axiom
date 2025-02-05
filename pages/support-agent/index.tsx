@@ -251,42 +251,47 @@ export default function SupportAgentChat() {
             alignItems: "center",
           }}
         >
-          <Box>
-            <Button
-              variant={tab === 0 ? "contained" : "text"}
-              onClick={() => setTab(0)}
-              sx={{
-                mr: 1,
-                ...(tab === 0
-                  ? {
-                      backgroundColor: "#FFD700",
-                      color: "#000",
-                      "&:hover": { backgroundColor: "#FFC700" },
-                    }
-                  : {
-                      color: "#666",
-                    }),
-              }}
-            >
-              Users
-            </Button>
-            <Button
-              variant={tab === 1 ? "contained" : "text"}
-              onClick={() => setTab(1)}
-              sx={{
-                ...(tab === 1
-                  ? {
-                      backgroundColor: "#FFD700",
-                      color: "#000",
-                      "&:hover": { backgroundColor: "#FFC700" },
-                    }
-                  : {
-                      color: "#666",
-                    }),
-              }}
-            >
-              Admin
-            </Button>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>Chat</Typography>
+            <Box sx={{
+              display: 'flex',
+              backgroundColor: '#f5f5f5',
+              borderRadius: '4px',
+              p: 0.5,
+              width: 'fit-content'
+            }}>
+              <Button
+                onClick={() => setTab(0)}
+                sx={{
+                  textTransform: 'none',
+                  minWidth: '80px',
+                  backgroundColor: tab === 0 ? '#fff' : 'transparent',
+                  color: '#000',
+                  boxShadow: tab === 0 ? 1 : 'none',
+                  mr: 0.5,
+                  '&:hover': {
+                    backgroundColor: tab === 0 ? '#fff' : 'rgba(0,0,0,0.05)'
+                  }
+                }}
+              >
+                Users
+              </Button>
+              <Button
+                onClick={() => setTab(1)}
+                sx={{
+                  textTransform: 'none',
+                  minWidth: '80px',
+                  backgroundColor: tab === 1 ? '#fff' : 'transparent',
+                  color: '#000',
+                  boxShadow: tab === 1 ? 1 : 'none',
+                  '&:hover': {
+                    backgroundColor: tab === 1 ? '#fff' : 'rgba(0,0,0,0.05)'
+                  }
+                }}
+              >
+                Admin
+              </Button>
+            </Box>
           </Box>
         </Box>
 
