@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -83,11 +82,11 @@ export default function ConfirmRegistration() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)', backgroundColor: '#fff' }}>
               <h5 style={{ fontSize: "16px", color: "#101828", marginBottom: "24px", fontWeight: 500 }}>
                 Payment Method
               </h5>
-              
+
               <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
                 <div
                   onClick={() => setPaymentMethod("wallet")}
@@ -268,7 +267,7 @@ export default function ConfirmRegistration() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+          <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)', backgroundColor: '#fff' }}>
             <div className="mb-4">
               <div style={{ fontSize: "14px", color: "#667085" }}>Entry Fee</div>
               <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.entryFee}</div>
