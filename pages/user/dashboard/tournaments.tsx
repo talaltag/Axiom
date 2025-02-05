@@ -136,16 +136,8 @@ export default function Tournaments() {
                   ) : activeTab === "my" ? (
                     registeredTournaments.map((registration) => (
                       <Col md={4} key={registration._id} className="mb-4">
-                        <Card className="tournament-card h-100 border-0">
-                          <div style={{ position: "relative", height: "200px", borderRadius: "8px", overflow: "hidden" }}>
-                            <div style={{ position: "absolute", top: "12px", left: "12px", zIndex: 1, backgroundColor: "white", padding: "4px 8px", borderRadius: "4px" }}>
-                              <span style={{ fontSize: "12px", color: "#344054" }}>Closing in:10:88:00</span>
-                            </div>
-                            {registration.status === "Registered" && (
-                              <div style={{ position: "absolute", top: "12px", right: "12px", zIndex: 1, backgroundColor: "white", padding: "4px 8px", borderRadius: "4px" }}>
-                                <span style={{ fontSize: "12px", color: "#12B76A" }}>✓ Registered</span>
-                              </div>
-                            )}
+                        <Card className="tournament-card h-100">
+                          <div style={{ position: "relative", height: "200px" }}>
                             <Image
                               src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
                               alt={registration?.tournament?.name || "Tournament"}
@@ -154,39 +146,31 @@ export default function Tournaments() {
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
-                          <CardBody className="px-3 pt-3 pb-4">
-                            <CardTitle tag="h5" style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                          <CardBody>
+                            <CardTitle tag="h5" className="mb-3">
                               {registration.tournament.name}
                             </CardTitle>
-                            <div style={{ fontSize: "14px", color: "#667085", marginBottom: "16px" }}>
-                              {registration.tournament.date} • {registration.tournament.time}
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <div>
-                                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Prize</div>
-                                <div style={{ fontSize: "16px", fontWeight: 500, color: "#DC3545" }}>${registration.tournament.totalPrizePool}</div>
+                            <CardText>
+                              <small className="text-muted">
+                                {registration.tournament.date} • {registration.tournament.time}
+                              </small>
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                  <small className="text-muted">Prize Pool</small>
+                                  <h6 className="mb-0">${registration.tournament.totalPrizePool}</h6>
+                                </div>
+                                <div className="text-end">
+                                  <small className="text-muted">Entry Fee</small>
+                                  <h6 className="mb-0">${registration.tournament.entryFee}</h6>
+                                </div>
                               </div>
-                              <div className="text-end">
-                                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Entry Cost</div>
-                                <div style={{ fontSize: "16px", fontWeight: 500, color: "#DC3545" }}>${registration.tournament.entryFee}</div>
-                              </div>
-                            </div>
-                            <Button
-                              color="warning"
-                              block
-                              onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "none",
-                                color: "#FFD600",
-                                fontWeight: 600,
-                                fontSize: "14px",
-                                padding: "4px",
-                                marginTop: "12px"
-                              }}
-                            >
-                              View Details <ArrowRight size={16} className="ms-2" />
-                            </Button>
+                              <Button
+                                color="warning"
+                                block
+                                onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
+                              >
+                                View Details <ArrowRight size={16} className="ms-2" />
+                              </Button>
                             </CardText>
                           </CardBody>
                         </Card>
@@ -199,11 +183,8 @@ export default function Tournaments() {
                   ) : (
                     tournaments.map((tournament) => (
                       <Col md={4} key={tournament._id} className="mb-4">
-                        <Card className="tournament-card h-100 border-0">
-                          <div style={{ position: "relative", height: "200px", borderRadius: "8px", overflow: "hidden" }}>
-                            <div style={{ position: "absolute", top: "12px", left: "12px", zIndex: 1, backgroundColor: "white", padding: "4px 8px", borderRadius: "4px" }}>
-                              <span style={{ fontSize: "12px", color: "#344054" }}>Closing in:10:88:00</span>
-                            </div>
+                        <Card className="tournament-card h-100">
+                          <div style={{ position: "relative", height: "200px" }}>
                             <Image
                               src={tournament.images?.[0] || "/fortnite-banner.png"}
                               alt={tournament.name || "Tournament"}
@@ -212,39 +193,31 @@ export default function Tournaments() {
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
-                          <CardBody className="px-3 pt-3 pb-4">
-                            <CardTitle tag="h5" style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                          <CardBody>
+                            <CardTitle tag="h5" className="mb-3">
                               {tournament.name}
                             </CardTitle>
-                            <div style={{ fontSize: "14px", color: "#667085", marginBottom: "16px" }}>
-                              {tournament.date} • {tournament.time}
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <div>
-                                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Prize</div>
-                                <div style={{ fontSize: "16px", fontWeight: 500, color: "#DC3545" }}>${tournament.totalPrizePool}</div>
+                            <CardText>
+                              <small className="text-muted">
+                                {tournament.date} • {tournament.time}
+                              </small>
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                  <small className="text-muted">Prize Pool</small>
+                                  <h6 className="mb-0">${tournament.totalPrizePool}</h6>
+                                </div>
+                                <div className="text-end">
+                                  <small className="text-muted">Entry Fee</small>
+                                  <h6 className="mb-0">${tournament.entryFee}</h6>
+                                </div>
                               </div>
-                              <div className="text-end">
-                                <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Entry Cost</div>
-                                <div style={{ fontSize: "16px", fontWeight: 500, color: "#DC3545" }}>${tournament.entryFee}</div>
-                              </div>
-                            </div>
-                            <Button
-                              color="warning"
-                              block
-                              onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "none",
-                                color: "#FFD600",
-                                fontWeight: 600,
-                                fontSize: "14px",
-                                padding: "4px",
-                                marginTop: "12px"
-                              }}
-                            >
-                              Register Now <ArrowRight size={16} className="ms-2" />
-                            </Button>
+                              <Button
+                                color="warning"
+                                block
+                                onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                              >
+                                Register Now <ArrowRight size={16} className="ms-2" />
+                              </Button>
                             </CardText>
                           </CardBody>
                         </Card>
