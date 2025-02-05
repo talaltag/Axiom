@@ -56,7 +56,7 @@ export default function SupportAgentSettings() {
         <Row>
           <Col md={8} style={{width:'100%'}}>
             <div className="mb-4">
-              <div className="d-flex align-items-center mb-4">
+              <div style={{ position: 'relative', width: 'fit-content', marginBottom: '2rem' }}>
                 <img
                   src="/user1.png"
                   alt="Profile"
@@ -64,10 +64,23 @@ export default function SupportAgentSettings() {
                   width={100}
                   height={100}
                 />
-                <div className="ms-3">
-                  <Button color="warning" size="sm">
-                    <span style={{fontSize:'1.2rem'}}>&#128247;</span>
-                  </Button>
+                <div 
+                  style={{
+                    position: 'absolute',
+                    bottom: -5,
+                    right: -5,
+                    backgroundColor: '#FFD700',
+                    borderRadius: '50%',
+                    width: 32,
+                    height: 32,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    border: '2px solid white'
+                  }}
+                >
+                  <span style={{fontSize: '1.2rem'}}>📸</span>
                 </div>
               </div>
 
