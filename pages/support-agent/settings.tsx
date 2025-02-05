@@ -265,13 +265,14 @@ export default function SupportAgentSettings() {
                   <Button 
                     color="warning" 
                     style={{
-                      width: '100%',
+                      width: '120px',
                       height: '44px',
                       backgroundColor: '#FFD700',
                       border: 'none',
                       borderRadius: '8px',
                       fontSize: '16px',
-                      fontWeight: 500
+                      fontWeight: 500,
+                      float: 'right'
                     }}
                   >
                     Update
