@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Button } from "reactstrap";
 
 export default function ConfirmRegistration() {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function ConfirmRegistration() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
           <div>
-            <div className="bg-white rounded-3 p-4 mb-4">
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <div className="d-flex gap-4">
                 <div style={{ position: 'relative', width: '80px', height: '80px' }}>
                   <Image
@@ -63,8 +63,8 @@ export default function ConfirmRegistration() {
                     fill
                     style={{ objectFit: "cover", borderRadius: '8px' }}
                   />
-                  <span className="badge bg-success bg-opacity-10 text-success" 
-                    style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '12px', padding: '4px 8px' }}>
+                  <span className="badge bg-success" 
+                    style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '12px', padding: '4px 8px', backgroundColor: '#ECFDF3 !important', color: '#027A48' }}>
                     New
                   </span>
                 </div>
@@ -93,7 +93,7 @@ export default function ConfirmRegistration() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3 p-4">
+            <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <h5 style={{ fontSize: "16px", color: "#101828", marginBottom: "24px", fontWeight: 500 }}>
                 Payment Method
               </h5>
@@ -101,12 +101,13 @@ export default function ConfirmRegistration() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
                 <div
                   onClick={() => setPaymentMethod("wallet")}
-                  className={`rounded-3 cursor-pointer ${paymentMethod === "wallet" ? "border-2 border-warning" : "border"}`}
                   style={{
                     padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "wallet" ? "#FFFDF5" : "#FFFFFF",
-                    borderColor: paymentMethod === "wallet" ? "#FFD600" : "#D0D5DD",
+                    border: `1px solid ${paymentMethod === "wallet" ? "#FFD600" : "#D0D5DD"}`,
+                    borderRadius: '8px',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
                   <div style={{ fontSize: "18px", fontWeight: 600, color: "#101828", marginBottom: "4px" }}>
@@ -117,12 +118,13 @@ export default function ConfirmRegistration() {
 
                 <div
                   onClick={() => setPaymentMethod("bank")}
-                  className={`rounded-3 cursor-pointer ${paymentMethod === "bank" ? "border-2 border-warning" : "border"}`}
                   style={{
                     padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "bank" ? "#FFFDF5" : "#FFFFFF",
-                    borderColor: paymentMethod === "bank" ? "#FFD600" : "#D0D5DD",
+                    border: `1px solid ${paymentMethod === "bank" ? "#FFD600" : "#D0D5DD"}`,
+                    borderRadius: '8px',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
                   <div style={{ fontSize: "16px", color: "#101828" }}>Bank Card</div>
@@ -130,14 +132,15 @@ export default function ConfirmRegistration() {
 
                 <div
                   onClick={() => setPaymentMethod("stripe")}
-                  className={`rounded-3 cursor-pointer ${paymentMethod === "stripe" ? "border-2 border-warning" : "border"}`}
                   style={{
                     padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "stripe" ? "#FFFDF5" : "#FFFFFF",
-                    borderColor: paymentMethod === "stripe" ? "#FFD600" : "#D0D5DD",
+                    border: `1px solid ${paymentMethod === "stripe" ? "#FFD600" : "#D0D5DD"}`,
+                    borderRadius: '8px',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
                   }}
                 >
                   <Image src="/stripe.png" alt="Stripe" width={70} height={32} />
@@ -146,57 +149,117 @@ export default function ConfirmRegistration() {
 
               {paymentMethod === "bank" && (
                 <div style={{ display: 'grid', gap: '16px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '16px' }}>
-                    <div>
-                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                        Card Number
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="XXXX XXXX XXXX"
-                        style={{ height: "44px", fontSize: "16px" }}
-                      />
+                  <div className="mb-4">
+                    <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#344054", marginBottom: "16px" }}>
+                      Card Information
+                    </h6>
+                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '16px' }}>
+                      <div>
+                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                          Card Number
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="XXXX XXXX XXXX XXXX"
+                          style={{ 
+                            height: "44px", 
+                            fontSize: "16px",
+                            border: "1px solid #D0D5DD",
+                            borderRadius: "8px",
+                            padding: "10px 14px",
+                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                          MM/YY
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="MM/YY"
+                          style={{ 
+                            height: "44px", 
+                            fontSize: "16px",
+                            border: "1px solid #D0D5DD",
+                            borderRadius: "8px",
+                            padding: "10px 14px",
+                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="XXX"
+                          style={{ 
+                            height: "44px", 
+                            fontSize: "16px",
+                            border: "1px solid #D0D5DD",
+                            borderRadius: "8px",
+                            padding: "10px 14px",
+                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                        MM/YY
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="MM/YY"
-                        style={{ height: "44px", fontSize: "16px" }}
-                      />
-                    </div>
-                    <div>
-                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                        CVV
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="XXX"
-                        style={{ height: "44px", fontSize: "16px" }}
-                      />
-                    </div>
+                  </div>
+
+                  <div>
+                    <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#344054", marginBottom: "16px" }}>
+                      Name on Card
+                    </h6>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter name on card"
+                      style={{ 
+                        height: "44px", 
+                        fontSize: "16px",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        padding: "10px 14px",
+                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                      }}
+                    />
                   </div>
                 </div>
               )}
 
               <div className="d-flex justify-content-between mt-4">
-                <Button color="link" className="text-decoration-none px-0" style={{ color: "#667085" }}>
+                <Button 
+                  color="light"
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D0D5DD",
+                    height: "44px",
+                    padding: "10px 18px",
+                    borderRadius: "8px",
+                    color: "#344054",
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                  }}
+                >
                   Back
                 </Button>
                 <Button
-                  color="warning"
                   style={{
                     backgroundColor: "#FFD600",
                     border: "none",
                     height: "44px",
-                    width: "120px",
+                    padding: "10px 18px",
+                    borderRadius: "8px",
+                    color: "#000",
                     fontSize: "16px",
-                    fontWeight: 500
+                    fontWeight: 500,
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
                   Pay Now
@@ -205,7 +268,7 @@ export default function ConfirmRegistration() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3 p-4 h-100">
+          <div className="bg-white rounded-3 p-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
             <div className="mb-4">
               <div style={{ fontSize: "14px", color: "#667085" }}>Entry Fee</div>
               <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.entryFee}</div>
@@ -221,6 +284,22 @@ export default function ConfirmRegistration() {
             <div className="mb-4">
               <div style={{ fontSize: "14px", color: "#667085" }}>Tournament Size</div>
               <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.tournamentSize}</div>
+            </div>
+            <div className="mb-4">
+              <div style={{ fontSize: "14px", color: "#667085" }}>Team Size</div>
+              <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.teamSize}</div>
+            </div>
+            <div className="mb-4">
+              <div style={{ fontSize: "14px", color: "#667085" }}>Country</div>
+              <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.country}</div>
+            </div>
+            <div className="mb-4">
+              <div style={{ fontSize: "14px", color: "#667085" }}>Game</div>
+              <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.game}</div>
+            </div>
+            <div className="mb-4">
+              <div style={{ fontSize: "14px", color: "#667085" }}>Game Mode</div>
+              <div style={{ fontSize: "14px", color: "#101828", fontWeight: 500 }}>{tournamentDetails.gameMode}</div>
             </div>
 
             <div className="mb-4">
