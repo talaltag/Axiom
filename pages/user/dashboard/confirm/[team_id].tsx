@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -48,7 +49,7 @@ export default function ConfirmRegistration() {
     <UserDashboardLayout>
       <Container fluid className="px-4">
         <div className="d-flex align-items-center mb-4 pt-4">
-          <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
+          <Link href="/user/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
           <span className="mx-2" style={{ color: "#667085" }}>/</span>
           <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
         </div>
@@ -78,9 +79,9 @@ export default function ConfirmRegistration() {
           </div>
         </div>
 
-        <Row className="d-flex">
+        <Row>
           <Col md={7}>
-            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
@@ -143,7 +144,7 @@ export default function ConfirmRegistration() {
                       <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Security Code</label>
                       <Input
                         type="text"
-                        placeholder="XXXX XXXX XXXX"
+                        placeholder="XXX"
                         value={cardDetails.security}
                         onChange={(e) => setCardDetails({...cardDetails, security: e.target.value})}
                         style={{ 
@@ -160,7 +161,7 @@ export default function ConfirmRegistration() {
                     <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Name on Card</label>
                     <Input
                       type="text"
-                      placeholder="XXXX XXXX XXXX"
+                      placeholder="Enter name on card"
                       value={cardDetails.name}
                       onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
                       style={{ 
@@ -219,12 +220,11 @@ export default function ConfirmRegistration() {
           </Col>
 
           <Col md={5}>
-            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
+            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h4 className="fs-2 fw-bold text-dark mb-0">$500</h4>
                 <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</span>
               </div>
-              <p className="text-muted mb-4" style={{ fontSize: "14px" }}>Prize</p>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
@@ -284,10 +284,6 @@ export default function ConfirmRegistration() {
 
               <div className="mb-4">
                 <h5 className="mb-3" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
-                  <div className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</div>
-                </div>
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <Image
                     src="/user1.png"
@@ -341,15 +337,15 @@ export default function ConfirmRegistration() {
             <div className="d-flex justify-content-between mt-4 p-4">
               <Button
                 color="light"
-                className="px-4"
                 onClick={() => router.back()}
                 style={{
-                  padding: "10px 24px",
-                  fontSize: "14px",
-                  fontWeight: 500,
+                  width: "170px",
+                  height: "44px",
                   backgroundColor: "#FFFFFF",
                   border: "1px solid #D0D5DD",
                   borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: 500,
                   color: "#344054"
                 }}
               >
@@ -357,14 +353,14 @@ export default function ConfirmRegistration() {
               </Button>
               <Button
                 color="warning"
-                className="px-4"
                 style={{
-                  padding: "10px 24px",
-                  fontSize: "14px",
-                  fontWeight: 500,
+                  width: "170px",
+                  height: "44px",
                   backgroundColor: "#FFD600",
                   border: "none",
                   borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: 500,
                   color: "#101828"
                 }}
               >
