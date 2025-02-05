@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -130,9 +129,9 @@ export default function ConfirmRegistration() {
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "wallet" ? "border-2 border-warning" : "border"}`}
                   style={{
-                    width: "180px",
-                    height: "80px",
-                    padding: "16px",
+                    width: "240px",
+                    height: "96px",
+                    padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "wallet" ? "#FFFDF5" : "#FFFFFF",
                     borderColor: paymentMethod === "wallet" ? "#FFD600" : "#D0D5DD",
@@ -148,9 +147,9 @@ export default function ConfirmRegistration() {
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "bank" ? "border-2 border-warning" : "border"}`}
                   style={{
-                    width: "180px",
-                    height: "80px",
-                    padding: "16px",
+                    width: "240px",
+                    height: "96px",
+                    padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "bank" ? "#FFFDF5" : "#FFFFFF",
                     borderColor: paymentMethod === "bank" ? "#FFD600" : "#D0D5DD",
@@ -163,9 +162,9 @@ export default function ConfirmRegistration() {
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "stripe" ? "border-2 border-warning" : "border"}`}
                   style={{
-                    width: "180px",
-                    height: "80px",
-                    padding: "16px",
+                    width: "240px",
+                    height: "96px",
+                    padding: "24px",
                     cursor: "pointer",
                     backgroundColor: paymentMethod === "stripe" ? "#FFFDF5" : "#FFFFFF",
                     borderColor: paymentMethod === "stripe" ? "#FFD600" : "#D0D5DD",
@@ -215,7 +214,7 @@ export default function ConfirmRegistration() {
                   </Row>
                 </div>
               )}
-              
+
               <div className="d-flex justify-content-between mt-4">
                 <Button color="link" className="text-decoration-none" style={{ color: "#667085" }}>
                   Back
