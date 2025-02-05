@@ -103,10 +103,10 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       const formData = new FormData();
       formData.append("sender", currentUser._id);
       formData.append("receiver", receiver._id);
-      formData.append("roomId", roomId.toString());
+      formData.append("roomId", [currentUser._id, receiver._id].sort().join("-"));
       
       if (newMessage.trim()) {
-        formData.append("content", newMessage.toString());
+        formData.append("content", newMessage);
       }
       
       if (file) {
