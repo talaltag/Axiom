@@ -304,38 +304,42 @@ export default function SupportAgentChat() {
             <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '14px', mb: 1 }}>
               Chat
             </Typography>
-            <Box sx={{ display: 'flex', mb: 2 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              mb: 2,
+              bgcolor: '#f5f5f5',
+              borderRadius: '4px',
+              padding: '2px'
+            }}>
               <Button
-                variant={tab === 0 ? "contained" : "text"}
                 onClick={() => setTab(0)}
                 sx={{
                   flex: 1,
+                  minWidth: '80px',
                   textTransform: 'none',
-                  backgroundColor: tab === 0 ? '#f5f5f5' : 'transparent',
                   color: '#000',
+                  bgcolor: tab === 0 ? '#fff' : 'transparent',
                   borderRadius: '4px',
-                  boxShadow: 'none',
+                  boxShadow: tab === 0 ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                   '&:hover': {
-                    backgroundColor: tab === 0 ? '#f0f0f0' : '#f5f5f5',
-                    boxShadow: 'none'
+                    bgcolor: tab === 0 ? '#fff' : 'rgba(0,0,0,0.05)'
                   }
                 }}
               >
                 All
               </Button>
               <Button
-                variant={tab === 1 ? "contained" : "text"}
                 onClick={() => setTab(1)}
                 sx={{
                   flex: 1,
+                  minWidth: '80px',
                   textTransform: 'none',
-                  backgroundColor: tab === 1 ? '#f5f5f5' : 'transparent',
                   color: '#000',
+                  bgcolor: tab === 1 ? '#fff' : 'transparent',
                   borderRadius: '4px',
-                  boxShadow: 'none',
+                  boxShadow: tab === 1 ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                   '&:hover': {
-                    backgroundColor: tab === 1 ? '#f0f0f0' : '#f5f5f5',
-                    boxShadow: 'none'
+                    bgcolor: tab === 1 ? '#fff' : 'rgba(0,0,0,0.05)'
                   }
                 }}
               >
