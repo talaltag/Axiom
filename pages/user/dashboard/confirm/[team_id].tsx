@@ -55,38 +55,28 @@ export default function ConfirmRegistration() {
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
           <div>
             <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
-              <div className="d-flex gap-4">
-                <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+              <div className="d-flex gap-3">
+                <div style={{ position: 'relative', width: '64px', height: '64px' }}>
                   <Image
                     src="/fortnite-banner.png"
                     alt="Tournament"
                     fill
                     style={{ objectFit: "cover", borderRadius: '8px' }}
                   />
-                  <span className="badge bg-success" 
-                    style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '12px', padding: '4px 8px', backgroundColor: '#ECFDF3 !important', color: '#027A48' }}>
-                    New
-                  </span>
                 </div>
-                <div>
-                  <h4 style={{ fontSize: "18px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                <div className="d-flex flex-column justify-content-center">
+                  <h4 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
                     {tournamentDetails.name}
                   </h4>
-                  <p style={{ fontSize: "14px", color: "#667085", marginBottom: "16px" }}>
+                  <p style={{ fontSize: "14px", color: "#667085", margin: 0 }}>
                     {tournamentDetails.date} • {tournamentDetails.time}
                   </p>
-                  <div className="d-flex gap-4">
-                    <div>
-                      <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Entry Cost</div>
-                      <div style={{ fontSize: "16px", fontWeight: 600, color: "#DC3545" }}>
-                        {tournamentDetails.entryCost}
-                      </div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "12px", color: "#667085", marginBottom: "4px" }}>Prize</div>
-                      <div style={{ fontSize: "16px", fontWeight: 600, color: "#DC3545" }}>
-                        {tournamentDetails.prize}
-                      </div>
+                </div>
+                <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: "14px", color: "#667085" }}>Entry Cost</div>
+                    <div style={{ fontSize: "24px", fontWeight: 600, color: "#DC3545" }}>
+                      {tournamentDetails.entryCost}
                     </div>
                   </div>
                 </div>
