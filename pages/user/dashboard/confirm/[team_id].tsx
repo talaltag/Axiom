@@ -43,7 +43,7 @@ export default function ConfirmRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid style={{ padding: '24px' }}>
+      <Container fluid style={{ padding: '24px', backgroundColor: '#F9FAFB' }}>
         <div className="d-flex align-items-center mb-4">
           <Link href="/dashboard" style={{ color: "#667085", fontSize: "14px", textDecoration: 'none' }}>
             Dashboard
@@ -88,56 +88,59 @@ export default function ConfirmRegistration() {
                 Payment Method
               </h5>
               
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
                 <div
                   onClick={() => setPaymentMethod("wallet")}
                   style={{
-                    padding: "8px 12px",
+                    padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "wallet" ? "#FFFFFF" : "#FFFFFF",
+                    backgroundColor: paymentMethod === "wallet" ? "#fff" : "#F9FAFB",
                     border: `1px solid ${paymentMethod === "wallet" ? "#000000" : "#E5E7EB"}`,
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
-                    minWidth: '120px',
-                    height: '36px',
+                    minWidth: '164px',
+                    height: '44px',
+                    boxShadow: paymentMethod === "wallet" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
                   }}
                 >
-                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 400 }}>$200.00</div>
-                  <div style={{ fontSize: "14px", color: "#6B7280", marginLeft: '8px' }}>Axiom Wallet</div>
+                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 500 }}>$200.00</div>
+                  <div style={{ fontSize: "14px", color: "#667085", marginLeft: '8px' }}>Axiom Wallet</div>
                 </div>
 
                 <div
                   onClick={() => setPaymentMethod("bank")}
                   style={{
-                    padding: "8px 12px",
+                    padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "bank" ? "#FFFFFF" : "#FFFFFF",
+                    backgroundColor: paymentMethod === "bank" ? "#fff" : "#F9FAFB",
                     border: `1px solid ${paymentMethod === "bank" ? "#000000" : "#E5E7EB"}`,
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minWidth: '120px',
-                    height: '36px',
+                    minWidth: '164px',
+                    height: '44px',
+                    boxShadow: paymentMethod === "bank" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
                   }}
                 >
-                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 400 }}>Bank Card</div>
+                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 500 }}>Bank Card</div>
                 </div>
 
                 <div
                   onClick={() => setPaymentMethod("stripe")}
                   style={{
-                    padding: "8px 12px",
+                    padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "stripe" ? "#FFFFFF" : "#FFFFFF",
+                    backgroundColor: paymentMethod === "stripe" ? "#fff" : "#F9FAFB",
                     border: `1px solid ${paymentMethod === "stripe" ? "#000000" : "#E5E7EB"}`,
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minWidth: '120px',
-                    height: '36px',
+                    minWidth: '164px',
+                    height: '44px',
+                    boxShadow: paymentMethod === "stripe" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
                   }}
                 >
                   <Image src="/stripe.svg" alt="Stripe" width={64} height={24} />
