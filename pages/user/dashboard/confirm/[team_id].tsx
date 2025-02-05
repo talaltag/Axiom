@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import CongratulationsModal from "../../../../components/tournaments/CongratulationsModal";
 import Image from "next/image";
 import Link from "next/link";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
@@ -9,6 +10,7 @@ export default function ConfirmRegistration() {
   const router = useRouter();
   const { team_id } = router.query;
   const [paymentMethod, setPaymentMethod] = useState("wallet");
+  const [showModal, setShowModal] = useState(false);
 
   const tournamentDetails = {
     name: "Fortnite Summer Battle",
@@ -233,6 +235,7 @@ export default function ConfirmRegistration() {
               <div className="d-flex justify-content-end mt-4" style={{ gap: '12px' }}>
                 <Button 
                   color="light"
+                  onClick={() => router.back()}
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D0D5DD",
@@ -247,6 +250,7 @@ export default function ConfirmRegistration() {
                   Back
                 </Button>
                 <Button
+                  onClick={() => setShowModal(true)}
                   style={{
                     backgroundColor: "#FFD700",
                     border: "none",
@@ -261,6 +265,10 @@ export default function ConfirmRegistration() {
                   Pay Now
                 </Button>
               </div>
+              <CongratulationsModal 
+                isOpen={showModal} 
+                toggle={() => setShowModal(!showModal)} 
+              />
             </div>
           </div>
 
