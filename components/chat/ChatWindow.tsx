@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -12,6 +11,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { io } from "socket.io-client";
+import Image from "next/image";
 
 interface User {
   _id: string;
@@ -27,6 +27,7 @@ interface Message {
   fileName?: string;
   fileType?: string;
   createdAt: string;
+  media: any;
 }
 
 interface ChatWindowProps {
@@ -38,7 +39,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const socketRef = useRef<any>(null);
@@ -90,8 +91,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(Array.from(e.target.files));
     }
   };
 
@@ -103,14 +104,19 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       const formData = new FormData();
       formData.append("sender", currentUser._id);
       formData.append("receiver", receiver._id);
-      formData.append("roomId", [currentUser._id, receiver._id].sort().join("-"));
-      
+      formData.append(
+        "roomId",
+        [currentUser._id, receiver._id].sort().join("-")
+      );
+
       if (newMessage.trim()) {
         formData.append("content", newMessage);
       }
-      
+
       if (file) {
-        formData.append("file", file);
+        file.forEach((f) => {
+          formData.append("files", f);
+        });
       }
 
       const response = await fetch("/api/chat", {
@@ -122,7 +128,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
         const data = await response.json();
         socketRef.current.emit("message", data.data);
         setNewMessage("");
-        setFile(null);
+        setFile([]);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
@@ -156,17 +162,30 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
               {message.content}
             </Typography>
           )}
+          {message?.media && message.media.length > 0 ? (
+            <div className="d-flex flex-wrap mt-2">
+              {message.media.map((file) => (
+                <Image
+                  alt={file.fileName}
+                  src={file.fileUrl}
+                  width={200}
+                  height={100}
+                  className="me-2 mb-2"
+                />
+              ))}
+            </div>
+          ) : null}
           {message.fileUrl && (
             <Box>
               {message.fileType?.startsWith("image/") ? (
-                <img 
-                  src={`/${message.fileUrl}`} 
+                <img
+                  src={`/${message.fileUrl}`}
                   alt={message.fileName}
-                  style={{ 
-                    maxWidth: "200px", 
+                  style={{
+                    maxWidth: "200px",
                     maxHeight: "200px",
                     borderRadius: "8px",
-                    marginTop: "8px" 
+                    marginTop: "8px",
                   }}
                 />
               ) : (
@@ -223,6 +242,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
             type="file"
             ref={fileInputRef}
             onChange={handleFileSelect}
+            multiple
             style={{ display: "none" }}
           />
           <IconButton
@@ -238,13 +258,18 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
           />
-          <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+          <Button
+            type="submit"
+            disabled={!newMessage && file.length === 0}
+            variant="contained"
+            endIcon={<SendIcon />}
+          >
             Send
           </Button>
         </Box>
-        {file && (
+        {file && file.length > 0 && (
           <Typography variant="caption" sx={{ ml: 1, mt: 1 }}>
-            Selected file: {file.name}
+            Selected file: {file.map((f) => f.name + " ")}
           </Typography>
         )}
       </Box>

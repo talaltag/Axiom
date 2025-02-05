@@ -56,23 +56,25 @@ export default async function handler(
         content: Array.isArray(fields.content)
           ? fields.content[0]
           : fields.content || "",
+        media: [],
       };
 
-      if (files.file) {
-        const file = Array.isArray(files.file) ? files.file[0] : files.file;
-        const fileName = file.originalFilename || file.newFilename;
-        const fileUrl = `/uploads/${path.basename(file.filepath)}`;
+      if (files.files && files.files.length > 0) {
+        const fileArray = files.files;
+        fileArray.map((file) => {
+          const fileName = file.originalFilename || file.newFilename;
+          const fileUrl = `/uploads/${path.basename(file.filepath)}`;
 
-        messageData.fileName = fileName;
-        messageData.fileUrl = fileUrl;
-        messageData.fileType = file.mimetype;
+          messageData.media.push({
+            fileName,
+            fileUrl,
+            fileType: file.mimetype,
+          });
+        });
       }
 
       const message = await Chat.create(messageData);
-      const populatedMessage = await message.populate(
-        "sender receiver",
-        "name profileImage"
-      );
+      const populatedMessage = await message;
 
       res.status(201).json({ success: true, data: populatedMessage });
     } catch (error: any) {
