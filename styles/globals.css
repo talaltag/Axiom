@@ -1,3 +1,39 @@
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.bg-light {
+  background-color: #F8F9FA !important;
+}
+
+.input-group-text {
+  border: none;
+}
+
+.form-control {
+  border: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.btn-warning {
+  background-color: #FFD43B;
+  border-color: #FFD43B;
+}
+
+.btn-warning:hover {
+  background-color: #FFC107;
+  border-color: #FFC107;
+}
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 :root {
