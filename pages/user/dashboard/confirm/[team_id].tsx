@@ -47,8 +47,8 @@ export default function ConfirmRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid>
-        <div className="d-flex align-items-center mb-4 pt-4 px-4">
+      <Container fluid className="px-4">
+        <div className="d-flex align-items-center mb-4 pt-4">
           <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
           <span className="mx-2" style={{ color: "#667085" }}>/</span>
           <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
@@ -85,15 +85,18 @@ export default function ConfirmRegistration() {
               <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
-                  className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border border-warning' : 'border'}`}
+                  className={`rounded-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border-2 border-warning' : 'border'}`}
                   style={{ 
-                    minWidth: "200px", 
+                    width: "180px",
+                    height: "80px",
+                    padding: "16px",
                     cursor: "pointer",
+                    backgroundColor: paymentMethod === 'wallet' ? '#FFFDF5' : '#FFFFFF',
                     borderColor: paymentMethod === 'wallet' ? '#FFD600' : '#D0D5DD'
                   }}
                   onClick={() => setPaymentMethod('wallet')}
                 >
-                  <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>${walletBalance}</h5>
+                  <h5 className="mb-1" style={{ fontSize: "18px", fontWeight: "600", color: "#101828" }}>${walletBalance}</h5>
                   <div style={{ fontSize: "14px", color: "#667085" }}>Axiom Wallet</div>
                 </div>
                 <div 
@@ -125,7 +128,7 @@ export default function ConfirmRegistration() {
                   <h5 className="mb-4" style={{ fontSize: "14px", color: "#101828" }}>Card Information</h5>
                   <Row>
                     <Col md={6} className="mb-3">
-                      <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Card Number</label>
+                      <label className="mb-2" style={{ fontSize: "14px", fontWeight: "500", color: "#344054" }}>Card Number</label>
                       <Input
                         type="text"
                         placeholder="XXXX XXXX XXXX"
@@ -136,7 +139,9 @@ export default function ConfirmRegistration() {
                           border: "1px solid #D0D5DD",
                           borderRadius: "8px",
                           fontSize: "14px",
-                          color: "#101828"
+                          color: "#101828",
+                          backgroundColor: "#FFFFFF",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
                         }}
                       />
                     </Col>
@@ -220,10 +225,10 @@ export default function ConfirmRegistration() {
           </Col>
 
           <Col md={5} className="d-flex flex-column">
-            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="fs-2 fw-bold text-dark mb-0">{tournamentDetails.prize}</h4>
-                <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</span>
+                <h4 style={{ fontSize: "30px", fontWeight: "600", color: "#101828", margin: 0 }}>{tournamentDetails.prize}</h4>
+                <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px", fontWeight: "500" }}>New</span>
               </div>
               <p className="text-muted mb-4" style={{ fontSize: "14px" }}>Prize</p>
 
