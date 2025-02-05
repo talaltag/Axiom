@@ -411,9 +411,17 @@ export default function SupportAgentChat() {
             {selectedUser ? (
               <>
                 <Box sx={{ p: 2, borderBottom: "1px solid #eee" }}>
-                  <Typography variant="subtitle1" fontWeight={500}>
-                    {selectedUser.name}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Avatar src="/user1.png" sx={{ width: 48, height: 48 }} />
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight={500}>
+                        {selectedUser.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Online
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
                 <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
                   {messages.map((msg) => (
