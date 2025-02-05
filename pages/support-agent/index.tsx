@@ -43,6 +43,7 @@ const Sidebar = styled(Box)({
   borderRight: '1px solid #eee',
   display: 'flex',
   flexDirection: 'column',
+  backgroundColor: '#fff',
 });
 
 const ChatArea = styled(Box)({
@@ -78,14 +79,36 @@ const MessageBubble = styled(Box)(({ isUser }: { isUser: boolean }) => ({
 }));
 
 const UserItem = styled(ListItem)({
-  padding: '12px 16px',
+  padding: '8px 16px',
   cursor: 'pointer',
   '&:hover': {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f9fa',
   },
   '&.selected': {
     backgroundColor: '#f0f0f0',
   },
+});
+
+const UserInfo = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+});
+
+const UserName = styled(Typography)({
+  fontWeight: 500,
+  fontSize: '14px',
+});
+
+const LastMessage = styled(Typography)({
+  color: '#6c757d',
+  fontSize: '12px',
+});
+
+const MessageTime = styled(Typography)({
+  color: '#6c757d',
+  fontSize: '11px',
+  marginLeft: 'auto',
 });
 
 const StatusDot = styled('span')({
@@ -308,16 +331,18 @@ export default function SupportAgentChat() {
                   onClick={() => setSelectedUser(user)}
                 >
                   <ListItemAvatar>
-                    <Avatar src="/user1.png" />
+                    <Avatar src="/user1.png" sx={{ width: 40, height: 40 }} />
                   </ListItemAvatar>
-                  <ListItemText 
-                    primary={
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {user.name}
-                        <StatusDot />
-                      </Box>
-                    }
-                  />
+                  <UserInfo>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
+                      <UserName>{user.name}</UserName>
+                      <MessageTime>9:15 AM</MessageTime>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <LastMessage>Typing Something...</LastMessage>
+                      <StatusDot sx={{ width: 6, height: 6, ml: 1 }} />
+                    </Box>
+                  </UserInfo>
                 </UserItem>
               ))}
             </List>
