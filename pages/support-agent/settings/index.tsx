@@ -22,7 +22,10 @@ export default function Settings() {
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
+    name: session.data?.user?.name || "",
   });
+const [profileImage, setProfileImage] = useState<File | null>(null);
+const [loading, setLoading] = useState(false);
   const session = useSession();
 
   return (
@@ -56,7 +59,20 @@ export default function Settings() {
                 cursor: 'pointer',
               }}
             >
-              <span role="img" aria-label="camera">📸</span>
+              <label htmlFor="profile-image" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span role="img" aria-label="camera">📸</span>
+                <input
+                  type="file"
+                  id="profile-image"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setProfileImage(e.target.files[0]);
+                    }
+                  }}
+                />
+              </label>
             </Box>
           </Box>
         </Box>
@@ -200,6 +216,33 @@ export default function Settings() {
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
             <Button
               variant="contained"
+              onClick={async () => {
+                try {
+                  setLoading(true);
+                  const formData = new FormData();
+                  if (profileImage) {
+                    formData.append('profileImage', profileImage);
+                  }
+                  formData.append('name', formData.name);
+
+                  const response = await fetch('/api/agent/profile', {
+                    method: 'PUT',
+                    body: formData,
+                  });
+
+                  if (response.ok) {
+                    alert('Profile updated successfully');
+                  } else {
+                    throw new Error('Failed to update profile');
+                  }
+                } catch (error) {
+                  console.error('Error updating profile:', error);
+                  alert('Failed to update profile');
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              disabled={loading}
               sx={{
                 backgroundColor: "#FFD700",
                 color: "#000",
@@ -210,7 +253,7 @@ export default function Settings() {
                 },
               }}
             >
-              Update
+              {loading ? 'Updating...' : 'Update'}
             </Button>
           </Box>
         </Box>
