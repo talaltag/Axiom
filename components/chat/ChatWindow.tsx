@@ -160,13 +160,18 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
             <Box>
               {message.fileType?.startsWith("image/") ? (
                 <img 
-                  src={message.fileUrl} 
+                  src={`/${message.fileUrl}`} 
                   alt={message.fileName}
-                  style={{ maxWidth: "200px", maxHeight: "200px" }}
+                  style={{ 
+                    maxWidth: "200px", 
+                    maxHeight: "200px",
+                    borderRadius: "8px",
+                    marginTop: "8px" 
+                  }}
                 />
               ) : (
                 <Button
-                  href={message.fileUrl}
+                  href={`/${message.fileUrl}`}
                   target="_blank"
                   variant="contained"
                   size="small"
