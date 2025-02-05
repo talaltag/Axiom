@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Container,
@@ -67,7 +66,7 @@ export default function SupportAgentSettings() {
                 />
                 <div className="ms-3">
                   <Button color="warning" size="sm">
-                    Change Photo
+                    <span style={{fontSize:'1.2rem'}}>&#128247;</span>
                   </Button>
                 </div>
               </div>
