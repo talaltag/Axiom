@@ -134,6 +134,7 @@ interface User {
   _id: string;
   name: string;
   status?: string;
+  role: string;
 }
 
 export default function SupportAgentChat() {
@@ -148,7 +149,7 @@ export default function SupportAgentChat() {
 
   useEffect(() => {
     const socket = io(
-      process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000",
+      process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000"
     );
     setSocketRef(socket);
 
@@ -175,21 +176,21 @@ export default function SupportAgentChat() {
     }
   }, [socketRef, selectedUser, session.data?.user?.id]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("/api/users");
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data.data.filter((user: User) => user.role === "User"));
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
+  const fetchUsers = async (role = "User") => {
+    try {
+      const response = await fetch(`/api/agent/users?role=${role}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data.data);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (session.data) {
       fetchUsers();
     }
@@ -201,7 +202,7 @@ export default function SupportAgentChat() {
 
       try {
         const response = await fetch(
-          `/api/chat?sender=${session.data.user.id}&receiver=${selectedUser._id}`,
+          `/api/chat?sender=${session.data.user.id}&receiver=${selectedUser._id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -254,34 +255,47 @@ export default function SupportAgentChat() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              mb: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h6">Chat</Typography>
           </Box>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
             <Button
-              onClick={() => setTab(0)}
+              onClick={() => {
+                setTab(0);
+                fetchUsers();
+              }}
               sx={{
-                textTransform: 'none',
-                minWidth: '80px',
-                backgroundColor: tab === 0 ? '#FFD700' : 'transparent',
-                color: tab === 0 ? '#000' : '#666',
-                '&:hover': {
-                  backgroundColor: tab === 0 ? '#FFC700' : 'rgba(0,0,0,0.05)'
-                }
+                textTransform: "none",
+                minWidth: "80px",
+                backgroundColor: tab === 0 ? "#FFD700" : "transparent",
+                color: tab === 0 ? "#000" : "#666",
+                "&:hover": {
+                  backgroundColor: tab === 0 ? "#FFC700" : "rgba(0,0,0,0.05)",
+                },
               }}
             >
               Users
             </Button>
             <Button
-              onClick={() => setTab(1)}
+              onClick={() => {
+                setTab(1);
+                fetchUsers("Admin");
+              }}
               sx={{
-                textTransform: 'none',
-                minWidth: '80px',
-                backgroundColor: tab === 1 ? '#FFD700' : 'transparent',
-                color: tab === 1 ? '#000' : '#666',
-                '&:hover': {
-                  backgroundColor: tab === 1 ? '#FFC700' : 'rgba(0,0,0,0.05)'
-                }
+                textTransform: "none",
+                minWidth: "80px",
+                backgroundColor: tab === 1 ? "#FFD700" : "transparent",
+                color: tab === 1 ? "#000" : "#666",
+                "&:hover": {
+                  backgroundColor: tab === 1 ? "#FFC700" : "rgba(0,0,0,0.05)",
+                },
               }}
             >
               Admin
@@ -331,10 +345,10 @@ export default function SupportAgentChat() {
                 }}
               >
                 <Button
-                  onClick={() => setTab(0)}
+                  //   onClick={() => setTab(0)}
                   sx={{
                     flex: 1,
-                    height:"30px",
+                    height: "30px",
                     minWidth: "80px",
                     textTransform: "none",
                     color: "#000",
@@ -349,10 +363,10 @@ export default function SupportAgentChat() {
                   All
                 </Button>
                 <Button
-                  onClick={() => setTab(1)}
+                  //   onClick={() => setTab(1)}
                   sx={{
                     flex: 1,
-                    height:"30px",
+                    height: "30px",
                     minWidth: "80px",
                     textTransform: "none",
                     color: "#000",
@@ -411,7 +425,7 @@ export default function SupportAgentChat() {
             {selectedUser ? (
               <>
                 <Box sx={{ p: 2, borderBottom: "1px solid #eee" }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Avatar src="/user1.png" sx={{ width: 48, height: 48 }} />
                     <Box>
                       <Typography variant="subtitle1" fontWeight={500}>

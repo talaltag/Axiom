@@ -33,6 +33,7 @@ import {
   ChevronsLeft,
 } from "react-feather";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 export default function AdminDashboardLayout({
   children,
@@ -108,7 +109,7 @@ export default function AdminDashboardLayout({
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
-            <NavLink
+            <Link
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
                 router.pathname === item.path
@@ -122,7 +123,7 @@ export default function AdminDashboardLayout({
             >
               <span className={sidebarOpen ? "me-2" : ""}>{item.icon}</span>
               {sidebarOpen && item.text}
-            </NavLink>
+            </Link>
           </NavItem>
         ))}
       </Nav>

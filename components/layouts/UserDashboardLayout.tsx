@@ -93,7 +93,7 @@ export default function UserDashboardLayout({ children }) {
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
-            <NavLink
+            <Link
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
                 router.pathname === item.path
@@ -104,7 +104,7 @@ export default function UserDashboardLayout({ children }) {
             >
               {item.icon}
               {sidebarOpen && <span className="ms-2">{item.text}</span>}
-            </NavLink>
+            </Link>
           </NavItem>
         ))}
       </Nav>

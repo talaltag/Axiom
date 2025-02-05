@@ -15,8 +15,9 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
 import { MessageSquare, ChevronsLeft, LogOut, Settings } from "react-feather";
-import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
+import NotificationsDropdown from "../common/NotificationsDropdown";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 export default function SupportAgentLayout({ children }) {
   const router = useRouter();
@@ -75,7 +76,7 @@ export default function SupportAgentLayout({ children }) {
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
-            <NavLink
+            <Link
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
                 router.pathname === item.path
@@ -86,7 +87,7 @@ export default function SupportAgentLayout({ children }) {
             >
               {item.icon}
               {sidebarOpen && <span className="ms-2">{item.text}</span>}
-            </NavLink>
+            </Link>
           </NavItem>
         ))}
       </Nav>
@@ -101,7 +102,7 @@ export default function SupportAgentLayout({ children }) {
         <Navbar className="bg-white border-bottom px-4" container={false}>
           <Nav className="ms-auto d-flex align-items-center" navbar>
             <div className="d-flex align-items-center me-3">
-              <NotificationsDropdown />{" "}
+              <NotificationsDropdown role={"support-agent"} />{" "}
               {/* Placeholder for NotificationsDropdown */}
               <UncontrolledDropdown dropup inNavbar nav className="ms-3">
                 <DropdownToggle nav>

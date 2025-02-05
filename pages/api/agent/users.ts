@@ -32,7 +32,7 @@ export default withAuth(async function handler(
         query._id = { $ne: userId };
 
         const users = await User.find(query)
-          .select("-password")
+          .select("-password -walletBalance -friends")
           .sort({ createdAt: -1 });
 
         const total = await User.countDocuments(query);
