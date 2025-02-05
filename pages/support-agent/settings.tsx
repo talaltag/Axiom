@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -13,14 +13,15 @@ import {
 } from "reactstrap";
 import { Eye, EyeOff } from "react-feather";
 import SupportAgentLayout from "../../components/layouts/SupportAgentLayout";
+import { useSession } from "next-auth/react";
 
 export default function SupportAgentSettings() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const session = useSession();
   const [formData, setFormData] = useState({
-    username: "",
-    verificationStatus: "",
+    name: "",
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -45,18 +46,41 @@ export default function SupportAgentSettings() {
     }
   };
 
+  useEffect(() => {
+    if (session?.data?.user) {
+      setFormData({ ...formData, name: session.data.user.name });
+    }
+  }, [session]);
+
   return (
     <SupportAgentLayout>
       <Container fluid className="px-4 py-2">
         <div className="mb-1">
-          <h2 style={{ marginBottom: '6px', fontSize: '24px', fontWeight: 500, color: '#101828' }}>Settings</h2>
+          <h2
+            style={{
+              marginBottom: "6px",
+              fontSize: "24px",
+              fontWeight: 500,
+              color: "#101828",
+            }}
+          >
+            Settings
+          </h2>
         </div>
-        <p style={{ color: '#667085', fontSize: '14px', marginBottom: '32px' }}>Manage your team and preferences here.</p>
+        <p style={{ color: "#667085", fontSize: "14px", marginBottom: "32px" }}>
+          Manage your team and preferences here.
+        </p>
 
         <Row>
-          <Col md={8} style={{width:'100%'}}>
+          <Col md={8} style={{ width: "100%" }}>
             <div className="mb-4">
-              <div style={{ position: 'relative', width: 'fit-content', marginBottom: '2rem' }}>
+              <div
+                style={{
+                  position: "relative",
+                  width: "fit-content",
+                  marginBottom: "2rem",
+                }}
+              >
                 <img
                   src="/user1.png"
                   alt="Profile"
@@ -64,23 +88,26 @@ export default function SupportAgentSettings() {
                   width={100}
                   height={100}
                 />
-                <div 
+                <div
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     bottom: -5,
                     right: -5,
-                    backgroundColor: '#FFD700',
-                    borderRadius: '50%',
+                    backgroundColor: "#FFD700",
+                    borderRadius: "50%",
                     width: 32,
                     height: 32,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    border: '2px solid white'
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    border: "2px solid white",
                   }}
                 >
-                  <span style={{fontSize: '1.2rem'}}>📸</span>
+                  <label>
+                    <span style={{ fontSize: "1.2rem" }}>📸</span>
+                    <input type="file" className="d-none" />
+                  </label>
                 </div>
               </div>
 
@@ -88,46 +115,30 @@ export default function SupportAgentSettings() {
                 <Row>
                   <Col md={6}>
                     <FormGroup>
-                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Axiom Username</Label>
-                      <Input
-                        type="text"
-                        value={formData.username}
-                        onChange={(e) =>
-                          setFormData({ ...formData, username: e.target.value })
-                        }
-                        placeholder="Axiom Username"
+                      <Label
                         style={{
-                          height: '44px',
-                          backgroundColor: '#fff',
-                          borderColor: '#D0D5DD',
-                          color: '#667085',
-                          fontSize: '16px',
-                          padding: '10px 14px'
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          marginBottom: "6px",
                         }}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Verification Status</Label>
+                      >
+                        Full Name
+                      </Label>
                       <Input
                         type="text"
-                        value={formData.verificationStatus}
+                        value={formData.name}
                         onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            verificationStatus: e.target.value,
-                          })
+                          setFormData({ ...formData, name: e.target.value })
                         }
-                        placeholder="Verification Status"
-                        disabled
+                        placeholder="Full name"
                         style={{
-                          height: '44px',
-                          backgroundColor: '#fff',
-                          borderColor: '#D0D5DD',
-                          color: '#667085',
-                          fontSize: '16px',
-                          padding: '10px 14px'
+                          height: "44px",
+                          backgroundColor: "#fff",
+                          borderColor: "#D0D5DD",
+                          color: "#667085",
+                          fontSize: "16px",
+                          padding: "10px 14px",
                         }}
                       />
                     </FormGroup>
@@ -138,7 +149,16 @@ export default function SupportAgentSettings() {
                 <Row>
                   <Col md={4}>
                     <FormGroup>
-                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Old Password</Label>
+                      <Label
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Old Password
+                      </Label>
                       <InputGroup>
                         <Input
                           type={showOldPassword ? "text" : "password"}
@@ -149,29 +169,29 @@ export default function SupportAgentSettings() {
                               oldPassword: e.target.value,
                             })
                           }
-                          placeholder="4885785"
+                          placeholder="Enter..."
                           style={{
-                            height: '44px',
-                            borderRight: 'none',
-                            backgroundColor: '#fff',
-                            borderColor: '#D0D5DD',
-                            color: '#667085',
-                            fontSize: '16px'
+                            height: "44px",
+                            borderRight: "none",
+                            backgroundColor: "#fff",
+                            borderColor: "#D0D5DD",
+                            color: "#667085",
+                            fontSize: "16px",
                           }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("old")}
                           style={{
-                            backgroundColor: '#fff',
-                            borderLeft: 'none',
-                            borderColor: '#D0D5DD'
+                            backgroundColor: "#fff",
+                            borderLeft: "none",
+                            borderColor: "#D0D5DD",
                           }}
                         >
                           {showOldPassword ? (
-                            <EyeOff size={20} style={{color: '#667085'}} />
+                            <EyeOff size={20} style={{ color: "#667085" }} />
                           ) : (
-                            <Eye size={20} style={{color: '#667085'}} />
+                            <Eye size={20} style={{ color: "#667085" }} />
                           )}
                         </InputGroupText>
                       </InputGroup>
@@ -179,7 +199,16 @@ export default function SupportAgentSettings() {
                   </Col>
                   <Col md={4}>
                     <FormGroup>
-                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>New Password</Label>
+                      <Label
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        New Password
+                      </Label>
                       <InputGroup>
                         <Input
                           type={showNewPassword ? "text" : "password"}
@@ -190,29 +219,29 @@ export default function SupportAgentSettings() {
                               newPassword: e.target.value,
                             })
                           }
-                          placeholder="4885785"
+                          placeholder="Enter..."
                           style={{
-                            height: '44px',
-                            borderRight: 'none',
-                            backgroundColor: '#fff',
-                            borderColor: '#D0D5DD',
-                            color: '#667085',
-                            fontSize: '16px'
+                            height: "44px",
+                            borderRight: "none",
+                            backgroundColor: "#fff",
+                            borderColor: "#D0D5DD",
+                            color: "#667085",
+                            fontSize: "16px",
                           }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("new")}
                           style={{
-                            backgroundColor: '#fff',
-                            borderLeft: 'none',
-                            borderColor: '#D0D5DD'
+                            backgroundColor: "#fff",
+                            borderLeft: "none",
+                            borderColor: "#D0D5DD",
                           }}
                         >
                           {showNewPassword ? (
-                            <EyeOff size={20} style={{color: '#667085'}} />
+                            <EyeOff size={20} style={{ color: "#667085" }} />
                           ) : (
-                            <Eye size={20} style={{color: '#667085'}} />
+                            <Eye size={20} style={{ color: "#667085" }} />
                           )}
                         </InputGroupText>
                       </InputGroup>
@@ -220,7 +249,16 @@ export default function SupportAgentSettings() {
                   </Col>
                   <Col md={4}>
                     <FormGroup>
-                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Confirm Password</Label>
+                      <Label
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Confirm Password
+                      </Label>
                       <InputGroup>
                         <Input
                           type={showConfirmPassword ? "text" : "password"}
@@ -231,29 +269,29 @@ export default function SupportAgentSettings() {
                               confirmPassword: e.target.value,
                             })
                           }
-                          placeholder="4885785"
+                          placeholder="Enter..."
                           style={{
-                            height: '44px',
-                            borderRight: 'none',
-                            backgroundColor: '#fff',
-                            borderColor: '#D0D5DD',
-                            color: '#667085',
-                            fontSize: '16px'
+                            height: "44px",
+                            borderRight: "none",
+                            backgroundColor: "#fff",
+                            borderColor: "#D0D5DD",
+                            color: "#667085",
+                            fontSize: "16px",
                           }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("confirm")}
                           style={{
-                            backgroundColor: '#fff',
-                            borderLeft: 'none',
-                            borderColor: '#D0D5DD'
+                            backgroundColor: "#fff",
+                            borderLeft: "none",
+                            borderColor: "#D0D5DD",
                           }}
                         >
                           {showConfirmPassword ? (
-                            <EyeOff size={20} style={{color: '#667085'}} />
+                            <EyeOff size={20} style={{ color: "#667085" }} />
                           ) : (
-                            <Eye size={20} style={{color: '#667085'}} />
+                            <Eye size={20} style={{ color: "#667085" }} />
                           )}
                         </InputGroupText>
                       </InputGroup>
@@ -262,17 +300,17 @@ export default function SupportAgentSettings() {
                 </Row>
 
                 <div className="text-end mt-4">
-                  <Button 
-                    color="warning" 
+                  <Button
+                    color="warning"
                     style={{
-                      width: '170px',
-                      height: '44px',
-                      backgroundColor: '#FFD700',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '16px',
+                      width: "170px",
+                      height: "44px",
+                      backgroundColor: "#FFD700",
+                      border: "none",
+                      borderRadius: "8px",
+                      fontSize: "16px",
                       fontWeight: 500,
-                      float: 'right'
+                      float: "right",
                     }}
                   >
                     Update
