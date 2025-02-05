@@ -247,17 +247,17 @@ export default function Tournaments() {
                 
                 {/* Pagination Controls */}
                 <div className="d-flex justify-content-between align-items-center mt-4">
-                  <div className="d-flex align-items-center gap-2">
+                  <div className="d-flex align-items-center" style={{ gap: '4px' }}>
                     <Button
                       onClick={() => setCurrentPage(1)}
                       disabled={currentPage === 1}
                       style={{
-                        padding: '2px 6px',
+                        padding: '0',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
-                        minWidth: '28px',
-                        height: '28px',
+                        minWidth: '24px',
+                        height: '24px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -266,18 +266,18 @@ export default function Tournaments() {
                         opacity: currentPage === 1 ? 0.5 : 1
                       }}
                     >
-                      ⟪
+                      ≪
                     </Button>
                     <Button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
                       style={{
-                        padding: '2px 6px',
+                        padding: '0',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
-                        minWidth: '28px',
-                        height: '28px',
+                        minWidth: '24px',
+                        height: '24px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -286,7 +286,7 @@ export default function Tournaments() {
                         opacity: currentPage === 1 ? 0.5 : 1
                       }}
                     >
-                      ⟨
+                      ‹
                     </Button>
                     
                     {[...Array(6)].map((_, idx) => {
@@ -298,20 +298,18 @@ export default function Tournaments() {
                           key={pageNum}
                           onClick={() => setCurrentPage(pageNum)}
                           style={{
-                            padding: '4px 8px',
-                            backgroundColor: pageNum === currentPage ? '#FFD600' : 'transparent',
+                            backgroundColor: pageNum === currentPage ? '#FFD700' : 'transparent',
                             border: 'none',
                             color: pageNum === currentPage ? '#000' : '#667085',
-                            minWidth: '28px',
-                            height: '28px',
+                            minWidth: '24px',
+                            height: '24px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            borderRadius: '4px',
                             fontSize: '14px',
                             fontWeight: '500',
-                            padding: '2px 10px',
-                            margin: '0 2px'
+                            padding: '0',
+                            margin: '0'
                           }}
                         >
                           {pageNum}
@@ -323,7 +321,7 @@ export default function Tournaments() {
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
                       style={{
-                        padding: '4px',
+                        padding: '0',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
@@ -331,16 +329,17 @@ export default function Tournaments() {
                         height: '24px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        fontSize: '14px'
                       }}
                     >
-                      ⟩
+                      ›
                     </Button>
                     <Button
                       onClick={() => setCurrentPage(totalPages)}
                       disabled={currentPage === totalPages}
                       style={{
-                        padding: '4px',
+                        padding: '0',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
@@ -348,33 +347,35 @@ export default function Tournaments() {
                         height: '24px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        fontSize: '14px'
                       }}
                     >
-                      ⟩⟩
+                      ≫
                     </Button>
 
-                    <div style={{ marginLeft: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ marginLeft: '16px', display: 'flex', alignItems: 'center' }}>
                       <select 
                         value={itemsPerPage}
                         onChange={(e) => setItemsPerPage(Number(e.target.value))}
                         style={{
-                          padding: '6px 8px',
+                          padding: '2px 8px',
                           border: '1px solid #D0D5DD',
-                          borderRadius: '6px',
+                          borderRadius: '4px',
                           color: '#667085',
                           fontSize: '14px',
-                          fontWeight: '500',
                           backgroundColor: 'white',
                           cursor: 'pointer',
-                          minWidth: '70px'
+                          minWidth: '50px',
+                          height: '24px',
+                          marginRight: '8px'
                         }}
                       >
                         <option value={12}>12</option>
                         <option value={24}>24</option>
                         <option value={36}>36</option>
                       </select>
-                      <span style={{ marginLeft: '8px', color: '#667085', fontSize: '14px' }}>Items per page</span>
+                      <span style={{ color: '#667085', fontSize: '14px' }}>Items per page</span>
                     </div>
                   </div>
 
