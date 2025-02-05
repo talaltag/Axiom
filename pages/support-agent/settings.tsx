@@ -55,7 +55,7 @@ export default function SupportAgentSettings() {
         <p className="text-muted mb-4">Manage your team and preferences here.</p>
 
         <Row>
-          <Col md={8}>
+          <Col md={8} style={{width:'100%'}}>
             <div className="mb-4">
               <div className="d-flex align-items-center mb-4">
                 <img
