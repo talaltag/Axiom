@@ -78,9 +78,9 @@ export default function ConfirmRegistration() {
           </div>
         </div>
 
-        <Row>
-          <Col md={8}>
-            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+        <Row className="d-flex">
+          <Col md={7}>
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
               <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
@@ -218,8 +218,8 @@ export default function ConfirmRegistration() {
             </div>
           </Col>
 
-          <Col md={4}>
-            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+          <Col md={5}>
+            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h4 className="fs-2 fw-bold text-dark mb-0">$500</h4>
                 <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</span>
