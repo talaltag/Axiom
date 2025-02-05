@@ -251,26 +251,18 @@ export default function SupportAgentChat() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>Chat</Typography>
-            <Box sx={{
-              display: 'flex',
-              backgroundColor: '#f5f5f5',
-              borderRadius: '4px',
-              p: 0.5,
-              width: 'fit-content'
-            }}>
+          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h6">Chat</Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
               <Button
                 onClick={() => setTab(0)}
                 sx={{
                   textTransform: 'none',
                   minWidth: '80px',
-                  backgroundColor: tab === 0 ? '#fff' : 'transparent',
-                  color: '#000',
-                  boxShadow: tab === 0 ? 1 : 'none',
-                  mr: 0.5,
+                  backgroundColor: tab === 0 ? '#FFD700' : 'transparent',
+                  color: tab === 0 ? '#000' : '#666',
                   '&:hover': {
-                    backgroundColor: tab === 0 ? '#fff' : 'rgba(0,0,0,0.05)'
+                    backgroundColor: tab === 0 ? '#FFC700' : 'rgba(0,0,0,0.05)'
                   }
                 }}
               >
@@ -281,11 +273,10 @@ export default function SupportAgentChat() {
                 sx={{
                   textTransform: 'none',
                   minWidth: '80px',
-                  backgroundColor: tab === 1 ? '#fff' : 'transparent',
-                  color: '#000',
-                  boxShadow: tab === 1 ? 1 : 'none',
+                  backgroundColor: tab === 1 ? '#FFD700' : 'transparent',
+                  color: tab === 1 ? '#000' : '#666',
                   '&:hover': {
-                    backgroundColor: tab === 1 ? '#fff' : 'rgba(0,0,0,0.05)'
+                    backgroundColor: tab === 1 ? '#FFC700' : 'rgba(0,0,0,0.05)'
                   }
                 }}
               >
