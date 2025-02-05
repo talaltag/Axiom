@@ -48,10 +48,10 @@ export default function SupportAgentSettings() {
   return (
     <SupportAgentLayout>
       <Container fluid className="p-4">
-        <div className="d-flex align-items-center mb-4">
-          <h2 className="mb-0">Settings</h2>
+        <div className="mb-1">
+          <h2 style={{ marginBottom: '6px', fontSize: '24px', fontWeight: 500, color: '#101828' }}>Settings</h2>
         </div>
-        <p className="text-muted mb-4">Manage your team and preferences here.</p>
+        <p style={{ color: '#667085', fontSize: '14px', marginBottom: '32px' }}>Manage your team and preferences here.</p>
 
         <Row>
           <Col md={8} style={{width:'100%'}}>
