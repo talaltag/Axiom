@@ -246,96 +246,108 @@ export default function Tournaments() {
                 </Row>
                 
                 {/* Pagination Controls */}
-                <div className="d-flex justify-content-between align-items-center mt-4">
-                  <div className="d-flex align-items-center">
-                    <span style={{ color: '#667085', fontSize: '14px', marginRight: '12px' }}>
-                      Items per page
-                    </span>
-                    <select
-                      value={itemsPerPage}
-                      onChange={(e) => {
-                        setItemsPerPage(Number(e.target.value));
-                        setCurrentPage(1);
-                      }}
-                      style={{
-                        padding: '6px 12px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '8px',
-                        color: '#667085',
-                        backgroundColor: '#fff'
-                      }}
-                    >
-                      <option value={8}>8</option>
-                      <option value={12}>12</option>
-                      <option value={16}>16</option>
-                    </select>
-                  </div>
-
-                  <div className="d-flex align-items-center gap-2">
-                    <Button
-                      color="link"
-                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      style={{
-                        color: '#667085',
-                        textDecoration: 'none',
-                        padding: '6px 12px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '8px',
-                        backgroundColor: '#fff'
-                      }}
-                    >
-                      Previous
-                    </Button>
+                <div className="d-flex justify-content-center align-items-center mt-4 gap-1">
+                  <Button
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                    style={{
+                      padding: '8px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#667085',
+                      minWidth: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    ⟨⟨
+                  </Button>
+                  <Button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    style={{
+                      padding: '8px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#667085',
+                      minWidth: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    ⟨
+                  </Button>
+                  
+                  {[...Array(Math.min(3, totalPages))].map((_, idx) => {
+                    const pageNum = currentPage <= 2
+                      ? idx + 1
+                      : currentPage >= totalPages - 1
+                        ? totalPages - 2 + idx
+                        : currentPage - 1 + idx;
                     
-                    {[...Array(Math.min(5, totalPages))].map((_, idx) => {
-                      const pageNum = currentPage <= 3
-                        ? idx + 1
-                        : currentPage >= totalPages - 2
-                          ? totalPages - 4 + idx
-                          : currentPage - 2 + idx;
-                      
-                      if (pageNum > totalPages) return null;
-                      
-                      return (
-                        <Button
-                          key={pageNum}
-                          color={pageNum === currentPage ? "warning" : "light"}
-                          onClick={() => setCurrentPage(pageNum)}
-                          style={{
-                            padding: '6px 14px',
-                            border: pageNum === currentPage ? 'none' : '1px solid #D0D5DD',
-                            borderRadius: '8px',
-                            backgroundColor: pageNum === currentPage ? '#FFD700' : '#fff',
-                            color: pageNum === currentPage ? '#000' : '#667085',
-                            minWidth: '40px'
-                          }}
-                        >
-                          {pageNum}
-                        </Button>
-                      );
-                    })}
+                    if (pageNum > totalPages) return null;
+                    
+                    return (
+                      <Button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        style={{
+                          padding: '4px 12px',
+                          backgroundColor: pageNum === currentPage ? '#FFD600' : 'transparent',
+                          border: 'none',
+                          color: pageNum === currentPage ? '#000' : '#667085',
+                          minWidth: '32px',
+                          height: '32px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '4px',
+                          fontWeight: pageNum === currentPage ? '600' : '400'
+                        }}
+                      >
+                        {pageNum}
+                      </Button>
+                    );
+                  })}
 
-                    <Button
-                      color="link"
-                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                      style={{
-                        color: '#667085',
-                        textDecoration: 'none',
-                        padding: '6px 12px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '8px',
-                        backgroundColor: '#fff'
-                      }}
-                    >
-                      Next
-                    </Button>
-                  </div>
-
-                  <div style={{ color: '#667085', fontSize: '14px' }}>
-                    {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, (activeTab === "upcoming" ? tournaments.length : registeredTournaments.length))} of {activeTab === "upcoming" ? tournaments.length : registeredTournaments.length} items
-                  </div>
+                  <Button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    style={{
+                      padding: '8px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#667085',
+                      minWidth: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    ⟩
+                  </Button>
+                  <Button
+                    onClick={() => setCurrentPage(totalPages)}
+                    disabled={currentPage === totalPages}
+                    style={{
+                      padding: '8px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#667085',
+                      minWidth: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    ⟩⟩
+                  </Button>
                 </div>
               </CardBody>
             </Card>
