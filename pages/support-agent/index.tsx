@@ -334,6 +334,7 @@ export default function SupportAgentChat() {
                   onClick={() => setTab(0)}
                   sx={{
                     flex: 1,
+                    height:"30px",
                     minWidth: "80px",
                     textTransform: "none",
                     color: "#000",
@@ -351,6 +352,7 @@ export default function SupportAgentChat() {
                   onClick={() => setTab(1)}
                   sx={{
                     flex: 1,
+                    height:"30px",
                     minWidth: "80px",
                     textTransform: "none",
                     color: "#000",
