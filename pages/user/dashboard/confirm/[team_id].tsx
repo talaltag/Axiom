@@ -88,6 +88,86 @@ export default function ConfirmRegistration() {
                 Payment Method
               </h5>
 
+              <div style={{ fontSize: "14px", color: "#344054", marginBottom: "16px" }}>Card Information</div>
+              <div style={{ display: 'grid', gap: '16px' }}>
+                <div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                        Card Number
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="XXXX XXXX XXXX XXXX"
+                        style={{ 
+                          height: "44px", 
+                          fontSize: "16px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          padding: "10px 14px",
+                          boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                        MM/YY
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="MM/YY"
+                        style={{ 
+                          height: "44px", 
+                          fontSize: "16px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          padding: "10px 14px",
+                          boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
+                        CVV
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="XXX"
+                        style={{ 
+                          height: "44px", 
+                          fontSize: "16px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          padding: "10px 14px",
+                          boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#344054", marginBottom: "16px" }}>
+                    Name on Card
+                  </h6>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter name on card"
+                    style={{ 
+                      height: "44px", 
+                      fontSize: "16px",
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      padding: "10px 14px",
+                      boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                    }}
+                  />
+                </div>
+              </div>
               <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
                 <div
                   onClick={() => setPaymentMethod("wallet")}
@@ -146,90 +226,6 @@ export default function ConfirmRegistration() {
                   <span style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>Stripe</span>
                 </div>
               </div>
-
-              <div style={{ fontSize: "14px", color: "#344054", marginBottom: "16px" }}>Card Information</div>
-              {paymentMethod === "bank" && (
-                <div style={{ display: 'grid', gap: '16px' }}>
-                  <div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '16px' }}>
-                      <div>
-                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                          Card Number
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="XXXX XXXX XXXX XXXX"
-                          style={{ 
-                            height: "44px", 
-                            fontSize: "16px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            padding: "10px 14px",
-                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                          MM/YY
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="MM/YY"
-                          style={{ 
-                            height: "44px", 
-                            fontSize: "16px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            padding: "10px 14px",
-                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
-                          CVV
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="XXX"
-                          style={{ 
-                            height: "44px", 
-                            fontSize: "16px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            padding: "10px 14px",
-                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#344054", marginBottom: "16px" }}>
-                      Name on Card
-                    </h6>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter name on card"
-                      style={{ 
-                        height: "44px", 
-                        fontSize: "16px",
-                        border: "1px solid #D0D5DD",
-                        borderRadius: "8px",
-                        padding: "10px 14px",
-                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
               <div className="d-flex justify-content-end mt-4" style={{ gap: '12px' }}>
                 <Button 
                   color="light"
