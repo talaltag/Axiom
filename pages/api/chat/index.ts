@@ -1,6 +1,16 @@
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Chat from "../../../models/Chat";
+import formidable from 'formidable';
+import fs from 'fs';
+import path from 'path';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,11 +34,41 @@ export default async function handler(
     }
   } else if (req.method === "POST") {
     try {
-      const message = await Chat.create(req.body);
+      const form = formidable({
+        uploadDir: path.join(process.cwd(), 'public/uploads'),
+        keepExtensions: true,
+      });
+
+      const [fields, files] = await new Promise((resolve, reject) => {
+        form.parse(req, (err, fields, files) => {
+          if (err) reject(err);
+          resolve([fields, files]);
+        });
+      });
+
+      const messageData: any = {
+        sender: fields.sender,
+        receiver: fields.receiver,
+        roomId: fields.roomId,
+        content: fields.content || '',
+      };
+
+      if (files.file) {
+        const file = Array.isArray(files.file) ? files.file[0] : files.file;
+        const fileName = file.originalFilename || file.newFilename;
+        const fileUrl = `/uploads/${path.basename(file.filepath)}`;
+        
+        messageData.fileName = fileName;
+        messageData.fileUrl = fileUrl;
+        messageData.fileType = file.mimetype;
+      }
+
+      const message = await Chat.create(messageData);
       const populatedMessage = await message.populate(
         "sender receiver",
         "name profileImage"
       );
+      
       res.status(201).json({ success: true, data: populatedMessage });
     } catch (error: any) {
       res.status(500).json({ success: false, message: error.message });
