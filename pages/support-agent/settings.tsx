@@ -88,7 +88,7 @@ export default function SupportAgentSettings() {
                 <Row>
                   <Col md={6}>
                     <FormGroup>
-                      <Label>Axiom Username</Label>
+                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Axiom Username</Label>
                       <Input
                         type="text"
                         value={formData.username}
@@ -96,12 +96,20 @@ export default function SupportAgentSettings() {
                           setFormData({ ...formData, username: e.target.value })
                         }
                         placeholder="Axiom Username"
+                        style={{
+                          height: '44px',
+                          backgroundColor: '#fff',
+                          borderColor: '#D0D5DD',
+                          color: '#667085',
+                          fontSize: '16px',
+                          padding: '10px 14px'
+                        }}
                       />
                     </FormGroup>
                   </Col>
                   <Col md={6}>
                     <FormGroup>
-                      <Label>Verification Status</Label>
+                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Verification Status</Label>
                       <Input
                         type="text"
                         value={formData.verificationStatus}
@@ -113,6 +121,14 @@ export default function SupportAgentSettings() {
                         }
                         placeholder="Verification Status"
                         disabled
+                        style={{
+                          height: '44px',
+                          backgroundColor: '#fff',
+                          borderColor: '#D0D5DD',
+                          color: '#667085',
+                          fontSize: '16px',
+                          padding: '10px 14px'
+                        }}
                       />
                     </FormGroup>
                   </Col>
