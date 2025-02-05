@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -46,8 +47,8 @@ export default function ConfirmRegistration() {
 
   return (
     <UserDashboardLayout>
-      <Container fluid className="px-4">
-        <div className="d-flex align-items-center mb-4 pt-4">
+      <Container fluid>
+        <div className="d-flex align-items-center mb-4 pt-4 px-4">
           <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>Dashboard</Link>
           <span className="mx-2" style={{ color: "#667085" }}>/</span>
           <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
@@ -78,9 +79,9 @@ export default function ConfirmRegistration() {
           </div>
         </div>
 
-        <Row className="d-flex">
+        <Row className="px-4">
           <Col md={7}>
-            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
@@ -218,10 +219,10 @@ export default function ConfirmRegistration() {
             </div>
           </Col>
 
-          <Col md={5}>
-            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", height: '100%' }}>
+          <Col md={5} className="d-flex flex-column">
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="fs-2 fw-bold text-dark mb-0">$500</h4>
+                <h4 className="fs-2 fw-bold text-dark mb-0">{tournamentDetails.prize}</h4>
                 <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</span>
               </div>
               <p className="text-muted mb-4" style={{ fontSize: "14px" }}>Prize</p>
@@ -229,63 +230,65 @@ export default function ConfirmRegistration() {
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Entry Fee</span>
-                  <span style={{ fontSize: "14px" }}>$25</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.entryCost}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Platform</span>
-                  <span style={{ fontSize: "14px" }}>XBOX</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.platform}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Tournament Type</span>
-                  <span style={{ fontSize: "14px" }}>KILL RACE</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.tournamentType}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Tournament Size</span>
-                  <span style={{ fontSize: "14px" }}>0 of 64 teams</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.tournamentSize}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Team Size</span>
-                  <span style={{ fontSize: "14px" }}>Quad</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.teamSize}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Country</span>
-                  <span style={{ fontSize: "14px" }}>USA</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.country}</span>
                 </div>
               </div>
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Game</span>
-                  <span style={{ fontSize: "14px" }}>Call of Duty</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.game}</span>
                 </div>
               </div>
 
               <div className="mb-4">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted" style={{ fontSize: "14px" }}>Game Mode</span>
-                  <span style={{ fontSize: "14px" }}>Battle Royale</span>
+                  <span style={{ fontSize: "14px" }}>{tournamentDetails.gameMode}</span>
                 </div>
               </div>
+            </div>
 
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <div className="mb-4">
                 <h5 className="mb-3" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
+                  <h5 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{tournamentDetails.team.name}</h5>
                   <div className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</div>
                 </div>
                 <div className="d-flex align-items-center gap-3 mb-3">
@@ -338,7 +341,7 @@ export default function ConfirmRegistration() {
 
         <Row>
           <Col>
-            <div className="d-flex justify-content-between mt-4 p-4">
+            <div className="d-flex justify-content-between px-4 py-3">
               <Button
                 color="light"
                 className="px-4"
