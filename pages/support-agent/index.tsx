@@ -1,9 +1,7 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
-  Tabs,
-  Tab,
   Typography,
   Avatar,
   TextField,
@@ -16,6 +14,8 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import SupportAgentLayout from '../../components/layouts/SupportAgentLayout';
+import { useSession } from 'next-auth/react';
+import { io } from 'socket.io-client';
 
 const StyledTab = styled(Tab)({
   textTransform: 'none',
@@ -95,24 +95,120 @@ const StatusDot = styled('span')({
   marginLeft: '8px',
 });
 
+interface Message {
+  _id: string;
+  sender: string;
+  receiver: string;
+  content: string;
+  createdAt: string;
+}
+
+interface User {
+  _id: string;
+  name: string;
+  status?: string;
+}
+
 export default function SupportAgentChat() {
   const [tab, setTab] = useState(0);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const session = useSession();
+  const [socketRef, setSocketRef] = useState<any>(null);
 
-  const users = [
-    { id: 1, name: 'Alex Lucas Jack', avatar: '/user1.png', status: 'online' },
-    { id: 2, name: 'Dianne Team', avatar: '/user1.png', status: 'online' },
-    { id: 3, name: 'Eleanor Pena', avatar: '/user1.png', status: 'offline' },
-    { id: 4, name: 'Theresa Webb', avatar: '/user1.png', status: 'online' },
-    { id: 5, name: 'Robert Fox', avatar: '/user1.png', status: 'offline' },
-    { id: 6, name: 'Marvin McKinney', avatar: '/user1.png', status: 'online' },
-  ];
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000");
+    setSocketRef(socket);
 
-  const handleSend = () => {
-    if (message.trim()) {
-      // Handle message sending logic here
-      setMessage('');
+    return () => {
+      if (socket) socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (socketRef && selectedUser) {
+      const roomId = [session.data?.user?.id, selectedUser._id].sort().join("-");
+      socketRef.emit("join", roomId);
+
+      socketRef.on("message", (message: Message) => {
+        setMessages((prev) => [...prev, message]);
+      });
+
+      return () => {
+        socketRef.emit("leave", roomId);
+        socketRef.off("message");
+      };
+    }
+  }, [socketRef, selectedUser, session.data?.user?.id]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users');
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data.data.filter((user: User) => user.role === 'User'));
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (session.data) {
+      fetchUsers();
+    }
+  }, [session.data]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!selectedUser || !session.data?.user?.id) return;
+      
+      try {
+        const response = await fetch(
+          `/api/chat?sender=${session.data.user.id}&receiver=${selectedUser._id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setMessages(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
+
+    fetchMessages();
+  }, [selectedUser, session.data?.user?.id]);
+
+  const handleSend = async () => {
+    if (!message.trim() || !selectedUser || !session.data?.user?.id) return;
+
+    try {
+      const messageData = {
+        sender: session.data.user.id,
+        receiver: selectedUser._id,
+        content: message,
+        roomId: [session.data.user.id, selectedUser._id].sort().join("-"),
+      };
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(messageData),
+      });
+
+      if (response.ok) {
+        if (socketRef) {
+          socketRef.emit("message", messageData);
+        }
+        setMessage("");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
@@ -169,21 +265,20 @@ export default function SupportAgentChat() {
             <List sx={{ flex: 1, overflow: 'auto', p: 0 }}>
               {users.map((user) => (
                 <UserItem
-                  key={user.id}
-                  className={selectedUser?.id === user.id ? 'selected' : ''}
+                  key={user._id}
+                  className={selectedUser?._id === user._id ? 'selected' : ''}
                   onClick={() => setSelectedUser(user)}
                 >
                   <ListItemAvatar>
-                    <Avatar src={user.avatar} />
+                    <Avatar src="/user1.png" />
                   </ListItemAvatar>
                   <ListItemText 
                     primary={
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {user.name}
-                        {user.status === 'online' && <StatusDot />}
+                        <StatusDot />
                       </Box>
                     }
-                    secondary="Typing Something..."
                   />
                 </UserItem>
               ))}
@@ -199,19 +294,14 @@ export default function SupportAgentChat() {
                   </Typography>
                 </Box>
                 <Box sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
-                  {/* Example messages */}
-                  <ChatMessage>
-                    <Avatar src="/user1.png" />
-                    <MessageBubble isUser={false}>
-                      So, what's your plan this weekend?
-                    </MessageBubble>
-                  </ChatMessage>
-                  <ChatMessage isUser>
-                    <MessageBubble isUser>
-                      What's the progress on that task?
-                    </MessageBubble>
-                    <Avatar src="/user1.png" />
-                  </ChatMessage>
+                  {messages.map((msg) => (
+                    <ChatMessage key={msg._id} isUser={msg.sender === session.data?.user?.id}>
+                      <Avatar src="/user1.png" sx={{ order: msg.sender === session.data?.user?.id ? 1 : 0 }} />
+                      <MessageBubble isUser={msg.sender === session.data?.user?.id}>
+                        {msg.content}
+                      </MessageBubble>
+                    </ChatMessage>
+                  ))}
                 </Box>
                 <MessageInput>
                   <TextField
@@ -228,10 +318,14 @@ export default function SupportAgentChat() {
                         </span>
                       ),
                     }}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSend();
+                      }
+                    }}
                   />
                   <Button
                     variant="contained"
-                    color="primary"
                     onClick={handleSend}
                     sx={{ 
                       minWidth: 'auto',
