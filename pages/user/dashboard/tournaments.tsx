@@ -252,32 +252,38 @@ export default function Tournaments() {
                       onClick={() => setCurrentPage(1)}
                       disabled={currentPage === 1}
                       style={{
-                        padding: '4px',
+                        padding: '2px 6px',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
-                        minWidth: '24px',
-                        height: '24px',
+                        minWidth: '28px',
+                        height: '28px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        opacity: currentPage === 1 ? 0.5 : 1
                       }}
                     >
-                      ⟨⟨
+                      ⟪
                     </Button>
                     <Button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
                       style={{
-                        padding: '4px',
+                        padding: '2px 6px',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: '#667085',
-                        minWidth: '24px',
-                        height: '24px',
+                        minWidth: '28px',
+                        height: '28px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        opacity: currentPage === 1 ? 0.5 : 1
                       }}
                     >
                       ⟨
@@ -293,17 +299,19 @@ export default function Tournaments() {
                           onClick={() => setCurrentPage(pageNum)}
                           style={{
                             padding: '4px 8px',
-                            backgroundColor: pageNum === currentPage ? '#FFD700' : 'transparent',
+                            backgroundColor: pageNum === currentPage ? '#FFD600' : 'transparent',
                             border: 'none',
                             color: pageNum === currentPage ? '#000' : '#667085',
-                            minWidth: '24px',
-                            height: '24px',
+                            minWidth: '28px',
+                            height: '28px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             borderRadius: '4px',
                             fontSize: '14px',
-                            fontWeight: pageNum === currentPage ? '600' : '400'
+                            fontWeight: '500',
+                            padding: '2px 10px',
+                            margin: '0 2px'
                           }}
                         >
                           {pageNum}
@@ -346,16 +354,20 @@ export default function Tournaments() {
                       ⟩⟩
                     </Button>
 
-                    <div style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginLeft: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <select 
                         value={itemsPerPage}
                         onChange={(e) => setItemsPerPage(Number(e.target.value))}
                         style={{
-                          padding: '4px 8px',
+                          padding: '6px 8px',
                           border: '1px solid #D0D5DD',
-                          borderRadius: '4px',
+                          borderRadius: '6px',
                           color: '#667085',
-                          fontSize: '14px'
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          backgroundColor: 'white',
+                          cursor: 'pointer',
+                          minWidth: '70px'
                         }}
                       >
                         <option value={12}>12</option>
