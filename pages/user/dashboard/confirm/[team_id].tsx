@@ -117,9 +117,10 @@ export default function ConfirmRegistration() {
         </Row>
 
         <Row className="px-4">
-          <Col md={7}>
-            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
-              <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
+          <Col md={12}>
+            <div className="d-flex gap-4">
+              <div className="bg-white rounded-3 p-4 mb-4" style={{ flex: 1, boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+                <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
               <div className="d-flex gap-3 mb-4">
                 <div 
                   className={`rounded-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border-2 border-warning' : 'border'}`}
@@ -259,9 +260,8 @@ export default function ConfirmRegistration() {
                 </div>
               )}
             </div>
-          </Col>
 
-          <Col md={5} className="d-flex flex-column">
+            <div style={{ width: '400px' }} className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
             
 
             <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
@@ -316,10 +316,12 @@ export default function ConfirmRegistration() {
                 </div>
               </div>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </div>
+      </Col>
+    </Row>
 
-        <Row>
+    <Row>
           <Col>
             <div className="d-flex justify-content-between px-4 py-3">
               <Button
