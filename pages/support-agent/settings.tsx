@@ -262,7 +262,18 @@ export default function SupportAgentSettings() {
                 </Row>
 
                 <div className="text-end mt-4">
-                  <Button color="warning" size="lg">
+                  <Button 
+                    color="warning" 
+                    style={{
+                      width: '100%',
+                      height: '44px',
+                      backgroundColor: '#FFD700',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: 500
+                    }}
+                  >
                     Update
                   </Button>
                 </div>
