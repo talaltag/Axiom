@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
 import { Container, Row, Col, Button } from "reactstrap";
-import Link from "next/link";
 
 export default function ConfirmRegistration() {
   const router = useRouter();
@@ -40,7 +40,6 @@ export default function ConfirmRegistration() {
   return (
     <UserDashboardLayout>
       <Container fluid className="px-4">
-        {/* Breadcrumb */}
         <div className="d-flex align-items-center mb-4 pt-4">
           <Link href="/dashboard" className="text-decoration-none" style={{ color: "#667085" }}>
             Dashboard
@@ -49,18 +48,17 @@ export default function ConfirmRegistration() {
           <span style={{ color: "#101828" }}>{tournamentDetails.name}</span>
         </div>
 
-        {/* Tournament Banner */}
-        <div className="bg-white rounded-3 p-4 mb-4" 
-          style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+        <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
           <div className="d-flex gap-4">
-            <Image
-              src="/fortnite-banner.png"
-              alt="Tournament"
-              width={120}
-              height={120}
-              className="rounded-3"
-              style={{ objectFit: "cover" }}
-            />
+            <div style={{ position: 'relative', width: '120px', height: '120px' }}>
+              <Image
+                src="/fortnite-banner.png"
+                alt="Tournament"
+                fill
+                className="rounded-3"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
             <div className="flex-grow-1">
               <h4 style={{ fontSize: "18px", color: "#101828", marginBottom: "8px" }}>
                 {tournamentDetails.name}
@@ -90,17 +88,14 @@ export default function ConfirmRegistration() {
           </div>
         </div>
 
-        {/* Tournament Details */}
         <Row className="px-0 mb-4">
           <Col md={12}>
-            <div className="bg-white rounded-3 p-4" 
-              style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}>
+            <div className="bg-white rounded-3 p-4" style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h4 style={{ fontSize: "30px", fontWeight: 600, color: "#101828", margin: 0 }}>
                   {tournamentDetails.prize}
                 </h4>
-                <span className="badge bg-success bg-opacity-10 text-success px-2 py-1"
-                  style={{ fontSize: "12px", fontWeight: 500 }}>
+                <span className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px", fontWeight: 500 }}>
                   New
                 </span>
               </div>
@@ -123,16 +118,13 @@ export default function ConfirmRegistration() {
           </Col>
         </Row>
 
-        {/* Payment Section */}
         <Row className="px-0">
           <Col md={12}>
-            <div className="bg-white rounded-3 p-4 mb-4" 
-              style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+            <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
               <h5 style={{ fontSize: "16px", color: "#101828", marginBottom: "24px" }}>
                 Payment Method
               </h5>
               <div className="d-flex gap-3 mb-4">
-                {/* Wallet Payment */}
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "wallet" ? "border-2 border-warning" : "border"}`}
                   style={{
@@ -151,7 +143,6 @@ export default function ConfirmRegistration() {
                   <div style={{ fontSize: "14px", color: "#667085" }}>Axiom Wallet</div>
                 </div>
 
-                {/* Bank Card */}
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "bank" ? "border-2 border-warning" : "border"}`}
                   style={{
@@ -167,7 +158,6 @@ export default function ConfirmRegistration() {
                   <h5 style={{ fontSize: "16px", color: "#101828", marginBottom: 0 }}>Bank Card</h5>
                 </div>
 
-                {/* Stripe */}
                 <div
                   className={`rounded-3 cursor-pointer ${paymentMethod === "stripe" ? "border-2 border-warning" : "border"}`}
                   style={{
