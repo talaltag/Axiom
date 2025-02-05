@@ -119,10 +119,11 @@ export default function SupportAgentSettings() {
                 </Row>
 
                 <h5 className="mt-4 mb-3">Password</h5>
+                <h5 className="mb-4" style={{color: '#101828', fontSize: '18px', fontWeight: '500'}}>Password</h5>
                 <Row>
                   <Col md={4}>
                     <FormGroup>
-                      <Label>Old Password</Label>
+                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Old Password</Label>
                       <InputGroup>
                         <Input
                           type={showOldPassword ? "text" : "password"}
@@ -133,16 +134,29 @@ export default function SupportAgentSettings() {
                               oldPassword: e.target.value,
                             })
                           }
-                          placeholder="Old Password"
+                          placeholder="4885785"
+                          style={{
+                            height: '44px',
+                            borderRight: 'none',
+                            backgroundColor: '#fff',
+                            borderColor: '#D0D5DD',
+                            color: '#667085',
+                            fontSize: '16px'
+                          }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("old")}
+                          style={{
+                            backgroundColor: '#fff',
+                            borderLeft: 'none',
+                            borderColor: '#D0D5DD'
+                          }}
                         >
                           {showOldPassword ? (
-                            <EyeOff size={18} />
+                            <EyeOff size={20} style={{color: '#667085'}} />
                           ) : (
-                            <Eye size={18} />
+                            <Eye size={20} style={{color: '#667085'}} />
                           )}
                         </InputGroupText>
                       </InputGroup>
@@ -150,7 +164,7 @@ export default function SupportAgentSettings() {
                   </Col>
                   <Col md={4}>
                     <FormGroup>
-                      <Label>New Password</Label>
+                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>New Password</Label>
                       <InputGroup>
                         <Input
                           type={showNewPassword ? "text" : "password"}
@@ -161,16 +175,29 @@ export default function SupportAgentSettings() {
                               newPassword: e.target.value,
                             })
                           }
-                          placeholder="New Password"
+                          placeholder="4885785"
+                          style={{
+                            height: '44px',
+                            borderRight: 'none',
+                            backgroundColor: '#fff',
+                            borderColor: '#D0D5DD',
+                            color: '#667085',
+                            fontSize: '16px'
+                          }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("new")}
+                          style={{
+                            backgroundColor: '#fff',
+                            borderLeft: 'none',
+                            borderColor: '#D0D5DD'
+                          }}
                         >
                           {showNewPassword ? (
-                            <EyeOff size={18} />
+                            <EyeOff size={20} style={{color: '#667085'}} />
                           ) : (
-                            <Eye size={18} />
+                            <Eye size={20} style={{color: '#667085'}} />
                           )}
                         </InputGroupText>
                       </InputGroup>
@@ -178,7 +205,7 @@ export default function SupportAgentSettings() {
                   </Col>
                   <Col md={4}>
                     <FormGroup>
-                      <Label>Confirm Password</Label>
+                      <Label style={{color: '#344054', fontSize: '14px', fontWeight: '500', marginBottom: '6px'}}>Confirm Password</Label>
                       <InputGroup>
                         <Input
                           type={showConfirmPassword ? "text" : "password"}
@@ -189,16 +216,29 @@ export default function SupportAgentSettings() {
                               confirmPassword: e.target.value,
                             })
                           }
-                          placeholder="Confirm Password"
+                          placeholder="4885785"
+                          style={{
+                            height: '44px',
+                            borderRight: 'none',
+                            backgroundColor: '#fff',
+                            borderColor: '#D0D5DD',
+                            color: '#667085',
+                            fontSize: '16px'
+                          }}
                         />
                         <InputGroupText
                           className="cursor-pointer"
                           onClick={() => togglePasswordVisibility("confirm")}
+                          style={{
+                            backgroundColor: '#fff',
+                            borderLeft: 'none',
+                            borderColor: '#D0D5DD'
+                          }}
                         >
                           {showConfirmPassword ? (
-                            <EyeOff size={18} />
+                            <EyeOff size={20} style={{color: '#667085'}} />
                           ) : (
-                            <Eye size={18} />
+                            <Eye size={20} style={{color: '#667085'}} />
                           )}
                         </InputGroupText>
                       </InputGroup>
