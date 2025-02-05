@@ -5,6 +5,14 @@ import UserDashboardLayout from "../../../../components/layouts/UserDashboardLay
 import { Container, Row, Col, Button, Input } from "reactstrap";
 import Link from "next/link";
 
+interface CardDetails {
+  number: string;
+  security: string;
+  name: string;
+  expMonth: string;
+  expYear: string;
+}
+
 export default function ConfirmRegistration() {
   const router = useRouter();
   const { team_id } = router.query;
@@ -12,7 +20,7 @@ export default function ConfirmRegistration() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [walletBalance, setWalletBalance] = useState(1200);
-  const [cardDetails, setCardDetails] = useState({
+  const [cardDetails, setCardDetails] = useState<CardDetails>({
     number: "",
     security: "",
     name: "",
@@ -111,210 +119,6 @@ export default function ConfirmRegistration() {
                   </div>
                 </Col>
               </Row>
-            </div>
-          </Col>
-        </Row>
-
-        <Row className="px-4">
-          <Col md={12}>
-            <div className="d-flex gap-4">
-              <div className="bg-white rounded-3 p-4 mb-4" style={{ flex: 1, boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
-                <h5 className="mb-4" style={{ fontSize: "16px", color: "#101828" }}>Payment Method</h5>
-                <div className="d-flex gap-3 mb-4">
-                  <div 
-                    className={`rounded-3 cursor-pointer ${paymentMethod === 'wallet' ? 'border-2 border-warning' : 'border'}`}
-                    style={{ 
-                      width: "180px",
-                      height: "80px",
-                      padding: "16px",
-                      cursor: "pointer",
-                      backgroundColor: paymentMethod === 'wallet' ? '#FFFDF5' : '#FFFFFF',
-                      borderColor: paymentMethod === 'wallet' ? '#FFD600' : '#D0D5DD'
-                    }}
-                    onClick={() => setPaymentMethod('wallet')}
-                  >
-                    <h5 className="mb-1" style={{ fontSize: "18px", fontWeight: "600", color: "#101828" }}>${walletBalance}</h5>
-                    <div style={{ fontSize: "14px", color: "#667085" }}>Axiom Wallet</div>
-                  </div>
-                  <div 
-                    className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'bank' ? 'border border-warning' : 'border'}`}
-                    style={{ 
-                      minWidth: "200px", 
-                      cursor: "pointer",
-                      borderColor: paymentMethod === 'bank' ? '#FFD600' : '#D0D5DD'
-                    }}
-                    onClick={() => setPaymentMethod('bank')}
-                  >
-                    <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>Bank Card</h5>
-                  </div>
-                  <div 
-                    className={`p-4 rounded-3 cursor-pointer ${paymentMethod === 'stripe' ? 'border border-warning' : 'border'}`}
-                    style={{ 
-                      minWidth: "200px", 
-                      cursor: "pointer",
-                      borderColor: paymentMethod === 'stripe' ? '#FFD600' : '#D0D5DD'
-                    }}
-                    onClick={() => setPaymentMethod('stripe')}
-                  >
-                    <h5 className="mb-1" style={{ fontSize: "16px", color: "#101828" }}>Stripe</h5>
-                  </div>
-                </div>
-
-                {paymentMethod === 'bank' && (
-                  <div>
-                    <h5 className="mb-4" style={{ fontSize: "14px", color: "#101828" }}>Card Information</h5>
-                    <Row>
-                      <Col md={6} className="mb-3">
-                        <label className="mb-2" style={{ fontSize: "14px", fontWeight: "500", color: "#344054" }}>Card Number</label>
-                        <Input
-                          type="text"
-                          placeholder="XXXX XXXX XXXX"
-                          value={cardDetails.number}
-                          onChange={(e) => setCardDetails({...cardDetails, number: e.target.value})}
-                          style={{ 
-                            height: "44px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            fontSize: "14px",
-                            color: "#101828",
-                            backgroundColor: "#FFFFFF",
-                            boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                          }}
-                        />
-                      </Col>
-                      <Col md={6} className="mb-3">
-                        <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Security Code</label>
-                        <Input
-                          type="text"
-                          placeholder="XXXX XXXX XXXX"
-                          value={cardDetails.security}
-                          onChange={(e) => setCardDetails({...cardDetails, security: e.target.value})}
-                          style={{ 
-                            height: "44px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            fontSize: "14px",
-                            color: "#101828"
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                    <div className="mb-3">
-                      <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Name on Card</label>
-                      <Input
-                        type="text"
-                        placeholder="XXXX XXXX XXXX"
-                        value={cardDetails.name}
-                        onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
-                        style={{ 
-                          height: "44px",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "8px",
-                          fontSize: "14px",
-                          color: "#101828"
-                        }}
-                      />
-                    </div>
-                    <Row>
-                      <Col md={6}>
-                        <label className="mb-2" style={{ fontSize: "14px", color: "#344054" }}>Expiration Date</label>
-                        <div className="d-flex gap-2">
-                          <Input
-                            type="select"
-                            value={cardDetails.expMonth}
-                            onChange={(e) => setCardDetails({...cardDetails, expMonth: e.target.value})}
-                            style={{ 
-                              height: "44px",
-                              border: "1px solid #D0D5DD",
-                              borderRadius: "8px",
-                              fontSize: "14px",
-                              color: "#101828"
-                            }}
-                          >
-                            <option value="">Month</option>
-                            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                              <option key={month} value={month}>{month}</option>
-                            ))}
-                          </Input>
-                          <Input
-                            type="select"
-                            value={cardDetails.expYear}
-                            onChange={(e) => setCardDetails({...cardDetails, expYear: e.target.value})}
-                            style={{ 
-                              height: "44px",
-                              border: "1px solid #D0D5DD",
-                              borderRadius: "8px",
-                              fontSize: "14px",
-                              color: "#101828"
-                            }}
-                          >
-                            <option value="">Year</option>
-                            {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map((year) => (
-                              <option key={year} value={year}>{year}</option>
-                            ))}
-                          </Input>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ width: '400px' }} className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
-
-
-              <div className="bg-white rounded-3 p-4 mb-4" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
-                <div className="mb-4">
-                  <h5 className="mb-3" style={{ fontSize: "14px", color: "#101828" }}>My Team</h5>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h5 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{tournamentDetails.team.name}</h5>
-                    <div className="badge bg-success bg-opacity-10 text-success px-2 py-1" style={{ fontSize: "12px" }}>New</div>
-                  </div>
-                  <div className="d-flex align-items-center gap-3 mb-3">
-                    <Image
-                      src="/user1.png"
-                      alt="Team Logo"
-                      width={40}
-                      height={40}
-                      className="rounded-circle"
-                    />
-                    <h6 className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{tournamentDetails.team.name}</h6>
-                  </div>
-
-                  {tournamentDetails.team.members.map((member, index) => (
-                    <div key={index} className="d-flex align-items-center gap-3 mb-3">
-                      <Image
-                        src={member.avatar}
-                        alt={member.name}
-                        width={32}
-                        height={32}
-                        className="rounded-circle"
-                      />
-                      <div className="flex-grow-1">
-                        <p className="mb-0" style={{ fontSize: "14px", color: "#101828" }}>{member.name}</p>
-                        <small style={{ fontSize: "12px", color: "#667085" }}>{member.role}</small>
-                      </div>
-                      <span style={{ fontSize: "12px", color: "#12B76A" }}>{member.status}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div>
-                  <h5 className="mb-3" style={{ fontSize: "14px", color: "#101828" }}>Prizes</h5>
-                  <div className="d-flex justify-content-between mb-2">
-                    <span style={{ fontSize: "14px", color: "#667085" }}>1st Winner Prize</span>
-                    <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
-                  </div>
-                  <div className="d-flex justify-content-between mb-2">
-                    <span style={{ fontSize: "14px", color: "#667085" }}>2nd Winner Prize</span>
-                    <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span style={{ fontSize: "14px", color: "#667085" }}>3rd Winner Prize</span>
-                    <span style={{ fontSize: "14px", color: "#101828" }}>$776</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </Col>
         </Row>
