@@ -17,6 +17,8 @@ import SupportAgentLayout from '../../components/layouts/SupportAgentLayout';
 import { useSession } from 'next-auth/react';
 import { io } from 'socket.io-client';
 
+import { Tab } from '@mui/material';
+
 const StyledTab = styled(Tab)({
   textTransform: 'none',
   minWidth: 80,
