@@ -35,12 +35,18 @@ export default function CongratulationsModal({ isOpen, toggle }: Congratulations
           onClick={toggle}
           style={{
             position: 'absolute',
-            right: '16px',
-            top: '16px',
+            right: '24px',
+            top: '24px',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            padding: '4px',
+            padding: '10px',
+            fontSize: '16px',
+            color: '#667085',
+            fontWeight: 500,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           ✕
