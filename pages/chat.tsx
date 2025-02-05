@@ -35,7 +35,7 @@ export default function ChatPage() {
           const response =
             session.data.user.role == "Admin"
               ? await fetch("/api/users")
-              : await fetch("/api/users/me/friends");
+              : await fetch("/api/users/me/friends?others=true");
           if (!response.ok) {
             throw new Error("Failed to fetch users");
           }
@@ -71,7 +71,7 @@ export default function ChatPage() {
       setCurrentUser({
         _id: session.data.user.id,
         name: session.data.user.name,
-        profileImage: session.data.user.image,
+        profileImage: session.data.user.profileImage,
       });
     }
   }, [session.data]);
