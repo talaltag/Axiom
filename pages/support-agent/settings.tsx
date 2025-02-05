@@ -47,7 +47,7 @@ export default function SupportAgentSettings() {
 
   return (
     <SupportAgentLayout>
-      <Container fluid className="p-4">
+      <Container fluid className="px-4 py-2">
         <div className="mb-1">
           <h2 style={{ marginBottom: '6px', fontSize: '24px', fontWeight: 500, color: '#101828' }}>Settings</h2>
         </div>
