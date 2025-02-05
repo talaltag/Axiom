@@ -1,108 +1,193 @@
 
-import { Box, Tabs, Tab, Typography, Avatar, TextField, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useState } from 'react';
-import SupportAgentLayout from '../../../components/layouts/SupportAgentLayout';
-
-const StyledTab = styled(Tab)({
-  textTransform: 'none',
-  minWidth: 80,
-  fontWeight: 600,
-  marginRight: '16px',
-  color: '#666',
-  '&.Mui-selected': {
-    color: '#000',
-  }
-});
-
-const ChatContainer = styled(Box)({
-  display: 'flex',
-  height: 'calc(100vh - 100px)',
-  backgroundColor: '#fff',
-  borderRadius: '8px',
-});
-
-const UsersList = styled(Box)({
-  width: '280px',
-  borderRight: '1px solid #eee',
-  overflowY: 'auto',
-});
-
-const ChatArea = styled(Box)({
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-});
-
-const MessageInput = styled(Box)({
-  padding: '16px',
-  borderTop: '1px solid #eee',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-});
+import { useState } from "react";
+import {
+  Box,
+  Typography,
+  Avatar,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import SupportAgentLayout from "../../../components/layouts/SupportAgentLayout";
+import { useSession } from "next-auth/react";
 
 export default function Settings() {
-  const [tab, setTab] = useState(0);
-  const [message, setMessage] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const session = useSession();
 
   return (
     <SupportAgentLayout>
       <Box sx={{ p: 3 }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-          <Tabs value={tab} onChange={(_, newValue) => setTab(newValue)}>
-            <StyledTab label="Users" />
-            <StyledTab label="Admin" />
-          </Tabs>
+        <Typography variant="h6" sx={{ mb: 1, fontWeight: 500 }}>
+          Settings
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 4, color: "#6C757D" }}>
+          Manage your team and preferences here.
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
+          <Avatar
+            src={session.data?.user?.image || "/user1.png"}
+            sx={{ width: 100, height: 100, mr: 2 }}
+          />
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              backgroundColor: "#FFD700",
+              color: "#000",
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: "#FFC700",
+              },
+            }}
+          >
+            Change Photo
+          </Button>
         </Box>
 
-        <ChatContainer>
-          <UsersList>
-            {/* User list items */}
-            {['Alex Lucas Jack', 'Dianne Team', 'Eleanor Pena'].map((name) => (
-              <Box
-                key={name}
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2,
-                  cursor: 'pointer',
-                  '&:hover': { backgroundColor: '#f5f5f5' },
-                }}
-              >
-                <Avatar>{name[0]}</Avatar>
-                <Typography>{name}</Typography>
-              </Box>
-            ))}
-          </UsersList>
+        <Box sx={{ maxWidth: 600 }}>
+          <Box sx={{ mb: 4 }}>
+            <Typography sx={{ mb: 1, fontWeight: 500 }}>Axiom Username</Typography>
+            <TextField
+              fullWidth
+              placeholder="Axiom Username"
+              value={session.data?.user?.email || ""}
+              sx={{
+                backgroundColor: "#F8F9FA",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#E9ECEF",
+                  },
+                },
+              }}
+            />
+          </Box>
 
-          <ChatArea>
-            <Box sx={{ flex: 1, p: 2, overflowY: 'auto' }}>
-              {/* Chat messages will go here */}
-            </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography sx={{ mb: 1, fontWeight: 500 }}>Verification Status</Typography>
+            <TextField
+              fullWidth
+              placeholder="Verification Status"
+              disabled
+              sx={{
+                backgroundColor: "#F8F9FA",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#E9ECEF",
+                  },
+                },
+              }}
+            />
+          </Box>
 
-            <MessageInput>
-              <TextField
-                fullWidth
-                placeholder="Type a message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                variant="outlined"
-                size="small"
-              />
-              <Button 
-                variant="contained" 
-                sx={{ 
-                  backgroundColor: '#007bff',
-                  '&:hover': { backgroundColor: '#0056b3' }
-                }}
-              >
-                Send
-              </Button>
-            </MessageInput>
-          </ChatArea>
-        </ChatContainer>
+          <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
+            Password
+          </Typography>
+
+          <Box sx={{ display: "grid", gap: 3, mb: 4 }}>
+            <TextField
+              fullWidth
+              type={showOldPassword ? "text" : "password"}
+              placeholder="Old Password"
+              value={formData.oldPassword}
+              onChange={(e) => setFormData({ ...formData, oldPassword: e.target.value })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowOldPassword(!showOldPassword)} edge="end">
+                      {showOldPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                backgroundColor: "#F8F9FA",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#E9ECEF",
+                  },
+                },
+              }}
+            />
+
+            <TextField
+              fullWidth
+              type={showNewPassword ? "text" : "password"}
+              placeholder="New Password"
+              value={formData.newPassword}
+              onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowNewPassword(!showNewPassword)} edge="end">
+                      {showNewPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                backgroundColor: "#F8F9FA",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#E9ECEF",
+                  },
+                },
+              }}
+            />
+
+            <TextField
+              fullWidth
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
+                      {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                backgroundColor: "#F8F9FA",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#E9ECEF",
+                  },
+                },
+              }}
+            />
+          </Box>
+
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#FFD700",
+              color: "#000",
+              textTransform: "none",
+              float: "right",
+              px: 4,
+              "&:hover": {
+                backgroundColor: "#FFC700",
+              },
+            }}
+          >
+            Update
+          </Button>
+        </Box>
       </Box>
     </SupportAgentLayout>
   );
