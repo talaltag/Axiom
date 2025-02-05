@@ -245,7 +245,7 @@ export default function SupportAgentChat() {
 
   return (
     <SupportAgentLayout>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 2, pt: 1 }}>
         <Box
           sx={{
             display: "flex",
