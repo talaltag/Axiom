@@ -32,6 +32,15 @@ export default function Tournaments() {
   const [activeTab, setActiveTab] = useState("upcoming");
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTournaments = activeTab === "upcoming" 
+    ? tournaments.slice(indexOfFirstItem, indexOfLastItem)
+    : registeredTournaments.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((activeTab === "upcoming" ? tournaments.length : registeredTournaments.length) / itemsPerPage);
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -181,7 +190,7 @@ export default function Tournaments() {
                       <Alert color="info">No tournaments found.</Alert>
                     </Col>
                   ) : (
-                    tournaments.map((tournament) => (
+                    currentTournaments.map((tournament) => (
                       <Col md={3} key={tournament._id} className="mb-4">
                         <Card className="tournament-card h-100" style={{ borderRadius: '12px', overflow: 'hidden', border: 'none', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
                           <div style={{ position: "relative", height: "160px" }}>
@@ -235,6 +244,99 @@ export default function Tournaments() {
                     ))
                   )}
                 </Row>
+                
+                {/* Pagination Controls */}
+                <div className="d-flex justify-content-between align-items-center mt-4">
+                  <div className="d-flex align-items-center">
+                    <span style={{ color: '#667085', fontSize: '14px', marginRight: '12px' }}>
+                      Items per page
+                    </span>
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                      style={{
+                        padding: '6px 12px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        color: '#667085',
+                        backgroundColor: '#fff'
+                      }}
+                    >
+                      <option value={8}>8</option>
+                      <option value={12}>12</option>
+                      <option value={16}>16</option>
+                    </select>
+                  </div>
+
+                  <div className="d-flex align-items-center gap-2">
+                    <Button
+                      color="link"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      style={{
+                        color: '#667085',
+                        textDecoration: 'none',
+                        padding: '6px 12px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        backgroundColor: '#fff'
+                      }}
+                    >
+                      Previous
+                    </Button>
+                    
+                    {[...Array(Math.min(5, totalPages))].map((_, idx) => {
+                      const pageNum = currentPage <= 3
+                        ? idx + 1
+                        : currentPage >= totalPages - 2
+                          ? totalPages - 4 + idx
+                          : currentPage - 2 + idx;
+                      
+                      if (pageNum > totalPages) return null;
+                      
+                      return (
+                        <Button
+                          key={pageNum}
+                          color={pageNum === currentPage ? "warning" : "light"}
+                          onClick={() => setCurrentPage(pageNum)}
+                          style={{
+                            padding: '6px 14px',
+                            border: pageNum === currentPage ? 'none' : '1px solid #D0D5DD',
+                            borderRadius: '8px',
+                            backgroundColor: pageNum === currentPage ? '#FFD700' : '#fff',
+                            color: pageNum === currentPage ? '#000' : '#667085',
+                            minWidth: '40px'
+                          }}
+                        >
+                          {pageNum}
+                        </Button>
+                      );
+                    })}
+
+                    <Button
+                      color="link"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      style={{
+                        color: '#667085',
+                        textDecoration: 'none',
+                        padding: '6px 12px',
+                        border: '1px solid #D0D5DD',
+                        borderRadius: '8px',
+                        backgroundColor: '#fff'
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+
+                  <div style={{ color: '#667085', fontSize: '14px' }}>
+                    {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, (activeTab === "upcoming" ? tournaments.length : registeredTournaments.length))} of {activeTab === "upcoming" ? tournaments.length : registeredTournaments.length} items
+                  </div>
+                </div>
               </CardBody>
             </Card>
           </Col>
