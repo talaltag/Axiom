@@ -12,14 +12,13 @@
 }
 
 .sentMessage {
-  background-color: #FFB800;
-  color: black;
+  background-color: #007bff;
+  color: white;
   margin-left: auto;
 }
 
 .receivedMessage {
   background-color: #f0f2f5;
-  color: black;
 }
 
 .timestamp {
@@ -32,17 +31,9 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #4CAF50;
+  background-color: #22c55e;
   position: absolute;
   bottom: 2px;
   right: 2px;
   border: 2px solid white;
-}
-
-.chatHeader {
-  padding: 16px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
