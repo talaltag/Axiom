@@ -31,19 +31,18 @@ const StyledTab = styled(Tab)({
 const ChatContainer = styled(Box)({
   display: "flex",
   height: "calc(100vh - 120px)",
-  backgroundColor: "#fff",
-  borderRadius: "8px",
-  overflow: "hidden",
-  border: "1px solid #eee",
-  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+  backgroundColor: "transparent",
+  gap: "16px",
 });
 
 const Sidebar = styled(Box)({
   width: "280px",
-  borderRight: "1px solid #eee",
   display: "flex",
   flexDirection: "column",
   backgroundColor: "#fff",
+  borderRadius: "8px",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+  overflow: "hidden",
 });
 
 const ChatArea = styled(Box)({
@@ -51,6 +50,9 @@ const ChatArea = styled(Box)({
   display: "flex",
   flexDirection: "column",
   backgroundColor: "#fff",
+  borderRadius: "8px",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+  overflow: "hidden",
 });
 
 const MessageInput = styled(Box)({
