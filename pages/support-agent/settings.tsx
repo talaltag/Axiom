@@ -265,7 +265,7 @@ export default function SupportAgentSettings() {
                   <Button 
                     color="warning" 
                     style={{
-                      width: '120px',
+                      width: '170px',
                       height: '44px',
                       backgroundColor: '#FFD700',
                       border: 'none',
