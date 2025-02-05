@@ -15,6 +15,8 @@ import StopIcon from "@mui/icons-material/Stop";
 import { io } from "socket.io-client";
 import Image from "next/image";
 import RecordRTC from "recordrtc";
+import { Settings } from "@mui/icons-material";
+import { ShowNavigatorDeviceModal } from "../../utils/helper";
 
 interface User {
   _id: string;
@@ -98,47 +100,88 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   };
 
   const startRecording = async () => {
+    let stream: MediaStream | null = null;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const newRecorder = new RecordRTC(stream, {
-        type: 'audio',
-        mimeType: 'audio/webm',
-        recorderType: RecordRTC.StereoAudioRecorder
-      });
-      
-      newRecorder.startRecording();
-      setRecorder(newRecorder);
-      setIsRecording(true);
-      setRecordingTime(0);
-      
-      timerRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 1);
-      }, 1000);
+      if (typeof window !== "undefined" && navigator.mediaDevices) {
+        // First request microphone permission
+        const permissionResult = await navigator.permissions.query({
+          name: "microphone" as PermissionName,
+        });
+        if (permissionResult.state === "denied") {
+          alert(
+            "Please allow microphone access in your browser settings to use this feature."
+          );
+          return;
+        }
+
+        // Get list of available audio devices
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        // Show device selection dialog
+        const deviceId = localStorage.getItem("preferredMicrophoneId");
+
+        // Get audio stream from selected device
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: deviceId ? { exact: deviceId } : undefined,
+            echoCancellation: true,
+            noiseSuppression: true,
+            sampleRate: 44100,
+          },
+        });
+
+        const mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm",
+        });
+
+        const chunks: BlobPart[] = [];
+        mediaRecorder.ondataavailable = (e) => {
+          chunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: "audio/webm" });
+          const audioFile = new File([blob], "voice-message.webm", {
+            type: "audio/webm",
+          });
+          setFile([audioFile]);
+        };
+
+        mediaRecorder.start();
+        setRecorder(mediaRecorder);
+        setIsRecording(true);
+        setRecordingTime(0);
+
+        timerRef.current = setInterval(() => {
+          setRecordingTime((prev) => prev + 1);
+        }, 1000);
+      }
     } catch (error) {
-      console.error('Error starting recording:', error);
+      console.error("Error starting recording:", error);
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      alert("Unable to access microphone. Please check your browser settings.");
     }
   };
 
   const stopRecording = () => {
     if (recorder) {
-      recorder.stopRecording(() => {
-        const blob = recorder.getBlob();
-        const audioFile = new File([blob], 'voice-message.webm', { type: 'audio/webm' });
-        setFile([audioFile]);
-        setIsRecording(false);
-        if (timerRef.current) {
-          clearInterval(timerRef.current);
-        }
-        recorder.destroy();
-        setRecorder(null);
-      });
+      recorder.stop();
+      setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
     }
   };
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,15 +258,25 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           )}
           {message?.media && message.media.length > 0 ? (
             <div className="d-flex flex-wrap mt-2">
-              {message.media.map((file) => (
-                <Image
-                  alt={file.fileName}
-                  src={file.fileUrl}
-                  width={200}
-                  height={100}
-                  className="me-2 mb-2"
-                />
-              ))}
+              {message.media.map((file) =>
+                file.fileType.includes("audio") ? (
+                  <audio src={file.fileUrl} controls />
+                ) : file.fileType.includes("image") ? (
+                  <Image
+                    alt={file.fileName}
+                    src={file.fileUrl}
+                    width={200}
+                    height={100}
+                    className="me-2 mb-2"
+                  />
+                ) : file.fileType.includes("video") ? (
+                  <video
+                    src={file.fileUrl}
+                    controls
+                    style={{ width: "300px", height: "200px" }}
+                  ></video>
+                ) : null
+              )}
             </div>
           ) : null}
           {message.fileUrl && (
@@ -307,9 +360,13 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           >
             <AttachFileIcon />
           </IconButton>
+          <IconButton size="small" onClick={ShowNavigatorDeviceModal}>
+            <Settings />
+          </IconButton>
           <IconButton
-            onClick={isRecording ? stopRecording : startRecording}
+            onClick={() => (isRecording ? stopRecording() : startRecording())}
             size="small"
+            className="ps-0"
             color={isRecording ? "error" : "default"}
           >
             {isRecording ? <StopIcon /> : <MicIcon />}

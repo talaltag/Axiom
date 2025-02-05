@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -10,14 +10,21 @@ import {
   ListItemAvatar,
   ListItemText,
   styled,
+  IconButton,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import MicIcon from "@mui/icons-material/Mic";
+import StopIcon from "@mui/icons-material/Stop";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SupportAgentLayout from "../../components/layouts/SupportAgentLayout";
 import { useSession } from "next-auth/react";
 import { io } from "socket.io-client";
-
+import RecordRTC from "recordrtc";
 import { Tab } from "@mui/material";
 import { Spinner } from "reactstrap";
+import Image from "next/image";
+import { ShowNavigatorDeviceModal } from "../../utils/helper";
+import { Settings } from "@mui/icons-material";
 
 const StyledTab = styled(Tab)({
   textTransform: "none",
@@ -74,7 +81,7 @@ const ChatMessage = styled(Box)(({ isUser }: { isUser: boolean }) => ({
 }));
 
 const MessageBubble = styled(Box)(({ isUser }: { isUser: boolean }) => ({
-  backgroundColor: isUser ? "#f5f5f5" : "#fff",
+  backgroundColor: isUser ? "#e5ebff" : "#f5f5f5",
   padding: "12px 16px",
   borderRadius: "12px",
   maxWidth: "70%",
@@ -128,6 +135,7 @@ interface Message {
   sender: string;
   receiver: string;
   content: string;
+  media: any;
   createdAt: string;
 }
 
@@ -145,8 +153,14 @@ export default function SupportAgentChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
   const session = useSession();
   const [socketRef, setSocketRef] = useState<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File[]>([]);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [recorder, setRecorder] = useState<RecordRTC | null>(null);
 
   useEffect(() => {
     const socket = io(
@@ -198,6 +212,12 @@ export default function SupportAgentChat() {
     }
   }, [tab, session.data]);
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(Array.from(e.target.files));
+    }
+  };
+
   useEffect(() => {
     const fetchMessages = async () => {
       if (!selectedUser || !session.data?.user?.id) return;
@@ -219,26 +239,39 @@ export default function SupportAgentChat() {
   }, [selectedUser, session.data?.user?.id]);
 
   const handleSend = async () => {
-    if (!message.trim() || !selectedUser || !session.data?.user?.id) return;
+    if (!selectedUser || !session.data?.user?.id) return;
 
     try {
-      const messageData = {
-        sender: session.data.user.id,
-        receiver: selectedUser._id,
-        content: message,
-        roomId: [session.data.user.id, selectedUser._id].sort().join("-"),
-      };
+      const formData = new FormData();
+
+      formData.append("sender", session.data.user.id);
+      formData.append("receiver", selectedUser._id);
+      formData.append(
+        "roomId",
+        [session.data.user.id, selectedUser._id].sort().join("-")
+      );
+
+      if (message.trim()) {
+        formData.append("content", message);
+      }
+
+      if (file) {
+        file.forEach((f) => {
+          formData.append("files", f);
+        });
+      }
 
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(messageData),
+        body: formData,
       });
 
       if (response.ok) {
+        const data = await response.json();
         if (socketRef) {
-          socketRef.emit("message", messageData);
+          socketRef.emit("message", data.data);
         }
+        setFile([]);
         setMessage("");
       }
     } catch (error) {
@@ -249,6 +282,85 @@ export default function SupportAgentChat() {
   useEffect(() => {
     setSelectedUser(null);
   }, [tab]);
+
+  const startRecording = async () => {
+    let stream: MediaStream | null = null;
+    try {
+      if (typeof window !== "undefined" && navigator.mediaDevices) {
+        // First request microphone permission
+        const permissionResult = await navigator.permissions.query({
+          name: "microphone" as PermissionName,
+        });
+        if (permissionResult.state === "denied") {
+          alert(
+            "Please allow microphone access in your browser settings to use this feature."
+          );
+          return;
+        }
+
+        // Get list of available audio devices
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        // Show device selection dialog
+        const deviceId = localStorage.getItem("preferredMicrophoneId");
+
+        // Get audio stream from selected device
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: deviceId ? { exact: deviceId } : undefined,
+            echoCancellation: true,
+            noiseSuppression: true,
+            sampleRate: 44100,
+          },
+        });
+
+        const mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm",
+        });
+
+        const chunks: BlobPart[] = [];
+        mediaRecorder.ondataavailable = (e) => {
+          chunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: "audio/webm" });
+          const audioFile = new File([blob], "voice-message.webm", {
+            type: "audio/webm",
+          });
+          setFile([audioFile]);
+        };
+
+        mediaRecorder.start();
+        setRecorder(mediaRecorder);
+        setIsRecording(true);
+        setRecordingTime(0);
+
+        timerRef.current = setInterval(() => {
+          setRecordingTime((prev) => prev + 1);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error starting recording:", error);
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      alert("Unable to access microphone. Please check your browser settings.");
+    }
+  };
+
+  const stopRecording = () => {
+    if (recorder) {
+      recorder.stop();
+      setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    }
+  };
 
   return (
     <SupportAgentLayout>
@@ -460,29 +572,73 @@ export default function SupportAgentChat() {
                 </Box>
                 <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
                   {messages.map((msg) => (
-                    <ChatMessage
-                      key={msg._id}
-                      isUser={msg.sender === session.data?.user?.id}
-                    >
-                      <Avatar
-                        src={
-                          msg.sender === session.data?.user?.id
-                            ? session.data?.user?.profileImage
-                            : "/profile-avatar.png"
-                        }
-                        sx={{
-                          order: msg.sender === session.data?.user?.id ? 1 : 0,
-                        }}
-                      />
-                      <MessageBubble
+                    <>
+                      <ChatMessage
+                        key={msg._id}
                         isUser={msg.sender === session.data?.user?.id}
                       >
-                        {msg.content}
-                      </MessageBubble>
-                    </ChatMessage>
+                        <Avatar
+                          src={
+                            msg.sender === session.data?.user?.id
+                              ? session.data?.user?.profileImage
+                              : "/profile-avatar.png"
+                          }
+                          sx={{
+                            order:
+                              msg.sender === session.data?.user?.id ? 1 : 0,
+                          }}
+                        />
+                        {msg.content && (
+                          <MessageBubble
+                            isUser={msg.sender === session.data?.user?.id}
+                          >
+                            {msg.content}
+                          </MessageBubble>
+                        )}
+                      </ChatMessage>
+                      {msg?.media && msg.media.length > 0 ? (
+                        <div
+                          className={`d-flex flex-wrap mt-1 ps-5 ${
+                            msg.sender === session.data?.user?.id &&
+                            "justify-content-end"
+                          }`}
+                        >
+                          {msg.media.map((file) =>
+                            file.fileType.includes("audio") ? (
+                              <audio src={file.fileUrl} controls />
+                            ) : file.fileType.includes("image") ? (
+                              <Image
+                                alt={file.fileName}
+                                src={file.fileUrl}
+                                width={200}
+                                height={100}
+                                className="me-2 mb-2"
+                              />
+                            ) : file.fileType.includes("video") ? (
+                              <video
+                                src={file.fileUrl}
+                                controls
+                                style={{ width: "300px", height: "200px" }}
+                              ></video>
+                            ) : null
+                          )}
+                        </div>
+                      ) : null}
+                    </>
                   ))}
                 </Box>
+
                 <MessageInput>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    multiple
+                    style={{ display: "none" }}
+                  />
+                  <IconButton size="small" onClick={ShowNavigatorDeviceModal}>
+                    <Settings />
+                  </IconButton>
                   <TextField
                     fullWidth
                     placeholder="Type a message..."
@@ -490,15 +646,29 @@ export default function SupportAgentChat() {
                     onChange={(e) => setMessage(e.target.value)}
                     variant="outlined"
                     size="small"
+                    className="ps-1"
                     InputProps={{
                       startAdornment: (
-                        <span
-                          role="img"
-                          aria-label="emoji"
-                          style={{ marginRight: 8 }}
-                        >
-                          😊
-                        </span>
+                        <>
+                          <IconButton
+                            disabled={isRecording}
+                            size="small"
+                            className="pe-1 ps-0"
+                            onClick={() => fileInputRef.current?.click()}
+                          >
+                            <AttachFileIcon />
+                          </IconButton>
+                          <IconButton
+                            className="ps-0"
+                            size="small"
+                            color={isRecording ? "error" : "default"}
+                            onClick={() =>
+                              isRecording ? stopRecording() : startRecording()
+                            }
+                          >
+                            {isRecording ? <StopIcon /> : <MicIcon />}
+                          </IconButton>
+                        </>
                       ),
                     }}
                     onKeyPress={(e) => {
@@ -510,6 +680,7 @@ export default function SupportAgentChat() {
                   <Button
                     variant="contained"
                     onClick={handleSend}
+                    disabled={!message && file.length === 0}
                     sx={{
                       minWidth: "auto",
                       backgroundColor: "#FFD700",
@@ -522,6 +693,15 @@ export default function SupportAgentChat() {
                     <SendIcon />
                   </Button>
                 </MessageInput>
+                {file && file.length > 0 && (
+                  <Typography
+                    className="pb-3 ps-5 ms-3"
+                    variant="caption"
+                    sx={{ mt: 0 }}
+                  >
+                    Selected file: {file.map((f) => f.name + " ")}
+                  </Typography>
+                )}
               </>
             ) : (
               <Box

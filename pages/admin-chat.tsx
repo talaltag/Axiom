@@ -71,7 +71,7 @@ export default function ChatPage() {
       setCurrentUser({
         _id: session.data.user.id,
         name: session.data.user.name,
-        profileImage: session.data.user.image,
+        profileImage: session.data.user.profileImage,
       });
     }
   }, [session.data]);
