@@ -94,17 +94,17 @@ export default function ConfirmRegistration() {
                   style={{
                     padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "wallet" ? "#fff" : "#F9FAFB",
-                    border: `1px solid ${paymentMethod === "wallet" ? "#000000" : "#E5E7EB"}`,
+                    backgroundColor: "#fff",
+                    border: "1px solid #EAECF0",
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     minWidth: '164px',
                     height: '44px',
-                    boxShadow: paymentMethod === "wallet" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
-                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 500 }}>$200.00</div>
+                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 500 }}>$1,000.00</div>
                   <div style={{ fontSize: "14px", color: "#667085", marginLeft: '8px' }}>Axiom Wallet</div>
                 </div>
 
@@ -113,18 +113,18 @@ export default function ConfirmRegistration() {
                   style={{
                     padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "bank" ? "#fff" : "#F9FAFB",
-                    border: `1px solid ${paymentMethod === "bank" ? "#000000" : "#E5E7EB"}`,
+                    backgroundColor: "#fff",
+                    border: "1px solid #EAECF0",
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     minWidth: '164px',
                     height: '44px',
-                    boxShadow: paymentMethod === "bank" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
-                  <div style={{ fontSize: "14px", color: "#000000", fontWeight: 500 }}>Bank Card</div>
+                  <div style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>Bank Card</div>
                 </div>
 
                 <div
@@ -132,27 +132,25 @@ export default function ConfirmRegistration() {
                   style={{
                     padding: "10px 16px",
                     cursor: "pointer",
-                    backgroundColor: paymentMethod === "stripe" ? "#fff" : "#F9FAFB",
-                    border: `1px solid ${paymentMethod === "stripe" ? "#000000" : "#E5E7EB"}`,
+                    backgroundColor: "#fff",
+                    border: "1px solid #EAECF0",
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     minWidth: '164px',
                     height: '44px',
-                    boxShadow: paymentMethod === "stripe" ? '0px 1px 2px rgba(16, 24, 40, 0.05)' : 'none',
+                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
-                  <Image src="/stripe.svg" alt="Stripe" width={64} height={24} />
+                  <span style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>Stripe</span>
                 </div>
               </div>
 
+              <div style={{ fontSize: "14px", color: "#344054", marginBottom: "16px" }}>Card Information</div>
               {paymentMethod === "bank" && (
                 <div style={{ display: 'grid', gap: '16px' }}>
-                  <div className="mb-4">
-                    <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#344054", marginBottom: "16px" }}>
-                      Card Information
-                    </h6>
+                  <div>
                     <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '16px' }}>
                       <div>
                         <label style={{ fontSize: "14px", color: "#344054", fontWeight: 500, marginBottom: "6px", display: 'block' }}>
@@ -232,34 +230,32 @@ export default function ConfirmRegistration() {
                 </div>
               )}
 
-              <div className="d-flex justify-content-between mt-4">
+              <div className="d-flex justify-content-end mt-4" style={{ gap: '12px' }}>
                 <Button 
                   color="light"
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D0D5DD",
-                    height: "44px",
-                    padding: "10px 18px",
+                    height: "40px",
+                    padding: "10px 16px",
                     borderRadius: "8px",
                     color: "#344054",
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight: 500,
-                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
                   Back
                 </Button>
                 <Button
                   style={{
-                    backgroundColor: "#FFD600",
+                    backgroundColor: "#FFD700",
                     border: "none",
-                    height: "44px",
-                    padding: "10px 18px",
+                    height: "40px",
+                    padding: "10px 16px",
                     borderRadius: "8px",
                     color: "#000",
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight: 500,
-                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                   }}
                 >
                   Pay Now
