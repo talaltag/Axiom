@@ -72,13 +72,23 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
           successMessage.textContent = 'Payment successful! Your funds have been added.';
           document.querySelector('form')?.prepend(successMessage);
           
-          // Refresh stripe balance
-          const balanceResponse = await fetch('/api/stripe/connect/status');
-          const balanceData = await balanceResponse.json();
+          // Fetch updated balances
+          const [balanceResponse, walletResponse] = await Promise.all([
+            fetch('/api/stripe/connect/status'),
+            fetch('/api/wallet/balance')
+          ]);
+          
+          const [balanceData, walletData] = await Promise.all([
+            balanceResponse.json(),
+            walletResponse.json()
+          ]);
+
           if (balanceData.success) {
-            // Update balance in parent component
             window.dispatchEvent(new CustomEvent('stripeBalanceUpdate', { 
-              detail: { balance: balanceData.balance }
+              detail: { 
+                balance: balanceData.balance,
+                walletBalance: walletData.balance 
+              }
             }));
           }
           
