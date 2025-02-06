@@ -161,6 +161,45 @@ export default function TournamentDetails() {
                 </Table>
               </div>
             )}
+
+            {activeTab === "info" && (
+              <div className="bg-white p-4 rounded">
+                <h4 className="mb-4">Tournament Information</h4>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="mb-4">
+                      <h6 className="text-muted mb-2">Description</h6>
+                      <p>Join our exciting tournament where players compete for glory and amazing prizes. Show your skills and climb to the top of the leaderboard!</p>
+                    </div>
+                    <div className="mb-4">
+                      <h6 className="text-muted mb-2">Format</h6>
+                      <p>Single elimination bracket with best-of-three matches in semifinals and finals.</p>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="mb-4">
+                      <h6 className="text-muted mb-2">Schedule</h6>
+                      <div className="d-flex justify-content-between mb-2">
+                        <span>Registration Ends</span>
+                        <span>May 22, 2024</span>
+                      </div>
+                      <div className="d-flex justify-content-between mb-2">
+                        <span>Tournament Starts</span>
+                        <span>May 23, 2024</span>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <span>Tournament Ends</span>
+                        <span>May 24, 2024</span>
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <h6 className="text-muted mb-2">Contact</h6>
+                      <p>For any questions or support, please contact us at: support@tournament.com</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </Col>
 
           <Col md={4}>
