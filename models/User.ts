@@ -9,6 +9,15 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  stripeConnectId: {
+    type: String,
+    default: null,
+  },
+  stripeAccountStatus: {
+    type: String,
+    enum: ['pending', 'active', 'rejected', 'restricted'],
+    default: 'pending'
+  },
   email: {
     type: String,
     required: true,

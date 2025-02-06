@@ -30,6 +30,9 @@ export default function Wallet() {
   const [activeTab, setActiveTab] = useState('deposit');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [isConnectLoading, setIsConnectLoading] = useState(false);
+
 
   useEffect(() => {
     setStripePromise(
@@ -101,6 +104,22 @@ export default function Wallet() {
     setPreviewUrl(null);
   };
 
+  const handleWithdraw = () => {
+    // Implement withdrawal logic here. This is a placeholder.
+    console.log("Withdrawing:", withdrawAmount);
+    alert("Withdrawal initiated!");
+  };
+
+  const handleStripeConnect = () => {
+    setIsConnectLoading(true);
+    // Implement Stripe Connect OAuth flow here. This is a placeholder.
+    console.log("Connecting to Stripe...");
+    setTimeout(() => {
+      setIsConnectLoading(false);
+      alert("Stripe account connected!");
+    }, 2000);
+  };
+
   const toggle = (tab: string) => {
     if (activeTab !== tab) setActiveTab(tab);
   }
@@ -119,10 +138,18 @@ export default function Wallet() {
           </NavItem>
           <NavItem>
             <NavLink
-              className={(activeTab === 'screenshot' ? 'active' : '')}
-              onClick={() => { toggle('screenshot'); }}
+              className={(activeTab === 'withdraw' ? 'active' : '')}
+              onClick={() => { toggle('withdraw'); }}
             >
-              Screenshot
+              Withdraw
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={(activeTab === 'connect' ? 'active' : '')}
+              onClick={() => { toggle('connect'); }}
+            >
+              Connect Account
             </NavLink>
           </NavItem>
         </Nav>
@@ -208,6 +235,36 @@ export default function Wallet() {
                 )}
               </ModalBody>
             </Modal>
+          </TabPane>
+          <TabPane tabId="withdraw">
+            <div className="p-4">
+              <h5>Withdraw Funds</h5>
+              <div className="mb-3">
+                <label className="form-label">Amount to Withdraw ($)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={withdrawAmount}
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
+                />
+              </div>
+              <Button color="warning" onClick={handleWithdraw}>
+                Withdraw to Connected Account
+              </Button>
+            </div>
+          </TabPane>
+          <TabPane tabId="connect">
+            <div className="p-4">
+              <h5>Connect Your Stripe Account</h5>
+              <p>Connect your Stripe account to receive withdrawals</p>
+              <Button 
+                color="primary" 
+                onClick={handleStripeConnect}
+                disabled={isConnectLoading}
+              >
+                {isConnectLoading ? "Connecting..." : "Connect with Stripe"}
+              </Button>
+            </div>
           </TabPane>
           <TabPane tabId="screenshot">
             <Row>
