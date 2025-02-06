@@ -20,6 +20,23 @@ export default function TournamentDetails() {
   const { id } = router.query;
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [tournament, setTournament] = useState(null);
+  const [supportAgents, setSupportAgents] = useState([]);
+
+  useEffect(() => {
+    const fetchSupportAgents = async () => {
+      try {
+        const response = await fetch('/api/agent/users?role=Admin');
+        const data = await response.json();
+        if (data.success) {
+          setSupportAgents(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching support agents:', error);
+      }
+    };
+
+    fetchSupportAgents();
+  }, []);
 
   const leaderboardData = [
     {
@@ -174,28 +191,20 @@ export default function TournamentDetails() {
                   <div style={{ flex: 1, textAlign: 'right' }}><h6 style={{ color: '#101828' }}>Messages</h6></div>
                 </div>
 
-                {[
-                  { name: 'John Smith', role: 'Operations Manager' },
-                  { name: 'Sam Winchester', role: 'OLT Support Specialist' },
-                  { name: 'Daniel Craig', role: 'OLT Support Specialist' },
-                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
-                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
-                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
-                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' }
-                ].map((support, index) => (
-                  <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                {supportAgents?.map((agent, index) => (
+                  <div key={agent._id} className="d-flex justify-content-between align-items-center mb-3">
                     <div className="d-flex align-items-center" style={{ flex: 1 }}>
                       <div className="position-relative" style={{ width: '40px', height: '40px', marginRight: '12px' }}>
                         <Image
-                          src="/user1.png"
-                          alt={support.name}
+                          src={agent.profileImage || "/user1.png"}
+                          alt={agent.name}
                           layout="fill"
                           className="rounded-circle"
                         />
                       </div>
                       <div>
-                        <div style={{ color: '#101828', fontWeight: 500 }}>{support.name}</div>
-                        <div style={{ color: '#667085', fontSize: '14px' }}>{support.role}</div>
+                        <div style={{ color: '#101828', fontWeight: 500 }}>{agent.name}</div>
+                        <div style={{ color: '#667085', fontSize: '14px' }}>{agent.role}</div>
                       </div>
                     </div>
                     <button
