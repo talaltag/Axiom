@@ -1,4 +1,3 @@
-
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { withAuth } from "../../../../middleware/withAuth";
@@ -21,17 +20,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
-    }
-
-    if (user.stripeConnectId) {
-      // If user already has a Connect account, create an account link for onboarding
-      const accountLink = await stripe.accountLinks.create({
-        account: user.stripeConnectId,
-        refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
-        type: 'account_onboarding',
-      });
-      return res.status(200).json({ success: true, url: accountLink.url });
     }
 
     // Create a new Connect account
@@ -57,6 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
       return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
       type: 'account_onboarding',
+      collect: 'eventually_due',
     });
 
     res.status(200).json({ success: true, url: accountLink.url });
