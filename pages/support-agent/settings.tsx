@@ -20,8 +20,6 @@ export default function SupportAgentSettings() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const session = useSession();
-  const [profileImage, setProfileImage] = useState("");
-  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     oldPassword: "",
@@ -31,72 +29,62 @@ export default function SupportAgentSettings() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!formData.name.trim()) {
-      alert("Full name is required");
+      alert('Full name is required');
       return;
     }
 
     // Check if any password field is filled
-    const isPasswordUpdate =
-      formData.oldPassword || formData.newPassword || formData.confirmPassword;
-
+    const isPasswordUpdate = formData.oldPassword || formData.newPassword || formData.confirmPassword;
+    
     if (isPasswordUpdate) {
-      if (
-        !formData.oldPassword ||
-        !formData.newPassword ||
-        !formData.confirmPassword
-      ) {
-        alert("All password fields are required when updating password");
+      if (!formData.oldPassword || !formData.newPassword || !formData.confirmPassword) {
+        alert('All password fields are required when updating password');
         return;
       }
       if (formData.newPassword !== formData.confirmPassword) {
-        alert("New password and confirm password do not match");
+        alert('New password and confirm password do not match');
         return;
       }
     }
 
-    setLoader(true);
-
     try {
       const formDataObj = new FormData();
-      formDataObj.append("name", formData.name);
-
+      formDataObj.append('name', formData.name);
+      
       if (isPasswordUpdate) {
-        formDataObj.append("oldPassword", formData.oldPassword);
-        formDataObj.append("newPassword", formData.newPassword);
+        formDataObj.append('oldPassword', formData.oldPassword);
+        formDataObj.append('newPassword', formData.newPassword);
       }
 
-      const fileInput = document.querySelector(
-        'input[type="file"]'
-      ) as HTMLInputElement;
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
       if (fileInput && fileInput.files && fileInput.files[0]) {
-        formDataObj.append("profileImage", fileInput.files[0]);
+        formDataObj.append('profileImage', fileInput.files[0]);
       }
 
-      const response = await fetch("/api/agent/profile", {
-        method: "PUT",
+      const response = await fetch('/api/agent/profile', {
+        method: 'PUT',
         body: formDataObj,
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert("Profile updated successfully");
-        setFormData((prev) => ({
+        alert('Profile updated successfully');
+        // Reset password fields
+        setFormData(prev => ({
           ...prev,
-          oldPassword: "",
-          newPassword: "",
-          confirmPassword: "",
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: ''
         }));
       } else {
-        throw new Error(data.message || "Failed to update profile");
+        throw new Error(data.message || 'Failed to update profile');
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert(error.message || "Failed to update profile");
-    } finally {
-      setLoader(false);
+      console.error('Error updating profile:', error);
+      alert(error.message || 'Failed to update profile');
     }
   };
 
@@ -117,9 +105,6 @@ export default function SupportAgentSettings() {
   useEffect(() => {
     if (session?.data?.user) {
       setFormData({ ...formData, name: session.data.user.name });
-      if (session.data.user.profileImage) {
-        setProfileImage(session.data.user?.profileImage);
-      }
     }
   }, [session]);
 
@@ -153,7 +138,7 @@ export default function SupportAgentSettings() {
                 }}
               >
                 <img
-                  src={profileImage || "/profile-avatar.png"}
+                  src="/user1.png"
                   alt="Profile"
                   className="rounded-circle"
                   width={100}
@@ -177,17 +162,19 @@ export default function SupportAgentSettings() {
                 >
                   <label>
                     <span style={{ fontSize: "1.2rem" }}>📸</span>
-                    <input
-                      type="file"
-                      className="d-none"
+                    <input 
+                      type="file" 
+                      className="d-none" 
                       accept="image/*"
                       onChange={(e) => {
                         if (e.target.files && e.target.files[0]) {
+                          // Preview can be added here if needed
                           const file = e.target.files[0];
                           const reader = new FileReader();
                           reader.onloadend = () => {
-                            if (typeof reader.result === "string") {
-                              setProfileImage(reader.result);
+                            const img = document.querySelector('img[alt="Profile"]') as HTMLImageElement;
+                            if (img && typeof reader.result === 'string') {
+                              img.src = reader.result;
                             }
                           };
                           reader.readAsDataURL(file);
@@ -388,7 +375,6 @@ export default function SupportAgentSettings() {
 
                 <div className="text-end mt-4">
                   <Button
-                    disabled={loader}
                     color="warning"
                     style={{
                       width: "170px",
