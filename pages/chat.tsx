@@ -37,40 +37,58 @@ export default function ChatPage() {
       const fetchUsers = async () => {
         try {
           setLoading(true);
-          const response =
-            session.data.user.role == "Admin"
-              ? await fetch("/api/users")
-              : await fetch("/api/users/me/friends?others=true");
-          if (!response.ok) {
+          const [usersResponse, receiverResponse] = await Promise.all([
+            session.data.user.role === "Admin"
+              ? fetch("/api/users")
+              : fetch("/api/users/me/friends?others=true"),
+            receiver ? fetch(`/api/users/${receiver}`) : Promise.resolve(null)
+          ]);
+
+          if (!usersResponse.ok) {
             throw new Error("Failed to fetch users");
           }
-          const data = await response.json();
+
+          const usersData = await usersResponse.json();
+          let receiverData = null;
+          if (receiverResponse) {
+            const receiverJson = await receiverResponse.json();
+            if (receiverJson.success) {
+              receiverData = receiverJson.data;
+            }
+          }
+
+          let usersList = [];
           if (session.data.user.role !== "Admin") {
-            setUsers([
-              ...data.data,
+            usersList = [
+              ...usersData.data,
               {
                 _id: "6792d847811967dbede75c5b",
-                name: "Admin ",
+                name: "Admin",
                 email: "admin@admin.com",
                 cName: "talal@theappguys.com",
                 role: "Admin",
               },
-            ]);
+            ];
           } else {
-            setUsers(data.data.filter((user) => user.role !== "Admin"));
+            usersList = usersData.data.filter((user) => user.role !== "Admin");
           }
-        } catch (error) {
-          console.error("Error fetching users:", error);
-          setError("Failed to load users");
-        } finally {
-          setLoading(false);
-          // Set the selected user based on receiver query param
-          if (receiver) {
-            const receiverUser = users.find(user => user._id === receiver);
+
+          setUsers(usersList);
+
+          // Set selected user from receiver query or receiver data
+          if (receiverData) {
+            setSelectedUser(receiverData);
+          } else if (receiver) {
+            const receiverUser = usersList.find(user => user._id === receiver);
             if (receiverUser) {
               setSelectedUser(receiverUser);
             }
           }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setError("Failed to load users");
+        } finally {
+          setLoading(false);
         }
       };
 
