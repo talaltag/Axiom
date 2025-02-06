@@ -27,12 +27,21 @@ export default withAuth(async function handler(
       currency: "usd",
       payment_method_types: ['card'],
       metadata: {
-        userId: req.user.id
+        userId: req.user.id,
+        type: 'wallet_deposit'
+      },
+      confirm: false,
+      automatic_payment_methods: {
+        enabled: true,
+        allow_redirects: 'never'
       }
     });
 
+    console.log('Created payment intent:', paymentIntent.id);
+    
     res.status(200).json({ 
-      clientSecret: paymentIntent.client_secret 
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id
     });
   } catch (error: any) {
     console.error("Error creating payment intent:", error);

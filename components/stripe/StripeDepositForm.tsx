@@ -24,6 +24,8 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
     }
 
     setIsProcessing(true);
+    setError(null);
+    
     const cardElement = elements.getElement(CardElement);
 
     if (cardElement) {
@@ -32,11 +34,22 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
           await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
               card: cardElement,
+              billing_details: {
+                name: 'Wallet Deposit'
+              }
             },
           });
 
         if (paymentError) {
+          console.error('Payment error:', paymentError);
           setError(paymentError.message || "Payment failed");
+          setIsProcessing(false);
+          return;
+        }
+
+        if (!paymentIntent || paymentIntent.status !== 'succeeded') {
+          setError('Payment was not successful');
+          setIsProcessing(false);
           return;
         }
 
