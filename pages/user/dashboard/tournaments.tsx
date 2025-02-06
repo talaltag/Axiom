@@ -18,7 +18,7 @@ import {
   Alert,
 } from "reactstrap";
 import Image from "next/image";
-import { ArrowRight, Search } from "react-feather";
+import { ArrowRight, Search, MessageSquare } from "react-feather"; // Added import for MessageSquare
 import Loader from "../../../components/common/Loader";
 import { useRouter } from "next/router";
 
@@ -46,6 +46,8 @@ export default function Tournaments() {
         return registeredTournaments.slice(indexOfFirstItem, indexOfLastItem);
       case "history":
         return tournamentHistory.slice(indexOfFirstItem, indexOfLastItem);
+      case "info": //Added case for info tab
+        return []; // No tournaments displayed in info tab
       default:
         return tournaments.slice(indexOfFirstItem, indexOfLastItem);
     }
@@ -131,6 +133,13 @@ export default function Tournaments() {
                     >
                       Tournament History
                     </Button>
+                    <Button
+                      color={activeTab === "info" ? "warning" : "light"} // Added info tab button
+                      onClick={() => setActiveTab("info")}
+                      className="me-2"
+                    >
+                      Info
+                    </Button>
                   </div>
                   <div className="d-flex align-items-center">
                     <div className="position-relative">
@@ -163,6 +172,63 @@ export default function Tournaments() {
                     </div>
                   </div>
                 </div>
+
+                {activeTab === 'info' && (
+                  <div className="p-4">
+                    <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
+                    <p className="text-muted mb-4" style={{ fontSize: '16px', color: '#667085' }}>
+                      If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
+                    </p>
+
+                    <div className="d-flex flex-column gap-4">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex gap-3">
+                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
+                            <Image src="/user1.png" alt="John Smith" layout="fill" className="rounded-circle" />
+                          </div>
+                          <div>
+                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>John Smith</h6>
+                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>Operations Manager</p>
+                          </div>
+                        </div>
+                        <Button color="light" className="rounded-circle p-2">
+                          <MessageSquare size={20} color="#667085" />
+                        </Button>
+                      </div>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex gap-3">
+                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
+                            <Image src="/user1.png" alt="Sam Winchester" layout="fill" className="rounded-circle" />
+                          </div>
+                          <div>
+                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Sam Winchester</h6>
+                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>OLT Support Specialist</p>
+                          </div>
+                        </div>
+                        <Button color="light" className="rounded-circle p-2">
+                          <MessageSquare size={20} color="#667085" />
+                        </Button>
+                      </div>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex gap-3">
+                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
+                            <Image src="/user1.png" alt="Daniel Craig" layout="fill" className="rounded-circle" />
+                          </div>
+                          <div>
+                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Daniel Craig</h6>
+                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>OLT Support Specialist</p>
+                          </div>
+                        </div>
+                        <Button color="light" className="rounded-circle p-2">
+                          <MessageSquare size={20} color="#667085" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
 
                 <Row>
                   {error ? (
