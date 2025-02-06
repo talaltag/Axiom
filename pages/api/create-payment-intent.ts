@@ -22,16 +22,18 @@ export default withAuth(async function handler(
       return res.status(400).json({ message: "Invalid amount provided" });
     }
 
-    try {
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: Math.round(parseFloat(amount) * 100),
-        currency: "usd",
-        payment_method_types: ['card'],
-        metadata: {
-          userId: req.user.id,
-          type: 'wallet_deposit'
-        }
-      });
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(parseFloat(amount) * 100),
+      currency: "usd",
+      metadata: {
+        userId: req.user.id,
+        type: 'wallet_deposit'
+      },
+      automatic_payment_methods: {
+        enabled: true,
+        allow_redirects: 'never'
+      }
+    });
 
     console.log('Created payment intent:', paymentIntent.id);
     
