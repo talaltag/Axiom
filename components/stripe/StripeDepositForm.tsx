@@ -40,21 +40,13 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
         successMessage.textContent = 'Payment successful! Your funds have been added.';
         document.querySelector('form')?.prepend(successMessage);
 
-        // Fetch updated balances
-        const [balanceResponse, walletResponse] = await Promise.all([
-          fetch('/api/stripe/connect/status'),
-          fetch('/api/wallet/balance')
-        ]);
+        // Fetch updated Axiom wallet balance
+        const walletResponse = await fetch('/api/wallet/balance');
+        const walletData = await walletResponse.json();
 
-        const [balanceData, walletData] = await Promise.all([
-          balanceResponse.json(),
-          walletResponse.json()
-        ]);
-
-        if (balanceData.success) {
+        if (walletData.success) {
           window.dispatchEvent(new CustomEvent('walletUpdate', { 
             detail: { 
-              stripeBalance: balanceData.balance,
               walletBalance: walletData.balance 
             }
           }));
