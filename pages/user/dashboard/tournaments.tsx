@@ -30,6 +30,7 @@ export default function Tournaments() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("upcoming");
+  const [tournamentHistory, setTournamentHistory] = useState([]);
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,9 +38,19 @@ export default function Tournaments() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTournaments = activeTab === "upcoming" 
-    ? tournaments.slice(indexOfFirstItem, indexOfLastItem)
-    : registeredTournaments.slice(indexOfFirstItem, indexOfLastItem);
+  const getCurrentTournaments = () => {
+    switch(activeTab) {
+      case "upcoming":
+        return tournaments.slice(indexOfFirstItem, indexOfLastItem);
+      case "my":
+        return registeredTournaments.slice(indexOfFirstItem, indexOfLastItem);
+      case "history":
+        return tournamentHistory.slice(indexOfFirstItem, indexOfLastItem);
+      default:
+        return tournaments.slice(indexOfFirstItem, indexOfLastItem);
+    }
+  };
+  const currentTournaments = getCurrentTournaments();
   const totalPages = Math.ceil((activeTab === "upcoming" ? tournaments.length : registeredTournaments.length) / itemsPerPage);
 
   useEffect(() => {
@@ -101,8 +112,24 @@ export default function Tournaments() {
                     <Button
                       color={activeTab === "my" ? "warning" : "light"}
                       onClick={() => setActiveTab("my")}
+                      className="me-2"
                     >
                       My Tournaments
+                    </Button>
+                    <Button
+                      color={activeTab === "history" ? "warning" : "light"}
+                      onClick={() => setActiveTab("history")}
+                      style={{
+                        backgroundColor: activeTab === "history" ? "#FFD600" : "#F9FAFB",
+                        color: activeTab === "history" ? "#000" : "#667085",
+                        border: "1px solid #EAECF0",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 16px"
+                      }}
+                    >
+                      Tournament History
                     </Button>
                   </div>
                   <div className="d-flex align-items-center">
