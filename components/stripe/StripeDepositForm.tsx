@@ -47,7 +47,7 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
         if (walletData.success) {
           window.dispatchEvent(new CustomEvent('walletUpdate', { 
             detail: { 
-              walletBalance: walletData.balance 
+              stripeBalance: walletData.balance 
             }
           }));
         }

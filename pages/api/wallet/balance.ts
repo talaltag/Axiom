@@ -27,7 +27,7 @@ export default withAuth(async function handler(
         .json({ success: false, message: "User not found" });
     }
 
-    res.status(200).json({ success: true, balance: user.walletBalance || 0 });
+    res.status(200).json({ success: true, balance: user.stripeBalance || 0 });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
