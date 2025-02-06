@@ -173,6 +173,14 @@ export default function Wallet() {
           </NavItem>
           <NavItem>
             <NavLink
+              className={(activeTab === 'stripe-wallet' ? 'active' : '')}
+              onClick={() => { toggle('stripe-wallet'); }}
+            >
+              Stripe Wallet
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
               className={(activeTab === 'withdraw' ? 'active' : '')}
               onClick={() => { toggle('withdraw'); }}
             >
@@ -286,6 +294,50 @@ export default function Wallet() {
               <Button color="warning" onClick={handleWithdraw}>
                 Withdraw to Connected Account
               </Button>
+            </div>
+          </TabPane>
+          <TabPane tabId="stripe-wallet">
+            <div className="p-4">
+              <h5>Add Funds to Stripe Wallet</h5>
+              <div className="mb-4">
+                <p>Current Stripe Balance: ${stripeBalance.toFixed(2)}</p>
+              </div>
+              {stripeAccountStatus === "active" ? (
+                <div>
+                  <div className="mb-3">
+                    <label className="form-label">Amount to Add ($)</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={depositAmount}
+                      onChange={(e) => setDepositAmount(e.target.value)}
+                      min="1"
+                      style={{ maxWidth: "300px" }}
+                    />
+                  </div>
+                  {!showPaymentForm ? (
+                    <Button color="warning" onClick={handleNext}>
+                      Add Funds
+                    </Button>
+                  ) : (
+                    stripePromise && clientSecret && (
+                      <Elements stripe={stripePromise} options={{ clientSecret }}>
+                        <StripeDepositForm
+                          clientSecret={clientSecret}
+                          amount={depositAmount}
+                        />
+                      </Elements>
+                    )
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <p className="text-warning">Please connect your Stripe account first to add funds.</p>
+                  <Button color="primary" onClick={() => toggle('connect')}>
+                    Go to Connect Account
+                  </Button>
+                </div>
+              )}
             </div>
           </TabPane>
           <TabPane tabId="connect">
