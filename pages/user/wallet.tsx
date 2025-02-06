@@ -32,7 +32,8 @@ export default function Wallet() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [isConnectLoading, setIsConnectLoading] = useState(false);
-
+  const [stripeAccountStatus, setStripeAccountStatus] = useState(null);
+  const [stripeBalance, setStripeBalance] = useState(0);
 
   useEffect(() => {
     setStripePromise(
@@ -40,6 +41,7 @@ export default function Wallet() {
     );
     fetchBalance();
     fetchDepositHistory();
+    fetchStripeStatus();
   }, []);
 
   const fetchBalance = async () => {
@@ -55,6 +57,19 @@ export default function Wallet() {
     const data = await response.json();
     if (data.success) {
       setDepositHistory(data.history);
+    }
+  };
+
+  const fetchStripeStatus = async () => {
+    try {
+      const response = await fetch('/api/stripe/connect/status');
+      const data = await response.json();
+      if (data.success) {
+        setStripeAccountStatus(data.status);
+        setStripeBalance(data.balance);
+      }
+    } catch (error) {
+      console.error('Error fetching Stripe status:', error);
     }
   };
 
@@ -119,14 +134,14 @@ export default function Wallet() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to initialize Stripe Connect');
       }
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.url) {
         window.location.href = data.url;
       } else {
@@ -284,6 +299,12 @@ export default function Wallet() {
               >
                 {isConnectLoading ? "Connecting..." : "Connect with Stripe"}
               </Button>
+              {stripeAccountStatus && (
+                <div>
+                  <p>Stripe Account Status: {stripeAccountStatus}</p>
+                  <p>Stripe Balance: ${stripeBalance.toFixed(2)}</p>
+                </div>
+              )}
             </div>
           </TabPane>
           <TabPane tabId="screenshot">
