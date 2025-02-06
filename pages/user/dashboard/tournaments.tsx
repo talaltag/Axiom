@@ -218,7 +218,7 @@ export default function Tournaments() {
                     </Col>
                   ) : (
                     currentTournaments.map((tournament) => (
-                      <Col md={3} key={tournament._id} className="mb-4">
+                      <Col xs={12} sm={6} md={4} lg={3} key={tournament._id} className="mb-4">
                         <Card className="tournament-card h-100" style={{ borderRadius: '12px', overflow: 'hidden', border: 'none', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
                           <div style={{ position: "relative", height: "160px" }}>
                             <div style={{ position: 'absolute', top: '12px', left: '12px', zIndex: 2, background: 'rgba(255, 255, 255, 0.9)', padding: '4px 8px', borderRadius: '6px', fontSize: '12px' }}>
