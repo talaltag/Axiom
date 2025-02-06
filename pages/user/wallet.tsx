@@ -295,9 +295,11 @@ export default function Wallet() {
               <Button 
                 color="primary" 
                 onClick={handleStripeConnect}
-                disabled={isConnectLoading}
+                disabled={isConnectLoading || stripeAccountStatus === "active"}
               >
-                {isConnectLoading ? "Connecting..." : "Connect with Stripe"}
+                {isConnectLoading ? "Connecting..." : 
+                 stripeAccountStatus === "active" ? "Connected with Stripe" : 
+                 "Connect with Stripe"}
               </Button>
               {stripeAccountStatus && (
                 <div>
