@@ -463,39 +463,15 @@ export default function Wallet() {
             <div className="p-4">
               <h5>Connect Your Stripe Account</h5>
               <p>Connect your Stripe account to receive withdrawals</p>
-              {stripeAccountStatus === "active" ? (
-                <Button 
-                  color="danger" 
-                  onClick={async () => {
-                    try {
-                      const response = await fetch('/api/stripe/connect/disconnect', {
-                        method: 'POST',
-                      });
-                      
-                      if (!response.ok) {
-                        throw new Error('Failed to disconnect');
-                      }
-                      
-                      setStripeAccountStatus(null);
-                      setStripeBalance(0);
-                      alert('Successfully disconnected from Stripe');
-                    } catch (error) {
-                      console.error('Error disconnecting:', error);
-                      alert('Failed to disconnect from Stripe');
-                    }
-                  }}
-                >
-                  Disconnect Stripe
-                </Button>
-              ) : (
-                <Button 
-                  color="primary" 
-                  onClick={handleStripeConnect}
-                  disabled={isConnectLoading}
-                >
-                  {isConnectLoading ? "Connecting..." : "Connect with Stripe"}
-                </Button>
-              )}
+              <Button 
+                color="primary" 
+                onClick={handleStripeConnect}
+                disabled={isConnectLoading || stripeAccountStatus === "active"}
+              >
+                {isConnectLoading ? "Connecting..." : 
+                 stripeAccountStatus === "active" ? "Connected with Stripe" : 
+                 "Connect with Stripe"}
+              </Button>
               {stripeAccountStatus && (
                 <div>
                   <p>Stripe Account Status: {stripeAccountStatus}</p>
