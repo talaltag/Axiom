@@ -335,6 +335,40 @@ export default function Wallet() {
               <div className="mb-4">
                 <p>Current Stripe Balance: ${stripeBalance.toFixed(2)}</p>
               </div>
+              
+              <Card className="mt-4">
+                <CardBody>
+                  <h5>Stripe Deposit History</h5>
+                  <Table responsive>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Transaction ID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {depositHistory.filter(deposit => deposit.status === 'completed').map((deposit: any) => (
+                        <tr key={deposit._id}>
+                          <td>{new Date(deposit.createdAt).toLocaleDateString()}</td>
+                          <td>${deposit.amount.toFixed(2)}</td>
+                          <td>
+                            <span className="badge bg-success">
+                              {deposit.status}
+                            </span>
+                          </td>
+                          <td>
+                            <small className="text-muted">
+                              {deposit.paymentIntentId}
+                            </small>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+              </Card>
               {stripeAccountStatus === "active" ? (
                 <div>
                   <div className="mb-3">
