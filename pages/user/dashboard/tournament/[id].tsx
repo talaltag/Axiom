@@ -185,7 +185,7 @@ export default function TournamentDetails() {
                 <p className="text-muted mb-4" style={{ color: '#667085' }}>
                   If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
                 </p>
-                
+
                 <div className="d-flex justify-content-between mb-4">
                   <div style={{ flex: 1 }}><h6 style={{ color: '#101828' }}>Name</h6></div>
                   <div style={{ flex: 1, textAlign: 'right' }}><h6 style={{ color: '#101828' }}>Messages</h6></div>
@@ -233,6 +233,64 @@ export default function TournamentDetails() {
                     </button>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {activeTab === "rules" && (
+              <div className="bg-white p-4 rounded">
+                <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Tournament Rules</h4>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>1. Planting & Defusing:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• Planting or defusing the bomb through any unbroken object (such as destructible walls) will result in a forfeit of the round.</li>
+                    <li className="mb-2 text-muted">• Repeated offences will result in a forfeit of the match.</li>
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>2. Warm-Up & Practice Games:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• No warm-up or practise games are permitted once the match's first game has begun. If a match is played before the scheduled time, it will not be considered a warm-up and will count as the official results</li>
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>3. Delays:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• Teams may not delay the match for more than 5 Minutes between each Game.</li>
+                    <li className="mb-2 text-muted">• Teams must contact Tournament Live Support to report a delay of the game.</li>
+                    <li className="mb-2 text-muted">• Failure to begin the game when requested by a Tournament Official may result in a forfeit of the match.</li>
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>4. Connection Issues & Lag:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• In the event that lag occurs, the game should be completed.</li>
+                    <li className="mb-2 text-muted">• The player experiencing connection issues should capture video proof before contacting Tournament Live Support after the game has concluded.</li>
+                    <li className="mb-2 text-muted">• It is required that multiple players capture proof of the connection issues.</li>
+                    <li className="mb-2 text-muted">• Leaving the game prematurely may result in a forfeit of the round or game.</li>
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>5. Disconnections:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• If a player disconnects within the first thirty (30) seconds and/or before the first kill, the game should be ended. All players must leave the match to end the game.</li>
+                    <li className="mb-2 text-muted">• If a player disconnects after the first thirty seconds (30) and/or the first kill, the map must be continued and the missing player should be reinvited to the lobby.</li>
+                    <li className="mb-2 text-muted">• Leaving the lobby may result in a forfeit of the round or game.</li>
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="mb-3" style={{ color: '#101828' }}>6. Unknown Player Interference:</h5>
+                  <ul className="list-unstyled ps-3">
+                    <li className="mb-2 text-muted">• If an unknown player enters the lobby, please request that they leave.</li>
+                    <li className="mb-2 text-muted">• If the player leaves immediately without disrupting the match, the match must continue.</li>
+                    <li className="mb-2 text-muted">• If the player disrupts the match, the host may end the game & restart from the score at which the player entered.</li>
+                  </ul>
+                </div>
               </div>
             )}
           </Col>
