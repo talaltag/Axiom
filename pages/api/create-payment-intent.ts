@@ -29,10 +29,7 @@ export default withAuth(async function handler(
         userId: req.user.id,
         type: 'wallet_deposit'
       },
-      automatic_payment_methods: {
-        enabled: true,
-        allow_redirects: 'never'
-      }
+      payment_method_types: ['card']
     });
 
     console.log('Created payment intent:', paymentIntent.id);
