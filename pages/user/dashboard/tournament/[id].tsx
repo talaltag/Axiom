@@ -11,7 +11,6 @@ export default function TournamentDetails() {
   const [tournament, setTournament] = useState<any>(null);
   const [teams, setTeams] = useState([
     {
-      rank: "01",
       name: "Schumacher",
       kills: "145",
       deaths: "99",
@@ -19,7 +18,54 @@ export default function TournamentDetails() {
       points: "12",
       score: "678"
     },
-    // Add more teams as needed
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    },
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    },
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    },
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    },
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    },
+    {
+      name: "Schumacher",
+      kills: "145",
+      deaths: "99",
+      placement: "800",
+      points: "12",
+      score: "678"
+    }
   ]);
 
   useEffect(() => {
@@ -90,28 +136,56 @@ export default function TournamentDetails() {
           </nav>
 
           <div className="table-responsive">
-            <table className="table">
+            <table className="table" style={{ backgroundColor: '#1F2128', borderRadius: '12px', overflow: 'hidden' }}>
               <thead>
-                <tr style={{ background: "#1A1D1F" }}>
-                  <th>Rank</th>
-                  <th>Team Name</th>
-                  <th>Total Kills</th>
-                  <th>Total Deaths</th>
-                  <th>Total Placement</th>
-                  <th>Points</th>
-                  <th>Tournament Score</th>
+                <tr style={{ borderBottom: '1px solid rgba(255, 214, 0, 0.1)' }}>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>#</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Team Name</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Total Kills</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Total Deaths</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Total Placement</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Total Score</th>
+                  <th style={{ padding: '16px', color: '#FFD600', fontWeight: 500 }}>Tournament Score</th>
                 </tr>
               </thead>
               <tbody>
                 {teams.map((team, index) => (
-                  <tr key={index}>
-                    <td>{team.rank}</td>
-                    <td>{team.name}</td>
-                    <td>{team.kills}</td>
-                    <td>{team.deaths}</td>
-                    <td>{team.placement}</td>
-                    <td>{team.points}</td>
-                    <td>{team.score}</td>
+                  <tr key={index} style={{ borderBottom: '1px solid rgba(255, 214, 0, 0.1)' }}>
+                    <td style={{ padding: '16px', color: '#fff' }}>
+                      <div className="d-flex align-items-center">
+                        <span style={{ 
+                          backgroundColor: '#FFD600',
+                          width: '32px',
+                          height: '32px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '4px',
+                          marginRight: '12px',
+                          color: '#1F2128',
+                          fontWeight: 600
+                        }}>
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                    </td>
+                    <td style={{ padding: '16px', color: '#fff' }}>
+                      <div className="d-flex align-items-center">
+                        <Image
+                          src="/axiom-logo.png"
+                          alt="Team Logo"
+                          width={32}
+                          height={32}
+                          style={{ marginRight: '12px', borderRadius: '4px' }}
+                        />
+                        {team.name}
+                      </div>
+                    </td>
+                    <td style={{ padding: '16px', color: '#fff' }}>{team.kills}</td>
+                    <td style={{ padding: '16px', color: '#fff' }}>{team.deaths}</td>
+                    <td style={{ padding: '16px', color: '#fff' }}>{team.placement}</td>
+                    <td style={{ padding: '16px', color: '#fff' }}>{team.points}</td>
+                    <td style={{ padding: '16px', color: '#fff' }}>{team.score}</td>
                   </tr>
                 ))}
               </tbody>
