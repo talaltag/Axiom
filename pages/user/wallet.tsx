@@ -199,17 +199,6 @@ export default function Wallet() {
       } else {
         setWithdrawError(data.message || "Failed to process withdrawal");
       }
-
-      const data = await response.json();
-      
-      if (response.ok) {
-        alert("Funds have been successfully transferred to your Stripe account!");
-        setBalance(prev => prev - parseFloat(withdrawAmount));
-        setWithdrawAmount("");
-        fetchBalance();
-      } else {
-        setWithdrawError(data.message || "Failed to process withdrawal");
-      }
     } catch (error: any) {
       console.error("Withdrawal error:", error);
       setWithdrawError(error.message || "Failed to process withdrawal");
