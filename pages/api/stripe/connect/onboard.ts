@@ -15,6 +15,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
+    if (!process.env.STRIPE_SECRET_KEY || !process.env.NEXT_PUBLIC_BASE_URL) {
+      throw new Error("Missing required environment variables");
+    }
+
     await dbConnect();
     const userId = req.user.id;
     console.log("Processing Stripe Connect for user:", userId);
@@ -24,13 +28,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '');
+    const refreshUrl = `${baseUrl}/user/wallet?refresh=true`;
+    const returnUrl = `${baseUrl}/user/wallet?success=true`;
+
     // If user already has a Connect account, create a new account link
     if (user.stripeConnectId) {
       console.log("Existing Connect account found:", user.stripeConnectId);
       const accountLink = await stripe.accountLinks.create({
         account: user.stripeConnectId,
-        refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
+        refresh_url: refreshUrl,
+        return_url: returnUrl,
         type: 'account_onboarding',
         collect: 'eventually_due'
       });
@@ -64,8 +72,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
-      return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
+      refresh_url: refreshUrl,
+      return_url: returnUrl,
       type: 'account_onboarding',
       collect: 'eventually_due'
     });
@@ -76,8 +84,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.error("Stripe Connect error:", error);
     res.status(500).json({ 
       success: false, 
-      message: error.message || "Failed to create Stripe Connect account",
-      error: error
+      message: "Failed to create Stripe Connect account. Please check your environment variables and Stripe configuration.",
+      error: error.message
     });
   }
 }
