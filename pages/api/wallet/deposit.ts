@@ -1,3 +1,4 @@
+
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
@@ -61,10 +62,10 @@ export default withAuth(async function handler(
       paymentIntentId,
     });
 
-    // Update user's Stripe wallet balance
+    // Update user's wallet balance
     const user = await User.findByIdAndUpdate(
       userId,
-      { $inc: { stripeBalance: amount } }, // Update Stripe balance
+      { $inc: { walletBalance: amount } },
       { new: true }
     );
 
@@ -78,7 +79,7 @@ export default withAuth(async function handler(
 
     res.status(200).json({
       success: true,
-      balance: user.stripeBalance, // Return Stripe balance
+      balance: user.walletBalance,
       deposit: deposit,
     });
   } catch (error: any) {
