@@ -250,10 +250,23 @@ export default function Tournaments() {
                                 <div style={{ fontSize: '16px', fontWeight: 600, color: '#DC3545' }}>${tournament.entryFee}</div>
                               </div>
                             </div>
-                            <div className="d-grid">
+                            <div className="d-flex justify-content-between align-items-center">
                               <Button
                                 color="link"
-                                className="text-decoration-none d-flex align-items-center justify-content-center"
+                                className="text-decoration-none"
+                                style={{
+                                  color: '#FFD600',
+                                  fontSize: '14px',
+                                  fontWeight: 600,
+                                  padding: '4px'
+                                }}
+                                onClick={() => router.push(`/user/dashboard/tournament/${tournament._id}`)}
+                              >
+                                See Details
+                              </Button>
+                              <Button
+                                color="link"
+                                className="text-decoration-none d-flex align-items-center"
                                 style={{
                                   color: '#FFD600',
                                   fontSize: '14px',
@@ -271,7 +284,7 @@ export default function Tournaments() {
                     ))
                   )}
                 </Row>
-                
+
                 {/* Pagination Controls */}
                 <div className="d-flex justify-content-between align-items-center mt-4">
                   <div className="d-flex align-items-center" style={{ gap: '4px' }}>
@@ -315,11 +328,11 @@ export default function Tournaments() {
                     >
                       ‹
                     </Button>
-                    
+
                     {[...Array(6)].map((_, idx) => {
                       const pageNum = idx + 1;
                       if (pageNum > totalPages) return null;
-                      
+
                       return (
                         <Button
                           key={pageNum}
