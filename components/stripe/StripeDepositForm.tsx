@@ -20,6 +20,12 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
     event.preventDefault();
 
     if (!stripe || !elements || isProcessing) {
+      setError("Payment processing is not available");
+      return;
+    }
+
+    if (!amount || parseFloat(amount) <= 0) {
+      setError("Please enter a valid amount");
       return;
     }
 
@@ -28,7 +34,11 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
     
     const cardElement = elements.getElement(CardElement);
 
-    if (cardElement) {
+    if (!cardElement) {
+      setError("Card information is required");
+      setIsProcessing(false);
+      return;
+    }
       try {
         const { error: paymentError, paymentIntent } =
           await stripe.confirmCardPayment(clientSecret, {
