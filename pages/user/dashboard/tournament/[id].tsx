@@ -209,7 +209,13 @@ export default function TournamentDetails() {
                     </div>
                     <button
                       className="btn rounded-circle"
-                      onClick={() => router.push(`/chat?receiver=${agent._id}`)}
+                      onClick={() => {
+                        const agentId = agent._id;
+                        router.push({
+                          pathname: '/chat',
+                          query: { receiver: agentId }
+                        });
+                      }}
                       style={{
                         width: '40px',
                         height: '40px',

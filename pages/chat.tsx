@@ -13,6 +13,7 @@ import {
 import UserDashboardLayout from "../components/layouts/UserDashboardLayout";
 import ChatWindow from "../components/chat/ChatWindow";
 import { useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 
 interface User {
   _id: string;
@@ -27,6 +28,9 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const session = useSession();
+  const router = useRouter();
+  const { receiver } = router.query;
+
 
   useEffect(() => {
     if (session.data) {
@@ -60,12 +64,19 @@ export default function ChatPage() {
           setError("Failed to load users");
         } finally {
           setLoading(false);
+          // Set the selected user based on receiver query param
+          if (receiver) {
+            const receiverUser = users.find(user => user._id === receiver);
+            if (receiverUser) {
+              setSelectedUser(receiverUser);
+            }
+          }
         }
       };
 
       fetchUsers();
     }
-  }, [session.data]);
+  }, [session.data, receiver]);
 
   useEffect(() => {
     if (session.data?.user?.id && session.data.user.name) {
