@@ -25,7 +25,7 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
 
     setIsProcessing(true);
     setError(null);
-    
+
     const cardElement = elements.getElement(CardElement);
 
     if (cardElement) {
@@ -71,27 +71,27 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
           successMessage.className = 'alert alert-success';
           successMessage.textContent = 'Payment successful! Your funds have been added.';
           document.querySelector('form')?.prepend(successMessage);
-          
+
           // Fetch updated balances
           const [balanceResponse, walletResponse] = await Promise.all([
             fetch('/api/stripe/connect/status'),
             fetch('/api/wallet/balance')
           ]);
-          
+
           const [balanceData, walletData] = await Promise.all([
             balanceResponse.json(),
             walletResponse.json()
           ]);
 
           if (balanceData.success) {
-            window.dispatchEvent(new CustomEvent('stripeBalanceUpdate', { 
+            window.dispatchEvent(new CustomEvent('walletUpdate', { 
               detail: { 
-                balance: balanceData.balance,
+                stripeBalance: balanceData.balance,
                 walletBalance: walletData.balance 
               }
             }));
           }
-          
+
           setTimeout(() => {
             window.location.reload();
           }, 2000);

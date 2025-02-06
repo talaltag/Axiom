@@ -43,13 +43,14 @@ export default function Wallet() {
     fetchDepositHistory();
     fetchStripeStatus();
 
-    const handleBalanceUpdate = (event: CustomEvent) => {
-      setStripeBalance(event.detail.balance);
+    const handleWalletUpdate = (event: CustomEvent) => {
+      setStripeBalance(event.detail.stripeBalance);
+      setBalance(event.detail.walletBalance);
     };
 
-    window.addEventListener('stripeBalanceUpdate', handleBalanceUpdate as EventListener);
+    window.addEventListener('walletUpdate', handleWalletUpdate as EventListener);
     return () => {
-      window.removeEventListener('stripeBalanceUpdate', handleBalanceUpdate as EventListener);
+      window.removeEventListener('walletUpdate', handleWalletUpdate as EventListener);
     };
   }, []);
 
