@@ -17,19 +17,22 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   const handleSuccessfulPayment = async (paymentIntent: any) => {
-    // Update wallet balance
-    const response = await fetch("/api/wallet/deposit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: parseFloat(amount),
-        paymentIntentId: paymentIntent.id,
-      }),
-    });
+    try {
+      // Update wallet balance
+      const response = await fetch("/api/wallet/deposit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: parseFloat(amount),
+          paymentIntentId: paymentIntent.id,
+        }),
+      });
 
-    if (response.ok) {
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
       setError(null);
       const successMessage = document.createElement('div');
       successMessage.className = 'alert alert-success';

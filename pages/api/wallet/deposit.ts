@@ -1,3 +1,4 @@
+
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
@@ -5,7 +6,7 @@ import Deposit from "../../../models/Deposit";
 import { withAuth } from "../../../middleware/withAuth";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
 });
 
@@ -27,6 +28,15 @@ export default withAuth(async function handler(
   try {
     const { amount, paymentIntentId } = req.body;
 
+    if (!amount || !paymentIntentId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Missing required fields" 
+      });
+    }
+
+    await dbConnect();
+
     // Verify payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     if (paymentIntent.status !== "succeeded") {
@@ -35,7 +45,14 @@ export default withAuth(async function handler(
         .json({ success: false, message: "Payment not successful" });
     }
 
-    await dbConnect();
+    // Check if deposit already exists
+    const existingDeposit = await Deposit.findOne({ paymentIntentId });
+    if (existingDeposit) {
+      return res.status(400).json({
+        success: false,
+        message: "Deposit already processed"
+      });
+    }
 
     // Create deposit record
     const deposit = await Deposit.create({
@@ -53,6 +70,8 @@ export default withAuth(async function handler(
     );
 
     if (!user) {
+      // Rollback deposit creation if user update fails
+      await Deposit.findByIdAndDelete(deposit._id);
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
@@ -63,8 +82,11 @@ export default withAuth(async function handler(
       balance: user.walletBalance,
       deposit: deposit,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Deposit error:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || "Server error" 
+    });
   }
 });
