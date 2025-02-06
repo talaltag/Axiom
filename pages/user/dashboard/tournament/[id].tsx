@@ -25,7 +25,7 @@ export default function TournamentDetails() {
   useEffect(() => {
     const fetchSupportAgents = async () => {
       try {
-        const response = await fetch('/api/agent/users?role=Admin');
+        const response = await fetch('/api/agent/users');
         const data = await response.json();
         if (data.success) {
           setSupportAgents(data.data);

@@ -25,9 +25,7 @@ export default withAuth(async function handler(
 
         let query: any = {};
 
-        if (role) {
-          query.role = role;
-        }
+        query.role = "Agent";
 
         query._id = { $ne: userId };
 
