@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "reactstrap";
@@ -33,40 +34,42 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
       const data = await response.json();
       
       if (response.ok && data.success) {
-      setError(null);
-      const successMessage = document.createElement('div');
-      successMessage.className = 'alert alert-success';
-      successMessage.textContent = 'Payment successful! Your funds have been added.';
-      document.querySelector('form')?.prepend(successMessage);
+        setError(null);
+        const successMessage = document.createElement('div');
+        successMessage.className = 'alert alert-success';
+        successMessage.textContent = 'Payment successful! Your funds have been added.';
+        document.querySelector('form')?.prepend(successMessage);
 
-      // Fetch updated balances
-      const [balanceResponse, walletResponse] = await Promise.all([
-        fetch('/api/stripe/connect/status'),
-        fetch('/api/wallet/balance')
-      ]);
+        // Fetch updated balances
+        const [balanceResponse, walletResponse] = await Promise.all([
+          fetch('/api/stripe/connect/status'),
+          fetch('/api/wallet/balance')
+        ]);
 
-      const [balanceData, walletData] = await Promise.all([
-        balanceResponse.json(),
-        walletResponse.json()
-      ]);
+        const [balanceData, walletData] = await Promise.all([
+          balanceResponse.json(),
+          walletResponse.json()
+        ]);
 
-      if (balanceData.success) {
-        window.dispatchEvent(new CustomEvent('walletUpdate', { 
-          detail: { 
-            stripeBalance: balanceData.balance,
-            walletBalance: walletData.balance 
-          }
-        }));
+        if (balanceData.success) {
+          window.dispatchEvent(new CustomEvent('walletUpdate', { 
+            detail: { 
+              stripeBalance: balanceData.balance,
+              walletBalance: walletData.balance 
+            }
+          }));
+        }
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setError("Failed to update wallet balance after successful payment.");
       }
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      setError("Failed to update wallet balance after successful payment.");
+    } catch (error) {
+      setError("Failed to process payment successfully.");
     }
   };
-
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
