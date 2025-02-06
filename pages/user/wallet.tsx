@@ -115,17 +115,26 @@ export default function Wallet() {
     try {
       const response = await fetch('/api/stripe/connect/onboard', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to initialize Stripe Connect');
+      }
+      
       const data = await response.json();
       
       if (data.success && data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.message || 'Failed to initialize Stripe Connect');
+        throw new Error('Invalid response from server');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error connecting Stripe:', error);
-      alert('Failed to connect Stripe account');
+      alert(error.message || 'Failed to connect Stripe account');
     } finally {
       setIsConnectLoading(false);
     }
