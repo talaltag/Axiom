@@ -66,7 +66,25 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
         });
 
         if (response.ok) {
-          window.location.reload();
+          setError(null);
+          const successMessage = document.createElement('div');
+          successMessage.className = 'alert alert-success';
+          successMessage.textContent = 'Payment successful! Your funds have been added.';
+          document.querySelector('form')?.prepend(successMessage);
+          
+          // Refresh stripe balance
+          const balanceResponse = await fetch('/api/stripe/connect/status');
+          const balanceData = await balanceResponse.json();
+          if (balanceData.success) {
+            // Update balance in parent component
+            window.dispatchEvent(new CustomEvent('stripeBalanceUpdate', { 
+              detail: { balance: balanceData.balance }
+            }));
+          }
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       } catch (err) {
         setError("An error occurred during payment");
