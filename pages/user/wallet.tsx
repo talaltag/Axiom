@@ -473,9 +473,40 @@ export default function Wallet() {
                  "Connect with Stripe"}
               </Button>
               {stripeAccountStatus && (
-                <div>
+                <div className="mt-4">
                   <p>Stripe Account Status: {stripeAccountStatus}</p>
                   <p>Stripe Balance: ${stripeBalance.toFixed(2)}</p>
+                  {stripeAccountStatus === "active" && (
+                    <Button 
+                      color="danger" 
+                      className="mt-3"
+                      onClick={async () => {
+                        if (window.confirm("Are you sure you want to disconnect your Stripe account?")) {
+                          try {
+                            const response = await fetch('/api/stripe/connect/disconnect', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                            });
+                            
+                            if (response.ok) {
+                              setStripeAccountStatus(null);
+                              setStripeBalance(0);
+                              alert("Stripe account disconnected successfully");
+                            } else {
+                              throw new Error("Failed to disconnect Stripe account");
+                            }
+                          } catch (error: any) {
+                            console.error("Disconnect error:", error);
+                            alert(error.message || "Failed to disconnect Stripe account");
+                          }
+                        }
+                      }}
+                    >
+                      Disconnect Stripe Account
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
