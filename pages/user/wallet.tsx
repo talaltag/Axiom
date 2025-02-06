@@ -170,12 +170,13 @@ export default function Wallet() {
         return;
       }
 
-      if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
+      const amount = parseFloat(withdrawAmount);
+      if (!amount || amount <= 0) {
         setWithdrawError("Please enter a valid amount");
         return;
       }
 
-      if (parseFloat(withdrawAmount) > balance) {
+      if (amount > balance) {
         setWithdrawError("Insufficient funds");
         return;
       }
@@ -185,8 +186,19 @@ export default function Wallet() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount: parseFloat(withdrawAmount) }),
+        body: JSON.stringify({ amount }),
       });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert("Withdrawal successful! Funds have been transferred to your Stripe account.");
+        setBalance(prev => prev - amount);
+        setWithdrawAmount("");
+        fetchBalance();
+      } else {
+        setWithdrawError(data.message || "Failed to process withdrawal");
+      }
 
       const data = await response.json();
       
