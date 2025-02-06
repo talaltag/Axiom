@@ -83,19 +83,30 @@ export default function Wallet() {
   };
 
   const handleNext = async () => {
-    if (!depositAmount || parseFloat(depositAmount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
+    try {
+      if (!depositAmount || parseFloat(depositAmount) <= 0) {
+        alert("Please enter a valid amount");
+        return;
+      }
 
-    const response = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: parseFloat(depositAmount) }),
-    });
-    const data = await response.json();
-    setClientSecret(data.clientSecret);
-    setShowPaymentForm(true);
+      const response = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: parseFloat(depositAmount) }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to create payment');
+      }
+      
+      const data = await response.json();
+      setClientSecret(data.clientSecret);
+      setShowPaymentForm(true);
+    } catch (error: any) {
+      alert(error.message || 'Failed to process payment');
+      setShowPaymentForm(false);
+    }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
