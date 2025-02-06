@@ -16,6 +16,55 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleSuccessfulPayment = async (paymentIntent: any) => {
+    // Update wallet balance
+    const response = await fetch("/api/wallet/deposit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: parseFloat(amount),
+        paymentIntentId: paymentIntent.id,
+      }),
+    });
+
+    if (response.ok) {
+      setError(null);
+      const successMessage = document.createElement('div');
+      successMessage.className = 'alert alert-success';
+      successMessage.textContent = 'Payment successful! Your funds have been added.';
+      document.querySelector('form')?.prepend(successMessage);
+
+      // Fetch updated balances
+      const [balanceResponse, walletResponse] = await Promise.all([
+        fetch('/api/stripe/connect/status'),
+        fetch('/api/wallet/balance')
+      ]);
+
+      const [balanceData, walletData] = await Promise.all([
+        balanceResponse.json(),
+        walletResponse.json()
+      ]);
+
+      if (balanceData.success) {
+        window.dispatchEvent(new CustomEvent('walletUpdate', { 
+          detail: { 
+            stripeBalance: balanceData.balance,
+            walletBalance: walletData.balance 
+          }
+        }));
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      setError("Failed to update wallet balance after successful payment.");
+    }
+  };
+
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -53,49 +102,8 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
           return;
         }
 
-        // Update wallet balance
-        const response = await fetch("/api/wallet/deposit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: parseFloat(amount),
-            paymentIntentId: paymentIntent.id,
-          }),
-        });
+        await handleSuccessfulPayment(paymentIntent);
 
-        if (response.ok) {
-          setError(null);
-          const successMessage = document.createElement('div');
-          successMessage.className = 'alert alert-success';
-          successMessage.textContent = 'Payment successful! Your funds have been added.';
-          document.querySelector('form')?.prepend(successMessage);
-
-          // Fetch updated balances
-          const [balanceResponse, walletResponse] = await Promise.all([
-            fetch('/api/stripe/connect/status'),
-            fetch('/api/wallet/balance')
-          ]);
-
-          const [balanceData, walletData] = await Promise.all([
-            balanceResponse.json(),
-            walletResponse.json()
-          ]);
-
-          if (balanceData.success) {
-            window.dispatchEvent(new CustomEvent('walletUpdate', { 
-              detail: { 
-                stripeBalance: balanceData.balance,
-                walletBalance: walletData.balance 
-              }
-            }));
-          }
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        }
       } catch (err) {
         setError("An error occurred during payment");
       } finally {
