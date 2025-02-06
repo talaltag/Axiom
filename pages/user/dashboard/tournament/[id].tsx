@@ -164,40 +164,59 @@ export default function TournamentDetails() {
 
             {activeTab === "info" && (
               <div className="bg-white p-4 rounded">
-                <h4 className="mb-4">Tournament Information</h4>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="mb-4">
-                      <h6 className="text-muted mb-2">Description</h6>
-                      <p>Join our exciting tournament where players compete for glory and amazing prizes. Show your skills and climb to the top of the leaderboard!</p>
-                    </div>
-                    <div className="mb-4">
-                      <h6 className="text-muted mb-2">Format</h6>
-                      <p>Single elimination bracket with best-of-three matches in semifinals and finals.</p>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="mb-4">
-                      <h6 className="text-muted mb-2">Schedule</h6>
-                      <div className="d-flex justify-content-between mb-2">
-                        <span>Registration Ends</span>
-                        <span>May 22, 2024</span>
-                      </div>
-                      <div className="d-flex justify-content-between mb-2">
-                        <span>Tournament Starts</span>
-                        <span>May 23, 2024</span>
-                      </div>
-                      <div className="d-flex justify-content-between">
-                        <span>Tournament Ends</span>
-                        <span>May 24, 2024</span>
-                      </div>
-                    </div>
-                    <div className="mb-4">
-                      <h6 className="text-muted mb-2">Contact</h6>
-                      <p>For any questions or support, please contact us at: support@tournament.com</p>
-                    </div>
-                  </div>
+                <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
+                <p className="text-muted mb-4" style={{ color: '#667085' }}>
+                  If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
+                </p>
+                
+                <div className="d-flex justify-content-between mb-4">
+                  <div style={{ flex: 1 }}><h6 style={{ color: '#101828' }}>Name</h6></div>
+                  <div style={{ flex: 1, textAlign: 'right' }}><h6 style={{ color: '#101828' }}>Messages</h6></div>
                 </div>
+
+                {[
+                  { name: 'John Smith', role: 'Operations Manager' },
+                  { name: 'Sam Winchester', role: 'OLT Support Specialist' },
+                  { name: 'Daniel Craig', role: 'OLT Support Specialist' },
+                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
+                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
+                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' },
+                  { name: 'Gilbert Blythe', role: 'OLT Support Specialist' }
+                ].map((support, index) => (
+                  <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="d-flex align-items-center" style={{ flex: 1 }}>
+                      <div className="position-relative" style={{ width: '40px', height: '40px', marginRight: '12px' }}>
+                        <Image
+                          src="/user1.png"
+                          alt={support.name}
+                          layout="fill"
+                          className="rounded-circle"
+                        />
+                      </div>
+                      <div>
+                        <div style={{ color: '#101828', fontWeight: 500 }}>{support.name}</div>
+                        <div style={{ color: '#667085', fontSize: '14px' }}>{support.role}</div>
+                      </div>
+                    </div>
+                    <button
+                      className="btn rounded-circle"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        backgroundColor: '#F2F4F7',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.6667 14.1667V5.83333C16.6667 4.91286 15.9205 4.16667 15 4.16667H5C4.07953 4.16667 3.33334 4.91286 3.33334 5.83333V14.1667C3.33334 15.0871 4.07953 15.8333 5 15.8333H15C15.9205 15.8333 16.6667 15.0871 16.6667 14.1667Z" stroke="#667085" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3.33334 7.5L8.51501 11.0833C9.43548 11.7167 10.5645 11.7167 11.485 11.0833L16.6667 7.5" stroke="#667085" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </Col>
