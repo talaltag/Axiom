@@ -89,21 +89,33 @@ export default function Wallet() {
         return;
       }
 
+      setShowPaymentForm(false);
+      setClientSecret("");
+
       const response = await fetch("/api/create-payment-intent", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: parseFloat(depositAmount) }),
+        headers: { 
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          amount: Number(depositAmount)
+        }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to create payment');
+        throw new Error(data.message || 'Failed to create payment');
       }
       
-      const data = await response.json();
+      if (!data.clientSecret) {
+        throw new Error('No client secret received');
+      }
+
       setClientSecret(data.clientSecret);
       setShowPaymentForm(true);
     } catch (error: any) {
+      console.error('Payment intent error:', error);
       alert(error.message || 'Failed to process payment');
       setShowPaymentForm(false);
     }

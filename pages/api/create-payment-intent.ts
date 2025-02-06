@@ -1,8 +1,9 @@
+
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { withAuth } from "../../middleware/withAuth";
 
-const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
 });
 
@@ -17,24 +18,27 @@ export default withAuth(async function handler(
   try {
     const { amount } = req.body;
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: "Invalid amount" });
+    if (!amount || isNaN(amount) || amount <= 0) {
+      return res.status(400).json({ message: "Invalid amount provided" });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(parseFloat(amount) * 100), // Convert to cents and ensure integer
+      amount: Math.round(parseFloat(amount) * 100),
       currency: "usd",
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      payment_method_types: ['card'],
+      metadata: {
+        userId: req.user.id
+      }
     });
 
     res.status(200).json({ 
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id 
+      clientSecret: paymentIntent.client_secret 
     });
   } catch (error: any) {
     console.error("Error creating payment intent:", error);
-    res.status(500).json({ message: error?.message || "Error creating payment intent" });
+    res.status(500).json({ 
+      message: error?.message || "Error creating payment intent",
+      error: error
+    });
   }
 });
