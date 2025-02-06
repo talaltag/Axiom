@@ -27,7 +27,6 @@ export default withAuth(async function handler(
     }
 
     if (user.stripeConnectId) {
-      // Get account link for existing account
       const accountLink = await stripe.accountLinks.create({
         account: user.stripeConnectId,
         refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
@@ -37,7 +36,6 @@ export default withAuth(async function handler(
       return res.status(200).json({ success: true, url: accountLink.url });
     }
 
-    // Create new Connect account
     const account = await stripe.accounts.create({
       type: 'express',
       country: 'US',
@@ -48,12 +46,10 @@ export default withAuth(async function handler(
       },
     });
 
-    // Update user with Connect account ID
     await User.findByIdAndUpdate(userId, {
       stripeConnectId: account.id,
     });
 
-    // Create account link
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
       refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,

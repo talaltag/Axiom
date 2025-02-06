@@ -110,14 +110,25 @@ export default function Wallet() {
     alert("Withdrawal initiated!");
   };
 
-  const handleStripeConnect = () => {
+  const handleStripeConnect = async () => {
     setIsConnectLoading(true);
-    // Implement Stripe Connect OAuth flow here. This is a placeholder.
-    console.log("Connecting to Stripe...");
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/stripe/connect/onboard', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      
+      if (data.success && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.message || 'Failed to initialize Stripe Connect');
+      }
+    } catch (error) {
+      console.error('Error connecting Stripe:', error);
+      alert('Failed to connect Stripe account');
+    } finally {
       setIsConnectLoading(false);
-      alert("Stripe account connected!");
-    }, 2000);
+    }
   };
 
   const toggle = (tab: string) => {
