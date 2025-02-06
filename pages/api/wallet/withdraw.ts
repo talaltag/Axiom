@@ -41,12 +41,12 @@ export default withAuth(async function handler(
       });
     }
 
-    // Verify account status
+    // Verify account status and eligibility
     const account = await stripe.accounts.retrieve(user.stripeConnectId);
-    if (!account.charges_enabled) {
+    if (!account || !account.charges_enabled) {
       return res.status(400).json({
         success: false,
-        message: "Your Stripe account is not fully verified yet"
+        message: "Your Stripe account needs to be fully verified before withdrawing"
       });
     }
 
@@ -58,16 +58,6 @@ export default withAuth(async function handler(
     }
 
     // Create transfer to connected account
-    // First verify the connected account exists and is verified
-    const account = await stripe.accounts.retrieve(user.stripeConnectId);
-    
-    if (!account || !account.charges_enabled) {
-      return res.status(400).json({
-        success: false,
-        message: "Your Stripe account needs to be fully verified before withdrawing"
-      });
-    }
-
     const transfer = await stripe.transfers.create({
       amount: Math.round(amount * 100), // Convert to cents
       currency: 'usd',
