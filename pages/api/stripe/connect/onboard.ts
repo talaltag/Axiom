@@ -17,12 +17,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     await dbConnect();
     const userId = req.user.id;
-    const user = await User.findById(userId);
+    console.log("Processing Stripe Connect for user:", userId);
 
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    // If user already has a Connect account, create a new account link
+    if (user.stripeConnectId) {
+      console.log("Existing Connect account found:", user.stripeConnectId);
+      const accountLink = await stripe.accountLinks.create({
+        account: user.stripeConnectId,
+        refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
+        type: 'account_onboarding',
+        collect: 'eventually_due'
+      });
+      return res.status(200).json({ success: true, url: accountLink.url });
+    }
+
+    console.log("Creating new Connect account for user:", user.email);
     const account = await stripe.accounts.create({
       type: 'express',
       country: 'US',
@@ -41,8 +56,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
     });
 
+    console.log("Connect account created:", account.id);
     await User.findByIdAndUpdate(userId, {
-      stripeConnectId: account.id
+      stripeConnectId: account.id,
+      stripeAccountStatus: 'pending'
     });
 
     const accountLink = await stripe.accountLinks.create({
@@ -53,12 +70,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       collect: 'eventually_due'
     });
 
+    console.log("Account link created:", accountLink.url);
     res.status(200).json({ success: true, url: accountLink.url });
   } catch (error: any) {
     console.error("Stripe Connect error:", error);
     res.status(500).json({ 
       success: false, 
-      message: error.message || "Failed to create Stripe Connect account" 
+      message: error.message || "Failed to create Stripe Connect account",
+      error: error
     });
   }
 }
