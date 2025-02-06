@@ -160,6 +160,16 @@ export default function Wallet() {
       setWithdrawError("");
       setIsWithdrawing(true);
 
+      if (!stripeAccountStatus) {
+        setWithdrawError("Please connect your Stripe account first");
+        return;
+      }
+
+      if (stripeAccountStatus !== "active") {
+        setWithdrawError("Your Stripe account needs to be fully verified");
+        return;
+      }
+
       if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
         setWithdrawError("Please enter a valid amount");
         return;
