@@ -25,18 +25,13 @@ export default withAuth(async function handler(
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(parseFloat(amount) * 100),
       currency: "usd",
+      payment_method_types: ['card'],
       metadata: {
         userId: req.user.id,
         type: 'wallet_deposit'
-      },
-      automatic_payment_methods: {
-        enabled: true,
-        allow_redirects: 'never'
       }
     });
 
-    console.log('Created payment intent:', paymentIntent.id);
-    
     res.status(200).json({ 
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id
@@ -44,8 +39,7 @@ export default withAuth(async function handler(
   } catch (error: any) {
     console.error("Error creating payment intent:", error);
     res.status(500).json({ 
-      message: error?.message || "Error creating payment intent",
-      error: error
+      message: error?.message || "Error creating payment intent" 
     });
   }
 });

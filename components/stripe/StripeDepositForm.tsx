@@ -20,6 +20,7 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
     event.preventDefault();
 
     if (!stripe || !elements || isProcessing) {
+      setError("Payment processing is not available");
       return;
     }
 
@@ -28,17 +29,24 @@ export const StripeDepositForm: React.FC<StripeDepositFormProps> = ({
     
     const cardElement = elements.getElement(CardElement);
 
-    if (cardElement) {
-      try {
-        const { error: paymentError, paymentIntent } =
-          await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-              card: cardElement,
-              billing_details: {
-                name: 'Wallet Deposit'
-              }
-            },
-          });
+    if (!cardElement) {
+      setError("Card information is required");
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
+      const { error: paymentError, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: 'Wallet Deposit'
+            }
+          },
+        }
+      );
 
         if (paymentError) {
           console.error('Payment error:', paymentError);
