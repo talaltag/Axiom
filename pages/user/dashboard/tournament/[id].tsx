@@ -194,35 +194,134 @@ export default function TournamentDetails() {
         </div>
 
         <div className="bg-white rounded-3 p-4">
-          <Row>
-            <Col md={8}>
-              <div className="d-flex justify-content-between mb-4">
-                <div>
-                  <div style={{ color: "#667085", fontSize: "14px" }}>Prize</div>
-                  <div style={{ fontSize: "24px", fontWeight: 600 }}>$500</div>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            <div style={{ flex: '1' }}>
+              <div className="mb-4">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div style={{ fontSize: '20px', fontWeight: 600, color: '#101828' }}>$500</div>
+                  <div className="px-2 py-1" style={{ backgroundColor: '#ECFDF3', color: '#027A48', borderRadius: '16px', fontSize: '12px' }}>
+                    Completed
+                  </div>
                 </div>
-                <div className="text-end">
-                  <div style={{ color: "#667085", fontSize: "14px" }}>Entry Fee</div>
-                  <div style={{ fontSize: "24px", fontWeight: 600 }}>$25</div>
-                </div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Prize</div>
               </div>
 
               <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>$25</div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Entry Fee</div>
+              </div>
+
+              <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>XBOX</div>
                 <div style={{ color: "#667085", fontSize: "14px" }}>Platform</div>
-                <div>XBOX</div>
               </div>
 
               <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>KILL RACE</div>
                 <div style={{ color: "#667085", fontSize: "14px" }}>Tournament Type</div>
-                <div>KILL RACE</div>
               </div>
 
               <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>0 of 64 teams</div>
                 <div style={{ color: "#667085", fontSize: "14px" }}>Tournament Size</div>
-                <div>0 of 64 teams</div>
               </div>
-            </Col>
-          </Row>
+
+              <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>Quad</div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Team Size</div>
+              </div>
+
+              <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>USA</div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Country</div>
+              </div>
+
+              <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>Call of Duty</div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Game</div>
+              </div>
+
+              <div className="mb-4">
+                <div style={{ fontSize: '14px', color: '#101828', marginBottom: '4px' }}>Battle Royale</div>
+                <div style={{ color: "#667085", fontSize: "14px" }}>Game Mode</div>
+              </div>
+
+              <div className="mt-5">
+                <h6 className="mb-4">My Team</h6>
+                <div className="card p-3 mb-4" style={{ background: '#F9FAFB', border: 'none' }}>
+                  <div className="d-flex align-items-center mb-3">
+                    <Image
+                      src="/user1.png"
+                      alt="Team Logo"
+                      width={40}
+                      height={40}
+                      className="rounded"
+                    />
+                    <div className="ms-3">
+                      <div style={{ fontSize: '16px', fontWeight: 500 }}>Avengers Reborn</div>
+                      <div style={{ fontSize: '14px', color: '#667085' }}>Team Name</div>
+                    </div>
+                  </div>
+
+                  {[
+                    { name: 'John Smith', role: 'Team Leader' },
+                    { name: 'Sam Winchester', role: 'Team Member' },
+                    { name: 'Daniel Craig', role: 'Team Member' },
+                    { name: 'Gilbert Blythe', role: 'Team Member' }
+                  ].map((member, index) => (
+                    <div key={index} className="d-flex align-items-center mb-2">
+                      <Image
+                        src="/user1.png"
+                        alt={member.name}
+                        width={32}
+                        height={32}
+                        className="rounded-circle"
+                      />
+                      <div className="ms-3">
+                        <div style={{ fontSize: '14px', fontWeight: 500 }}>{member.name}</div>
+                        <div style={{ fontSize: '12px', color: '#667085' }}>{member.role}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mb-4">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h6 className="mb-0">Latest Result</h6>
+                    <small className="text-muted">Total Played Hour: 1hr 2m</small>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between p-3" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+                    <div className="d-flex align-items-center">
+                      <Image src="/user1.png" alt="Team 1" width={32} height={32} className="rounded-circle" />
+                      <span className="mx-2" style={{ fontSize: '14px' }}>Special Force</span>
+                    </div>
+                    <div style={{ color: '#667085' }}>V/S</div>
+                    <div className="d-flex align-items-center">
+                      <span className="mx-2" style={{ fontSize: '14px' }}>Cyborgs</span>
+                      <Image src="/user1.png" alt="Team 2" width={32} height={32} className="rounded-circle" />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h6 className="mb-3">Ongoing Matches</h6>
+                  {[1, 2, 3].map((match, index) => (
+                    <div key={index} className="d-flex align-items-center justify-content-between p-3 mb-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+                      <div className="d-flex align-items-center">
+                        <Image src="/user1.png" alt="Team" width={32} height={32} className="rounded-circle" />
+                        <span className="mx-2" style={{ fontSize: '14px' }}>Snipers</span>
+                      </div>
+                      <div style={{ color: '#667085' }}>V/S</div>
+                      <div className="d-flex align-items-center">
+                        <span className="mx-2" style={{ fontSize: '14px' }}>Dragons</span>
+                        <Image src="/user1.png" alt="Team" width={32} height={32} className="rounded-circle" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Container>
     </UserDashboardLayout>
