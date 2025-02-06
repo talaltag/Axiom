@@ -152,10 +152,21 @@ export default function Wallet() {
     setPreviewUrl(null);
   };
 
+  const [withdrawError, setWithdrawError] = useState("");
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
+
   const handleWithdraw = async () => {
     try {
-      if (!withdrawAmount || parseFloat(withdrawAmount) <= 0 || parseFloat(withdrawAmount) > balance) {
-        alert("Please enter a valid withdrawal amount");
+      setWithdrawError("");
+      setIsWithdrawing(true);
+
+      if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
+        setWithdrawError("Please enter a valid amount");
+        return;
+      }
+
+      if (parseFloat(withdrawAmount) > balance) {
+        setWithdrawError("Insufficient funds");
         return;
       }
 
@@ -170,16 +181,18 @@ export default function Wallet() {
       const data = await response.json();
       
       if (response.ok) {
-        alert("Withdrawal successful!");
+        alert("Funds have been successfully transferred to your Stripe account!");
         setBalance(prev => prev - parseFloat(withdrawAmount));
         setWithdrawAmount("");
         fetchBalance();
       } else {
-        throw new Error(data.message || "Failed to process withdrawal");
+        setWithdrawError(data.message || "Failed to process withdrawal");
       }
     } catch (error: any) {
       console.error("Withdrawal error:", error);
-      alert(error.message || "Failed to process withdrawal");
+      setWithdrawError(error.message || "Failed to process withdrawal");
+    } finally {
+      setIsWithdrawing(false);
     }
   };
 

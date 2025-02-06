@@ -22,6 +22,13 @@ export default withAuth(async function handler(
     const { amount } = req.body;
     const userId = req.user.id;
 
+    if (!amount || amount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid amount to withdraw"
+      });
+    }
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
@@ -34,6 +41,15 @@ export default withAuth(async function handler(
       });
     }
 
+    // Verify account status
+    const account = await stripe.accounts.retrieve(user.stripeConnectId);
+    if (!account.charges_enabled) {
+      return res.status(400).json({
+        success: false,
+        message: "Your Stripe account is not fully verified yet"
+      });
+    }
+
     if (user.walletBalance < amount) {
       return res.status(400).json({ 
         success: false, 
@@ -43,7 +59,7 @@ export default withAuth(async function handler(
 
     // Create transfer to connected account
     const transfer = await stripe.transfers.create({
-      amount: amount * 100, // Convert to cents
+      amount: Math.round(amount * 100), // Convert to cents
       currency: 'usd',
       destination: user.stripeConnectId,
     });
@@ -58,8 +74,11 @@ export default withAuth(async function handler(
       message: "Withdrawal successful",
       transfer 
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Withdrawal error:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || "Failed to process withdrawal" 
+    });
   }
 });
