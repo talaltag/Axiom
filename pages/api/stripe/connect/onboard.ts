@@ -1,3 +1,4 @@
+
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { withAuth } from "../../../../middleware/withAuth";
@@ -22,36 +23,43 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // Create a new Connect account
     const account = await stripe.accounts.create({
       type: 'express',
       country: 'US',
       email: user.email,
       capabilities: {
-        transfers: { requested: true },
         card_payments: { requested: true },
+        transfers: { requested: true }
       },
       business_type: 'individual',
+      settings: {
+        payouts: {
+          schedule: {
+            interval: 'manual'
+          }
+        }
+      }
     });
 
-    // Save the Connect account ID
     await User.findByIdAndUpdate(userId, {
-      stripeConnectId: account.id,
+      stripeConnectId: account.id
     });
 
-    // Create account link for onboarding
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
       refresh_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
       return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/user/wallet`,
       type: 'account_onboarding',
-      collect: 'eventually_due',
+      collect: 'eventually_due'
     });
 
     res.status(200).json({ success: true, url: accountLink.url });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Stripe Connect error:", error);
-    res.status(500).json({ success: false, message: "Failed to create Stripe Connect account" });
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || "Failed to create Stripe Connect account" 
+    });
   }
 }
 
