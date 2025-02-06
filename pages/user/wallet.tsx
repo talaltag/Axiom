@@ -152,10 +152,35 @@ export default function Wallet() {
     setPreviewUrl(null);
   };
 
-  const handleWithdraw = () => {
-    // Implement withdrawal logic here. This is a placeholder.
-    console.log("Withdrawing:", withdrawAmount);
-    alert("Withdrawal initiated!");
+  const handleWithdraw = async () => {
+    try {
+      if (!withdrawAmount || parseFloat(withdrawAmount) <= 0 || parseFloat(withdrawAmount) > balance) {
+        alert("Please enter a valid withdrawal amount");
+        return;
+      }
+
+      const response = await fetch("/api/wallet/withdraw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: parseFloat(withdrawAmount) }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert("Withdrawal successful!");
+        setBalance(prev => prev - parseFloat(withdrawAmount));
+        setWithdrawAmount("");
+        fetchBalance();
+      } else {
+        throw new Error(data.message || "Failed to process withdrawal");
+      }
+    } catch (error: any) {
+      console.error("Withdrawal error:", error);
+      alert(error.message || "Failed to process withdrawal");
+    }
   };
 
   const handleStripeConnect = async () => {
@@ -315,18 +340,45 @@ export default function Wallet() {
           <TabPane tabId="withdraw">
             <div className="p-4">
               <h5>Withdraw Funds</h5>
-              <div className="mb-3">
-                <label className="form-label">Amount to Withdraw ($)</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={withdrawAmount}
-                  onChange={(e) => setWithdrawAmount(e.target.value)}
-                />
-              </div>
-              <Button color="warning" onClick={handleWithdraw}>
-                Withdraw to Connected Account
-              </Button>
+              <Card className="mb-4">
+                <CardBody>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                      <h2>${balance.toFixed(2)}</h2>
+                      <small className="text-muted">Available Balance in Axiom Wallet</small>
+                    </div>
+                  </div>
+                  {stripeAccountStatus === "active" ? (
+                    <>
+                      <div className="mb-3">
+                        <label className="form-label">Amount to Withdraw ($)</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          value={withdrawAmount}
+                          onChange={(e) => setWithdrawAmount(e.target.value)}
+                          max={balance}
+                          min={1}
+                        />
+                      </div>
+                      <Button 
+                        color="warning" 
+                        onClick={handleWithdraw}
+                        disabled={!withdrawAmount || parseFloat(withdrawAmount) > balance || parseFloat(withdrawAmount) <= 0}
+                      >
+                        Withdraw to Stripe Account
+                      </Button>
+                    </>
+                  ) : (
+                    <div>
+                      <p className="text-warning mb-3">Please connect your Stripe account first to withdraw funds.</p>
+                      <Button color="primary" onClick={() => toggle('connect')}>
+                        Connect Stripe Account
+                      </Button>
+                    </div>
+                  )}
+                </CardBody>
+              </Card>
             </div>
           </TabPane>
           <TabPane tabId="stripe-wallet">
