@@ -174,57 +174,41 @@ export default function Tournaments() {
                 </div>
 
                 {activeTab === 'info' && (
-                  <div className="p-4">
+                  <div className="bg-white p-4 rounded">
                     <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
                     <p className="text-muted mb-4" style={{ fontSize: '16px', color: '#667085' }}>
                       If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
                     </p>
 
                     <div className="d-flex flex-column gap-4">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex gap-3">
-                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
-                            <Image src="/user1.png" alt="John Smith" layout="fill" className="rounded-circle" />
+                      {[
+                        { name: 'John Smith', role: 'Operations Manager' },
+                        { name: 'Sam Winchester', role: 'OLT Support Specialist' },
+                        { name: 'Daniel Craig', role: 'OLT Support Specialist' },
+                        { name: 'Gilbert Blythe', role: 'OLT Support Specialist' }
+                      ].map((member, index) => (
+                        <div key={index} className="d-flex justify-content-between align-items-center p-3" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+                          <div className="d-flex gap-3">
+                            <div className="position-relative" style={{ width: '40px', height: '40px' }}>
+                              <Image src="/user1.png" alt={member.name} layout="fill" className="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>{member.name}</h6>
+                              <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>{member.role}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>John Smith</h6>
-                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>Operations Manager</p>
-                          </div>
+                          <Button 
+                            color="light" 
+                            className="rounded-circle p-2"
+                            style={{ 
+                              backgroundColor: 'white',
+                              border: '1px solid #E4E7EC'
+                            }}
+                          >
+                            <MessageSquare size={20} color="#667085" />
+                          </Button>
                         </div>
-                        <Button color="light" className="rounded-circle p-2">
-                          <MessageSquare size={20} color="#667085" />
-                        </Button>
-                      </div>
-
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex gap-3">
-                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
-                            <Image src="/user1.png" alt="Sam Winchester" layout="fill" className="rounded-circle" />
-                          </div>
-                          <div>
-                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Sam Winchester</h6>
-                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>OLT Support Specialist</p>
-                          </div>
-                        </div>
-                        <Button color="light" className="rounded-circle p-2">
-                          <MessageSquare size={20} color="#667085" />
-                        </Button>
-                      </div>
-
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex gap-3">
-                          <div className="position-relative" style={{ width: '40px', height: '40px' }}>
-                            <Image src="/user1.png" alt="Daniel Craig" layout="fill" className="rounded-circle" />
-                          </div>
-                          <div>
-                            <h6 className="mb-1" style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Daniel Craig</h6>
-                            <p className="mb-0" style={{ fontSize: '14px', color: '#667085' }}>OLT Support Specialist</p>
-                          </div>
-                        </div>
-                        <Button color="light" className="rounded-circle p-2">
-                          <MessageSquare size={20} color="#667085" />
-                        </Button>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 )}
