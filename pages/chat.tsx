@@ -27,6 +27,7 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const session = useSession();
+
   useEffect(() => {
     if (session.data) {
       const fetchUsers = async () => {
@@ -151,51 +152,6 @@ export default function ChatPage() {
           </Grid>
         </Grid>
       </Box>
-    </UserDashboardLayout>
-  );
-}
-
-import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import UserDashboardLayout from '../components/layouts/UserDashboardLayout';
-import ChatWindow from '../components/chat/ChatWindow';
-import { Container } from 'reactstrap';
-
-export default function Chat() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const { receiver } = router.query;
-  const [receiverUser, setReceiverUser] = useState(null);
-
-  useEffect(() => {
-    const fetchReceiver = async () => {
-      if (receiver) {
-        const response = await fetch(`/api/users/${receiver}`);
-        const data = await response.json();
-        if (data.success) {
-          setReceiverUser(data.data);
-        }
-      }
-    };
-
-    if (receiver) {
-      fetchReceiver();
-    }
-  }, [receiver]);
-
-  if (!session || !receiverUser) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <UserDashboardLayout>
-      <Container fluid className="p-4">
-        <ChatWindow
-          currentUser={session.user}
-          receiver={receiverUser}
-        />
-      </Container>
     </UserDashboardLayout>
   );
 }
