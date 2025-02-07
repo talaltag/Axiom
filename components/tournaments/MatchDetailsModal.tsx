@@ -24,55 +24,56 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       </div>
 
       <div className={styles.matchInfo}>
-        <div className={styles.matchTeams}>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div className="d-flex align-items-center gap-2">
-              <div className={`${styles.statusIndicator} ${styles.winner}`}>W</div>
-              <span>{match?.participants?.[0]?.name}</span>
-            </div>
-            <div className={`${styles.statusIndicator} ${styles.winner}`}>
-              M-{match?.id}
-            </div>
-            <div className="d-flex align-items-center gap-2">
-              <div className={`${styles.statusIndicator} ${styles.loser}`}>L</div>
-              <span>{match?.participants?.[1]?.name}</span>
-            </div>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="d-flex align-items-center gap-2">
+            <div className={`${styles.statusIndicator} ${styles.winner}`}>W</div>
+            <span>{match?.participants?.[0]?.name}</span>
           </div>
-          <div className="text-center text-success mb-3">Match Completed</div>
+          <div style={{ color: '#667085' }}>
+            M-{match?.id}
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <div className={`${styles.statusIndicator} ${styles.loser}`}>L</div>
+            <span>{match?.participants?.[1]?.name}</span>
+          </div>
         </div>
+        <div className="text-center text-success mb-4" style={{ color: '#027A48' }}>Match Completed</div>
 
         <div className="d-flex mb-3">
           <button className={`${styles.tab} ${styles.active}`}>Results</button>
           <button className={styles.tab}>Info</button>
         </div>
 
-        <div className={styles.matchContent}>
-          <div className={styles.tableHeader}>
-            <span>Name</span>
-            <span>For/Hit</span>
-            <span>Score</span>
-            <span>Result</span>
-          </div>
-
-          {match?.participants?.map((participant: any, index: number) => (
-            <div key={index} className={styles.participantRow}>
-              <div className={styles.participantName}>
-                {participant.name}
-              </div>
-              <div className={styles.inputContainer}>
-                <input type="text" className={styles.scoreInput} />
-              </div>
-              <div className={styles.inputContainer}>
-                <input type="text" className={styles.scoreInput} />
-              </div>
-              <div className={styles.resultButtons}>
-                <button className={`${styles.resultButton} ${styles.winButton}`}>W</button>
-                <button className={`${styles.resultButton} ${styles.drawButton}`}>D</button>
-                <button className={`${styles.resultButton} ${styles.loseButton}`}>L</button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>For/Hit</th>
+              <th>Score</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {match?.participants?.map((participant: any, index: number) => (
+              <tr key={index}>
+                <td>{participant.name}</td>
+                <td>
+                  <input type="text" className="form-control form-control-sm" />
+                </td>
+                <td>
+                  <input type="text" className="form-control form-control-sm" />
+                </td>
+                <td>
+                  <div className="btn-group" role="group">
+                    <button type="button" className="btn btn-sm btn-outline-success">W</button>
+                    <button type="button" className="btn btn-sm btn-outline-warning">D</button>
+                    <button type="button" className="btn btn-sm btn-outline-danger">L</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         <button className={styles.saveButton}>Save</button>
       </div>
