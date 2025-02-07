@@ -107,75 +107,63 @@ export default function Tournaments() {
             <Card className="border-0 shadow-sm">
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div className="d-flex justify-content-between align-items-center w-100">
-                    <div>
-                      <Button
-                        onClick={() => setActiveTab("upcoming")}
-                        className="me-2"
-                        style={{
-                          backgroundColor: activeTab === "upcoming" ? "#FFD600" : "#FFFFFF",
-                          color: "#101828",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "8px",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          padding: "8px 14px",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}
-                      >
-                        Upcoming Tournaments
-                      </Button>
-                      <Button
-                        onClick={() => setActiveTab("my")}
-                        className="me-2"
-                        style={{
-                          backgroundColor: activeTab === "my" ? "#FFD600" : "#FFFFFF",
-                          color: "#101828",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "8px",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          padding: "8px 14px",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}
-                      >
-                        My Tournaments
-                      </Button>
-                    </div>
-                    <div className="d-flex align-items-center">
-                      <Button
-                        onClick={() => setActiveTab("history")}
-                        className="me-2"
-                        style={{
-                          backgroundColor: activeTab === "history" ? "#FFD600" : "#FFFFFF",
-                          color: "#101828",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "8px",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          padding: "8px 14px",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}
-                      >
-                        Tournament History
-                      </Button>
-                      <Button
-                        onClick={() => setActiveTab("info")}
-                        className="me-2"
-                        style={{
-                          backgroundColor: activeTab === "info" ? "#FFD600" : "#FFFFFF",
-                          color: "#101828",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "8px",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          padding: "8px 14px",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}
-                      >
-                        Info
-                      </Button>
-                      <div className="position-relative">
+                  <div>
+                    <Button
+                      onClick={() => setActiveTab("upcoming")}
+                      className="me-2"
+                      style={{
+                        backgroundColor: activeTab === "upcoming" ? "#101828" : "#FFFFFF",
+                        color: activeTab === "upcoming" ? "#FFFFFF" : "#344054",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
+                    >
+                      Upcoming Tournaments
+                    </Button>
+                    <Button
+                      onClick={() => setActiveTab("my")}
+                      className="me-2"
+                      style={{
+                        backgroundColor: activeTab === "my" ? "#FFD600" : "#FFFFFF",
+                        color: "#101828",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
+                    >
+                      My Tournaments
+                    </Button>
+                    <Button
+                      onClick={() => setActiveTab("history")}
+                      style={{
+                        backgroundColor: activeTab === "history" ? "#F2F4F7" : "#FFFFFF",
+                        color: "#344054",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
+                    >
+                      Tournament History
+                    </Button>
+                    <Button
+                      color={activeTab === "info" ? "warning" : "light"} // Added info tab button
+                      onClick={() => setActiveTab("info")}
+                      className="me-2"
+                    >
+                      Info
+                    </Button>
+                  </div>
+                  <div className="d-flex align-items-center">
                     <div className="position-relative">
                       <Search
                         size={20}
