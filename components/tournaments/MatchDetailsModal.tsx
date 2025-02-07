@@ -24,23 +24,25 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       contentClassName={styles.matchDetailsContent}
     >
       <div className={styles.modalContent}>
-        <div className={styles.matchHeader} style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <div className={styles.matchHeader} style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className={styles.statusIndicator} style={{ background: '#ECFDF3', color: '#039855' }}>
+              <div className={styles.statusIndicator} style={{ background: '#ECFDF3', color: '#039855', width: '32px', height: '32px', fontSize: '14px' }}>
                 W
               </div>
-              <div>Avengers Reborn</div>
+              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Avengers Reborn</div>
             </div>
-            <div style={{ color: '#667085' }}>M-{match?.id}</div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ color: '#667085', fontSize: '14px' }}>M-1.1</div>
+              <div style={{ color: '#12B76A', fontSize: '14px', marginTop: '4px' }}>Match Completed</div>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div>DC Champions</div>
-              <div className={styles.statusIndicator} style={{ background: '#FEF3F2', color: '#D92D20' }}>
+              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>DC Champions</div>
+              <div className={styles.statusIndicator} style={{ background: '#FEF3F2', color: '#D92D20', width: '32px', height: '32px', fontSize: '14px' }}>
                 L
               </div>
             </div>
           </div>
-          <div style={{ color: '#039855', fontSize: '14px' }}>Match Completed</div>
         </div>
 
         <div className={styles.tabContainer}>
