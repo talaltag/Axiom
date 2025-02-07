@@ -58,13 +58,13 @@ const TournamentBrackets: React.FC = () => {
       state: 'DONE',
       participants: [
         {
-          id: 'scorpio-3',
-          resultText: 'L',
-          isWinner: false,
-          name: 'Scorpio'
+          id: 'beehives-1',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
         },
         {
-          id: 'beehives-3',
+          id: 'beehives-2',
           resultText: 'W',
           isWinner: true,
           name: 'BeeHives'
@@ -80,16 +80,16 @@ const TournamentBrackets: React.FC = () => {
       state: 'DONE',
       participants: [
         {
-          id: 'scorpio-4',
+          id: 'scorpio-1',
           resultText: 'L',
           isWinner: false,
           name: 'Scorpio'
         },
         {
-          id: 'beehives-4',
-          resultText: 'W',
-          isWinner: true,
-          name: 'BeeHives'
+          id: 'scorpio-2',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Scorpio'
         }
       ]
     },
