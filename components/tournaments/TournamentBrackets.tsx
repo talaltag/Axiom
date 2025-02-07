@@ -209,10 +209,10 @@ const TournamentBrackets: React.FC = () => {
           svgWrapper={({ children, ...props }) => (
             <SVGViewer
               width={1200}
-              height={800}
+              height={1200}
               background="transparent"
               SVGBackground="transparent"
-              scale={1}
+              scale={0.8}
               {...props}
             >
               {children}
