@@ -256,7 +256,7 @@ export default function Tournaments() {
       </table>
     </div>
 
-    
+
   </div>
 )}
 
@@ -438,6 +438,7 @@ export default function Tournaments() {
                             borderRadius: "12px",
                             overflow: "hidden",
                             border: "none",
+                            backgroundColor: "#FAFBFC",
                             boxShadow:
                               "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
                           }}
