@@ -277,41 +277,45 @@ export default function TournamentDetails() {
               <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
                 <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Scoring System</h4>
 
-                <div className="mb-5">
+                <div className="mb-4">
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Placement Points</h5>
-                  <div className="table-responsive">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>Match Ranking</th>
-                          <th>Placement Points</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1 (Win)</td>
-                          <td>50 Points</td>
-                        </tr>
-                        <tr>
-                          <td>2-3</td>
-                          <td>40 Points</td>
-                        </tr>
-                        <tr>
-                          <td>4-6</td>
-                          <td>35 Points</td>
-                        </tr>
-                        <tr>
-                          <td>7-2</td>
-                          <td>50 Points</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
+                    <div className="table-responsive">
+                      <table className="table mb-0">
+                        <thead>
+                          <tr>
+                            <th>Match Ranking</th>
+                            <th>Placement Points</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1 (Win)</td>
+                            <td>50 Points</td>
+                          </tr>
+                          <tr>
+                            <td>2-3</td>
+                            <td>40 Points</td>
+                          </tr>
+                          <tr>
+                            <td>4-6</td>
+                            <td>35 Points</td>
+                          </tr>
+                          <tr>
+                            <td>7-2</td>
+                            <td>50 Points</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 
                 <div>
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Tournament Score</h5>
-                  <p className="text-muted">Tournament Score = Avg Kill + Avg Placement + Avg Score</p>
+                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
+                    <p className="text-muted mb-0">Tournament Score = Avg Kill + Avg Placement + Avg Score</p>
+                  </div>
                 </div>
               </div>
             )}
