@@ -1,4 +1,3 @@
-
 import React from 'react';
 import styles from '../../styles/Brackets.module.css';
 
@@ -32,57 +31,42 @@ const Match: React.FC<MatchProps> = ({ team1, team2, team1Status, team2Status, m
 const TournamentBrackets: React.FC = () => {
   return (
     <div className={styles.container}>
+      <div className={styles.roundTabs}>
+        <button className={styles.tab}>Leaderboard</button>
+        <button className={styles.tab}>Info</button>
+        <button className={styles.tab}>Rules</button>
+        <button className={styles.tab}>Payout</button>
+        <button className={styles.tab}>Scoring</button>
+        <button className={`${styles.tab} ${styles.active}`}>Brackets</button>
+      </div>
+
       <div className={styles.brackets}>
         <div className={styles.round}>
-          <h3 className={styles.roundTitle}>ROUND 1</h3>
-          <div className={styles.matches}>
-            <Match 
-              team1="Scorpio"
-              team2="BeeHives"
-              team1Status="L"
-              team2Status="W"
-              matchId="2.2"
-            />
-            <Match 
-              team1="Scorpio"
-              team2="BeeHives"
-              team1Status="L"
-              team2Status="W"
-              matchId="2.2"
-            />
+          <div className={styles.roundTitleWrapper}>
+            <h3 className={styles.roundTitle}>ROUND 1</h3>
           </div>
-        </div>
-        
-        <div className={styles.round}>
-          <h3 className={styles.roundTitle}>ROUND 2</h3>
           <div className={styles.matches}>
-            <Match 
-              team1="Scorpio"
-              team2="BeeHives"
-              team1Status="L"
-              team2Status="W"
-              matchId="2.2"
-            />
-            <Match 
-              team1="Scorpio"
-              team2="BeeHives"
-              team1Status="L"
-              team2Status="W"
-              matchId="2.2"
-            />
+            <Match team1="Scorpio" team2="BeeHives" team1Status="L" team2Status="W" matchId="2.2" />
+            <Match team1="Scorpio" team2="BeeHives" team1Status="L" team2Status="W" matchId="2.2" />
           </div>
         </div>
 
         <div className={styles.round}>
-          <h3 className={styles.roundTitle}>ROUND 3</h3>
+          <div className={styles.roundTitleWrapper}>
+            <h3 className={styles.roundTitle}>ROUND 2</h3>
+          </div>
           <div className={styles.matches}>
-            <Match 
-              team1="Scorpio"
-              team2="BeeHives"
-              team1Status="L"
-              team2Status="W"
-              matchId="2.2"
-            />
+            <Match team1="Scorpio" team2="BeeHives" team1Status="L" team2Status="W" matchId="2.2" />
+            <Match team1="Scorpio" team2="BeeHives" team1Status="L" team2Status="W" matchId="2.2" />
+          </div>
+        </div>
+
+        <div className={styles.round}>
+          <div className={styles.roundTitleWrapper}>
+            <h3 className={styles.roundTitle}>ROUND 3</h3>
+          </div>
+          <div className={styles.matches}>
+            <Match team1="Scorpio" team2="BeeHives" team1Status="L" team2Status="W" matchId="2.2" />
           </div>
         </div>
       </div>

@@ -1,22 +1,66 @@
+
 .container {
   background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
 }
 
+.roundTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #EAECF0;
+  padding-bottom: 8px;
+}
+
+.tab {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #667085;
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+}
+
+.tab.active {
+  color: #101828;
+  border-bottom: 2px solid #FFD600;
+}
+
 .brackets {
   display: flex;
-  gap: 40px;
+  gap: 80px;
   overflow-x: auto;
   padding: 20px 0;
+  position: relative;
+}
+
+.brackets::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #E5E5E5;
+  z-index: 0;
 }
 
 .round {
   min-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
   position: relative;
+}
+
+.roundTitleWrapper {
+  background: #FFFFFF;
+  padding: 0 12px;
+  margin-bottom: 20px;
+  z-index: 1;
 }
 
 .roundTitle {
@@ -34,7 +78,19 @@
 .matches {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 40px;
+  position: relative;
+}
+
+.matches::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  width: 40px;
+  height: 2px;
+  background: #E5E5E5;
+  z-index: 0;
 }
 
 .match {
@@ -42,6 +98,8 @@
   border-radius: 4px;
   padding: 12px;
   border: 1px solid #E5E5E5;
+  position: relative;
+  z-index: 1;
 }
 
 .teams {
@@ -54,7 +112,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 0;
+  padding: 8px;
+  background: #FFFFFF;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.team:last-child {
+  margin-bottom: 0;
 }
 
 .teamName {
@@ -67,6 +132,14 @@
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 2px;
+}
+
+.w {
+  background-color: #FFF9E7;
+}
+
+.l {
+  background-color: #FFF5F5;
 }
 
 .w .status {
