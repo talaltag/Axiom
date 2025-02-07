@@ -179,16 +179,16 @@ export default function Tournaments() {
                 </div>
 
                 {activeTab === "history" && (
-  <div className="bg-white p-4 rounded">
-    <div className="d-flex justify-content-between align-items-center mb-4">
+  <div className="bg-white rounded" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+    <div className="d-flex justify-content-between align-items-center p-4 border-bottom">
       <div>
-        <h4 className="mb-0" style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>
+        <h4 className="mb-0" style={{ fontSize: "18px", fontWeight: 600, color: "#101828", lineHeight: "28px" }}>
           Last Played Tournaments History
         </h4>
       </div>
       <Button
         color="light"
-        className="d-flex align-items-center gap-2"
+        className="d-flex align-items-center"
         style={{
           padding: "8px 14px",
           backgroundColor: "#fff",
@@ -196,21 +196,22 @@ export default function Tournaments() {
           borderRadius: "8px",
           color: "#344054",
           fontSize: "14px",
-          fontWeight: 500
+          fontWeight: 500,
+          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
         }}
       >
         Back
       </Button>
     </div>
 
-    <div className="table-responsive">
-      <table className="table">
+    <div className="table-responsive px-4">
+      <table className="table" style={{ marginBottom: 0 }}>
         <thead>
-          <tr style={{ backgroundColor: "#F9FAFB" }}>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Tournament</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Placement</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Rewards</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Status</th>
+          <tr>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "40%" }}>Tournament</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%" }}>Placement</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%" }}>Rewards</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%", textAlign: "right" }}>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -225,16 +226,16 @@ export default function Tournaments() {
             { name: "Vanguard Royale", placement: "22", reward: "$2500", status: "Ongoing" }
           ].map((tournament, index) => (
             <tr key={index}>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
-                {tournament.name}
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
+                <span style={{ textDecoration: "underline" }}>{tournament.name}</span>
               </td>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
                 {tournament.placement}
               </td>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
                 {tournament.reward}
               </td>
-              <td style={{ padding: "16px 24px" }}>
+              <td style={{ padding: "16px 0", borderBottom: "1px solid #EAECF0", textAlign: "right" }}>
                 <span className={`badge ${tournament.status === "Completed" ? "text-success" : "text-danger"}`}
                   style={{ 
                     backgroundColor: tournament.status === "Completed" ? "#ECFDF3" : "#FEF3F2",
@@ -242,7 +243,9 @@ export default function Tournaments() {
                     padding: "2px 8px",
                     borderRadius: "16px",
                     fontSize: "12px",
-                    fontWeight: 500
+                    fontWeight: 500,
+                    display: "inline-block",
+                    marginLeft: "auto"
                   }}>
                   {tournament.status}
                 </span>
@@ -253,10 +256,10 @@ export default function Tournaments() {
       </table>
     </div>
 
-    <div className="d-flex justify-content-between align-items-center mt-4">
-      <div className="d-flex align-items-center gap-1">
-        <Button color="light" disabled>«</Button>
-        <Button color="warning" style={{ backgroundColor: "#FFD600" }}>1</Button>
+    <div className="d-flex justify-content-between align-items-center p-4 border-top">
+      <div className="d-flex align-items-center gap-2">
+        <Button color="light" disabled style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", minWidth: "40px" }}>«</Button>
+        <Button color="warning" style={{ backgroundColor: "#FFD600", padding: "8px 14px", border: "none", borderRadius: "8px", minWidth: "40px", fontWeight: 500 }}>1</Button>
         <Button color="light">2</Button>
         <Button color="light">3</Button>
         <Button color="light">4</Button>
