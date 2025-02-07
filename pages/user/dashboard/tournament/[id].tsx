@@ -397,45 +397,113 @@ export default function TournamentDetails() {
           </Col>
 
           <Col md={4}>
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
-              <h6 className="mb-3">Tournament Details</h6>
-              <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Prize</span>
-                <span className="fw-bold">$500</span>
+            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <div className="d-flex align-items-center mb-2">
+                <span className="text-success px-2 py-1 rounded" style={{ backgroundColor: 'rgba(2, 122, 72, 0.1)', fontSize: '12px' }}>Completed</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Entry Fee</span>
-                <span className="fw-bold">$25</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Prize</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>$500</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Platform</span>
-                <span>XBOX</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Entry Fee</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>$25</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Tournament Type</span>
-                <span>KILL RACE</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Platform</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>XBOX</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Tournament Size</span>
-                <span>0 of 64 teams</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Tournament Type</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>KILL RACE</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Team Size</span>
-                <span>Quad</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Tournament Size</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>0 of 64 teams</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Country</span>
-                <span>USA</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Team Size</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Quad</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Game</span>
-                <span>Call of Duty</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Country</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>USA</span>
+              </div>
+              <div className="d-flex justify-content-between mb-2">
+                <span style={{ color: '#667085', fontSize: '14px' }}>Game</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Call of Duty</span>
               </div>
               <div className="d-flex justify-content-between">
-                <span className="text-muted">Game Mode</span>
-                <span>Battle Royale</span>
+                <span style={{ color: '#667085', fontSize: '14px' }}>Game Mode</span>
+                <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Battle Royale</span>
               </div>
             </div>
+
+            <div className="p-4 rounded mt-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <h6 className="mb-3" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>My Team</h6>
+              <div className="d-flex align-items-center gap-2 mb-4">
+                <Image src="/user1.png" alt="Team Logo" width={40} height={40} className="rounded" />
+                <div>
+                  <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Avengers Reborn</h6>
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-3">
+                {[
+                  { name: 'John Smith', role: 'Team Leader' },
+                  { name: 'Sam Winchester', role: 'Team Member' },
+                  { name: 'Daniel Craig', role: 'Team Member' },
+                  { name: 'Gilbert Blythe', role: 'Team Member' }
+                ].map((member, index) => (
+                  <div key={index} className="d-flex align-items-center gap-2">
+                    <Image src="/user1.png" alt={member.name} width={32} height={32} className="rounded-circle" />
+                    <div>
+                      <div style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>{member.name}</div>
+                      <div style={{ fontSize: '12px', color: '#667085' }}>{member.role}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-4 rounded mt-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Latest Result</h6>
+                <small style={{ fontSize: '12px', color: '#667085' }}>Total Played Hour: 1hr 2m</small>
+              </div>
+              <div className="d-flex align-items-center justify-content-between p-3 mb-4" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+                <div className="d-flex align-items-center gap-2">
+                  <Image src="/user1.png" alt="Team 1" width={32} height={32} className="rounded" />
+                  <div>
+                    <div style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Special Force</div>
+                    <div style={{ fontSize: '12px', color: '#027A48' }}>Won</div>
+                  </div>
+                </div>
+                <div style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>V/S</div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="text-end">
+                    <div style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Cyborgs</div>
+                    <div style={{ fontSize: '12px', color: '#B42318' }}>Lost</div>
+                  </div>
+                  <Image src="/user1.png" alt="Team 2" width={32} height={32} className="rounded" />
+                </div>
+              </div>
+
+              <h6 className="mb-3" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Ongoing Matches</h6>
+              {[1, 2, 3].map((_, index) => (
+                <div key={index} className="d-flex align-items-center justify-content-between mb-3 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+                  <div className="d-flex align-items-center gap-2">
+                    <Image src="/user1.png" alt="Team" width={24} height={24} className="rounded" />
+                    <span style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Snipers</span>
+                  </div>
+                  <span style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>V/S</span>
+                  <div className="d-flex align-items-center gap-2">
+                    <span style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Dragons</span>
+                    <Image src="/user1.png" alt="Team" width={24} height={24} className="rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Col>
 
             <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
               <h6 className="mb-3">My Team</h6>
