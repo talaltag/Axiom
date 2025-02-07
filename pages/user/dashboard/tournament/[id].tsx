@@ -274,13 +274,12 @@ export default function TournamentDetails() {
             )}
 
             {activeTab === "scoring" && (
-              <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
+              <div className="p-4 rounded">
                 <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Scoring System</h4>
 
-                <div className="mb-4">
+                <div className="mb-4" style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px', marginBottom: '24px' }}>
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Placement Points</h5>
-                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
-                    <div className="table-responsive">
+                  <div className="table-responsive">
                       <table className="table mb-0">
                         <thead>
                           <tr>
@@ -311,11 +310,9 @@ export default function TournamentDetails() {
                   </div>
                 </div>
 
-                <div>
+                <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Tournament Score</h5>
-                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
-                    <p className="text-muted mb-0">Tournament Score = Avg Kill + Avg Placement + Avg Score</p>
-                  </div>
+                  <p className="text-muted mb-0">Tournament Score = Avg Kill + Avg Placement + Avg Score</p>
                 </div>
               </div>
             )}
