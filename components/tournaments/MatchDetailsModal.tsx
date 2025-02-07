@@ -98,7 +98,7 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
         {activeTab === 'info' && (
           <div className={styles.infoContent} style={{ padding: '20px' }}>
             <div style={{ marginBottom: '20px' }}>
-              <div className="bg-light p-3 rounded" style={{ marginBottom: '16px' }}>
+              <div style={{ marginBottom: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ flex: 1, marginRight: '12px' }}>
                   <label style={{ display: 'block', color: '#344054', fontWeight: 500, marginBottom: '6px', fontSize: '14px' }}>Date</label>
