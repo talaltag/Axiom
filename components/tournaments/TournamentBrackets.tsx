@@ -51,8 +51,8 @@ const TournamentBrackets: React.FC = () => {
     },
     {
       id: 3,
-      name: 'Semi Final',
-      nextMatchId: 6,
+      name: 'Round 2',
+      nextMatchId: 5,
       tournamentRoundText: '2',
       startTime: 'M-2.2',
       state: 'DONE',
@@ -73,8 +73,8 @@ const TournamentBrackets: React.FC = () => {
     },
     {
       id: 4,
-      name: 'Semi Final',
-      nextMatchId: 6,
+      name: 'Round 2',
+      nextMatchId: 5,
       tournamentRoundText: '2',
       startTime: 'M-2.2',
       state: 'DONE',
@@ -94,8 +94,8 @@ const TournamentBrackets: React.FC = () => {
       ]
     },
     {
-      id: 6,
-      name: 'Final',
+      id: 5,
+      name: 'Round 3',
       nextMatchId: null,
       tournamentRoundText: '3',
       startTime: 'M-2.2',
