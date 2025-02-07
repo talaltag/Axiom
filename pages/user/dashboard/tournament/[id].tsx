@@ -214,34 +214,36 @@ export default function TournamentDetails() {
 
             {activeTab === "info" && (
               <div className="bg-white p-4 rounded">
-                <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
-                <p className="text-muted mb-4" style={{ color: '#667085' }}>
+                <h4 className="mb-3" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
+                <p className="text-muted mb-4" style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                   If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
                 </p>
 
-                <div className="d-flex justify-content-between mb-4">
-                  <div style={{ flex: 1 }}><h6 style={{ color: '#101828' }}>Name</h6></div>
-                  <div style={{ flex: 1, textAlign: 'right' }}><h6 style={{ color: '#101828' }}>Messages</h6></div>
+                <div className="d-flex justify-content-between mb-4" style={{ padding: '0 8px' }}>
+                  <div style={{ flex: 1 }}><h6 style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Name</h6></div>
+                  <div><h6 style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Messages</h6></div>
                 </div>
 
                 {supportAgents?.map((agent, index) => (
-                  <div key={agent._id} className="d-flex justify-content-between align-items-center mb-3">
+                  <div key={agent._id} className="d-flex justify-content-between align-items-center mb-3" style={{ padding: '8px' }}>
                     <div className="d-flex align-items-center" style={{ flex: 1 }}>
-                      <div className="position-relative" style={{ width: '40px', height: '40px', marginRight: '12px' }}>
+                      <div className="position-relative" style={{ width: '32px', height: '32px', marginRight: '12px' }}>
                         <Image
                           src={agent.profileImage || "/user1.png"}
                           alt={agent.name}
                           layout="fill"
                           className="rounded-circle"
+                          style={{ border: '2px solid #fff' }}
                         />
+                        <div style={{ position: 'absolute', right: '-2px', bottom: '-2px', width: '8px', height: '8px', backgroundColor: '#12B76A', borderRadius: '50%', border: '2px solid #fff' }}></div>
                       </div>
                       <div>
-                        <div style={{ color: '#101828', fontWeight: 500 }}>{agent.name}</div>
-                        <div style={{ color: '#667085', fontSize: '14px' }}>{agent.role}</div>
+                        <div style={{ color: '#101828', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>{agent.name}</div>
+                        <div style={{ color: '#667085', fontSize: '12px', lineHeight: '18px' }}>{agent.role}</div>
                       </div>
                     </div>
                     <button
-                      className="btn rounded-circle"
+                      className="btn"
                       onClick={() => {
                         const agentId = agent._id;
                         router.push({
@@ -250,13 +252,15 @@ export default function TournamentDetails() {
                         });
                       }}
                       style={{
-                        width: '40px',
-                        height: '40px',
+                        width: '32px',
+                        height: '32px',
                         backgroundColor: '#F2F4F7',
                         border: 'none',
+                        borderRadius: '8px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        padding: 0
                       }}
                     >
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
