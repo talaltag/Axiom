@@ -178,7 +178,104 @@ export default function Tournaments() {
                   </div>
                 </div>
 
-                {activeTab === "info" && (
+                {activeTab === "history" && (
+  <div className="bg-white p-4 rounded">
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4 className="mb-0" style={{ fontSize: "20px", fontWeight: 600, color: "#101828" }}>
+          Last Played Tournaments History
+        </h4>
+      </div>
+      <Button
+        color="light"
+        className="d-flex align-items-center gap-2"
+        style={{
+          padding: "8px 14px",
+          backgroundColor: "#fff",
+          border: "1px solid #D0D5DD",
+          borderRadius: "8px",
+          color: "#344054",
+          fontSize: "14px",
+          fontWeight: 500
+        }}
+      >
+        Back
+      </Button>
+    </div>
+
+    <div className="table-responsive">
+      <table className="table">
+        <thead>
+          <tr style={{ backgroundColor: "#F9FAFB" }}>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Tournament</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Placement</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Rewards</th>
+            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { name: "Vanguard Royale", placement: "23", reward: "$2000", status: "Completed" },
+            { name: "Vanguard Royale", placement: "12", reward: "$2000", status: "Completed" },
+            { name: "Vanguard Royale", placement: "32", reward: "$2000", status: "Completed" },
+            { name: "Vanguard Royale", placement: "4", reward: "$2000", status: "Completed" },
+            { name: "Vanguard Royale", placement: "44", reward: "$2500", status: "Completed" },
+            { name: "Vanguard Royale", placement: "32", reward: "$2500", status: "Completed" },
+            { name: "Vanguard Royale", placement: "12", reward: "$2500", status: "Ongoing" },
+            { name: "Vanguard Royale", placement: "22", reward: "$2500", status: "Ongoing" }
+          ].map((tournament, index) => (
+            <tr key={index}>
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
+                {tournament.name}
+              </td>
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
+                {tournament.placement}
+              </td>
+              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 24px" }}>
+                {tournament.reward}
+              </td>
+              <td style={{ padding: "16px 24px" }}>
+                <span className={`badge ${tournament.status === "Completed" ? "text-success" : "text-danger"}`}
+                  style={{ 
+                    backgroundColor: tournament.status === "Completed" ? "#ECFDF3" : "#FEF3F2",
+                    color: tournament.status === "Completed" ? "#027A48" : "#B42318",
+                    padding: "2px 8px",
+                    borderRadius: "16px",
+                    fontSize: "12px",
+                    fontWeight: 500
+                  }}>
+                  {tournament.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div className="d-flex justify-content-between align-items-center mt-4">
+      <div className="d-flex align-items-center gap-1">
+        <Button color="light" disabled>«</Button>
+        <Button color="warning" style={{ backgroundColor: "#FFD600" }}>1</Button>
+        <Button color="light">2</Button>
+        <Button color="light">3</Button>
+        <Button color="light">4</Button>
+        <Button color="light">5</Button>
+        <Button color="light">6</Button>
+        <Button color="light">»</Button>
+        <select className="form-select ms-2" style={{ width: "70px" }}>
+          <option>12</option>
+          <option>Items per page</option>
+        </select>
+      </div>
+      <div style={{ color: "#667085", fontSize: "14px" }}>
+        1 - 3 of 10 items
+      </div>
+    </div>
+  </div>
+)}
+
+{activeTab === "info" && (
                   <div className="bg-white p-4 rounded">
                     <h4
                       className="mb-4"
