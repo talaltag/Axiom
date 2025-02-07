@@ -3,10 +3,13 @@
   padding: 24px;
   background: white;
   border-radius: 12px;
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
 }
 
 .round {
-  margin-bottom: 32px;
+  min-width: 320px;
 }
 
 .round-title {
@@ -16,11 +19,17 @@
   font-weight: 500;
 }
 
+.match-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .bracket-match {
   background: #F9FAFB;
   border-radius: 8px;
   padding: 12px;
-  max-width: 320px;
+  width: 100%;
 }
 
 .match-details {
@@ -71,19 +80,15 @@
 }
 
 .view-detail {
-  color: #FFD600 !important;
+  color: #FFD600;
   font-size: 12px;
   font-weight: 500;
+  background: none;
+  border: none;
   padding: 0;
+  cursor: pointer;
 }
 
-.ongoing-matches {
-  margin-top: 32px;
-}
-
-.ongoing-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #101828;
-  margin-bottom: 16px;
+.view-detail:hover {
+  text-decoration: underline;
 }
