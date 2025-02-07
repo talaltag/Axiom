@@ -279,7 +279,7 @@ export default function TournamentDetails() {
 
                 <div className="mb-4">
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Placement Points</h5>
-                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
+                  <div style={{ background: '#F0F1F3', padding: '24px', borderRadius: '8px', marginBottom: '24px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Match Ranking</div>
                       <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Placement Points</div>
@@ -297,11 +297,9 @@ export default function TournamentDetails() {
                       <div style={{ color: '#101828', fontSize: '14px' }}>50 Points</div>
                     </div>
                   </div>
-                </div>
 
-                <div>
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Tournament Score</h5>
-                  <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
+                  <div style={{ background: '#EAECF0', padding: '24px', borderRadius: '8px' }}>
                     <p className="text-muted mb-0">Tournament Score = Avg Kill + Avg Placement + Avg Score</p>
                   </div>
                 </div>
