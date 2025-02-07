@@ -102,52 +102,52 @@ export default function TournamentDetails() {
                 <NavLink
                   className={`${activeTab === "leaderboard" ? "active bg-warning" : ""}`}
                   onClick={() => setActiveTab("leaderboard")}
-                  style={{ cursor: "pointer", borderRadius: "4px 4px 0 0", color: activeTab === 'leaderboard' ? '#101828' : '#667085', borderBottom: activeTab === 'leaderboard' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", borderRadius: "4px 4px 0 0", color: activeTab === 'leaderboard' ? '#101828' : '#667085', borderBottom: activeTab === 'leaderboard' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'leaderboard' ? '#FFD600' : 'none' }}
                 >
                   Leaderboard
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={activeTab === "info" ? "active" : ""}
+                  className={activeTab === "info" ? "active bg-warning" : ""}
                   onClick={() => setActiveTab("info")}
-                  style={{ cursor: "pointer", color: activeTab === 'info' ? '#101828' : '#667085', borderBottom: activeTab === 'info' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", color: activeTab === 'info' ? '#101828' : '#667085', borderBottom: activeTab === 'info' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'info' ? '#FFD600' : 'none' }}
                 >
                   Info
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={activeTab === "rules" ? "active" : ""}
+                  className={activeTab === "rules" ? "active bg-warning" : ""}
                   onClick={() => setActiveTab("rules")}
-                  style={{ cursor: "pointer", color: activeTab === 'rules' ? '#101828' : '#667085', borderBottom: activeTab === 'rules' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", color: activeTab === 'rules' ? '#101828' : '#667085', borderBottom: activeTab === 'rules' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'rules' ? '#FFD600' : 'none' }}
                 >
                   Rules
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={activeTab === "payout" ? "active" : ""}
+                  className={activeTab === "payout" ? "active bg-warning" : ""}
                   onClick={() => setActiveTab("payout")}
-                  style={{ cursor: "pointer", color: activeTab === 'payout' ? '#101828' : '#667085', borderBottom: activeTab === 'payout' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", color: activeTab === 'payout' ? '#101828' : '#667085', borderBottom: activeTab === 'payout' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'payout' ? '#FFD600' : 'none' }}
                 >
                   Payout
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={activeTab === "scoring" ? "active" : ""}
+                  className={activeTab === "scoring" ? "active bg-warning" : ""}
                   onClick={() => setActiveTab("scoring")}
-                  style={{ cursor: "pointer", color: activeTab === 'scoring' ? '#101828' : '#667085', borderBottom: activeTab === 'scoring' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", color: activeTab === 'scoring' ? '#101828' : '#667085', borderBottom: activeTab === 'scoring' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'scoring' ? '#FFD600' : 'none' }}
                 >
                   Scoring
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={activeTab === "brackets" ? "active" : ""}
+                  className={activeTab === "brackets" ? "active bg-warning" : ""}
                   onClick={() => setActiveTab("brackets")}
-                  style={{ cursor: "pointer", color: activeTab === 'brackets' ? '#101828' : '#667085', borderBottom: activeTab === 'brackets' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                  style={{ cursor: "pointer", color: activeTab === 'brackets' ? '#101828' : '#667085', borderBottom: activeTab === 'brackets' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: activeTab === 'brackets' ? '#FFD600' : 'none' }}
                 >
                   Brackets
                 </NavLink>
