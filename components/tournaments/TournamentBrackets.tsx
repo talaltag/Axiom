@@ -122,6 +122,17 @@ const TournamentBrackets: React.FC = () => {
       <div className={styles.bracketWrapper}>
         <SingleEliminationBracket
           matches={matches}
+          options={{
+            style: {
+              roundHeader: {
+                backgroundColor: '#F8F9FA',
+                fontSize: '16px',
+                padding: '8px 16px',
+              },
+              connectorColor: '#DEE2E6',
+              connectorColorHighlight: '#FFD600',
+            },
+          }}
           matchComponent={({
             match,
             onMatchClick,
@@ -153,9 +164,11 @@ const TournamentBrackets: React.FC = () => {
           )}
           svgWrapper={({ children, ...props }) => (
             <SVGViewer
-              width={800}
-              height={600}
-              background="#FFFFFF"
+              width={1200}
+              height={800}
+              background="transparent"
+              SVGBackground="transparent"
+              scale={1}
               {...props}
             >
               {children}

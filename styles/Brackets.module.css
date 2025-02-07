@@ -2,12 +2,15 @@
   background: #FFFFFF;
   padding: 24px;
   border-radius: 8px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .bracketWrapper {
   width: 100%;
-  min-height: 600px;
+  min-height: 800px;
   overflow: auto;
+  padding: 20px;
 }
 
 .matchCard {
@@ -16,6 +19,7 @@
   width: 240px;
   padding: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 8px;
 }
 
 .matchHeader {
@@ -35,6 +39,7 @@
   padding: 8px 12px;
   margin-bottom: 4px;
   border-radius: 4px;
+  background: #FFFFFF;
 }
 
 .winner {
