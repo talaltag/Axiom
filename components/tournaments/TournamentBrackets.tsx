@@ -1,117 +1,50 @@
-
 import React from 'react';
-import { Bracket, RoundProps, Seed, SeedItem, SeedTeam } from 'react-brackets';
+import { Bracket } from 'brackets-viewer';
+import 'brackets-viewer/dist/index.css';
 
 const TournamentBrackets: React.FC = () => {
-  const rounds: RoundProps[] = [
+  const rounds = [
     {
-      title: 'Round 1',
-      seeds: [
+      matches: [
         {
-          id: 1,
-          date: new Date().toDateString(),
-          teams: [
-            { id: 1, name: 'Scorpio', score: 'L' },
-            { id: 2, name: 'BeeHives', score: 'W' },
-          ],
+          player1: { name: "Scorpio", score: 0, status: "lost" },
+          player2: { name: "BeeHives", score: 1, status: "won" }
         },
         {
-          id: 2,
-          date: new Date().toDateString(),
-          teams: [
-            { id: 3, name: 'Scorpio', score: 'L' },
-            { id: 4, name: 'BeeHives', score: 'W' },
-          ],
-        },
-      ],
+          player1: { name: "Scorpio", score: 0, status: "lost" },
+          player2: { name: "BeeHives", score: 1, status: "won" }
+        }
+      ]
     },
     {
-      title: 'Round 2',
-      seeds: [
+      matches: [
         {
-          id: 3,
-          date: new Date().toDateString(),
-          teams: [
-            { id: 5, name: 'Scorpio', score: 'L' },
-            { id: 6, name: 'BeeHives', score: 'W' },
-          ],
-        },
-      ],
+          player1: { name: "Scorpio", score: 0, status: "lost" },
+          player2: { name: "BeeHives", score: 1, status: "won" }
+        }
+      ]
     },
     {
-      title: 'Round 3',
-      seeds: [
+      matches: [
         {
-          id: 4,
-          date: new Date().toDateString(),
-          teams: [
-            { id: 7, name: 'Scorpio', score: 'L' },
-            { id: 8, name: 'BeeHives', score: 'W' },
-          ],
-        },
-      ],
-    },
+          player1: { name: "Scorpio", score: 0, status: "lost" },
+          player2: { name: "BeeHives", score: 1, status: "won" }
+        }
+      ]
+    }
   ];
-
-  const CustomSeed = ({ seed, breakpoint }: { seed: Seed; breakpoint: string }) => {
-    return (
-      <div style={{ 
-        backgroundColor: '#F8F8F8',
-        padding: '12px',
-        borderRadius: '4px',
-        border: '1px solid #E5E5E5',
-        width: '180px',
-      }}>
-        {seed.teams?.map((team: SeedTeam, index: number) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '4px',
-              backgroundColor: index === 0 ? '#FFFFFF' : '#F8F8F8',
-              borderRadius: '2px',
-            }}
-          >
-            <span style={{ fontWeight: 500 }}>{team.name}</span>
-            <span
-              style={{
-                backgroundColor: team.score === 'W' ? '#FFD600' : '#F2F4F7',
-                padding: '2px 8px',
-                borderRadius: '12px',
-                fontSize: '12px',
-              }}
-            >
-              {team.score}
-            </span>
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div style={{ padding: '24px', backgroundColor: '#FFFFFF', borderRadius: '12px' }}>
       <Bracket
         rounds={rounds}
-        renderSeedComponent={CustomSeed}
-        swipeableProps={{
-          enableMouseEvents: true,
-          animateHeight: true,
+        theme={{
+          textColor: { main: '#101828', highlighted: '#101828', dark: '#667085' },
+          matchBackground: { wonColor: '#FFD600', lostColor: '#F2F4F7' },
+          score: { background: '#F8F8F8', text: '#101828' },
+          border: { color: '#E5E5E5', highlightedColor: '#FFD600' },
+          victory: { background: '#FFD600', text: '#101828' }
         }}
-        roundTitleComponent={(title: string) => (
-          <div style={{
-            backgroundColor: '#E5E5E5',
-            padding: '8px 12px',
-            borderRadius: '4px',
-            fontSize: '14px',
-            color: '#666666',
-            marginBottom: '20px',
-          }}>
-            {title}
-          </div>
-        )}
       />
     </div>
   );
