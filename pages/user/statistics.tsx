@@ -1,6 +1,8 @@
 
+"use client";
 import { useEffect, useState } from "react";
 import { DollarSign, CreditCard, Award } from "react-feather";
+import dynamic from "next/dynamic";
 import {
   Container,
   Row,
@@ -12,7 +14,9 @@ import {
   Progress
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
-import Chart from 'react-apexcharts';
+const Chart = dynamic(() => import('react-apexcharts'), {
+  ssr: false
+});
 
 export default function Statistics() {
   const barChartData = {
