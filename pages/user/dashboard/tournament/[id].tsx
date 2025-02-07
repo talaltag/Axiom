@@ -283,16 +283,16 @@ export default function TournamentDetails() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Match Ranking</div>
                       <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Placement Points</div>
-                      
+
                       <div style={{ color: '#101828', fontSize: '14px' }}>1 (Win)</div>
                       <div style={{ color: '#101828', fontSize: '14px' }}>50 Points</div>
-                      
+
                       <div style={{ color: '#101828', fontSize: '14px' }}>2-3</div>
                       <div style={{ color: '#101828', fontSize: '14px' }}>40 Points</div>
-                      
+
                       <div style={{ color: '#101828', fontSize: '14px' }}>4-6</div>
                       <div style={{ color: '#101828', fontSize: '14px' }}>35 Points</div>
-                      
+
                       <div style={{ color: '#101828', fontSize: '14px' }}>7-2</div>
                       <div style={{ color: '#101828', fontSize: '14px' }}>50 Points</div>
                     </div>
@@ -454,18 +454,18 @@ export default function TournamentDetails() {
             </div>
 
             <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
-              <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>My Team</h6>
+              <div style={{ color: "#667085", fontSize: "14px", marginBottom: "12px" }}>My Team</div>
               <div className="d-flex flex-column">
-                <div className="d-flex align-items-center mb-3">
-                  <Image src="/user1.png" alt="Team Logo" width={40} height={40} className="rounded me-3" style={{ objectFit: 'cover' }} />
-                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Avengers Reborn</span>
+                <div className="d-flex align-items-center mb-4">
+                  <Image src="/user1.png" alt="Team Logo" width={32} height={32} className="rounded me-2" style={{ objectFit: 'cover' }} />
+                  <span style={{ fontSize: "16px", fontWeight: 500, color: "#101828" }}>Avengers Reborn</span>
                 </div>
                 {teamMembers.map((member, index) => (
-                  <div key={index} className="d-flex align-items-center mb-2">
-                    <Image src={member.avatar} alt={member.name} width={32} height={32} className="rounded-circle me-2" style={{ objectFit: 'cover' }} />
+                  <div key={index} className="d-flex align-items-center mb-3">
+                    <Image src={member.avatar} alt={member.name} width={24} height={24} className="rounded-circle me-2" style={{ objectFit: 'cover' }} />
                     <div>
-                      <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>{member.name}</div>
-                      <div style={{ fontSize: '12px', color: '#667085' }}>{member.role}</div>
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>{member.name}</div>
+                      <div style={{ fontSize: "12px", color: "#667085" }}>{member.role}</div>
                     </div>
                   </div>
                 ))}
