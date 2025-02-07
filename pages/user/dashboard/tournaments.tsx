@@ -109,31 +109,48 @@ export default function Tournaments() {
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <div>
                     <Button
-                      color={activeTab === "upcoming" ? "warning" : "light"}
-                      className="me-2"
                       onClick={() => setActiveTab("upcoming")}
+                      className="me-2"
+                      style={{
+                        backgroundColor: activeTab === "upcoming" ? "#101828" : "#FFFFFF",
+                        color: activeTab === "upcoming" ? "#FFFFFF" : "#344054",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
                     >
                       Upcoming Tournaments
                     </Button>
                     <Button
-                      color={activeTab === "my" ? "warning" : "light"}
                       onClick={() => setActiveTab("my")}
                       className="me-2"
+                      style={{
+                        backgroundColor: activeTab === "my" ? "#FFD600" : "#FFFFFF",
+                        color: "#101828",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
                     >
                       My Tournaments
                     </Button>
                     <Button
-                      color={activeTab === "history" ? "warning" : "light"}
                       onClick={() => setActiveTab("history")}
                       style={{
-                        backgroundColor:
-                          activeTab === "history" ? "#FFD600" : "#F9FAFB",
-                        color: activeTab === "history" ? "#000" : "#667085",
-                        border: "1px solid #EAECF0",
+                        backgroundColor: activeTab === "history" ? "#F2F4F7" : "#FFFFFF",
+                        color: "#344054",
+                        border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
                         fontWeight: 500,
-                        padding: "8px 16px",
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
                       }}
                     >
                       Tournament History
