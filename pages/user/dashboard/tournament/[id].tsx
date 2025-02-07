@@ -96,12 +96,12 @@ export default function TournamentDetails() {
 
         <Row>
           <Col md={8}>
-            <Nav tabs className="mb-4">
+            <Nav className="tournament-nav mb-4" style={{ borderBottom: '1px solid #EAECF0' }}>
               <NavItem>
                 <NavLink
                   className={`${activeTab === "leaderboard" ? "active bg-warning" : ""}`}
                   onClick={() => setActiveTab("leaderboard")}
-                  style={{ cursor: "pointer", borderRadius: "4px 4px 0 0" }}
+                  style={{ cursor: "pointer", borderRadius: "4px 4px 0 0", color: activeTab === 'leaderboard' ? '#101828' : '#667085', borderBottom: activeTab === 'leaderboard' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
                 >
                   Leaderboard
                 </NavLink>
@@ -110,7 +110,7 @@ export default function TournamentDetails() {
                 <NavLink
                   className={activeTab === "info" ? "active" : ""}
                   onClick={() => setActiveTab("info")}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color: activeTab === 'info' ? '#101828' : '#667085', borderBottom: activeTab === 'info' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
                 >
                   Info
                 </NavLink>
@@ -119,7 +119,7 @@ export default function TournamentDetails() {
                 <NavLink
                   className={activeTab === "rules" ? "active" : ""}
                   onClick={() => setActiveTab("rules")}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color: activeTab === 'rules' ? '#101828' : '#667085', borderBottom: activeTab === 'rules' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
                 >
                   Rules
                 </NavLink>
@@ -128,7 +128,7 @@ export default function TournamentDetails() {
                 <NavLink
                   className={activeTab === "payout" ? "active" : ""}
                   onClick={() => setActiveTab("payout")}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color: activeTab === 'payout' ? '#101828' : '#667085', borderBottom: activeTab === 'payout' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
                 >
                   Payout
                 </NavLink>
@@ -137,9 +137,18 @@ export default function TournamentDetails() {
                 <NavLink
                   className={activeTab === "scoring" ? "active" : ""}
                   onClick={() => setActiveTab("scoring")}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color: activeTab === 'scoring' ? '#101828' : '#667085', borderBottom: activeTab === 'scoring' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
                 >
                   Scoring
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={activeTab === "brackets" ? "active" : ""}
+                  onClick={() => setActiveTab("brackets")}
+                  style={{ cursor: "pointer", color: activeTab === 'brackets' ? '#101828' : '#667085', borderBottom: activeTab === 'brackets' ? '2px solid #FFD600' : 'none', padding: '12px 16px', background: 'none' }}
+                >
+                  Brackets
                 </NavLink>
               </NavItem>
             </Nav>
@@ -239,7 +248,7 @@ export default function TournamentDetails() {
             {activeTab === "scoring" && (
               <div className="bg-white p-4 rounded">
                 <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Scoring System</h4>
-                
+
                 <div className="mb-5">
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Placement Points</h5>
                   <div className="table-responsive">

@@ -1,0 +1,89 @@
+
+.brackets-container {
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+}
+
+.round {
+  margin-bottom: 32px;
+}
+
+.round-title {
+  font-size: 14px;
+  color: #667085;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.bracket-match {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 12px;
+  max-width: 320px;
+}
+
+.match-details {
+  border-bottom: 1px solid #EAECF0;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.team.won .team-name {
+  color: #027A48;
+}
+
+.team.lost .team-name {
+  color: #B42318;
+}
+
+.team-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.result {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.won .result {
+  color: #027A48;
+}
+
+.lost .result {
+  color: #B42318;
+}
+
+.match-id {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #667085;
+  font-size: 12px;
+}
+
+.view-detail {
+  color: #FFD600 !important;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+}
+
+.ongoing-matches {
+  margin-top: 32px;
+}
+
+.ongoing-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+  margin-bottom: 16px;
+}
