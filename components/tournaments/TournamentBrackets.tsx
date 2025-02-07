@@ -6,7 +6,11 @@ import {
 } from "@g-loot/react-tournament-brackets";
 import styles from "../../styles/Brackets.module.css";
 
+import MatchDetailsModal from './MatchDetailsModal';
+
 const TournamentBrackets: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState(null);
   const matches: Match[] = [
     {
       id: 1,
@@ -206,7 +210,15 @@ const TournamentBrackets: React.FC = () => {
                     {participant.resultText}
                   </span>
                   <span>
-                    <button className={styles.viewDetail}>View Detail</button>
+                    <button 
+                      className={styles.viewDetail}
+                      onClick={() => {
+                        setSelectedMatch(match);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      View Detail
+                    </button>
                   </span>
                 </div>
               ))}
@@ -227,6 +239,11 @@ const TournamentBrackets: React.FC = () => {
           )}
         />
       </div>
+      <MatchDetailsModal
+        isOpen={isModalOpen}
+        toggle={() => setIsModalOpen(false)}
+        match={selectedMatch}
+      />
     </div>
   );
 };
