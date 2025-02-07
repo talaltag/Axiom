@@ -123,9 +123,9 @@ export default function Statistics() {
             shadeIntensity: 0.8,
             gradientToColors: ['rgba(248, 202, 21, 0)', 'rgba(164, 134, 16, 0)', 'rgba(255, 214, 0, 0)'],
             inverseColors: false,
-            opacityFrom: 0.8,
-            opacityTo: 0,
-            stops: [48.49, 282.14]
+            opacityFrom: 0.9,
+            opacityTo: 0.3,
+            stops: [0, 100]
           }
         },
         xaxis: {
