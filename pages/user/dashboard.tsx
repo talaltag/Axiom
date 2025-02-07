@@ -20,17 +20,44 @@ interface Tournament {
   name: string;
   date: string;
   time: string;
-  prize: string;
-  entryCost: string;
-  image: string;
-  totalPrizePool: string;
+  endTime: string;
   entryFee: string;
+  platform: string;
+  teamSize: string;
+  prize: string;
+  type: string;
+  game: string;
+  images: String[];
+  gameMode: string;
 }
 
 export default function UserDashboard() {
   const router = useRouter();
   const session = useSession();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const url = "/api/tournaments";
+        const response = await fetch(url);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch tournaments");
+        }
+        const data = await response.json();
+        if (data.success) {
+          setTournaments(data.data);
+        } else {
+          throw new Error(data.message || "An unexpected error occurred");
+        }
+      } catch (error) {
+        console.error("Error fetching tournaments:", error);
+      }
+    };
+
+    fetchTournaments();
+  }, []);
 
   const gameStats = [
     { name: "Fortnite", lastScore: "102234", score: 75 },
@@ -103,7 +130,7 @@ export default function UserDashboard() {
             <Button
               color="warning"
               className="px-4"
-              onClick={() => router.push('/user/dashboard/register-tournament/1')}
+              onClick={() => router.push("/user/dashboard/tournaments")}
               style={{
                 backgroundColor: "#FFD600",
                 border: "none",
@@ -114,142 +141,131 @@ export default function UserDashboard() {
               Register Now
             </Button>
           </div>
-
-          <div
-            className="position-absolute"
-            style={{ bottom: "-151px", left: "32px", right: "32px" }}
-          >
-            <Row className="g-4">
-              {[
-                {
-                  name: "Fortnite Summer Battle",
-                  date: "May 23, 2023",
-                  time: "9:00PM - 10:30PM EST",
-                  prize: "$500",
-                  entryCost: "$200",
-                  image: "/fortnite-banner.png",
-                },
-                {
-                  name: "PUBG tournament by Red Bull",
-                  date: "May 23, 2023",
-                  time: "9:00PM - 10:30PM EST",
-                  prize: "$500",
-                  entryCost: "$200",
-                  image: "/fortnite-banner.png",
-                },
-                {
-                  name: "Apex Legends tournament",
-                  date: "May 23, 2023",
-                  time: "9:00PM - 10:30PM EST",
-                  prize: "$500",
-                  entryCost: "$200",
-                  image: "/fortnite-banner.png",
-                },
-                {
-                  name: "Rocket League Finals",
-                  date: "May 23, 2023",
-                  time: "9:00PM - 10:30PM EST",
-                  prize: "$500",
-                  entryCost: "$200",
-                  image: "/fortnite-banner.png",
-                },
-              ].map((tournament, index) => (
-                <Col md={3} key={index}>
-                  <Card
-                    className="border-0 h-100 tournament-card bg-white"
-                    style={{ borderRadius: "12px", overflow: "hidden" }}
-                  >
-                    <div style={{ height: "160px", position: "relative" }}>
-                      <Image
-                        src={tournament.image}
-                        alt={tournament.name}
-                        fill
-                        sizes="100vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                    <CardBody className="p-3">
-                      <h5
-                        className="mb-2"
-                        style={{ fontSize: "16px", fontWeight: 600 }}
-                      >
-                        {tournament.name}
-                      </h5>
-                      <div
-                        style={{ fontSize: "12px" }}
-                        className="text-muted mb-2"
-                      >
-                        {tournament.date} {tournament.time}
+          {tournaments && tournaments.length > 0 && (
+            <div
+              className="position-absolute"
+              style={{ bottom: "-151px", left: "32px", right: "32px" }}
+            >
+              <Row className="g-4">
+                {tournaments.slice(0, 3).map((tournament, index) => (
+                  <Col md={3} key={index}>
+                    <Card
+                      className="border-0 h-100 tournament-card bg-white"
+                      style={{ borderRadius: "12px", overflow: "hidden" }}
+                    >
+                      <div style={{ height: "160px", position: "relative" }}>
+                        <Image
+                          src={
+                            tournament?.images?.[0] || "/fortnite-banner.png"
+                          }
+                          alt={tournament?.name || "Tournament"}
+                          fill
+                          sizes="100vw"
+                          style={{ objectFit: "cover" }}
+                        />
                       </div>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div>
-                          <div
-                            className="text-muted mb-1"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Prize
+                      <CardBody className="p-3">
+                        <h5
+                          className="mb-2"
+                          style={{ fontSize: "16px", fontWeight: 600 }}
+                        >
+                          {tournament.name}
+                        </h5>
+                        <div
+                          style={{ fontSize: "12px" }}
+                          className="text-muted mb-2"
+                        >
+                          {tournament.date} {tournament.time}
+                        </div>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            {/* <div
+                              className="text-muted mb-1"
+                              style={{ fontSize: "12px" }}
+                            >
+                              Prize
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                color: "#DC3545",
+                              }}
+                            >
+                              {tournament.prize}
+                            </div> */}
                           </div>
-                          <div
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              color: "#DC3545",
-                            }}
-                          >
-                            {tournament.prize}
+                          <div className="text-end">
+                            <div
+                              className="text-muted mb-1"
+                              style={{ fontSize: "12px" }}
+                            >
+                              Entry Cost
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                color: "#DC3545",
+                              }}
+                            >
+                              ${tournament.entryFee}
+                            </div>
                           </div>
                         </div>
-                        <div className="text-end">
-                          <div
-                            className="text-muted mb-1"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Entry Cost
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              color: "#DC3545",
-                            }}
-                          >
-                            {tournament.entryCost}
-                          </div>
-                        </div>
-                      </div>
-                      <Button
-                        color="link"
-                        className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2 mt-3"
-                        style={{
-                          color: "#FFD600",
-                          fontSize: "14px",
-                          fontWeight: 600,
-                          padding: "4px",
-                        }}
-                      >
-                        Register Now <span>→</span>
-                      </Button>
-                    </CardBody>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          </div>
+                        <Button
+                          color="link"
+                          className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2 mt-3"
+                          style={{
+                            color: "#FFD600",
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            padding: "4px",
+                          }}
+                          onClick={() =>
+                            router.push(
+                              `/user/dashboard/register-tournament/${tournament._id}`
+                            )
+                          }
+                        >
+                          Register Now <span>→</span>
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          )}
         </div>
 
         <Row style={{ paddingTop: "128px" }}>
           <Col md={8}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="mb-0" style={{ fontSize: "16px", fontWeight: 600 }}>Leaderboard</h5>
-              <span style={{ cursor: "pointer", fontSize: "14px", color: "#101828" }}>More</span>
+              <h5
+                className="mb-0"
+                style={{ fontSize: "16px", fontWeight: 600 }}
+              >
+                Leaderboard
+              </h5>
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  color: "#101828",
+                }}
+              >
+                More
+              </span>
             </div>
             <Card
               className="border-0 mb-4"
               style={{
                 borderRadius: "16px",
                 background: "#FFD600",
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                height: "500px"
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                height: "500px",
               }}
             >
               <CardBody style={{ maxHeight: "100%", overflowY: "auto" }}>
@@ -276,17 +292,29 @@ export default function UserDashboard() {
                             borderRadius: "12px",
                             fontSize: "12px",
                             fontWeight: 600,
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
                           }}
                         >
                           2
                         </div>
                       </div>
                       <div className="mt-2">
-                        <div style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            color: "#101828",
+                          }}
+                        >
                           MirayK
                         </div>
-                        <div style={{ fontSize: "12px", color: "#101828", opacity: 0.8 }}>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            color: "#101828",
+                            opacity: 0.8,
+                          }}
+                        >
                           1223
                         </div>
                       </div>
@@ -322,17 +350,29 @@ export default function UserDashboard() {
                             borderRadius: "12px",
                             fontSize: "12px",
                             fontWeight: 600,
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
                           }}
                         >
                           1
                         </div>
                       </div>
                       <div className="mt-2">
-                        <div style={{ fontSize: "16px", fontWeight: 600, color: "#101828" }}>
+                        <div
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            color: "#101828",
+                          }}
+                        >
                           Mert Kahveci
                         </div>
-                        <div style={{ fontSize: "14px", color: "#101828", opacity: 0.8 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#101828",
+                            opacity: 0.8,
+                          }}
+                        >
                           1452
                         </div>
                       </div>
@@ -417,7 +457,13 @@ export default function UserDashboard() {
                       >
                         {player.name}
                       </div>
-                      <div style={{ fontSize: "12px", color: "#666", fontWeight: 500 }}>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#666",
+                          fontWeight: 500,
+                        }}
+                      >
                         {player.time}
                       </div>
                     </div>
@@ -427,24 +473,36 @@ export default function UserDashboard() {
             </Card>
           </Col>
           <Col md={4}>
-            <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>Last Game Stats</h5>
+            <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>
+              Last Game Stats
+            </h5>
             <Card
               className="border-0 mb-4"
               style={{
                 borderRadius: "16px",
                 background: "#FFFFFF",
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)"
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
               }}
             >
               <CardBody className="p-4">
                 {gameStats.map((stat, index) => (
                   <div key={index} className="mb-4">
                     <div className="d-flex flex-column mb-1">
-                      <span style={{ fontSize: "14px", color: "#344054", marginBottom: "4px" }}>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#344054",
+                          marginBottom: "4px",
+                        }}
+                      >
                         {stat.name}
                       </span>
                       <div className="d-flex justify-content-between align-items-center mb-1">
-                        <small className="text-muted" style={{ fontSize: "12px" }}>
+                        <small
+                          className="text-muted"
+                          style={{ fontSize: "12px" }}
+                        >
                           Last Score
                         </small>
                         <span style={{ fontSize: "12px", color: "#344054" }}>
@@ -458,13 +516,20 @@ export default function UserDashboard() {
                         height: "8px",
                         borderRadius: "16px",
                         backgroundColor: "#F2F4F7",
-                        backgroundImage: "linear-gradient(90deg, #FFD600 75%, #F2F4F7 75%)"
+                        backgroundImage:
+                          "linear-gradient(90deg, #FFD600 75%, #F2F4F7 75%)",
                       }}
                     />
                   </div>
                 ))}
-                <div className="mt-4 p-3 text-center" style={{ background: "#FFD600", borderRadius: "8px" }}>
-                  <div className="fw-bold mb-1" style={{ fontSize: "24px", color: "#101828" }}>
+                <div
+                  className="mt-4 p-3 text-center"
+                  style={{ background: "#FFD600", borderRadius: "8px" }}
+                >
+                  <div
+                    className="fw-bold mb-1"
+                    style={{ fontSize: "24px", color: "#101828" }}
+                  >
                     98%
                   </div>
                   <div style={{ fontSize: "14px", color: "#101828" }}>

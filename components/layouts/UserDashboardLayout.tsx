@@ -121,7 +121,7 @@ export default function UserDashboardLayout({ children }) {
             <div className="d-flex align-items-center me-3">
               <NotificationsDropdown />{" "}
               {/* Placeholder for NotificationsDropdown */}
-              <UncontrolledDropdown direction="up" inNavbar nav className="ms-3">
+              <UncontrolledDropdown inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image
                     src="/user1.png"

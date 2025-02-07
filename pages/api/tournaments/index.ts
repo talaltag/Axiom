@@ -3,6 +3,13 @@ import dbConnect from "../../../lib/dbConnect";
 import Tournament from "../../../models/Tournament";
 import TournamentRegistration from "../../../models/TournamentRegistration";
 import mongoose from "mongoose";
+import formidable from "formidable";
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,36 +25,67 @@ export default async function handler(
     await dbConnect();
     if (req.method === "POST") {
       try {
-        const { images, ...rest } = req.body;
-        const uploadedImages = [];
+        const form = formidable({
+          multiples: true,
+          uploadDir: "./public/uploads",
+          keepExtensions: true,
+        });
 
-        if (Array.isArray(images)) {
-          for (const image of images) {
-            const base64Data = image.url.replace(
-              /^data:image\/\w+;base64,/,
-              ""
-            );
-            const buffer = Buffer.from(base64Data, "base64");
-            const fileName = `${Date.now()}-${Math.random()
-              .toString(36)
-              .substr(2, 9)}.png`;
-            const filePath = `./public/uploads/${fileName}`;
+        // Parse the incoming form data using Formidable
+        const [fields, files] = await new Promise<
+          [formidable.Fields, formidable.Files]
+        >((resolve, reject) => {
+          form.parse(req, (err, fields, files) => {
+            if (err) reject(err);
+            resolve([fields, files]);
+          });
+        });
 
-            require("fs").writeFileSync(filePath, buffer);
-            uploadedImages.push(`/uploads/${fileName}`);
+        // Handle uploaded image files
+        const uploadedImages = Object.values(files).map(
+          (file) => `/uploads/${file[0].newFilename}` // Get file paths from uploaded files
+        );
+
+        // Parse prizeSplit if it exists (ensure it's an array)
+        const prizeSplit = fields.prizeSplit;
+        let parsedPrizeSplit = [];
+
+        if (prizeSplit) {
+          // If it's a string, parse it as JSON, else keep it as is if it's already an array
+          if (typeof prizeSplit === "string") {
+            try {
+              parsedPrizeSplit = JSON.parse(prizeSplit); // Parse it if it's a JSON string
+            } catch (error) {
+              console.error("Error parsing prizeSplit:", error);
+            }
+          } else if (Array.isArray(prizeSplit)) {
+            parsedPrizeSplit = prizeSplit; // Already an array, use it as is
           }
         }
 
-        const tournament = await Tournament.create({
-          ...rest,
-          prizeSplit: Array.isArray(req.body.prizeSplit)
-            ? req.body.prizeSplit
-            : [],
-          images: uploadedImages,
-        });
+        // Ensure fields are correctly handled as strings (if not arrays)
+        const sanitizedFields = Object.keys(fields).reduce((acc, key) => {
+          const value = fields[key];
+          // If value is an array, take the first element as the string
+          acc[key] = Array.isArray(value) ? value[0] : value;
+          return acc;
+        }, {});
 
+        // Prepare payload for tournament creation
+        const payload = {
+          ...sanitizedFields, // Ensure fields are correctly formatted
+          prizeSplit: parsedPrizeSplit,
+          images: uploadedImages, // Attach image paths
+        };
+
+        console.log(payload); // Log the prepared payload
+
+        // Create the tournament
+        const tournament = await Tournament.create(payload);
+
+        // Respond with the created tournament data
         return res.status(201).json({ success: true, data: tournament });
-      } catch (error: any) {
+      } catch (error) {
         console.error("Tournament creation error:", error);
         return res.status(400).json({
           success: false,

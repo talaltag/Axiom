@@ -67,3 +67,8 @@ export const ShowNavigatorDeviceModal = async () => {
     alert("Unable to access microphone. Please check your browser settings.");
   }
 };
+
+export const fileToUrl = (file: File) => {
+  const blob = new Blob([file], { type: file.type });
+  return URL.createObjectURL(blob);
+};

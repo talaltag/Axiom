@@ -1,4 +1,3 @@
-
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { withAuth } from "../../../../middleware/withAuth";
@@ -11,7 +10,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, message: "Method not allowed" });
   }
 
   try {
@@ -21,14 +22,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     await dbConnect();
     const userId = req.user.id;
-    console.log("Processing Stripe Connect for user:", userId);
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '');
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, "");
     const refreshUrl = `${baseUrl}/user/wallet?refresh=true`;
     const returnUrl = `${baseUrl}/user/wallet?success=true`;
 
@@ -39,53 +41,53 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         account: user.stripeConnectId,
         refresh_url: refreshUrl,
         return_url: returnUrl,
-        type: 'account_onboarding',
-        collect: 'eventually_due'
+        type: "account_onboarding",
+        collect: "eventually_due",
       });
       return res.status(200).json({ success: true, url: accountLink.url });
     }
 
-    console.log("Creating new Connect account for user:", user.email);
     const account = await stripe.accounts.create({
-      type: 'express',
-      country: 'US',
+      type: "express",
+      country: "US",
       email: user.email,
       capabilities: {
         card_payments: { requested: true },
-        transfers: { requested: true }
+        transfers: { requested: true },
       },
-      business_type: 'individual',
+      business_type: "individual",
       settings: {
         payouts: {
           schedule: {
-            interval: 'manual'
-          }
-        }
-      }
+            interval: "manual",
+          },
+        },
+      },
     });
 
     console.log("Connect account created:", account.id);
     await User.findByIdAndUpdate(userId, {
       stripeConnectId: account.id,
-      stripeAccountStatus: 'pending'
+      stripeAccountStatus: "pending",
     });
 
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
       refresh_url: refreshUrl,
       return_url: returnUrl,
-      type: 'account_onboarding',
-      collect: 'eventually_due'
+      type: "account_onboarding",
+      collect: "eventually_due",
     });
 
     console.log("Account link created:", accountLink.url);
     res.status(200).json({ success: true, url: accountLink.url });
   } catch (error: any) {
     console.error("Stripe Connect error:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to create Stripe Connect account. Please check your environment variables and Stripe configuration.",
-      error: error.message
+    res.status(500).json({
+      success: false,
+      message:
+        "Failed to create Stripe Connect account. Please check your environment variables and Stripe configuration.",
+      error: error.message,
     });
   }
 }

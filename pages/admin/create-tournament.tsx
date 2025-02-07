@@ -28,6 +28,7 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 import "react-quill/dist/quill.snow.css";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { fileToUrl } from "../../utils/helper";
 
 export default function CreateTournament() {
   const router = useRouter();
@@ -68,24 +69,7 @@ export default function CreateTournament() {
       )
       .slice(0, 5);
 
-    const newImages = await Promise.all(
-      validFiles.map(async (file) => {
-        const base64 = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = (error) => reject(error);
-        });
-        return {
-          url: base64,
-          file,
-        };
-      })
-    );
-
-    console.log(newImages);
-
-    setFormData({ ...formData, images: [...formData.images, ...newImages] });
+    setFormData({ ...formData, images: [...formData.images, ...validFiles] });
   };
 
   const handleRemoveImage = (index) => {
@@ -108,12 +92,20 @@ export default function CreateTournament() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formDataObj = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "images") {
+          value.forEach((file) => {
+            formDataObj.append("images", file);
+          });
+        } else {
+          formDataObj.append(key, value);
+        }
+      });
+
       const response = await fetch("/api/tournaments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
 
       const data = await response.json();
@@ -402,7 +394,7 @@ export default function CreateTournament() {
                   {formData.images.map((image, index) => (
                     <Card key={index} sx={{ position: "relative", width: 200 }}>
                       <img
-                        src={image.url}
+                        src={fileToUrl(image)}
                         alt=""
                         style={{ width: "100%", height: "auto" }}
                       />

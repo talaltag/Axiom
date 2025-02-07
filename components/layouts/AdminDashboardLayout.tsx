@@ -111,7 +111,7 @@ export default function AdminDashboardLayout({
           <NavItem key={item.text}>
             <Link
               href={item.path}
-              className={`d-flex align-items-center mb-2 px-3 py-2 ${
+              className={`d-flex align-items-center text-decoration-none mb-2 px-3 py-2 ${
                 router.pathname === item.path
                   ? "bg-warning text-dark"
                   : "text-muted"

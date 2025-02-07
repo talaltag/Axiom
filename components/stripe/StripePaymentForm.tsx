@@ -50,8 +50,8 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           return;
         }
 
-        if (paymentIntent.status !== 'succeeded') {
-          setErrorMessage('Payment was not successful');
+        if (paymentIntent.status !== "succeeded") {
+          setErrorMessage("Payment was not successful");
           setIsProcessing(false);
           return;
         }
@@ -75,7 +75,9 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
 
         const data = await response.json();
         if (!data.success) {
-          setErrorMessage(data.message || 'Failed to update registration status');
+          setErrorMessage(
+            data.message || "Failed to update registration status"
+          );
           setIsProcessing(false);
           return;
         }
@@ -97,15 +99,16 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
       <div className="mb-3 border p-2">
         <CardElement />
       </div>
-      <Button
-        type="submit"
-        className="float-end"
-        color="warning"
-        disabled={!stripe || isProcessing}
-      >
-        {isProcessing ? "Processing..." : "Pay Now"}
-      </Button>
       {errorMessage && <div className="text-danger mt-2">{errorMessage}</div>}
+      <div className="text-end">
+        <Button
+          type="submit"
+          color="warning"
+          disabled={!stripe || isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Pay Now"}
+        </Button>
+      </div>
     </form>
   );
 };

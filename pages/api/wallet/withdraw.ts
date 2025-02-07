@@ -13,7 +13,9 @@ export default withAuth(async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, message: "Method not allowed" });
   }
 
   try {
@@ -24,51 +26,53 @@ export default withAuth(async function handler(
     if (!amount || amount <= 0) {
       return res.status(400).json({
         success: false,
-        message: "Please provide a valid amount to withdraw"
+        message: "Please provide a valid amount to withdraw",
       });
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     if (!user.stripeConnectId) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Please connect your Stripe account first" 
+      return res.status(400).json({
+        success: false,
+        message: "Please connect your Stripe account first",
       });
     }
 
     if (user.walletBalance < amount) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Insufficient funds" 
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient funds",
       });
     }
 
     // Create transfer to connected account
     const transfer = await stripe.transfers.create({
       amount: Math.round(amount * 100), // Convert to cents
-      currency: 'usd',
+      currency: "usd",
       destination: user.stripeConnectId,
     });
 
     // Update wallet balance after successful transfer
     await User.findByIdAndUpdate(userId, {
-      $inc: { walletBalance: -amount }
+      $inc: { walletBalance: -amount },
     });
 
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       message: "Withdrawal successful",
-      transfer 
+      transfer,
     });
   } catch (error: any) {
     console.error("Withdrawal error:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: error.message || "Failed to process withdrawal" 
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to process withdrawal",
     });
   }
 });
