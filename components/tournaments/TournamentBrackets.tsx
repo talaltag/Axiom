@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Bracket } from 'brackets-viewer'; // This line is already correct
+import { Bracket } from 'brackets-viewer';
 import 'brackets-viewer/dist/index.css';
 import styles from '../../styles/Brackets.module.css';
 
