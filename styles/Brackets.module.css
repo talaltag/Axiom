@@ -1,94 +1,146 @@
 
-.brackets-container {
-  padding: 24px;
+.container {
   background: white;
   border-radius: 12px;
+  padding: 24px;
+}
+
+.nav {
   display: flex;
   gap: 32px;
-  overflow-x: auto;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 8px;
 }
 
-.round {
-  min-width: 320px;
-}
-
-.round-title {
-  font-size: 14px;
-  color: #667085;
-  margin-bottom: 16px;
+.navItem {
+  color: #6B7280;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
 }
 
-.match-container {
+.navItem:hover {
+  background-color: #F3F4F6;
+}
+
+.navItem.active {
+  background-color: #FFD600;
+  color: #000000;
+}
+
+.brackets {
+  display: flex;
+  gap: 64px;
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+.round {
+  min-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+  position: relative;
 }
 
-.bracket-match {
+.round:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -32px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #E5E7EB;
+}
+
+.roundTitle {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 16px;
+}
+
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.match {
   background: #F9FAFB;
   border-radius: 8px;
-  padding: 12px;
-  width: 100%;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.match-details {
-  border-bottom: 1px solid #EAECF0;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+.teams {
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .team {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 0;
+  padding: 8px 0;
 }
 
-.team.won .team-name {
-  color: #027A48;
-}
-
-.team.lost .team-name {
-  color: #B42318;
-}
-
-.team-name {
-  font-size: 14px;
+.teamName {
   font-weight: 500;
-}
-
-.result {
   font-size: 14px;
-  font-weight: 500;
 }
 
-.won .result {
-  color: #027A48;
+.status {
+  font-weight: 600;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
-.lost .result {
-  color: #B42318;
+.w .status {
+  background-color: #ECFDF5;
+  color: #059669;
 }
 
-.match-id {
+.l .status {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.w .teamName {
+  color: #059669;
+}
+
+.l .teamName {
+  color: #DC2626;
+}
+
+.matchFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #667085;
-  font-size: 12px;
 }
 
-.view-detail {
+.matchId {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.viewButton {
+  background: none;
+  border: none;
   color: #FFD600;
   font-size: 12px;
   font-weight: 500;
-  background: none;
-  border: none;
-  padding: 0;
   cursor: pointer;
+  padding: 0;
 }
 
-.view-detail:hover {
+.viewButton:hover {
   text-decoration: underline;
 }
