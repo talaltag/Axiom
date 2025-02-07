@@ -15,8 +15,8 @@ const UserSchema = new mongoose.Schema({
   },
   stripeAccountStatus: {
     type: String,
-    enum: ['pending', 'active', 'rejected', 'restricted'],
-    default: 'pending'
+    enum: ["pending", "active", "rejected", "restricted"],
+    default: "pending",
   },
   email: {
     type: String,
@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["Admin", "User", "Agent"],
+    enum: ["Admin", "User", "Agent", "Super"],
     default: "User",
   },
   cName: String,

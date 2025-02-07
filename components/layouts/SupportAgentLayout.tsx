@@ -35,8 +35,7 @@ export default function SupportAgentLayout({ children }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    signOut({ redirect: false });
-    router.push("/auth/login");
+    signOut({ redirect: false }).then(() => router.push("/auth/login"));
   };
 
   return (

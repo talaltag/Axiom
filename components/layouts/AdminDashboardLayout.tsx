@@ -32,7 +32,7 @@ import {
   ChevronDown,
   ChevronsLeft,
 } from "react-feather";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function AdminDashboardLayout({
@@ -42,6 +42,7 @@ export default function AdminDashboardLayout({
 }) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
@@ -190,7 +191,7 @@ export default function AdminDashboardLayout({
                     height={40}
                     className="me-2"
                   />
-                  Shan Hacks <ChevronDown size={16} />
+                  {session.data?.user?.name} <ChevronDown size={16} />
                 </DropdownToggle>
                 <DropdownMenu className="position-absolute" right>
                   <DropdownItem>Profile</DropdownItem>
@@ -199,8 +200,9 @@ export default function AdminDashboardLayout({
                   <DropdownItem
                     onClick={() => {
                       dispatch(logout());
-                      signOut({ redirect: false });
-                      router.push("/auth/login");
+                      signOut({ redirect: false }).then(() =>
+                        router.push("/auth/login")
+                      );
                     }}
                   >
                     Logout

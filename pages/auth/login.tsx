@@ -18,9 +18,11 @@ export default function Login() {
   const session = useSession();
 
   useEffect(() => {
-    if (session?.data?.user) {
+    if (session?.data?.user?.role) {
       const route =
-        session.data.user.role === "Admin" || session.data.user.role === "admin"
+        session.data.user.role === "Admin" ||
+        session.data.user.role === "admin" ||
+        session.data.user.role === "Super"
           ? "/admin/dashboard"
           : "/user/dashboard";
       router.push(route);
@@ -41,7 +43,9 @@ export default function Login() {
     if (result.ok) {
       const data = await fetch("/api/auth/session").then((res) => res.json());
       const route =
-        data.user.role === "Admin" || data.user.role === "admin"
+        data.user.role === "Admin" ||
+        data.user.role === "admin" ||
+        data.user.role === "Super"
           ? "/admin/dashboard"
           : data.user.role === "Agent"
           ? "/support-agent"
