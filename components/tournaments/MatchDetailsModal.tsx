@@ -19,23 +19,44 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       contentClassName={styles.matchDetailsContent}
     >
       <div className={styles.modalContent}>
-        <div className={styles.modalHeader}>
-          <h5>Match Details</h5>
-          <div className={styles.matchInfo}>
-            <div className={styles.teamStatus}>
-              <span className={`${styles.statusBadge} ${styles.winBadge}`}>W</span>
-              <span className={styles.teamName}>{match?.participants?.[0]?.name}</span>
+        <div className={styles.matchHeader} style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ 
+                width: '32px', 
+                height: '32px', 
+                borderRadius: '50%', 
+                background: '#ECFDF3',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#039855',
+                fontWeight: 500
+              }}>
+                W
+              </div>
+              <div>{match?.participants?.[0]?.name}</div>
             </div>
-            <span className={styles.matchId}>M-{match?.id}</span>
-            <div className={styles.teamStatus}>
-              <span className={`${styles.statusBadge} ${styles.loseBadge}`}>L</span>
-              <span className={styles.teamName}>{match?.participants?.[1]?.name}</span>
+            <div style={{ color: '#667085' }}>M-{match?.id}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div>{match?.participants?.[1]?.name}</div>
+              <div style={{ 
+                width: '32px', 
+                height: '32px', 
+                borderRadius: '50%', 
+                background: '#FEF3F2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#D92D20',
+                fontWeight: 500
+              }}>
+                L
+              </div>
             </div>
           </div>
-          <button onClick={toggle} className={styles.closeButton}>×</button>
+          <div style={{ color: '#039855', fontSize: '14px' }}>Match Completed</div>
         </div>
-
-        <div className={styles.matchStatus}>Match Completed</div>
 
         <div className={styles.tabContainer}>
           <button className={`${styles.tab} ${styles.active}`}>Results</button>
