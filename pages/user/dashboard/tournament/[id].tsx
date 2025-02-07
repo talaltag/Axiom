@@ -213,7 +213,7 @@ export default function TournamentDetails() {
             )}
 
             {activeTab === "info" && (
-              <div className="bg-white p-4 rounded">
+              <div className="bg-white p-4 rounded" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
                 <h4 className="mb-3" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
                 <p className="text-muted mb-4" style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                   If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
