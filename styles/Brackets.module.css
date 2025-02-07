@@ -1,38 +1,12 @@
-
 .container {
-  background: white;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
 }
 
-.nav {
-  display: flex;
-  gap: 32px;
-  margin-bottom: 32px;
-  border-bottom: 1px solid #E5E7EB;
-  padding-bottom: 8px;
-}
-
-.navItem {
-  color: #6B7280;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-.navItem:hover {
-  background-color: #F3F4F6;
-}
-
-.navItem.active {
-  background-color: #FFD600;
-  color: #000000;
-}
-
 .brackets {
   display: flex;
-  gap: 64px;
+  gap: 40px;
   overflow-x: auto;
   padding: 20px 0;
 }
@@ -45,49 +19,42 @@
   position: relative;
 }
 
-.round:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: -32px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #E5E7EB;
-}
-
 .roundTitle {
   font-size: 14px;
-  color: #6B7280;
-  font-weight: 600;
-  text-transform: uppercase;
+  color: #666666;
+  font-weight: 500;
+  padding: 8px 12px;
+  background: #E5E5E5;
+  border-radius: 4px;
   margin: 0;
-  padding: 0 16px;
+  display: inline-block;
+  width: fit-content;
 }
 
 .matches {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .match {
-  background: #F9FAFB;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #F8F8F8;
+  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #E5E5E5;
 }
 
 .teams {
-  border-bottom: 1px solid #E5E7EB;
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  border-bottom: 1px solid #E5E5E5;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .team {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .teamName {
@@ -96,28 +63,28 @@
 }
 
 .status {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .w .status {
-  background-color: #ECFDF5;
-  color: #059669;
+  background-color: #E6FAE6;
+  color: #00B300;
 }
 
 .l .status {
-  background-color: #FEF2F2;
-  color: #DC2626;
+  background-color: #FFE6E6;
+  color: #FF0000;
 }
 
 .w .teamName {
-  color: #059669;
+  color: #00B300;
 }
 
 .l .teamName {
-  color: #DC2626;
+  color: #FF0000;
 }
 
 .matchFooter {
@@ -128,13 +95,13 @@
 
 .matchId {
   font-size: 12px;
-  color: #6B7280;
+  color: #666666;
 }
 
 .viewButton {
   background: none;
   border: none;
-  color: #FFD600;
+  color: #FFB800;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;

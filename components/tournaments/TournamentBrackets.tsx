@@ -63,6 +63,13 @@ const TournamentBrackets: React.FC = () => {
               team2Status="W"
               matchId="2.2"
             />
+            <Match 
+              team1="Scorpio"
+              team2="BeeHives"
+              team1Status="L"
+              team2Status="W"
+              matchId="2.2"
+            />
           </div>
         </div>
 
