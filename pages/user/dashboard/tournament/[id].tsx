@@ -472,12 +472,12 @@ export default function TournamentDetails() {
               </div>
             </div>
 
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h6 style={{ fontSize: '14px', fontWeight: 600, color: '#101828', margin: 0 }}>Latest Result</h6>
                 <small style={{ fontSize: '12px', color: '#667085' }}>Total Played Hour: 1hr 2m</small>
               </div>
-              <div className="d-flex align-items-center justify-content-between mb-4 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
+              <div className="d-flex align-items-center justify-content-between p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
                 <div className="d-flex align-items-center">
                   <Image src="/user1.png" alt="Team 1" width={32} height={32} className="rounded me-2" style={{ objectFit: 'cover' }} />
                   <div>
@@ -494,7 +494,9 @@ export default function TournamentDetails() {
                   <Image src="/user1.png" alt="Team 2" width={32} height={32} className="rounded" style={{ objectFit: 'cover' }} />
                 </div>
               </div>
+            </div>
 
+            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Ongoing Matches</h6>
               {ongoingMatches.map((match, index) => (
                 <div key={index} className="d-flex align-items-center justify-content-between mb-2 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
