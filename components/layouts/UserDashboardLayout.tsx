@@ -45,6 +45,7 @@ export default function UserDashboardLayout({ children }) {
       icon: <Award size={18} />,
     },
     { text: "Friends", path: "/user/friends", icon: <Users size={18} /> },
+    { text: "Statistics", path: "/user/statistics", icon: <BarChart2 size={18} /> },
     { text: "Wallet", path: "/user/wallet", icon: <DollarSign size={18} /> },
     { text: "Chat", path: "/chat", icon: <MessageSquare size={18} /> },
     { text: "Settings", path: "/user/settings", icon: <Settings size={18} /> },
