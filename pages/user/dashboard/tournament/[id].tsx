@@ -213,7 +213,7 @@ export default function TournamentDetails() {
             )}
 
             {activeTab === "info" && (
-              <div className="p-4 rounded" style={{ boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)', backgroundColor: 'rgba(250, 251, 252, 1)' }}>
+              <div className="p-4 rounded" style={{ backgroundColor: 'rgba(250, 251, 252, 1)' }}>
                 <h4 className="mb-3" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Support</h4>
                 <p className="text-muted mb-4" style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                   If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
@@ -397,7 +397,7 @@ export default function TournamentDetails() {
           </Col>
 
           <Col md={4}>
-            <div className="p-4 rounded mb-4" style={{ background: '#FFFFFF', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="p-4 rounded mb-4" style={{ background: '#FFFFFF' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div>
                   <div style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>$500</div>
@@ -453,7 +453,7 @@ export default function TournamentDetails() {
               </div>
             </div>
 
-            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)' }}>
               <div style={{ color: "#344054", fontSize: "14px", marginBottom: "16px", fontWeight: 500 }}>My Team</div>
               <div className="d-flex flex-column">
                 <div className="d-flex align-items-center" style={{ marginBottom: "20px", paddingLeft: "4px" }}>
@@ -472,7 +472,7 @@ export default function TournamentDetails() {
               </div>
             </div>
 
-            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h6 style={{ fontSize: '14px', fontWeight: 600, color: '#101828', margin: 0 }}>Latest Result</h6>
                 <small style={{ fontSize: '12px', color: '#667085' }}>Total Played Hour: 1hr 2m</small>
@@ -496,7 +496,7 @@ export default function TournamentDetails() {
               </div>
             </div>
 
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
               <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Ongoing Matches</h6>
               {ongoingMatches.map((match, index) => (
                 <div key={index} className="d-flex align-items-center justify-content-between mb-2 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
