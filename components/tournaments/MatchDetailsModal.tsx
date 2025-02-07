@@ -24,6 +24,25 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       contentClassName={styles.matchDetailsContent}
     >
       <div className={styles.modalContent}>
+        <div style={{ padding: '24px', textAlign: 'center', position: 'relative', borderBottom: '1px solid #EAECF0' }}>
+          <h5 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#101828' }}>Match Details</h5>
+          <button 
+            onClick={toggle}
+            style={{ 
+              position: 'absolute',
+              right: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              color: '#667085'
+            }}
+          >
+            ✕
+          </button>
+        </div>
         <div className={styles.matchHeader} style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
