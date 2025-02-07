@@ -45,14 +45,14 @@ export default function Statistics() {
             shade: 'light',
             type: 'vertical',
             shadeIntensity: 0.8,
-            gradientToColors: ['rgba(248, 202, 21, 0)'],
+            gradientToColors: ['#F8CA15'],
             inverseColors: false,
-            opacityFrom: 0.8,
-            opacityTo: 0,
-            stops: [48.49, 282.14]
+            opacityFrom: 1,
+            opacityTo: 0.2,
+            stops: [0, 100]
           }
         },
-        colors: ['#FFD600'],
+        colors: ['#A48610'],
         xaxis: {
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         },
