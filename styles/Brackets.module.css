@@ -440,19 +440,19 @@
   padding: 0;
 }
 
-.winButton:hover {
+.resultButton.winButton {
   background: #ECFDF3;
   border-color: #027A48;
   color: #027A48;
 }
 
-.drawButton:hover {
+.resultButton.drawButton {
   background: #FFF9E7;
   border-color: #B54708;
   color: #B54708;
 }
 
-.loseButton:hover {
+.resultButton.loseButton {
   background: #FEF3F2;
   border-color: #B42318;
   color: #B42318;
