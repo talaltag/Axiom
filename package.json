@@ -29,6 +29,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
+    "brackets-viewer": "^1.6.2",
     "chart.js": "^4.4.7",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
