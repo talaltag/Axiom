@@ -280,33 +280,21 @@ export default function TournamentDetails() {
                 <div className="mb-4">
                   <h5 className="mb-3" style={{ color: '#101828' }}>Criteria For Placement Points</h5>
                   <div style={{ background: '#F9FAFB', padding: '24px', borderRadius: '8px' }}>
-                    <div className="table-responsive">
-                      <table className="table mb-0">
-                        <thead>
-                          <tr>
-                            <th>Match Ranking</th>
-                            <th>Placement Points</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1 (Win)</td>
-                            <td>50 Points</td>
-                          </tr>
-                          <tr>
-                            <td>2-3</td>
-                            <td>40 Points</td>
-                          </tr>
-                          <tr>
-                            <td>4-6</td>
-                            <td>35 Points</td>
-                          </tr>
-                          <tr>
-                            <td>7-2</td>
-                            <td>50 Points</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Match Ranking</div>
+                      <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Placement Points</div>
+                      
+                      <div style={{ color: '#101828', fontSize: '14px' }}>1 (Win)</div>
+                      <div style={{ color: '#101828', fontSize: '14px' }}>50 Points</div>
+                      
+                      <div style={{ color: '#101828', fontSize: '14px' }}>2-3</div>
+                      <div style={{ color: '#101828', fontSize: '14px' }}>40 Points</div>
+                      
+                      <div style={{ color: '#101828', fontSize: '14px' }}>4-6</div>
+                      <div style={{ color: '#101828', fontSize: '14px' }}>35 Points</div>
+                      
+                      <div style={{ color: '#101828', fontSize: '14px' }}>7-2</div>
+                      <div style={{ color: '#101828', fontSize: '14px' }}>50 Points</div>
                     </div>
                   </div>
                 </div>
