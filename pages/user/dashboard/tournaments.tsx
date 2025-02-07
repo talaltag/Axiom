@@ -256,6 +256,24 @@ export default function Tournaments() {
       </table>
     </div>
 
+    <div className="d-flex justify-content-between align-items-center p-4 border-top">
+      <div className="d-flex align-items-center gap-2">
+        <Button color="light" disabled style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", minWidth: "40px" }}>«</Button>
+        <Button color="warning" style={{ backgroundColor: "#FFD600", padding: "8px 14px", border: "none", borderRadius: "8px", minWidth: "40px", fontWeight: 500 }}>1</Button>
+        <Button color="light">2</Button>
+        <Button color="light">3</Button>
+        <Button color="light">4</Button>
+        <Button color="light">5</Button>
+        <Button color="light">6</Button>
+        <Button color="light">»</Button>
+        <select className="form-select ms-2" style={{ width: "70px" }}>
+          <option>12</option>
+          <option>Items per page</option>
+        </select>
+      </div>
+      <div style={{ color: "#667085", fontSize: "14px" }}>
+        1 - 3 of 10 items
+      </div>
     </div>
   </div>
 )}
@@ -577,58 +595,159 @@ export default function Tournaments() {
                 </Row>
 
                 {/* Pagination Controls */}
-                <div className="d-flex justify-content-between align-items-center mt-4 p-4 border-top">
-                  <div className="d-flex align-items-center gap-2">
+                <div className="d-flex justify-content-between align-items-center mt-4">
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ gap: "4px" }}
+                  >
                     <Button
-                      color="light"
                       onClick={() => setCurrentPage(1)}
                       disabled={currentPage === 1}
-                      style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", minWidth: "40px" }}
+                      style={{
+                        padding: "0",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "#667085",
+                        minWidth: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        opacity: currentPage === 1 ? 0.5 : 1,
+                      }}
                     >
-                      «
+                      ≪
                     </Button>
+                    <Button
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      style={{
+                        padding: "0",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "#667085",
+                        minWidth: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        opacity: currentPage === 1 ? 0.5 : 1,
+                      }}
+                    >
+                      ‹
+                    </Button>
+
                     {[...Array(6)].map((_, idx) => {
                       const pageNum = idx + 1;
                       if (pageNum > totalPages) return null;
+
                       return (
                         <Button
                           key={pageNum}
-                          color={pageNum === currentPage ? "warning" : "light"}
                           onClick={() => setCurrentPage(pageNum)}
                           style={{
-                            backgroundColor: pageNum === currentPage ? "#FFD600" : undefined,
-                            padding: "8px 14px",
-                            border: "1px solid #D0D5DD",
-                            borderRadius: "8px",
-                            minWidth: "40px",
-                            fontWeight: pageNum === currentPage ? 500 : undefined
+                            backgroundColor:
+                              pageNum === currentPage
+                                ? "#FFD700"
+                                : "transparent",
+                            border: "none",
+                            color: pageNum === currentPage ? "#000" : "#667085",
+                            minWidth: "24px",
+                            height: "24px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            padding: "0",
+                            margin: "0",
                           }}
                         >
                           {pageNum}
                         </Button>
                       );
                     })}
+
                     <Button
-                      color="light"
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      disabled={currentPage === totalPages}
+                      style={{
+                        padding: "0",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "#667085",
+                        minWidth: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "14px",
+                      }}
+                    >
+                      ›
+                    </Button>
+                    <Button
                       onClick={() => setCurrentPage(totalPages)}
                       disabled={currentPage === totalPages}
-                      style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", minWidth: "40px" }}
+                      style={{
+                        padding: "0",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "#667085",
+                        minWidth: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "14px",
+                      }}
                     >
-                      »
+                      ≫
                     </Button>
-                    <select
-                      className="form-select ms-2"
-                      value={itemsPerPage}
-                      onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                      style={{ width: "70px" }}
+
+                    <div
+                      style={{
+                        marginLeft: "16px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
-                      <option value={12}>12</option>
-                      <option value={24}>24</option>
-                      <option value={36}>36</option>
-                    </select>
+                      <select
+                        value={itemsPerPage}
+                        onChange={(e) =>
+                          setItemsPerPage(Number(e.target.value))
+                        }
+                        style={{
+                          padding: "2px 8px",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "4px",
+                          color: "#667085",
+                          fontSize: "14px",
+                          backgroundColor: "white",
+                          cursor: "pointer",
+                          minWidth: "50px",
+                          height: "24px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        <option value={12}>12</option>
+                        <option value={24}>24</option>
+                        <option value={36}>36</option>
+                      </select>
+                      <span style={{ color: "#667085", fontSize: "14px" }}>
+                        Items per page
+                      </span>
+                    </div>
                   </div>
+
                   <div style={{ color: "#667085", fontSize: "14px" }}>
-                    {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, tournaments.length)} of {tournaments.length} items
+                    1 - 3 of {totalPages} items
                   </div>
                 </div>
               </CardBody>
