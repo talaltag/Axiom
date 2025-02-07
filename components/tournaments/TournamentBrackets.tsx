@@ -94,28 +94,6 @@ const TournamentBrackets: React.FC = () => {
       ]
     },
     {
-      id: 2,
-      name: 'Round 1',
-      nextMatchId: 3,
-      tournamentRoundText: '1',
-      startTime: 'M-2.2',
-      state: 'DONE',
-      participants: [
-        {
-          id: 'scorpio-2',
-          resultText: 'L',
-          isWinner: false,
-          name: 'Scorpio'
-        },
-        {
-          id: 'beehives-2',
-          resultText: 'W',
-          isWinner: true,
-          name: 'BeeHives'
-        }
-      ]
-    },
-    {
       id: 3,
       name: 'Round 2',
       nextMatchId: 5,
