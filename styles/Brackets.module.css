@@ -1,10 +1,99 @@
-
 .container {
   background: #FFFFFF;
-  border-radius: 12px;
   padding: 24px;
+  border-radius: 8px;
 }
 
+.bracketWrapper {
+  width: 100%;
+  min-height: 600px;
+  overflow: auto;
+}
+
+.matchCard {
+  background: #F8F9FA;
+  border-radius: 8px;
+  width: 240px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.matchHeader {
+  background: #E9ECEF;
+  color: #495057;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.participant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.winner {
+  background: #E7F5FF;
+}
+
+.loser {
+  background: #FFF9DB;
+}
+
+.participantName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+}
+
+.result {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.winBadge {
+  background: #D3F9D8;
+  color: #2B8A3E;
+}
+
+.loseBadge {
+  background: #FFE3E3;
+  color: #C92A2A;
+}
+
+.matchFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #DEE2E6;
+}
+
+.matchId {
+  font-size: 12px;
+  color: #868E96;
+}
+
+.viewDetail {
+  background: none;
+  border: none;
+  color: #339AF0;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.viewDetail:hover {
+  text-decoration: underline;
+}
 .roundTabs {
   display: flex;
   gap: 8px;

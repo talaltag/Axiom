@@ -9,21 +9,21 @@ const TournamentBrackets: React.FC = () => {
       id: 1,
       name: 'Round 1',
       nextMatchId: 3,
-      tournamentRoundText: 'Round 1',
-      startTime: new Date().toDateString(),
-      state: 'SCHEDULED',
+      tournamentRoundText: '1',
+      startTime: 'M-2.2',
+      state: 'DONE',
       participants: [
         {
-          id: 'team-1',
-          resultText: null,
+          id: 'scorpio-1',
+          resultText: 'L',
           isWinner: false,
-          name: 'Team A'
+          name: 'Scorpio'
         },
         {
-          id: 'team-2',
-          resultText: null,
-          isWinner: false,
-          name: 'Team B'
+          id: 'beehives-1',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
         }
       ]
     },
@@ -31,43 +31,87 @@ const TournamentBrackets: React.FC = () => {
       id: 2,
       name: 'Round 1',
       nextMatchId: 3,
-      tournamentRoundText: 'Round 1',
-      startTime: new Date().toDateString(),
-      state: 'SCHEDULED',
+      tournamentRoundText: '1',
+      startTime: 'M-2.2',
+      state: 'DONE',
       participants: [
         {
-          id: 'team-3',
-          resultText: null,
+          id: 'scorpio-2',
+          resultText: 'L',
           isWinner: false,
-          name: 'Team C'
+          name: 'Scorpio'
         },
         {
-          id: 'team-4',
-          resultText: null,
-          isWinner: false,
-          name: 'Team D'
+          id: 'beehives-2',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
         }
       ]
     },
     {
       id: 3,
-      name: 'Final',
-      nextMatchId: null,
-      tournamentRoundText: 'Final',
-      startTime: new Date().toDateString(),
-      state: 'SCHEDULED',
+      name: 'Round 2',
+      nextMatchId: 5,
+      tournamentRoundText: '2',
+      startTime: 'M-2.2',
+      state: 'DONE',
       participants: [
         {
-          id: 'winner-1',
-          resultText: null,
+          id: 'scorpio-3',
+          resultText: 'L',
           isWinner: false,
-          name: 'TBD'
+          name: 'Scorpio'
         },
         {
-          id: 'winner-2',
-          resultText: null,
+          id: 'beehives-3',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
+        }
+      ]
+    },
+    {
+      id: 4,
+      name: 'Round 2',
+      nextMatchId: 5,
+      tournamentRoundText: '2',
+      startTime: 'M-2.2',
+      state: 'DONE',
+      participants: [
+        {
+          id: 'scorpio-4',
+          resultText: 'L',
           isWinner: false,
-          name: 'TBD'
+          name: 'Scorpio'
+        },
+        {
+          id: 'beehives-4',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: 'Round 3',
+      nextMatchId: null,
+      tournamentRoundText: '3',
+      startTime: 'M-2.2',
+      state: 'DONE',
+      participants: [
+        {
+          id: 'scorpio-5',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Scorpio'
+        },
+        {
+          id: 'beehives-5',
+          resultText: 'W',
+          isWinner: true,
+          name: 'BeeHives'
         }
       ]
     }
@@ -75,7 +119,7 @@ const TournamentBrackets: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div style={{ width: '100%', height: '500px' }}>
+      <div className={styles.bracketWrapper}>
         <SingleEliminationBracket
           matches={matches}
           matchComponent={({
@@ -86,45 +130,32 @@ const TournamentBrackets: React.FC = () => {
             onMouseLeave,
             ...props
           }) => (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '300px',
-                backgroundColor: '#2D2D2D',
-                borderRadius: '8px',
-                padding: '12px',
-              }}
-            >
-              <div style={{ fontSize: '14px', color: '#FFD600', marginBottom: '8px' }}>
+            <div className={styles.matchCard}>
+              <div className={styles.matchHeader}>
                 {match.name}
               </div>
               {match.participants.map((participant, index) => (
                 <div
                   key={index}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '8px',
-                    backgroundColor: index === 0 ? '#3D3D3D' : '#333333',
-                    borderRadius: '4px',
-                    marginBottom: '4px',
-                  }}
+                  className={`${styles.participant} ${participant.isWinner ? styles.winner : styles.loser}`}
                 >
-                  <span style={{ color: '#FFFFFF' }}>{participant.name}</span>
-                  {participant.resultText && (
-                    <span style={{ marginLeft: 'auto', color: '#FFD600' }}>
-                      {participant.resultText}
-                    </span>
-                  )}
+                  <span className={styles.participantName}>{participant.name}</span>
+                  <span className={`${styles.result} ${participant.isWinner ? styles.winBadge : styles.loseBadge}`}>
+                    {participant.resultText}
+                  </span>
                 </div>
               ))}
+              <div className={styles.matchFooter}>
+                <span className={styles.matchId}>{match.startTime}</span>
+                <button className={styles.viewDetail}>View Detail</button>
+              </div>
             </div>
           )}
           svgWrapper={({ children, ...props }) => (
             <SVGViewer
-              width={window ? Math.max(window.innerWidth - 50, 500) : 500}
-              height={500}
+              width={800}
+              height={600}
+              background="#FFFFFF"
               {...props}
             >
               {children}
