@@ -397,43 +397,60 @@ export default function TournamentDetails() {
           </Col>
 
           <Col md={4}>
-            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
-              <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Tournament Details</h6>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Prize</span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>$500</span>
+            <div className="p-4 rounded mb-4" style={{ background: '#FFFFFF', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <div style={{ fontSize: '12px', color: '#667085' }}>Prize</div>
+                  <div style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>$500</div>
+                </div>
+                <span style={{ 
+                  backgroundColor: '#ECFDF3', 
+                  color: '#027A48', 
+                  padding: '2px 8px', 
+                  borderRadius: '16px',
+                  fontSize: '12px',
+                  fontWeight: 500 
+                }}>
+                  Completed
+                </span>
               </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Entry Fee</span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>$25</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Platform</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>XBOX</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Type</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>KILL RACE</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Size</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>0 of 64 teams</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Team Size</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>Quad</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Country</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>USA</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Game</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>Call of Duty</span>
-              </div>
-              <div className="d-flex justify-content-between mb-2">
-                <span style={{ fontSize: '14px', color: '#667085' }}>Game Mode</span>
-                <span style={{ fontSize: '14px', color: '#101828' }}>Battle Royale</span>
+              <div style={{ 
+                borderBottom: '1px solid #EAECF0', 
+                marginBottom: '12px',
+                paddingBottom: '12px' 
+              }}>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Entry Fee</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>$25</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Platform</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>XBOX</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Type</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>KILL RACE</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Size</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>0 of 64 teams</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Team Size</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Quad</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Country</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>USA</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Game</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Call of Duty</span>
+                </div>
+                <div className="d-flex justify-content-between">
+                  <span style={{ fontSize: '14px', color: '#667085' }}>Game Mode</span>
+                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Battle Royale</span>
+                </div>
               </div>
             </div>
 
