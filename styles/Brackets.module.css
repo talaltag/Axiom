@@ -1,26 +1,27 @@
-
 .brackets-container {
   padding: 24px;
   background: white;
   border-radius: 12px;
+  position: relative;
 }
 
 .round {
+  display: flex;
   margin-bottom: 32px;
+  gap: 24px;
 }
 
-.round-title {
-  font-size: 14px;
-  color: #667085;
-  margin-bottom: 16px;
-  font-weight: 500;
+.bracket-matches {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .bracket-match {
   background: #F9FAFB;
   border-radius: 8px;
   padding: 12px;
-  max-width: 320px;
+  width: 320px;
 }
 
 .match-details {
@@ -36,14 +37,6 @@
   padding: 4px 0;
 }
 
-.team.won .team-name {
-  color: #027A48;
-}
-
-.team.lost .team-name {
-  color: #B42318;
-}
-
 .team-name {
   font-size: 14px;
   font-weight: 500;
@@ -54,12 +47,14 @@
   font-weight: 500;
 }
 
-.won .result {
-  color: #027A48;
+.team.won .team-name,
+.team.won .result {
+  color: #B42318;
 }
 
-.lost .result {
-  color: #B42318;
+.team.lost .team-name,
+.team.lost .result {
+  color: #027A48;
 }
 
 .match-id {
@@ -71,10 +66,20 @@
 }
 
 .view-detail {
-  color: #FFD600 !important;
+  color: #FFD600;
   font-size: 12px;
   font-weight: 500;
+  background: none;
+  border: none;
   padding: 0;
+  cursor: pointer;
+}
+
+.round-title {
+  font-size: 14px;
+  color: #667085;
+  margin-bottom: 16px;
+  font-weight: 500;
 }
 
 .ongoing-matches {
