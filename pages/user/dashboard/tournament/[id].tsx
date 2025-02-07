@@ -13,6 +13,7 @@ import {
   Button
 } from "reactstrap";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
+import TournamentBrackets from "../../../../components/tournaments/TournamentBrackets";
 
 export default function TournamentDetails() {
   const { data: session } = useSession();
@@ -370,6 +371,12 @@ export default function TournamentDetails() {
                 </div>
               </div>
             )}
+
+            {
+              activeTab ==='brackets' && (
+                <TournamentBrackets/>
+              )
+            }
           </Col>
 
           <Col md={4}>
