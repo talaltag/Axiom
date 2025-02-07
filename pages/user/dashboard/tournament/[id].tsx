@@ -155,37 +155,60 @@ export default function TournamentDetails() {
             </Nav>
 
             {activeTab === "leaderboard" && (
-              <div className="bg-dark text-white p-4 rounded">
-                <Table dark borderless className="mb-0">
-                  <thead>
-                    <tr>
-                      <th>Team Name</th>
-                      <th>Total Kills</th>
-                      <th>Total Deaths</th>
-                      <th>Total Placement</th>
-                      <th>Total Score</th>
-                      <th>Tournament Score</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leaderboardData.map((team, index) => (
-                      <tr key={index}>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <span className="me-3">{team.rank}</span>
-                            <Image src="/user1.png" alt={team.name} width={24} height={24} className="rounded-circle me-2" />
-                            {team.name}
-                          </div>
-                        </td>
-                        <td>{team.kills}</td>
-                        <td>{team.deaths}</td>
-                        <td>{team.placement}</td>
-                        <td>{team.score}</td>
-                        <td>{team.tournamentScore}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
+              <div style={{ 
+                background: '#2A2B31', 
+                borderRadius: '8px', 
+                padding: '24px',
+                maxHeight: '600px',
+                overflowY: 'auto'
+              }}>
+                <div style={{ minWidth: '800px' }}>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '80px 200px 120px 120px 120px 120px 120px',
+                    padding: '12px 16px',
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    color: '#FFD600',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                  }}>
+                    <div>Rank</div>
+                    <div>Team Name</div>
+                    <div style={{textAlign: 'center'}}>Total Kills</div>
+                    <div style={{textAlign: 'center'}}>Total Deaths</div>
+                    <div style={{textAlign: 'center'}}>Total Placement</div>
+                    <div style={{textAlign: 'center'}}>Total Score</div>
+                    <div style={{textAlign: 'center'}}>Tournament Score</div>
+                  </div>
+                  {Array(7).fill(null).map((_, index) => (
+                    <div key={index} style={{
+                      display: 'grid',
+                      gridTemplateColumns: '80px 200px 120px 120px 120px 120px 120px',
+                      padding: '12px 16px',
+                      borderBottom: '1px solid rgba(255,255,255,0.1)',
+                      color: 'white',
+                      fontSize: '14px',
+                      alignItems: 'center'
+                    }}>
+                      <div style={{ color: '#FFD600' }}>{String(index + 1).padStart(2, '0')}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Image 
+                          src="/user1.png" 
+                          alt="Team Avatar" 
+                          width={24} 
+                          height={24} 
+                          style={{ borderRadius: '4px' }} 
+                        />
+                        <span>Schumacher</span>
+                      </div>
+                      <div style={{textAlign: 'center'}}>145</div>
+                      <div style={{textAlign: 'center'}}>99</div>
+                      <div style={{textAlign: 'center'}}>800</div>
+                      <div style={{textAlign: 'center'}}>12</div>
+                      <div style={{textAlign: 'center'}}>678</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
