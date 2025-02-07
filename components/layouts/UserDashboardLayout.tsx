@@ -27,6 +27,7 @@ import {
   Settings,
   ChevronsLeft,
   LogOut,
+  BarChart2,
 } from "react-feather";
 import Link from "next/link";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
