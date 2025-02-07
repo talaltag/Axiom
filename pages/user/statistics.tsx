@@ -24,48 +24,30 @@ export default function Statistics() {
       chart: {
         type: 'bar',
         height: 350,
-        toolbar: { show: false },
-        background: 'transparent'
+        toolbar: {
+          show: false
+        }
       },
       plotOptions: {
         bar: {
-          columnWidth: '60%',
-          colors: {
-            ranges: [{
-              from: 0,
-              to: 100,
-              color: '#E4E7EC'
-            }]
-          }
+          columnWidth: '45%',
         }
       },
       colors: ['#FFD600'],
       xaxis: {
-        categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-        labels: {
-          style: { colors: '#667085', fontSize: '12px' }
-        }
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       },
       yaxis: {
         labels: {
-          formatter: function(value) {
-            return value + ' hr';
-          },
-          style: { colors: '#667085', fontSize: '12px' }
-        },
-        title: {
-          text: 'Gaming time',
-          style: { color: '#101828', fontSize: '14px' }
+          formatter: function (value) {
+            return "$" + value;
+          }
         }
-      },
-      grid: {
-        borderColor: '#F2F4F7',
-        strokeDashArray: 4
       }
     },
     series: [{
-      name: 'Gaming Hours',
-      data: [0.5, 0.8, 1.2, 1.5, 1.0, 1.3, 1.7, 2.0, 1.8, 2.1, 2.3, 2.5]
+      name: 'Revenue',
+      data: [2100, 2300, 2000, 2700, 2400, 2800, 3000, 2900, 3200, 3400, 3600, 3800]
     }]
   };
 
@@ -73,36 +55,24 @@ export default function Statistics() {
     options: {
       chart: {
         type: 'donut',
-        background: 'transparent'
       },
-      colors: ['#FFD600', '#EAECF0'],
-      labels: ['Wins', 'Losses'],
+      colors: ['#FFD600', '#E0E0E0'],
+      labels: ['Won', 'Lost'],
       plotOptions: {
         pie: {
           donut: {
-            size: '85%',
-            labels: {
-              show: true,
-              name: { show: true },
-              value: { show: true },
-              total: {
-                show: true,
-                label: 'Total',
-                formatter: () => '98%'
-              }
-            }
+            size: '75%'
           }
         }
       },
-      dataLabels: { enabled: false },
+      dataLabels: {
+        enabled: false
+      },
       legend: {
-        position: 'right',
-        fontSize: '14px',
-        markers: { width: 8, height: 8 },
-        labels: { colors: '#344054' }
+        show: false
       }
     },
-    series: [98, 2]
+    series: [75, 25]
   };
 
   const lineChartData = {
@@ -110,52 +80,34 @@ export default function Statistics() {
       chart: {
         type: 'line',
         height: 350,
-        toolbar: { show: false },
-        background: 'transparent'
+        toolbar: {
+          show: false
+        }
       },
       stroke: {
         curve: 'smooth',
-        width: 2
+        width: 2,
       },
-      colors: ['#FFD600', '#12B76A', '#F04438'],
+      colors: ['#FFD600', '#FFA500', '#FF6B00'],
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        labels: {
-          style: { colors: '#667085', fontSize: '12px' }
-        }
-      },
-      yaxis: {
-        labels: {
-          formatter: function(value) {
-            return value + '%';
-          },
-          style: { colors: '#667085', fontSize: '12px' }
-        }
-      },
-      grid: {
-        borderColor: '#F2F4F7',
-        strokeDashArray: 4
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
       },
       legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        fontSize: '14px',
-        markers: { width: 8, height: 8 },
-        labels: { colors: '#344054' }
+        show: false
       }
     },
     series: [
       {
-        name: 'Total Tournaments participated in',
-        data: [60, 62, 64, 65, 63, 66, 68, 70, 72, 74, 76, 78]
+        name: 'Team A',
+        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
       },
       {
-        name: 'Total Tournament Wins',
-        data: [40, 42, 44, 45, 43, 46, 48, 50, 52, 54, 56, 58]
+        name: 'Team B',
+        data: [20, 35, 40, 45, 50, 55, 65, 85, 100]
       },
       {
-        name: 'Total Tournament Losses',
-        data: [20, 22, 24, 25, 23, 26, 28, 30, 32, 34, 36, 38]
+        name: 'Team C',
+        data: [15, 25, 30, 35, 40, 45, 55, 75, 90]
       }
     ]
   };
