@@ -400,8 +400,8 @@ export default function TournamentDetails() {
             <div className="p-4 rounded mb-4" style={{ background: '#FFFFFF', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                  <div style={{ fontSize: '12px', color: '#667085' }}>Prize</div>
                   <div style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>$500</div>
+                  <div style={{ fontSize: '12px', color: '#667085' }}>Prize</div>
                 </div>
                 <span style={{ 
                   backgroundColor: '#ECFDF3', 
@@ -415,7 +415,6 @@ export default function TournamentDetails() {
                 </span>
               </div>
               <div style={{ 
-                borderBottom: '1px solid #EAECF0', 
                 marginBottom: '12px',
                 paddingBottom: '12px' 
               }}>
