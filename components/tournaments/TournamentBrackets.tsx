@@ -32,14 +32,6 @@ const Match: React.FC<MatchProps> = ({ team1, team2, team1Status, team2Status, m
 const TournamentBrackets: React.FC = () => {
   return (
     <div className={styles.container}>
-      <nav className={styles.nav}>
-        <a href="#" className={styles.navItem}>Leaderboard</a>
-        <a href="#" className={styles.navItem}>Info</a>
-        <a href="#" className={styles.navItem}>Rules</a>
-        <a href="#" className={styles.navItem}>Payout</a>
-        <a href="#" className={`${styles.navItem} ${styles.active}`}>Brackets</a>
-      </nav>
-      
       <div className={styles.brackets}>
         <div className={styles.round}>
           <h3 className={styles.roundTitle}>ROUND 1</h3>
