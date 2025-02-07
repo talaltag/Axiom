@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import { DollarSign, CreditCard, Award } from "react-feather";
@@ -20,31 +19,51 @@ const Chart = dynamic(() => import('react-apexcharts'), {
 
 export default function Statistics() {
   const barChartData = {
-    options: {
-      chart: {
-        type: 'bar',
-        height: 350,
-        toolbar: {
-          show: false
-        }
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: '45%',
-        }
-      },
-      colors: ['#FFD600'],
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      },
-      yaxis: {
-        labels: {
-          formatter: function (value) {
-            return "$" + value;
+      options: {
+        chart: {
+          type: 'bar',
+          height: 350,
+          toolbar: {
+            show: false
+          },
+          dropShadow: {
+            enabled: true,
+            top: 0,
+            left: 0,
+            blur: 10,
+            opacity: 0.1
+          }
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '45%',
+          }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            type: 'vertical',
+            shadeIntensity: 0.8,
+            gradientToColors: ['rgba(248, 202, 21, 0)'],
+            inverseColors: false,
+            opacityFrom: 0.8,
+            opacityTo: 0,
+            stops: [48.49, 282.14]
+          }
+        },
+        colors: ['#FFD600'],
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        },
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return "$" + value;
+            }
           }
         }
-      }
-    },
+      },
     series: [{
       name: 'Revenue',
       data: [2100, 2300, 2000, 2700, 2400, 2800, 3000, 2900, 3200, 3400, 3600, 3800]
@@ -76,26 +95,46 @@ export default function Statistics() {
   };
 
   const lineChartData = {
-    options: {
-      chart: {
-        type: 'line',
-        height: 350,
-        toolbar: {
+      options: {
+        chart: {
+          type: 'line',
+          height: 350,
+          toolbar: {
+            show: false
+          },
+          dropShadow: {
+            enabled: true,
+            top: 0,
+            left: 0,
+            blur: 10,
+            opacity: 0.1
+          }
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 2,
+        },
+        colors: ['#F8CA15', '#A48610', '#FFD600'],
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            type: 'vertical',
+            shadeIntensity: 0.8,
+            gradientToColors: ['rgba(248, 202, 21, 0)', 'rgba(164, 134, 16, 0)', 'rgba(255, 214, 0, 0)'],
+            inverseColors: false,
+            opacityFrom: 0.8,
+            opacityTo: 0,
+            stops: [48.49, 282.14]
+          }
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+        },
+        legend: {
           show: false
         }
       },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      colors: ['#FFD600', '#FFA500', '#FF6B00'],
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-      },
-      legend: {
-        show: false
-      }
-    },
     series: [
       {
         name: 'Team A',
