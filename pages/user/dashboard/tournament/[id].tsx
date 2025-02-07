@@ -454,18 +454,18 @@ export default function TournamentDetails() {
             </div>
 
             <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
-              <div style={{ color: "#667085", fontSize: "14px", marginBottom: "12px" }}>My Team</div>
+              <div style={{ color: "#344054", fontSize: "14px", marginBottom: "16px", fontWeight: 500 }}>My Team</div>
               <div className="d-flex flex-column">
-                <div className="d-flex align-items-center mb-4">
+                <div className="d-flex align-items-center" style={{ marginBottom: "20px", paddingLeft: "4px" }}>
                   <Image src="/user1.png" alt="Team Logo" width={32} height={32} className="rounded me-2" style={{ objectFit: 'cover' }} />
-                  <span style={{ fontSize: "16px", fontWeight: 500, color: "#101828" }}>Avengers Reborn</span>
+                  <span style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>Avengers Reborn</span>
                 </div>
                 {teamMembers.map((member, index) => (
-                  <div key={index} className="d-flex align-items-center mb-3">
+                  <div key={index} className="d-flex align-items-center" style={{ marginBottom: "16px", paddingLeft: "4px" }}>
                     <Image src={member.avatar} alt={member.name} width={24} height={24} className="rounded-circle me-2" style={{ objectFit: 'cover' }} />
                     <div>
-                      <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>{member.name}</div>
-                      <div style={{ fontSize: "12px", color: "#667085" }}>{member.role}</div>
+                      <div style={{ fontSize: "14px", fontWeight: 400, color: "#101828" }}>{member.name}</div>
+                      <div style={{ fontSize: "12px", color: "#667085", lineHeight: "18px" }}>{member.role}</div>
                     </div>
                   </div>
                 ))}
