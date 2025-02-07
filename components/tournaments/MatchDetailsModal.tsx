@@ -94,69 +94,49 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
         )}
 
         {activeTab === 'info' && (
-          <div className={styles.infoContent} style={{ padding: '20px' }}>
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <div>
-                  <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Date</label>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <input
-                      type="text"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      style={{
-                        padding: '8px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '6px',
-                        width: '120px'
-                      }}
-                    />
-                    <button className={styles.timeButton}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Time</label>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <input
-                      type="text"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      style={{
-                        padding: '8px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '6px',
-                        width: '120px'
-                      }}
-                    />
-                    <button className={styles.timeButton}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
-                  </div>
+          <div className={styles.infoContent}>
+            <div className={styles.timeInputs}>
+              <div className={styles.inputGroup}>
+                <label>Date</label>
+                <div className={styles.inputWithIcon}>
+                  <input
+                    type="text"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                  <button>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.66667 1.66666V4.16666M13.3333 1.66666V4.16666M2.91667 7.57499H17.0833M17.5 7.08332V14.1667C17.5 16.6667 16.25 18.3333 13.3333 18.3333H6.66667C3.75 18.3333 2.5 16.6667 2.5 14.1667V7.08332C2.5 4.58332 3.75 2.91666 6.66667 2.91666H13.3333C16.25 2.91666 17.5 4.58332 17.5 7.08332Z" stroke="#667085" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <div>
-                <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Notes</label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Note here..."
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: '1px solid #D0D5DD',
-                    borderRadius: '6px',
-                    minHeight: '100px',
-                    resize: 'vertical'
-                  }}
-                />
+              <div className={styles.inputGroup}>
+                <label>Time</label>
+                <div className={styles.inputWithIcon}>
+                  <input
+                    type="text"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                  <button>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M10 5.83334V10H14.1667" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
+            <div className={styles.notesSection}>
+              <label>Notes</label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Note here..."
+              />
+            </div>
+            <button className={styles.saveButton}>Save</button>
           </div>
         )}
 
