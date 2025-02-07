@@ -8,12 +8,9 @@
 
 .bracketWrapper {
   width: 100%;
-  min-height: 1200px;
+  min-height: 800px;
   overflow: auto;
   padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .matchCard {
