@@ -26,21 +26,21 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       <div className={styles.modalContent}>
         <div className={styles.matchHeader} style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className={styles.statusIndicator} style={{ background: '#ECFDF3', color: '#039855', width: '32px', height: '32px', fontSize: '14px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+              <div className={styles.statusIndicator} style={{ background: '#ECFDF3', color: '#039855', width: '40px', height: '40px', fontSize: '20px', fontWeight: 'bold' }}>
                 W
               </div>
-              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>Avengers Reborn</div>
+              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500, textAlign: 'center' }}>Avengers Reborn</div>
             </div>
             <div style={{ flex: 1, textAlign: 'center' }}>
               <div style={{ color: '#667085', fontSize: '14px' }}>M-1.1</div>
               <div style={{ color: '#12B76A', fontSize: '14px', marginTop: '4px' }}>Match Completed</div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500 }}>DC Champions</div>
-              <div className={styles.statusIndicator} style={{ background: '#FEF3F2', color: '#D92D20', width: '32px', height: '32px', fontSize: '14px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+              <div className={styles.statusIndicator} style={{ background: '#FEF3F2', color: '#D92D20', width: '40px', height: '40px', fontSize: '20px', fontWeight: 'bold' }}>
                 L
               </div>
+              <div style={{ color: '#344054', fontSize: '14px', fontWeight: 500, textAlign: 'center' }}>DC Champions</div>
             </div>
           </div>
         </div>
