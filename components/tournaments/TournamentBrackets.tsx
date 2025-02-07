@@ -1,164 +1,167 @@
-
-import React from 'react';
-import { SingleEliminationBracket, Match, SVGViewer } from '@g-loot/react-tournament-brackets';
-import styles from '../../styles/Brackets.module.css';
+import React from "react";
+import {
+  SingleEliminationBracket,
+  Match,
+  SVGViewer,
+} from "@g-loot/react-tournament-brackets";
+import styles from "../../styles/Brackets.module.css";
 
 const TournamentBrackets: React.FC = () => {
   const matches: Match[] = [
     {
       id: 1,
-      name: 'Round 1',
+      name: "Round 1",
       nextMatchId: 3,
-      tournamentRoundText: '1',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "1",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'dragons-1',
-          resultText: 'W',
+          id: "dragons-1",
+          resultText: "W",
           isWinner: true,
-          name: 'Dragons'
+          name: "Dragons",
         },
         {
-          id: 'phoenix-1',
-          resultText: 'L',
+          id: "phoenix-1",
+          resultText: "L",
           isWinner: false,
-          name: 'Phoenix'
-        }
-      ]
+          name: "Phoenix",
+        },
+      ],
     },
     {
       id: 2,
-      name: 'Round 1',
+      name: "Round 1",
       nextMatchId: 3,
-      tournamentRoundText: '1',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "1",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'tigers-1',
-          resultText: 'W',
+          id: "tigers-1",
+          resultText: "W",
           isWinner: true,
-          name: 'Tigers'
+          name: "Tigers",
         },
         {
-          id: 'eagles-1',
-          resultText: 'L',
+          id: "eagles-1",
+          resultText: "L",
           isWinner: false,
-          name: 'Eagles'
-        }
-      ]
+          name: "Eagles",
+        },
+      ],
     },
     {
       id: 6,
-      name: 'Round 1',
+      name: "Round 1",
       nextMatchId: 4,
-      tournamentRoundText: '1',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "1",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'wolves-1',
-          resultText: 'W',
+          id: "wolves-1",
+          resultText: "W",
           isWinner: true,
-          name: 'Wolves'
+          name: "Wolves",
         },
         {
-          id: 'hawks-1',
-          resultText: 'L',
+          id: "hawks-1",
+          resultText: "L",
           isWinner: false,
-          name: 'Hawks'
-        }
-      ]
+          name: "Hawks",
+        },
+      ],
     },
     {
       id: 7,
-      name: 'Round 1',
+      name: "Round 1",
       nextMatchId: 4,
-      tournamentRoundText: '1',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "1",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'lions-1',
-          resultText: 'W',
+          id: "lions-1",
+          resultText: "W",
           isWinner: true,
-          name: 'Lions'
+          name: "Lions",
         },
         {
-          id: 'bears-1',
-          resultText: 'L',
+          id: "bears-1",
+          resultText: "L",
           isWinner: false,
-          name: 'Bears'
-        }
-      ]
+          name: "Bears",
+        },
+      ],
     },
     {
       id: 3,
-      name: 'Round 2',
+      name: "Round 2",
       nextMatchId: 5,
-      tournamentRoundText: '2',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "2",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'beehives-1',
-          resultText: 'W',
+          id: "beehives-1",
+          resultText: "W",
           isWinner: true,
-          name: 'BeeHives'
+          name: "Ali",
         },
         {
-          id: 'beehives-2',
-          resultText: 'W',
-          isWinner: true,
-          name: 'BeeHives'
-        }
-      ]
+          id: "beehives-2",
+          resultText: "L",
+          isWinner: false,
+          name: "BeeHives",
+        },
+      ],
     },
     {
       id: 4,
-      name: 'Round 2',
+      name: "Round 2",
       nextMatchId: 5,
-      tournamentRoundText: '2',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "2",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'scorpio-1',
-          resultText: 'L',
+          id: "scorpio-1",
+          Hamza: "L",
           isWinner: false,
-          name: 'Scorpio'
+          name: "Scorpio",
         },
         {
-          id: 'scorpio-2',
-          resultText: 'L',
-          isWinner: false,
-          name: 'Scorpio'
-        }
-      ]
+          id: "scorpio-2",
+          resultText: "W",
+          isWinner: true,
+          name: "Scorpio",
+        },
+      ],
     },
     {
       id: 5,
-      name: 'Round 3',
+      name: "Round 3",
       nextMatchId: null,
-      tournamentRoundText: '3',
-      startTime: 'M-2.2',
-      state: 'DONE',
+      tournamentRoundText: "3",
+      startTime: "M-2.2",
+      state: "DONE",
       participants: [
         {
-          id: 'scorpio-5',
-          resultText: 'L',
+          id: "scorpio-5",
+          resultText: "L",
           isWinner: false,
-          name: 'Scorpio'
+          name: "Scorpio",
         },
         {
-          id: 'beehives-5',
-          resultText: 'W',
+          id: "beehives-5",
+          resultText: "W",
           isWinner: true,
-          name: 'BeeHives'
-        }
-      ]
-    }
+          name: "BeeHives",
+        },
+      ],
+    },
   ];
 
   return (
@@ -169,12 +172,12 @@ const TournamentBrackets: React.FC = () => {
           options={{
             style: {
               roundHeader: {
-                backgroundColor: '#F8F9FA',
-                fontSize: '16px',
-                padding: '8px 16px',
+                backgroundColor: "#F8F9FA",
+                fontSize: "16px",
+                padding: "8px 16px",
               },
-              connectorColor: '#DEE2E6',
-              connectorColorHighlight: '#FFD600',
+              connectorColor: "#DEE2E6",
+              connectorColorHighlight: "#FFD600",
             },
           }}
           matchComponent={({
@@ -186,30 +189,34 @@ const TournamentBrackets: React.FC = () => {
             ...props
           }) => (
             <div className={styles.matchCard}>
-              <div className={styles.matchHeader}>
+              {/* <div className={styles.matchHeader}>
                 {match.name}
-              </div>
+              </div> */}
               {match.participants.map((participant, index) => (
                 <div
                   key={index}
                   className={`${styles.participant} ${participant.isWinner ? styles.winner : styles.loser}`}
                 >
-                  <span className={styles.participantName}>{participant.name}</span>
-                  <span className={`${styles.result} ${participant.isWinner ? styles.winBadge : styles.loseBadge}`}>
+                  <span className={styles.participantName}>
+                    {participant.name}
+                  </span>
+                  <span
+                    className={`${styles.result} ${participant.isWinner ? styles.winBadge : styles.loseBadge}`}
+                  >
                     {participant.resultText}
+                  </span>
+                  <span>
+                    <button className={styles.viewDetail}>View Detail</button>
                   </span>
                 </div>
               ))}
-              <div className={styles.matchFooter}>
-                <span className={styles.matchId}>{match.startTime}</span>
-                <button className={styles.viewDetail}>View Detail</button>
-              </div>
+              <div className={styles.matchFooter}></div>
             </div>
           )}
           svgWrapper={({ children, ...props }) => (
             <SVGViewer
               width={1200}
-              height={800}
+              height={1000}
               background="transparent"
               SVGBackground="transparent"
               scale={1}
