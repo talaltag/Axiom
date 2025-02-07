@@ -375,14 +375,14 @@ export default function TournamentDetails() {
             )}
 
             {activeTab === "payout" && (
-              <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
-                <h4 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Payout</h4>
-                <p className="text-muted mb-4" style={{ color: '#667085' }}>
+              <div className="p-3 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
+                <h4 className="mb-2" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>Payout</h4>
+                <p className="text-muted mb-2" style={{ color: '#667085' }}>
                   If you have questions or issues in relation to online tournaments, please contact us via following support emails and we'll be with you shortly.
                 </p>
 
-                <h5 className="mb-4" style={{ color: '#101828' }}>Prizes</h5>
-                <div className="d-flex flex-column gap-3">
+                <h5 className="mb-2" style={{ color: '#101828' }}>Prizes</h5>
+                <div className="d-flex flex-column gap-2">
                   <div className="d-flex justify-content-between align-items-center p-3" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
                     <span style={{ color: '#101828', fontWeight: 500 }}>1st Winner Prize</span>
                     <span style={{ color: '#101828', fontWeight: 600 }}>${776}</span>
