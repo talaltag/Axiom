@@ -24,15 +24,26 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
       </div>
 
       <div className={styles.matchInfo}>
-        <div className={styles.matchHeader}>
-          <div className={styles.matchId}>
-            M-{match?.id}
-            <span className={styles.matchStatus}>Match Completed</span>
+        <div className={styles.matchTeams}>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="d-flex align-items-center gap-2">
+              <div className={`${styles.statusIndicator} ${styles.winner}`}>W</div>
+              <span>{match?.participants?.[0]?.name}</span>
+            </div>
+            <div className={`${styles.statusIndicator} ${styles.winner}`}>
+              M-{match?.id}
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className={`${styles.statusIndicator} ${styles.loser}`}>L</div>
+              <span>{match?.participants?.[1]?.name}</span>
+            </div>
           </div>
-          <div className={styles.tabContainer}>
-            <button className={`${styles.tab} ${styles.active}`}>Results</button>
-            <button className={styles.tab}>Info</button>
-          </div>
+          <div className="text-center text-success mb-3">Match Completed</div>
+        </div>
+
+        <div className="d-flex mb-3">
+          <button className={`${styles.tab} ${styles.active}`}>Results</button>
+          <button className={styles.tab}>Info</button>
         </div>
 
         <div className={styles.matchContent}>
@@ -46,9 +57,6 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
           {match?.participants?.map((participant: any, index: number) => (
             <div key={index} className={styles.participantRow}>
               <div className={styles.participantName}>
-                <span className={`${styles.statusIndicator} ${participant.isWinner ? styles.winner : styles.loser}`}>
-                  {participant.isWinner ? 'W' : 'L'}
-                </span>
                 {participant.name}
               </div>
               <div className={styles.inputContainer}>

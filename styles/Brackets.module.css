@@ -280,7 +280,7 @@
 }
 
 .matchDetailsModal {
-  max-width: 480px;
+  max-width: 480px !important;
   margin: 1.75rem auto;
 }
 
@@ -465,158 +465,6 @@
 }
 
 .matchDetailsHeader {
-  padding: 16px 24px;
-  border-bottom: 1px solid #EAECF0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.matchDetailsHeader h5 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #101828;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #667085;
-  cursor: pointer;
-  padding: 0;
-}
-
-.matchInfo {
-  padding: 24px;
-}
-
-.matchTitle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  font-weight: 500;
-}
-
-.matchStatus {
-  color: #12B76A;
-  font-size: 14px;
-}
-
-.teamsContainer {
-  background: #FFFFFF;
-  border-radius: 8px;
-}
-
-.teamHeader {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 12px 16px;
-  background: #F9FAFB;
-  border-radius: 8px 8px 0 0;
-  color: #667085;
-  font-size: 14px;
-}
-
-.teamRow {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 12px 16px;
-  border-bottom: 1px solid #EAECF0;
-}
-
-.teamName {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.resultIndicator {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.winner {
-  background: #ECFDF3;
-  color: #027A48;
-}
-
-.loser {
-  background: #FEF3F2;
-  color: #B42318;
-}
-
-.teamStats {
-  padding-right: 8px;
-}
-
-.statInput {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #D0D5DD;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.resultButtons {
-  display: flex;
-  gap: 4px;
-}
-
-.resultButton {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  border: 1px solid #D0D5DD;
-  background: #FFFFFF;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.winButton:hover, .winButton.active {
-  background: #ECFDF3;
-  border-color: #027A48;
-  color: #027A48;
-}
-
-.drawButton:hover, .drawButton.active {
-  background: #FFF9E7;
-  border-color: #B54708;
-  color: #B54708;
-}
-
-.loseButton:hover, .loseButton.active {
-  background: #FEF3F2;
-  border-color: #B42318;
-  color: #B42318;
-}
-
-.saveButton {
-  width: 100%;
-  padding: 10px;
-  background: #FFD600;
-  border: none;
-  border-radius: 8px;
-  color: #101828;
-  font-weight: 600;
-  margin-top: 24px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.saveButton:hover {
-  background: #E6C200;
-}
-
-.matchDetailsHeader {
   padding: 20px 24px;
   border-bottom: 1px solid #EAECF0;
   display: flex;
@@ -642,7 +490,7 @@
 }
 
 .matchTeams {
-  padding: 16px 24px;
+  padding: 20px;
   border-bottom: 1px solid #EAECF0;
 }
 
