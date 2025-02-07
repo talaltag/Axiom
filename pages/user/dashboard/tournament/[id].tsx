@@ -397,99 +397,99 @@ export default function TournamentDetails() {
           </Col>
 
           <Col md={4}>
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
-              <h6 className="mb-3">Tournament Details</h6>
+            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Tournament Details</h6>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Prize</span>
-                <span className="fw-bold">$500</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Prize</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>$500</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Entry Fee</span>
-                <span className="fw-bold">$25</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Entry Fee</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>$25</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Platform</span>
-                <span>XBOX</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Platform</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>XBOX</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Tournament Type</span>
-                <span>KILL RACE</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Type</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>KILL RACE</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Tournament Size</span>
-                <span>0 of 64 teams</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Tournament Size</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>0 of 64 teams</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Team Size</span>
-                <span>Quad</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Team Size</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>Quad</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Country</span>
-                <span>USA</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Country</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>USA</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span className="text-muted">Game</span>
-                <span>Call of Duty</span>
+                <span style={{ fontSize: '14px', color: '#667085' }}>Game</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>Call of Duty</span>
               </div>
-              <div className="d-flex justify-content-between">
-                <span className="text-muted">Game Mode</span>
-                <span>Battle Royale</span>
+              <div className="d-flex justify-content-between mb-2">
+                <span style={{ fontSize: '14px', color: '#667085' }}>Game Mode</span>
+                <span style={{ fontSize: '14px', color: '#101828' }}>Battle Royale</span>
               </div>
             </div>
 
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
-              <h6 className="mb-3">My Team</h6>
-              <div className="d-flex align-items-center mb-4">
-                <Image src="/user1.png" alt="Team Logo" width={48} height={48} className="rounded me-3" />
-                <div>
-                  <h6 className="mb-1">Avengers Reborn</h6>
-                  {teamMembers.map((member, index) => (
-                    <div key={index} className="d-flex align-items-center mt-2">
-                      <Image src={member.avatar} alt={member.name} width={32} height={32} className="rounded-circle me-2" />
-                      <div>
-                        <div className="small fw-bold">{member.name}</div>
-                        <div className="small text-muted">{member.role}</div>
-                      </div>
-                    </div>
-                  ))}
+            <div className="p-4 rounded mb-4" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
+              <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>My Team</h6>
+              <div className="d-flex flex-column">
+                <div className="d-flex align-items-center mb-3">
+                  <Image src="/user1.png" alt="Team Logo" width={40} height={40} className="rounded me-3" style={{ objectFit: 'cover' }} />
+                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Avengers Reborn</span>
                 </div>
+                {teamMembers.map((member, index) => (
+                  <div key={index} className="d-flex align-items-center mb-2">
+                    <Image src={member.avatar} alt={member.name} width={32} height={32} className="rounded-circle me-2" style={{ objectFit: 'cover' }} />
+                    <div>
+                      <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>{member.name}</div>
+                      <div style={{ fontSize: '12px', color: '#667085' }}>{member.role}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)' }}>
+            <div className="p-4 rounded" style={{ background: 'rgba(250, 251, 252, 1)', boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
-                <h6 className="mb-0">Latest Result</h6>
-                <small className="text-muted">Total Played Hour: 1hr 2m</small>
+                <h6 style={{ fontSize: '14px', fontWeight: 600, color: '#101828', margin: 0 }}>Latest Result</h6>
+                <small style={{ fontSize: '12px', color: '#667085' }}>Total Played Hour: 1hr 2m</small>
               </div>
-              <div className="d-flex align-items-center justify-content-between mb-4">
+              <div className="d-flex align-items-center justify-content-between mb-4 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
                 <div className="d-flex align-items-center">
-                  <Image src="/user1.png" alt="Team 1" width={40} height={40} className="rounded me-2" />
+                  <Image src="/user1.png" alt="Team 1" width={32} height={32} className="rounded me-2" style={{ objectFit: 'cover' }} />
                   <div>
-                    <div className="small fw-bold">Special Force</div>
-                    <small className="text-muted">Won</small>
+                    <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Special Force</div>
+                    <small style={{ fontSize: '12px', color: '#027A48' }}>Won</small>
                   </div>
                 </div>
-                <div className="fw-bold">V/S</div>
+                <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>V/S</div>
                 <div className="d-flex align-items-center">
                   <div className="text-end me-2">
-                    <div className="small fw-bold">Cyborgs</div>
-                    <small className="text-muted">Lost</small>
+                    <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>Cyborgs</div>
+                    <small style={{ fontSize: '12px', color: '#B42318' }}>Lost</small>
                   </div>
-                  <Image src="/user1.png" alt="Team 2" width={40} height={40} className="rounded" />
+                  <Image src="/user1.png" alt="Team 2" width={32} height={32} className="rounded" style={{ objectFit: 'cover' }} />
                 </div>
               </div>
 
-              <h6 className="mb-3">Ongoing Matches</h6>
+              <h6 className="mb-3" style={{ fontSize: '14px', fontWeight: 600, color: '#101828' }}>Ongoing Matches</h6>
               {ongoingMatches.map((match, index) => (
-                <div key={index} className="d-flex align-items-center justify-content-between mb-3">
+                <div key={index} className="d-flex align-items-center justify-content-between mb-2 p-2" style={{ background: '#F9FAFB', borderRadius: '8px' }}>
                   <div className="d-flex align-items-center">
-                    <Image src="/user1.png" alt={match.team1} width={32} height={32} className="rounded me-2" />
-                    <div className="small fw-bold">{match.team1}</div>
+                    <Image src="/user1.png" alt={match.team1} width={24} height={24} className="rounded me-2" style={{ objectFit: 'cover' }} />
+                    <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }}>{match.team1}</div>
                   </div>
-                  <div className="small fw-bold">{match.score}</div>
+                  <div style={{ fontSize: '14px', fontWeight: 600, color: '#FFD600' }}>{match.score}</div>
                   <div className="d-flex align-items-center">
-                    <div className="small fw-bold me-2">{match.team2}</div>
-                    <Image src="/user1.png" alt={match.team2} width={32} height={32} className="rounded" />
+                    <div style={{ fontSize: '14px', fontWeight: 500, color: '#101828' }} className="me-2">{match.team2}</div>
+                    <Image src="/user1.png" alt={match.team2} width={24} height={24} className="rounded" style={{ objectFit: 'cover' }} />
                   </div>
                 </div>
               ))}
