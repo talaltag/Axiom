@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { Bracket } from 'brackets-viewer'; // This line is already correct
-import 'brackets-viewer/dist/index.css';
+
 import styles from '../../styles/Brackets.module.css';
 
 const TournamentBrackets: React.FC = () => {
@@ -38,7 +37,8 @@ const TournamentBrackets: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <Bracket rounds={rounds} />
+      {/* <Bracket rounds={rounds} /> */}
+      in porgress
     </div>
   );
 };
