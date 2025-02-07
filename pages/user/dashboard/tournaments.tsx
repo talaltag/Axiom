@@ -112,8 +112,8 @@ export default function Tournaments() {
                       onClick={() => setActiveTab("upcoming")}
                       className="me-2"
                       style={{
-                        backgroundColor: activeTab === "upcoming" ? "#101828" : "#FFFFFF",
-                        color: activeTab === "upcoming" ? "#FFFFFF" : "#344054",
+                        backgroundColor: activeTab === "upcoming" ? "#FFD600" : "#FFFFFF",
+                        color: "#101828",
                         border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
@@ -140,11 +140,14 @@ export default function Tournaments() {
                     >
                       My Tournaments
                     </Button>
+                  </div>
+                  <div className="d-flex align-items-center gap-3">
                     <Button
                       onClick={() => setActiveTab("history")}
+                      className="me-2"
                       style={{
-                        backgroundColor: activeTab === "history" ? "#F2F4F7" : "#FFFFFF",
-                        color: "#344054",
+                        backgroundColor: activeTab === "history" ? "#FFD600" : "#FFFFFF",
+                        color: "#101828",
                         border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
@@ -156,14 +159,20 @@ export default function Tournaments() {
                       Tournament History
                     </Button>
                     <Button
-                      color={activeTab === "info" ? "warning" : "light"} // Added info tab button
                       onClick={() => setActiveTab("info")}
-                      className="me-2"
+                      style={{
+                        backgroundColor: activeTab === "info" ? "#FFD600" : "#FFFFFF",
+                        color: "#101828",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        padding: "8px 14px",
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                      }}
                     >
                       Info
                     </Button>
-                  </div>
-                  <div className="d-flex align-items-center">
                     <div className="position-relative">
                       <Search
                         size={20}
