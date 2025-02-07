@@ -96,50 +96,50 @@ const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, toggle, m
         {activeTab === 'info' && (
           <div className={styles.infoContent} style={{ padding: '20px' }}>
             <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <div>
-                  <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Date</label>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="bg-light p-3 rounded" style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ flex: 1, marginRight: '12px' }}>
+                  <label style={{ display: 'block', color: '#344054', fontWeight: 500, marginBottom: '6px', fontSize: '14px' }}>Date</label>
+                  <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF', borderRadius: '8px', border: '1px solid #D0D5DD', padding: '8px 12px' }}>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px' }}>
+                      <path d="M6.66667 1.66666V4.16666M13.3333 1.66666V4.16666M2.91667 7.57499H17.0833M3.33333 3.33332H16.6667C17.1269 3.33332 17.5 3.70641 17.5 4.16666V16.6667C17.5 17.1269 17.1269 17.5 16.6667 17.5H3.33333C2.87309 17.5 2.5 17.1269 2.5 16.6667V4.16666C2.5 3.70641 2.87309 3.33332 3.33333 3.33332Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     <input
                       type="text"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                       style={{
-                        padding: '8px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '6px',
-                        width: '120px'
+                        border: 'none',
+                        outline: 'none',
+                        width: '100%',
+                        fontSize: '14px',
+                        color: '#101828'
                       }}
                     />
-                    <button className={styles.timeButton}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
                   </div>
                 </div>
-                <div>
-                  <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Time</label>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: 1, marginLeft: '12px' }}>
+                  <label style={{ display: 'block', color: '#344054', fontWeight: 500, marginBottom: '6px', fontSize: '14px' }}>Time</label>
+                  <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF', borderRadius: '8px', border: '1px solid #D0D5DD', padding: '8px 12px' }}>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px' }}>
+                      <path d="M10 5V10L13.3333 11.6667M10 18.3333C14.6024 18.3333 18.3333 14.6024 18.3333 10C18.3333 5.39763 14.6024 1.66667 10 1.66667C5.39763 1.66667 1.66667 5.39763 1.66667 10C1.66667 14.6024 5.39763 18.3333 10 18.3333Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     <input
                       type="text"
                       value={time}
                       onChange={(e) => setTime(e.target.value)}
                       style={{
-                        padding: '8px',
-                        border: '1px solid #D0D5DD',
-                        borderRadius: '6px',
-                        width: '120px'
+                        border: 'none',
+                        outline: 'none',
+                        width: '100%',
+                        fontSize: '14px',
+                        color: '#101828'
                       }}
                     />
-                    <button className={styles.timeButton}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
+            </div>
               <div>
                 <label style={{ display: 'block', color: '#667085', marginBottom: '6px' }}>Notes</label>
                 <textarea
