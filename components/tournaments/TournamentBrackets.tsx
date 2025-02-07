@@ -14,16 +14,82 @@ const TournamentBrackets: React.FC = () => {
       state: 'DONE',
       participants: [
         {
-          id: 'scorpio-1',
-          resultText: 'L',
-          isWinner: false,
-          name: 'Scorpio'
-        },
-        {
-          id: 'beehives-1',
+          id: 'dragons-1',
           resultText: 'W',
           isWinner: true,
-          name: 'BeeHives'
+          name: 'Dragons'
+        },
+        {
+          id: 'phoenix-1',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Phoenix'
+        }
+      ]
+    },
+    {
+      id: 2,
+      name: 'Round 1',
+      nextMatchId: 3,
+      tournamentRoundText: '1',
+      startTime: 'M-2.2',
+      state: 'DONE',
+      participants: [
+        {
+          id: 'tigers-1',
+          resultText: 'W',
+          isWinner: true,
+          name: 'Tigers'
+        },
+        {
+          id: 'eagles-1',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Eagles'
+        }
+      ]
+    },
+    {
+      id: 6,
+      name: 'Round 1',
+      nextMatchId: 4,
+      tournamentRoundText: '1',
+      startTime: 'M-2.2',
+      state: 'DONE',
+      participants: [
+        {
+          id: 'wolves-1',
+          resultText: 'W',
+          isWinner: true,
+          name: 'Wolves'
+        },
+        {
+          id: 'hawks-1',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Hawks'
+        }
+      ]
+    },
+    {
+      id: 7,
+      name: 'Round 1',
+      nextMatchId: 4,
+      tournamentRoundText: '1',
+      startTime: 'M-2.2',
+      state: 'DONE',
+      participants: [
+        {
+          id: 'lions-1',
+          resultText: 'W',
+          isWinner: true,
+          name: 'Lions'
+        },
+        {
+          id: 'bears-1',
+          resultText: 'L',
+          isWinner: false,
+          name: 'Bears'
         }
       ]
     },
