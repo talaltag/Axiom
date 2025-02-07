@@ -119,7 +119,7 @@ const TournamentBrackets: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.bracketWrapper}>
+      <div className={styles.bracketWrapper} style={{ height: 'calc(100vh - 400px)' }}>
         <SingleEliminationBracket
           matches={matches}
           options={{
