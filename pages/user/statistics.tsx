@@ -27,29 +27,40 @@ export default function Statistics() {
           show: false,
         },
         background: "#FFFFFF",
+        fontFamily: "Inter, sans-serif",
       },
       plotOptions: {
         bar: {
-          columnWidth: "60%",
-          borderRadius: 0,
+          columnWidth: "35%",
+          borderRadius: 2,
           distributed: false,
+          colors: {
+            ranges: [{
+              from: 0,
+              to: 100,
+              color: "#FFD600"
+            }]
+          }
         },
       },
       title: {
-        text: "Gaming Score",
-        align: "left",
-        style: {
-          fontSize: '16px',
-          fontWeight: 600,
-          color: '#101828'
-        }
-      },
-      subtitle: {
-        text: "Daily Average +55% $2.5m",
+        text: "Gaming time",
         align: "left",
         style: {
           fontSize: '14px',
-          color: '#667085'
+          fontWeight: 500,
+          color: '#344054',
+          fontFamily: "Inter, sans-serif"
+        }
+      },
+      subtitle: {
+        text: "Daily Average 2 Hrs. 25 min",
+        align: "left",
+        margin: 4,
+        style: {
+          fontSize: '14px',
+          color: '#667085',
+          fontFamily: "Inter, sans-serif"
         }
       },
       fill: {
@@ -78,12 +89,13 @@ export default function Statistics() {
       },
       colors: ['#FFD700'],
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         labels: {
           style: {
             fontSize: "12px",
             fontWeight: 400,
             colors: "#667085",
+            fontFamily: "Inter, sans-serif"
           },
         },
         axisBorder: {
@@ -95,16 +107,17 @@ export default function Statistics() {
       },
       yaxis: {
         min: 0,
-        max: 4000,
+        max: 120,
         tickAmount: 4,
         labels: {
           formatter: function(value) {
-            return '$' + value;
+            return value + ' min';
           },
           style: {
             fontSize: "12px",
             fontWeight: 400,
             colors: "#667085",
+            fontFamily: "Inter, sans-serif"
           }
         }
       },
@@ -132,10 +145,9 @@ export default function Statistics() {
     },
     series: [
       {
-        name: "Tournament Earnings",
+        name: "Gaming Time",
         data: [
-          2100, 2300, 2000, 2700, 2400, 2800, 3000, 2900, 3200, 3400, 3600,
-          3800,
+          20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110
         ],
       },
     ],
