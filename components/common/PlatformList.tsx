@@ -97,7 +97,9 @@ const PlatformList: React.FC = () => {
             padding: '8px 14px',
             fontSize: '14px',
             borderRadius: '8px',
-            fontWeight: '500'
+            fontWeight: '500',
+            color: '#101828',
+            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)'
           }}
         >
           Add Platform
@@ -108,12 +110,13 @@ const PlatformList: React.FC = () => {
         {addedPlatforms.map((platform) => (
           <div
             key={platform.id}
-            className="platform-item d-flex justify-content-between align-items-center p-3 mb-2"
+            className="platform-item d-flex justify-content-between align-items-center px-3 py-2 mb-2"
             style={{
               backgroundColor: '#FFFFFF',
               border: '1px solid #EAECF0',
               borderRadius: '8px',
-              transition: 'background-color 0.2s'
+              transition: 'all 0.2s',
+              boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1)'
             }}
           >
             <div className="d-flex align-items-center gap-3">
@@ -143,13 +146,16 @@ const PlatformList: React.FC = () => {
               </span>
             </div>
             <button
-              className="btn btn-link p-0"
+              className="btn btn-link p-2"
               style={{ 
                 color: '#667085',
-                transition: 'color 0.2s'
+                transition: 'color 0.2s',
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderRadius: '4px'
               }}
             >
-              <i className="fas fa-pencil-alt"></i>
+              <i className="fas fa-pencil-alt" style={{ fontSize: '14px' }}></i>
             </button>
           </div>
         ))}
