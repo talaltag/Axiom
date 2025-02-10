@@ -130,20 +130,13 @@ export default function Statistics() {
       chart: {
         type: "donut",
         background: "#FFFFFF",
-        dropShadow: {
-          enabled: true,
-          top: 4,
-          left: 0,
-          blur: 8,
-          opacity: 0.1,
-        },
       },
-      colors: ["#FFD700", "#F2F4F7"],
+      colors: ["#FFD700", "#EAECF0"],
       labels: ["Won", "Lost"],
       plotOptions: {
         pie: {
           donut: {
-            size: "75%",
+            size: "85%",
             labels: {
               show: true,
               name: {
@@ -151,16 +144,16 @@ export default function Statistics() {
               },
               value: {
                 show: true,
-                fontSize: "24px",
+                fontSize: "32px",
                 fontWeight: 600,
                 color: "#101828",
-                offsetY: 0,
+                offsetY: -10,
               },
               total: {
                 show: true,
-                label: "Tournament Win Rate",
+                label: "Total",
                 fontSize: "14px",
-                fontWeight: 400,
+                fontWeight: 500,
                 color: "#667085",
               },
             },
@@ -177,7 +170,7 @@ export default function Statistics() {
         show: false,
       },
     },
-    series: [75, 25],
+    series: [98, 2],
   };
 
   const lineChartData = {
@@ -298,16 +291,30 @@ export default function Statistics() {
                 >
                   Winning Percentage
                 </h6>
-                <div className="text-center">
+                <div>
                   <Chart
                     options={donutChartData.options}
                     series={donutChartData.series}
                     type="donut"
                     height={250}
                   />
-                  <div className="mt-3">
-                    <h3 className="mb-0">75%</h3>
-                    <small className="text-muted">Tournament Win Rate</small>
+                  <div className="mt-4">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Wins</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>1,230</span>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Losses</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>130</span>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Games Played</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>24</span>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Tournaments participated in</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>12</span>
+                    </div>
                   </div>
                 </div>
               </CardBody>
