@@ -26,7 +26,7 @@ export default function Statistics() {
         toolbar: {
           show: false,
         },
-        background: "#FFFFFF",
+        background: "transparent",
         fontFamily: "Inter, sans-serif",
       },
       plotOptions: {
@@ -296,7 +296,7 @@ export default function Statistics() {
               style={{
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
                 borderRadius: "12px",
-                backgroundColor: "#FAFBFC"
+                backgroundColor: "transparent"
               }}
             >
               <CardBody>
