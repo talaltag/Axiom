@@ -60,30 +60,10 @@ export default function Statistics() {
         }
       },
       fill: {
-        type: "gradient",
-        gradient: {
-          type: "vertical",
-          shadeIntensity: 1,
-          gradientToColors: ['#8B4513'],
-          inverseColors: false,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 100],
-          colorStops: [
-            {
-              offset: 0,
-              color: '#FFD700',
-              opacity: 1
-            },
-            {
-              offset: 100,
-              color: '#8B4513',
-              opacity: 1
-            }
-          ]
-        },
+        opacity: 1
       },
-      colors: ['#FFD700'],
+      colors: ['#FFD700', '#8B4513'],
+      distributed: true,
       xaxis: {
         categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         labels: {
