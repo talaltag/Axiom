@@ -130,9 +130,9 @@ export default function Settings() {
         <Nav className="mb-4 border-0 d-flex gap-1" style={{ backgroundColor: '#F2F4F7', padding: '4px', borderRadius: '6px' }}>
           <NavItem>
             <NavLink
-              className={classnames("border-0 rounded", { 
-                'bg-white text-dark shadow-sm': activeTab === "myAccount",
-                'text-secondary': activeTab !== "myAccount" 
+              className={classnames("border-0 rounded", {
+                'bg-white text-dark': activeTab !== "myAccount",
+                'bg-light text-dark': activeTab === "myAccount"
               })}
               onClick={() => setActiveTab("myAccount")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
@@ -143,8 +143,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
-                'bg-white text-dark shadow-sm': activeTab === "notifications",
-                'text-secondary': activeTab !== "notifications"
+                'bg-white text-dark': activeTab !== "notifications",
+                'bg-light text-dark': activeTab === "notifications"
               })}
               onClick={() => setActiveTab("notifications")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
@@ -155,8 +155,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
-                'bg-white text-dark shadow-sm': activeTab === "billings",
-                'text-secondary': activeTab !== "billings"
+                'bg-white text-dark': activeTab !== "billings",
+                'bg-light text-dark': activeTab === "billings"
               })}
               onClick={() => setActiveTab("billings")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
@@ -167,8 +167,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
-                'bg-white text-dark shadow-sm': activeTab === "platformIntegration",
-                'text-secondary': activeTab !== "platformIntegration"
+                'bg-white text-dark': activeTab !== "platformIntegration",
+                'bg-light text-dark': activeTab === "platformIntegration"
               })}
               onClick={() => setActiveTab("platformIntegration")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
@@ -179,8 +179,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
-                'bg-white text-dark shadow-sm': activeTab === "privacySafety",
-                'text-secondary': activeTab !== "privacySafety"
+                'bg-white text-dark': activeTab !== "privacySafety",
+                'bg-light text-dark': activeTab === "privacySafety"
               })}
               onClick={() => setActiveTab("privacySafety")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
