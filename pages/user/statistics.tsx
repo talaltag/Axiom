@@ -280,40 +280,102 @@ export default function Statistics() {
                 borderRadius: "12px",
               }}
             >
-              <CardBody>
+              <CardBody style={{ padding: '24px' }}>
                 <h6
-                  className="mb-4"
                   style={{
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    color: "#101828",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    color: "#344054",
+                    marginBottom: "20px",
                   }}
                 >
                   Winning Percentage
                 </h6>
                 <div>
                   <Chart
-                    options={donutChartData.options}
-                    series={donutChartData.series}
+                    options={{
+                      ...donutChartData.options,
+                      colors: ["#FFD600", "#EAECF0"],
+                      plotOptions: {
+                        pie: {
+                          donut: {
+                            size: '85%',
+                            labels: {
+                              show: true,
+                              name: {
+                                show: false,
+                              },
+                              value: {
+                                show: true,
+                                fontSize: '24px',
+                                fontWeight: 600,
+                                color: '#101828',
+                                offsetY: -10,
+                              },
+                              total: {
+                                show: true,
+                                label: 'Total',
+                                fontSize: '14px',
+                                fontWeight: 500,
+                                color: '#98A2B3',
+                              },
+                            },
+                          },
+                        },
+                      },
+                    }}
+                    series={[98, 2]}
                     type="donut"
-                    height={250}
+                    height={220}
                   />
                   <div className="mt-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Wins</span>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>1,230</span>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex align-items-center gap-2">
+                        <span style={{ 
+                          width: '8px', 
+                          height: '8px', 
+                          borderRadius: '50%', 
+                          backgroundColor: '#2E90FA' 
+                        }}></span>
+                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Wins</span>
+                      </div>
+                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>1,230</span>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Losses</span>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>130</span>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex align-items-center gap-2">
+                        <span style={{ 
+                          width: '8px', 
+                          height: '8px', 
+                          borderRadius: '50%', 
+                          backgroundColor: '#F97066' 
+                        }}></span>
+                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Losses</span>
+                      </div>
+                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>130</span>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Games Played</span>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>24</span>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex align-items-center gap-2">
+                        <span style={{ 
+                          width: '8px', 
+                          height: '8px', 
+                          borderRadius: '50%', 
+                          backgroundColor: '#F2F4F7' 
+                        }}></span>
+                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Games Played</span>
+                      </div>
+                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>24</span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
-                      <span style={{ color: "#667085", fontSize: "14px" }}>Total Tournaments participated in</span>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>12</span>
+                      <div className="d-flex align-items-center gap-2">
+                        <span style={{ 
+                          width: '8px', 
+                          height: '8px', 
+                          borderRadius: '50%', 
+                          backgroundColor: '#E4E7EC' 
+                        }}></span>
+                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Tournaments participated in</span>
+                      </div>
+                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>12</span>
                     </div>
                   </div>
                 </div>
