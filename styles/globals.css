@@ -1,3 +1,128 @@
+
+/* Platform Integration Styles */
+.platform-integration {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.platform-integration h6 {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  margin-bottom: 8px;
+}
+
+.platform-integration p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #667085;
+  margin-bottom: 24px;
+}
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.platform-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.platform-item:hover {
+  transform: translateY(-2px);
+}
+
+.platform-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid #EAECF0;
+  background: #F9FAFB;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.platform-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #344054;
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.added-platforms {
+  background: #FFFFFF;
+  border: 1px solid #EAECF0;
+  border-radius: 12px;
+}
+
+.platform-item-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.platform-item-row:last-child {
+  border-bottom: none;
+}
+
+.platform-item-row img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.platform-item-row span {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #344054;
+  flex-grow: 1;
+}
+
+.platform-item-row button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #667085;
+}
+
+.add-platform-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #FFD600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-platform-btn:hover {
+  background: #E6C200;
+}
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 :root {
