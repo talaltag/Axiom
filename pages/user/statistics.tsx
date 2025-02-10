@@ -33,7 +33,12 @@ export default function Statistics() {
         bar: {
           columnWidth: "8px",
           borderRadius: 4,
-          distributed: false,
+          distributed: true,
+          ranges: [{
+            from: 0,
+            to: 120,
+            color: '#EAECF0'
+          }]
         },
       },
       title: {
@@ -123,7 +128,18 @@ export default function Statistics() {
       {
         name: "Gaming Time",
         data: [
-          20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110
+          {x: "JAN", y: 20, fillColor: "#FFD700"},
+          {x: "FEB", y: 30, fillColor: "#8B4513"},
+          {x: "MAR", y: 25, fillColor: "#FFD700"},
+          {x: "APR", y: 45, fillColor: "#8B4513"},
+          {x: "MAY", y: 35, fillColor: "#FFD700"},
+          {x: "JUN", y: 30, fillColor: "#8B4513"},
+          {x: "JUL", y: 35, fillColor: "#FFD700"},
+          {x: "AUG", y: 20, fillColor: "#8B4513"},
+          {x: "SEP", y: 40, fillColor: "#FFD700"},
+          {x: "OCT", y: 60, fillColor: "#8B4513"},
+          {x: "NOV", y: 90, fillColor: "#FFD700"},
+          {x: "DEC", y: 110, fillColor: "#8B4513"}
         ],
       },
     ],
