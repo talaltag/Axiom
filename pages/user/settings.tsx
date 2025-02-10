@@ -127,15 +127,21 @@ export default function Settings() {
         </div>
         <p className="text-muted">Manage your team and preferences here.</p>
 
-        <Nav className="mb-4 border-0 d-flex gap-1" style={{ padding: '4px', borderRadius: '6px' }}>
+        <Nav className="mb-4 border-0 d-flex" style={{ padding: '0', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
           <NavItem>
             <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "myAccount",
-                'bg-light text-dark': activeTab === "myAccount"
+              className={classnames("border-0", {
+                'text-secondary bg-transparent': activeTab !== "myAccount",
+                'text-dark bg-white': activeTab === "myAccount"
               })}
               onClick={() => setActiveTab("myAccount")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
+              style={{ 
+                cursor: "pointer", 
+                padding: '8px 16px', 
+                fontSize: '14px',
+                borderRadius: '6px 6px 0 0',
+                borderRight: '1px solid #EAECF0'
+              }}
             >
               My Account
             </NavLink>
