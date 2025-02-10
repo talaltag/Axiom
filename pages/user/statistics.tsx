@@ -279,10 +279,10 @@ export default function Statistics() {
               <CardBody style={{ padding: '24px' }}>
                 <h6
                   style={{
-                    fontSize: "14px",
+                    fontSize: "16px",
                     fontWeight: 500,
-                    color: "#344054",
-                    marginBottom: "20px",
+                    color: "#101828",
+                    marginBottom: "24px",
                   }}
                 >
                   Winning Percentage
@@ -291,25 +291,33 @@ export default function Statistics() {
                   <Chart
                     options={{
                       ...donutChartData.options,
-                      colors: ["#FFD600", "#EAECF0"],
+                      colors: ["#FFD600", "#8B4513"],
                       plotOptions: {
                         pie: {
                           donut: {
-                            size: '90%',
+                            size: '85%',
                             labels: {
                               show: true,
                               name: {
-                                show: false,
+                                show: true,
+                                offsetY: -5,
+                                formatter: function () {
+                                  return 'Total';
+                                }
                               },
                               value: {
                                 show: true,
                                 fontSize: '24px',
                                 fontWeight: 600,
                                 color: '#101828',
-                                offsetY: 0,
+                                offsetY: 5,
                               },
                               total: {
-                                show: false,
+                                show: true,
+                                label: 'Total',
+                                formatter: function () {
+                                  return '98%';
+                                }
                               },
                             },
                           },
@@ -318,32 +326,34 @@ export default function Statistics() {
                     }}
                     series={[98, 2]}
                     type="donut"
-                    height={220}
+                    height={180}
                   />
-                  <div className="mt-4">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
+                  <div className="mt-4 pt-2">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center gap-2">
-                        <span style={{ 
+                        <div style={{ 
                           width: '8px', 
                           height: '8px', 
                           borderRadius: '50%', 
-                          backgroundColor: '#2E90FA' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Wins</span>
+                          backgroundColor: '#FFD600',
+                          flexShrink: 0
+                        }}></div>
+                        <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>Total Wins</span>
                       </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>1,230</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>1,230</span>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center mb-2">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center gap-2">
-                        <span style={{ 
+                        <div style={{ 
                           width: '8px', 
                           height: '8px', 
                           borderRadius: '50%', 
-                          backgroundColor: '#F97066' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Losses</span>
+                          backgroundColor: '#8B4513',
+                          flexShrink: 0
+                        }}></div>
+                        <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>Total Losses</span>
                       </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>130</span>
+                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>130</span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center gap-2">
