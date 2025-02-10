@@ -87,7 +87,7 @@ const PlatformList: React.FC = () => {
       </div>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
+        <h6 className="mb-0" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
         <Button
           color="warning"
           style={{
