@@ -146,3 +146,14 @@ a {
   border: none;
   box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08);
 }
+.custom-tooltip {
+  background: #101828;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.custom-tooltip .value {
+  font-weight: 500;
+}

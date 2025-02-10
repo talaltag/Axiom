@@ -22,100 +22,113 @@ export default function Statistics() {
     options: {
       chart: {
         type: "bar",
-        height: 350,
+        height: 300,
         toolbar: {
           show: false,
         },
         background: "#FFFFFF",
-        dropShadow: {
-          enabled: true,
-          top: 4,
-          left: 0,
-          blur: 8,
-          opacity: 0.1,
-        },
       },
       plotOptions: {
         bar: {
-          columnWidth: "35%",
-          borderRadius: 4,
-          distributed: true,
+          columnWidth: "60%",
+          borderRadius: 0,
+          distributed: false,
         },
       },
-      states: {
-        normal: {
-          filter: {
-            type: 'drop-shadow',
-            value: 4
-          }
-        },
-        hover: {
-          filter: {
-            type: 'drop-shadow',
-            value: 4
-          }
+      title: {
+        text: "Gaming Score",
+        align: "left",
+        style: {
+          fontSize: '16px',
+          fontWeight: 600,
+          color: '#101828'
+        }
+      },
+      subtitle: {
+        text: "Daily Average +55% $2.5m",
+        align: "left",
+        style: {
+          fontSize: '14px',
+          color: '#667085'
         }
       },
       fill: {
         type: "gradient",
         gradient: {
-          shade: "light",
           type: "vertical",
-          gradientToColors: ["#FFFFFF"],
+          shadeIntensity: 0.5,
+          gradientToColors: ['#FFB800'],
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 0.6,
           stops: [0, 100],
           colorStops: [
             {
               offset: 0,
-              color: "#FFD700",
-              opacity: 1,
+              color: '#FFD700',
+              opacity: 1
             },
             {
               offset: 100,
-              color: "#FFFFFF",
-              opacity: 0.8,
-            },
-          ],
+              color: '#FFB800',
+              opacity: 0.6
+            }
+          ]
         },
       },
-      colors: ["#FFD700"],
+      colors: ['#FFD700'],
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         labels: {
           style: {
             fontSize: "12px",
-            fontWeight: 500,
-            colors: "#475467",
+            fontWeight: 400,
+            colors: "#667085",
           },
         },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        }
       },
       yaxis: {
+        min: 0,
+        max: 4000,
+        tickAmount: 4,
         labels: {
-          formatter: function (value) {
-            return "$" + value;
+          formatter: function(value) {
+            return '$' + value;
           },
           style: {
             fontSize: "12px",
-            fontWeight: 500,
-            colors: "#475467",
-          },
-        },
+            fontWeight: 400,
+            colors: "#667085",
+          }
+        }
       },
       grid: {
-        borderColor: "#F0F0F0",
+        borderColor: "#EAECF0",
+        strokeDashArray: 4,
+        xaxis: {
+          lines: {
+            show: false
+          }
+        },
+        yaxis: {
+          lines: {
+            show: true
+          }
+        }
       },
+      tooltip: {
+        custom: function({series, seriesIndex, dataPointIndex, w}) {
+          return '<div class="custom-tooltip">' +
+            '<span class="value">$' + series[seriesIndex][dataPointIndex] + '</span>' +
+          '</div>';
+        }
+      }
     },
     series: [
       {
