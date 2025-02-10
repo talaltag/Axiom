@@ -37,11 +37,8 @@ export default function Statistics() {
         },
         plotOptions: {
           bar: {
-            columnWidth: '10px',
-            borderRadius: {
-              top: 10,
-              bottom: 0
-            }
+            columnWidth: '55%',
+            borderRadius: 4,
           }
         },
         fill: {
