@@ -138,8 +138,8 @@ export default function Settings() {
           Manage your team and preferences here.
         </p>
 
-        <Nav tabs style={{ border: 'none', marginBottom: '24px', borderBottom: '1px solid #E4E7EC' }}>
-          <div className="d-flex" style={{ width: 'fit-content' }}>
+        <Nav tabs style={{ border: 'none', marginBottom: '24px' }}>
+          <div className="d-flex gap-1" style={{ background: '#F9FAFB', padding: '4px', borderRadius: '6px', width: 'fit-content' }}>
             {[
               { id: "myAccount", label: "My Account" },
               { id: "notifications", label: "Notifications" },
@@ -149,21 +149,18 @@ export default function Settings() {
             ].map((tab) => (
               <NavItem key={tab.id}>
                 <NavLink
-                  className={classnames({
-                    'active': activeTab === tab.id
+                  className={classnames("border-0", {
+                    'bg-white': activeTab !== tab.id,
+                    'bg-[#ECECEC]': activeTab === tab.id
                   })}
                   onClick={() => setActiveTab(tab.id)}
                   style={{
                     cursor: "pointer",
-                    padding: '12px 16px',
+                    padding: '8px 12px',
                     fontSize: '14px',
-                    color: activeTab === tab.id ? '#101828' : '#667085',
-                    borderRadius: '0',
-                    fontFamily: "Inter, sans-serif",
-                    background: 'transparent',
-                    border: 'none',
-                    borderBottom: activeTab === tab.id ? '2px solid #101828' : 'none',
-                    marginBottom: '-1px'
+                    color: '#101828',
+                    borderRadius: '4px',
+                    fontFamily: "Inter, sans-serif"
                   }}
                 >
                   {tab.label}
