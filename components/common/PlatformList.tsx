@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button } from 'reactstrap';
+import PlatformManagementModal from './PlatformManagementModal';
 
 interface Platform {
   id: string;
@@ -21,6 +22,7 @@ const platforms: Platform[] = [
 ];
 
 const PlatformList: React.FC = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
   const [addedPlatforms, setAddedPlatforms] = React.useState<Platform[]>([
     platforms[0], // Dota
     platforms[1], // Freefire
@@ -164,6 +166,20 @@ const PlatformList: React.FC = () => {
           ))}
         </div>
       </div>
+
+
+      </div>
+
+      <PlatformManagementModal 
+        isOpen={isModalOpen}
+        toggle={() => setModalOpen(!isModalOpen)}
+        onAddPlatform={(platform) => {
+          // Handle adding platform here
+          setModalOpen(false);
+        }}
+      />
+
+      <style jsx>{`
 
       <style jsx>{`
         .platform-item:hover {
