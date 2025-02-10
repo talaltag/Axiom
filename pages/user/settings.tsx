@@ -320,35 +320,64 @@ export default function Settings() {
           <TabPane tabId="notifications">
             <Row>
               <Col md={8}>
-                <h5 className="mb-4">Notification Preferences</h5>
                 <div className="bg-white rounded p-4">
-                  <FormGroup check className="mb-3">
-                    <Input type="checkbox" id="emailNotifications" />
-                    <Label check for="emailNotifications">
-                      Email Notifications
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check className="mb-3">
-                    <Input type="checkbox" id="pushNotifications" />
-                    <Label check for="pushNotifications">
-                      Push Notifications
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check className="mb-3">
-                    <Input type="checkbox" id="tournamentUpdates" />
-                    <Label check for="tournamentUpdates">
-                      Tournament Updates
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check className="mb-3">
-                    <Input type="checkbox" id="friendRequests" />
-                    <Label check for="friendRequests">
-                      Friend Requests
-                    </Label>
-                  </FormGroup>
-                  <Button color="warning" style={{ backgroundColor: "#FFD600", border: "none" }}>
-                    Save Preferences
-                  </Button>
+                  <div className="mb-4">
+                    <h6 className="mb-3">Incoming Message Notifications</h6>
+                    <div className="bg-light rounded p-3">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <div className="text-dark">Message Notifications</div>
+                          <small className="text-muted">Show notifications for new messages</small>
+                        </div>
+                        <FormGroup switch className="mb-0">
+                          <Input type="switch" id="messageNotifications" defaultChecked />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <h6 className="mb-3">Tournament Notifications</h6>
+                    <div className="bg-light rounded">
+                      <div className="p-3 border-bottom">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <div className="text-dark">Announcement</div>
+                            <small className="text-muted">Show notifications for new tournaments</small>
+                          </div>
+                          <FormGroup switch className="mb-0">
+                            <Input type="switch" id="tournamentNotifications" />
+                          </FormGroup>
+                        </div>
+                      </div>
+                      <div className="p-3">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <div className="text-dark">Reminder</div>
+                            <small className="text-muted">Remind me about tournament registration</small>
+                          </div>
+                          <FormGroup switch className="mb-0">
+                            <Input type="switch" id="reminderNotifications" defaultChecked />
+                          </FormGroup>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h6 className="mb-3">Friends Notifications</h6>
+                    <div className="bg-light rounded p-3">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <div className="text-dark">User Requests</div>
+                          <small className="text-muted">When another user send you a friend request</small>
+                        </div>
+                        <FormGroup switch className="mb-0">
+                          <Input type="switch" id="friendRequestNotifications" />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </Col>
             </Row>

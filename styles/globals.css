@@ -67,6 +67,24 @@ a {
   border: none !important;
 }
 
+/* Custom switch styles */
+.form-switch .form-check-input {
+  width: 46px !important;
+  height: 24px !important;
+  background-color: #E9ECEF;
+  border: none;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
+}
+
+.form-switch .form-check-input:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
 @media (max-width: 991.98px) {
   .sidebar {
     transform: translateX(-100%);
