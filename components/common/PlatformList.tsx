@@ -10,15 +10,15 @@ interface Platform {
 }
 
 const platforms: Platform[] = [
-  { id: 'dota', name: 'Dota', icon: '/profile-avatar.png' },
-  { id: 'freefire', name: 'Freefire', icon: '/profile-avatar.png' },
-  { id: 'pubg', name: 'PUBG', icon: '/profile-avatar.png' },
-  { id: 'counterstrike', name: 'Counterstrike', icon: '/profile-avatar.png' },
-  { id: 'fortnite', name: 'Fortnite', icon: '/profile-avatar.png' },
-  { id: 'darksouls', name: 'Dark Souls', icon: '/profile-avatar.png' },
-  { id: 'gta', name: 'GTA', icon: '/profile-avatar.png' },
-  { id: 'lol', name: 'League of Legends', icon: '/profile-avatar.png' },
-  { id: 'valorant', name: 'Valorant', icon: '/profile-avatar.png' },
+  { id: 'dota', name: 'Dota', icon: '/user1.png' },
+  { id: 'freefire', name: 'Freefire', icon: '/user1.png' },
+  { id: 'pubg', name: 'PUBG', icon: '/user1.png' },
+  { id: 'counterstrike', name: 'Counterstrike', icon: '/user1.png' },
+  { id: 'fortnite', name: 'Fortnite', icon: '/user1.png' },
+  { id: 'darksouls', name: 'Dark Souls', icon: '/user1.png' },
+  { id: 'gta', name: 'GTA', icon: '/user1.png' },
+  { id: 'lol', name: 'League of Legends', icon: '/user1.png' },
+  { id: 'valorant', name: 'Valorant', icon: '/user1.png' },
 ];
 
 const PlatformList: React.FC = () => {
@@ -35,22 +35,30 @@ const PlatformList: React.FC = () => {
 
   return (
     <div>
-      <div className="d-flex flex-wrap gap-4 mb-5">
+      <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px' }}>
         {platforms.map((platform) => (
           <div
             key={platform.id}
             className="d-flex flex-column align-items-center"
-            style={{ width: '72px' }}
+            style={{ 
+              width: '100px',
+              padding: '8px',
+              cursor: 'pointer',
+              transition: 'transform 0.2s',
+              ':hover': {
+                transform: 'scale(1.05)'
+              }
+            }}
           >
             <div
               style={{
                 width: '72px',
                 height: '72px',
-                borderRadius: '12px',
+                borderRadius: '50%',
                 overflow: 'hidden',
                 position: 'relative',
-                cursor: 'pointer',
-                border: '1px solid #EAECF0',
+                border: '2px solid #EAECF0',
+                backgroundColor: '#F9FAFB'
               }}
             >
               <Image
@@ -62,10 +70,15 @@ const PlatformList: React.FC = () => {
             </div>
             <span
               style={{
-                fontSize: '12px',
+                fontSize: '14px',
                 color: '#344054',
                 textAlign: 'center',
                 marginTop: '8px',
+                fontWeight: '500',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%'
               }}
             >
               {platform.name}
@@ -75,7 +88,7 @@ const PlatformList: React.FC = () => {
       </div>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h6 className="mb-0">Added Platforms</h6>
+        <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
         <Button
           color="warning"
           style={{
@@ -85,31 +98,34 @@ const PlatformList: React.FC = () => {
             padding: '8px 14px',
             fontSize: '14px',
             borderRadius: '8px',
+            fontWeight: '500'
           }}
         >
           Add Platform
         </Button>
       </div>
 
-      <div>
+      <div className="platform-list">
         {addedPlatforms.map((platform) => (
           <div
             key={platform.id}
-            className="d-flex justify-content-between align-items-center p-3 mb-2"
+            className="platform-item d-flex justify-content-between align-items-center p-3 mb-2"
             style={{
               backgroundColor: '#FFFFFF',
               border: '1px solid #EAECF0',
               borderRadius: '8px',
+              transition: 'background-color 0.2s'
             }}
           >
-            <div className="d-flex align-items-center gap-2">
+            <div className="d-flex align-items-center gap-3">
               <div
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '6px',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
                   overflow: 'hidden',
                   position: 'relative',
+                  border: '1px solid #EAECF0'
                 }}
               >
                 <Image
@@ -119,19 +135,35 @@ const PlatformList: React.FC = () => {
                   objectFit="cover"
                 />
               </div>
-              <span style={{ fontSize: '14px', color: '#344054' }}>
+              <span style={{ 
+                fontSize: '14px', 
+                color: '#344054',
+                fontWeight: '500'
+              }}>
                 {platform.name}
               </span>
             </div>
             <button
               className="btn btn-link p-0"
-              style={{ color: '#667085' }}
+              style={{ 
+                color: '#667085',
+                transition: 'color 0.2s'
+              }}
             >
               <i className="fas fa-pencil-alt"></i>
             </button>
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        .platform-item:hover {
+          background-color: #F9FAFB !important;
+        }
+        .btn-link:hover {
+          color: #344054 !important;
+        }
+      `}</style>
     </div>
   );
 };
