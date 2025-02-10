@@ -325,8 +325,8 @@ export default function Settings() {
             <div className="bg-white p-4">
               <div className="mb-4">
                 <div
-                  className="p-2"
-                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                  className="p-2 mb-2"
+                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
                 >
                   <h6
                     style={{
@@ -373,8 +373,8 @@ export default function Settings() {
 
               <div className="mb-4">
                 <div
-                  className="p-2"
-                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                  className="p-2 mb-2"
+                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
                 >
                   <h6
                     style={{
@@ -446,8 +446,8 @@ export default function Settings() {
 
               <div>
                 <div
-                  className="p-2"
-                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                  className="p-2 mb-2"
+                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
                 >
                   <h6
                     style={{
