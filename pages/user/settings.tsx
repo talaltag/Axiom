@@ -127,48 +127,63 @@ export default function Settings() {
         </div>
         <p className="text-muted">Manage your team and preferences here.</p>
 
-        <Nav tabs className="mb-4">
+        <Nav className="mb-4 border-0 d-flex gap-1" style={{ backgroundColor: '#F2F4F7', padding: '4px', borderRadius: '6px' }}>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === "myAccount" })}
+              className={classnames("border-0 rounded", { 
+                'bg-white text-dark shadow-sm': activeTab === "myAccount",
+                'text-secondary': activeTab !== "myAccount" 
+              })}
               onClick={() => setActiveTab("myAccount")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
             >
               My Account
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === "notifications" })}
+              className={classnames("border-0 rounded", {
+                'bg-white text-dark shadow-sm': activeTab === "notifications",
+                'text-secondary': activeTab !== "notifications"
+              })}
               onClick={() => setActiveTab("notifications")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
             >
               Notifications
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === "billings" })}
+              className={classnames("border-0 rounded", {
+                'bg-white text-dark shadow-sm': activeTab === "billings",
+                'text-secondary': activeTab !== "billings"
+              })}
               onClick={() => setActiveTab("billings")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
             >
               Billings
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === "platformIntegration" })}
+              className={classnames("border-0 rounded", {
+                'bg-white text-dark shadow-sm': activeTab === "platformIntegration",
+                'text-secondary': activeTab !== "platformIntegration"
+              })}
               onClick={() => setActiveTab("platformIntegration")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
             >
               Platform Integration
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === "privacySafety" })}
+              className={classnames("border-0 rounded", {
+                'bg-white text-dark shadow-sm': activeTab === "privacySafety",
+                'text-secondary': activeTab !== "privacySafety"
+              })}
               onClick={() => setActiveTab("privacySafety")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
             >
               Privacy & Safety
             </NavLink>
