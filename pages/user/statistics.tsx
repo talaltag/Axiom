@@ -22,7 +22,7 @@ export default function Statistics() {
     options: {
       chart: {
         type: "bar",
-        height: 350,
+        height: 300,
         toolbar: {
           show: false,
         },
@@ -31,10 +31,9 @@ export default function Statistics() {
       },
       plotOptions: {
         bar: {
-          columnWidth: "12px",
-          borderRadius: 6,
-          distributed: true,
-          rangeBarOverlap: false,
+          columnWidth: "8px",
+          borderRadius: 4,
+          distributed: false,
         },
       },
       title: {
@@ -132,12 +131,12 @@ export default function Statistics() {
         type: "donut",
         background: "transparent",
       },
-      colors: ["#FFD600", "#8B4513"],
+      colors: ["#FFD600", "#EAECF0"],
       labels: ["Won", "Lost"],
       plotOptions: {
         pie: {
           donut: {
-            size: "85%",
+            size: "90%",
             labels: {
               show: true,
               name: {
@@ -254,13 +253,12 @@ export default function Statistics() {
             <Card
               className="border-0"
               style={{
-                boxShadow: "none",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
                 borderRadius: "12px",
-                backgroundColor: "#FAFBFC",
-                border: "1px solid #EAECF0"
+                backgroundColor: "transparent"
               }}
             >
-              <CardBody className="chart-card-body p-4">
+              <CardBody className="chart-card-body" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
