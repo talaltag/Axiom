@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Image from 'next/image';
 import { Button } from 'reactstrap';
@@ -11,7 +12,6 @@ interface Platform {
 const platforms: Platform[] = [
   { id: 'dota', name: 'Dota', icon: '/user1.png' },
   { id: 'freefire', name: 'Freefire', icon: '/user1.png' },
-  { id: 'pubg', name: 'PUBG', icon: '/user1.png' },
   { id: 'counterstrike', name: 'Counterstrike', icon: '/user1.png' },
   { id: 'fortnite', name: 'Fortnite', icon: '/user1.png' },
   { id: 'darksouls', name: 'Dark Souls', icon: '/user1.png' },
@@ -24,70 +24,59 @@ const PlatformList: React.FC = () => {
   const [addedPlatforms, setAddedPlatforms] = React.useState<Platform[]>([
     platforms[0], // Dota
     platforms[1], // Freefire
-    platforms[3], // Counterstrike
-    platforms[4], // Fortnite
-    platforms[5], // Dark Souls
-    platforms[6], // GTA
-    platforms[7], // League of Legends
-    platforms[8], // Valorant
+    platforms[2], // Counterstrike
+    platforms[3], // Fortnite
+    platforms[4], // Dark Souls
+    platforms[5], // GTA
+    platforms[6], // League of Legends
+    platforms[7], // Valorant
   ]);
 
   return (
     <div>
       <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px', padding: '24px', backgroundColor: '#FAFBFC' }}>
-        {platforms.map((platform) => (
-          <div
-            key={platform.id}
-            className="d-flex flex-column align-items-center"
-            style={{ 
-              width: '100px',
-              padding: '8px',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-              ':hover': {
-                transform: 'scale(1.05)'
-              }
-            }}
-          >
-            <div
-              style={{
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                position: 'relative',
-                border: '2px solid #EAECF0',
-                backgroundColor: '#F9FAFB'
-              }}
-            >
-              <Image
-                src={platform.icon}
-                alt={platform.name}
-                layout="fill"
-                objectFit="cover"
-              />
+        <div className="row w-100">
+          {platforms.map((platform, index) => (
+            <div key={platform.id} className="col-md-6 mb-3">
+              <div className="d-flex align-items-center gap-3 p-3" style={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #EAECF0' }}>
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    border: '2px solid #EAECF0',
+                    backgroundColor: '#F9FAFB'
+                  }}
+                >
+                  <Image
+                    src={platform.icon}
+                    alt={platform.name}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+                <span style={{
+                  fontSize: '14px',
+                  color: '#344054',
+                  fontWeight: '500',
+                }}>
+                  {platform.name}
+                </span>
+                <div className="ms-auto">
+                  <button className="btn btn-link p-2" style={{ color: '#667085' }}>
+                    <i className="fas fa-pencil-alt"></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <span
-              style={{
-                fontSize: '14px',
-                color: '#344054',
-                textAlign: 'center',
-                marginTop: '8px',
-                fontWeight: '500',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                width: '100%'
-              }}
-            >
-              {platform.name}
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
+        <h6 className="mb-0" style={{ fontSize: '18px', color: '#101828', fontWeight: 600 }}>Added Platforms</h6>
         <Button
           color="warning"
           style={{
