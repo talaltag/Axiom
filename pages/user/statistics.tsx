@@ -22,7 +22,7 @@ export default function Statistics() {
     options: {
       chart: {
         type: "bar",
-        height: 350,
+        height: 300,
         toolbar: {
           show: false,
         },
@@ -31,17 +31,10 @@ export default function Statistics() {
       },
       plotOptions: {
         bar: {
-          columnWidth: "6px",
-          borderRadius: [4, 4, 0, 0],
-          colors: {
-            ranges: [{
-              from: -100,
-              to: 100,
-              color: "#FFD600"
-            }]
-          },
-          distributed: true
-        }
+          columnWidth: "8px",
+          borderRadius: 4,
+          distributed: false,
+        },
       },
       title: {
         text: "Gaming time",
@@ -49,7 +42,7 @@ export default function Statistics() {
         margin: 0,
         offsetY: 0,
         style: {
-          fontSize: '18px',
+          fontSize: '16px',
           fontWeight: 500,
           color: '#101828',
           fontFamily: "Inter, sans-serif"
@@ -58,7 +51,7 @@ export default function Statistics() {
       subtitle: {
         text: "Daily Average 2 Hrs. 25 min",
         align: "left",
-        offsetY: 25,
+        offsetY: 20,
         style: {
           fontSize: '14px',
           fontWeight: 400,
@@ -67,25 +60,19 @@ export default function Statistics() {
         }
       },
       fill: {
-        type: "gradient",
-        gradient: {
-          type: "vertical",
-          shadeIntensity: 0.1,
-          opacityFrom: 1,
-          opacityTo: 0.9,
-          stops: [0, 100]
-        }
+        opacity: 1
       },
-      colors: ["#FFD600", "#8B4513"],
+      colors: ['#FFD700', '#8B4513'],
+      distributed: true,
       xaxis: {
         categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         labels: {
           style: {
-            fontSize: "11px",
+            fontSize: "12px",
             fontWeight: 400,
             colors: "#667085",
             fontFamily: "Inter, sans-serif"
-          }
+          },
         },
         axisBorder: {
           show: false
@@ -103,7 +90,7 @@ export default function Statistics() {
             return value + ' min';
           },
           style: {
-            fontSize: "11px",
+            fontSize: "12px",
             fontWeight: 400,
             colors: "#667085",
             fontFamily: "Inter, sans-serif"
@@ -111,8 +98,8 @@ export default function Statistics() {
         }
       },
       grid: {
-        borderColor: "#F0F2F5",
-        strokeDashArray: 6,
+        borderColor: "#EAECF0",
+        strokeDashArray: 4,
         xaxis: {
           lines: {
             show: false
@@ -122,12 +109,6 @@ export default function Statistics() {
           lines: {
             show: true
           }
-        },
-        padding: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0
         }
       },
       tooltip: {
@@ -137,80 +118,55 @@ export default function Statistics() {
     series: [
       {
         name: "Gaming Time",
-        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110]
-      }
-    ]
+        data: [
+          20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110
+        ],
+      },
+    ],
   };
 
   const donutChartData = {
     options: {
       chart: {
         type: "donut",
-        background: "transparent"
+        background: "transparent",
       },
-      colors: ["#FFD600", "#8B4513"],
+      colors: ["#FFD600", "#EAECF0"],
       labels: ["Won", "Lost"],
       plotOptions: {
         pie: {
           donut: {
-            size: "85%",
+            size: "90%",
             labels: {
               show: true,
               name: {
-                show: true,
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif',
-                color: '#667085',
-                offsetY: -10
+                show: false,
               },
               value: {
                 show: true,
                 fontSize: "24px",
-                fontFamily: 'Inter, sans-serif',
                 fontWeight: 600,
                 color: "#101828",
-                offsetY: 5
+                offsetY: 0,
               },
               total: {
-                show: true,
-                label: "Total",
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif',
-                color: '#667085',
-                formatter: function () {
-                  return '98%'
-                }
-              }
-            }
-          }
-        }
+                show: false
+              },
+            },
+          },
+        },
       },
       stroke: {
-        width: 0
+        width: 0,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       legend: {
-        show: true,
-        position: 'right',
-        fontSize: '12px',
-        fontFamily: 'Inter, sans-serif',
-        labels: {
-          colors: '#667085'
-        },
-        markers: {
-          width: 8,
-          height: 8,
-          radius: 12
-        },
-        itemMargin: {
-          horizontal: 15,
-          vertical: 5
-        }
-      }
+        show: false,
+      },
     },
-    series: [98, 2]
+    series: [98, 2],
   };
 
   const lineChartData = {
@@ -302,7 +258,7 @@ export default function Statistics() {
                 backgroundColor: "transparent"
               }}
             >
-              <CardBody className="chart-card-body" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px", padding: "24px" }}>
+              <CardBody className="chart-card-body" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
