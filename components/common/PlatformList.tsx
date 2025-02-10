@@ -90,6 +90,7 @@ const PlatformList: React.FC = () => {
         <h6 className="mb-0" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
         <Button
           color="warning"
+          onClick={() => setModalOpen(true)}
           style={{
             backgroundColor: '#FFD600',
             border: 'none',
