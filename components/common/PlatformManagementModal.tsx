@@ -18,139 +18,171 @@ export default function PlatformManagementModal({ isOpen, toggle, onAddPlatform 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAddPlatform(platformData);
+    setPlatformData({ platformId: '', platform: '', username: '' });
     toggle();
   };
 
   return (
-    <Modal 
-      isOpen={isOpen} 
-      toggle={toggle}
-      style={{
-        maxWidth: '400px',
-        borderRadius: '12px',
-        boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.15)'
-      }}
-      backdropClassName="modal-backdrop-dark"
-    >
-      <div className="p-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h5 className="mb-0" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>
-            Platform Management
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={toggle}
-            style={{ padding: '8px' }}
-          />
-        </div>
-
-        <Form onSubmit={handleSubmit}>
-          <FormGroup className="mb-3">
-            <Label 
-              for="platformId"
-              style={{ fontSize: '14px', color: '#344054', marginBottom: '6px' }}
-            >
-              Platform ID
-            </Label>
-            <Input
-              id="platformId"
-              placeholder="Platform ID"
-              value={platformData.platformId}
-              onChange={(e) => setPlatformData({ ...platformData, platformId: e.target.value })}
-              required
-              style={{
-                height: '44px',
-                padding: '10px 14px',
-                border: '1px solid #D0D5DD',
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
-            />
-          </FormGroup>
-          <FormGroup className="mb-3">
-            <Label 
-              for="platform"
-              style={{ fontSize: '14px', color: '#344054', marginBottom: '6px' }}
-            >
-              Platform
-            </Label>
-            <Input
-              id="platform"
-              placeholder="Platform"
-              value={platformData.platform}
-              onChange={(e) => setPlatformData({ ...platformData, platform: e.target.value })}
-              required
-              style={{
-                height: '44px',
-                padding: '10px 14px',
-                border: '1px solid #D0D5DD',
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
-            />
-          </FormGroup>
-          <FormGroup className="mb-4">
-            <Label 
-              for="username"
-              style={{ fontSize: '14px', color: '#344054', marginBottom: '6px' }}
-            >
-              Username
-            </Label>
-            <Input
-              id="username"
-              placeholder="Username"
-              value={platformData.username}
-              onChange={(e) => setPlatformData({ ...platformData, username: e.target.value })}
-              required
-              style={{
-                height: '44px',
-                padding: '10px 14px',
-                border: '1px solid #D0D5DD',
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
-            />
-          </FormGroup>
-          <Button
-            color="warning"
-            type="submit"
-            className="w-100"
-            style={{
-              backgroundColor: '#FFD600',
-              border: 'none',
-              height: '44px',
-              borderRadius: '8px',
-              fontSize: '14px',
+    <>
+      <Modal 
+        isOpen={isOpen} 
+        toggle={toggle}
+        className="modal-dialog-centered"
+        style={{
+          maxWidth: '400px'
+        }}
+      >
+        <div className="p-4">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h5 style={{ 
+              fontSize: '18px', 
               fontWeight: 500,
-              color: '#101828'
-            }}
-          >
-            Add Platform
-          </Button>
-        </Form>
-      </div>
+              color: '#101828',
+              margin: 0
+            }}>
+              Platform Management
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggle}
+              aria-label="Close"
+            />
+          </div>
+
+          <Form onSubmit={handleSubmit}>
+            <FormGroup className="mb-3">
+              <Label 
+                for="platformId"
+                style={{
+                  fontSize: '14px',
+                  color: '#344054',
+                  fontWeight: 500,
+                  marginBottom: '6px'
+                }}
+              >
+                Platform ID
+              </Label>
+              <Input
+                id="platformId"
+                placeholder="Platform ID"
+                value={platformData.platformId}
+                onChange={(e) => setPlatformData({ ...platformData, platformId: e.target.value })}
+                style={{
+                  height: '44px',
+                  padding: '10px 14px',
+                  fontSize: '16px',
+                  border: '1px solid #D0D5DD',
+                  borderRadius: '8px',
+                  background: '#FFFFFF'
+                }}
+              />
+            </FormGroup>
+
+            <FormGroup className="mb-3">
+              <Label 
+                for="platform"
+                style={{
+                  fontSize: '14px',
+                  color: '#344054',
+                  fontWeight: 500,
+                  marginBottom: '6px'
+                }}
+              >
+                Platform
+              </Label>
+              <Input
+                id="platform"
+                placeholder="Platform"
+                value={platformData.platform}
+                onChange={(e) => setPlatformData({ ...platformData, platform: e.target.value })}
+                style={{
+                  height: '44px',
+                  padding: '10px 14px',
+                  fontSize: '16px',
+                  border: '1px solid #D0D5DD',
+                  borderRadius: '8px',
+                  background: '#FFFFFF'
+                }}
+              />
+            </FormGroup>
+
+            <FormGroup className="mb-4">
+              <Label 
+                for="username"
+                style={{
+                  fontSize: '14px',
+                  color: '#344054',
+                  fontWeight: 500,
+                  marginBottom: '6px'
+                }}
+              >
+                Username
+              </Label>
+              <Input
+                id="username"
+                placeholder="Username"
+                value={platformData.username}
+                onChange={(e) => setPlatformData({ ...platformData, username: e.target.value })}
+                style={{
+                  height: '44px',
+                  padding: '10px 14px',
+                  fontSize: '16px',
+                  border: '1px solid #D0D5DD',
+                  borderRadius: '8px',
+                  background: '#FFFFFF'
+                }}
+              />
+            </FormGroup>
+
+            <Button
+              type="submit"
+              className="w-100"
+              style={{
+                height: '44px',
+                backgroundColor: '#FFD600',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: 500,
+                color: '#101828',
+                padding: '10px'
+              }}
+            >
+              Add Platform
+            </Button>
+          </Form>
+        </div>
+      </Modal>
 
       <style jsx global>{`
-        .modal-backdrop-dark {
-          background-color: rgba(52, 64, 84, 0.7) !important;
-          backdrop-filter: blur(8px);
-        }
         .modal-content {
-          border: none !important;
+          border: none;
+          border-radius: 12px;
           box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
         }
-        .form-label {
-          font-weight: 500;
+        
+        .modal-backdrop.show {
+          opacity: 0.7;
+          background-color: rgba(52, 64, 84, 0.7);
+          backdrop-filter: blur(8px);
         }
+        
+        .btn-close {
+          background-size: 14px;
+          opacity: 1;
+          padding: 8px;
+        }
+        
+        .btn-close:hover {
+          opacity: 0.7;
+        }
+        
         .form-control:focus {
           border-color: #FFD600;
-          box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.25);
-        }
-        .btn-close:focus {
-          box-shadow: none;
+          box-shadow: 0 0 0 4px rgba(255, 214, 0, 0.25);
         }
       `}</style>
-    </Modal>
+    </>
   );
 }
