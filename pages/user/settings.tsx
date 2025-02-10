@@ -122,72 +122,51 @@ export default function Settings() {
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <div className="d-flex align-items-center mb-4">
-          <h3 className="mb-0">Settings</h3>
+        <div className="mb-1">
+          <h2 style={{
+            marginBottom: "6px",
+            fontSize: "24px",
+            fontWeight: 500,
+            color: "#101828",
+            fontFamily: "Inter, sans-serif"
+          }}>
+            Settings
+          </h2>
         </div>
-        <p className="text-muted">Manage your team and preferences here.</p>
+        <p style={{ color: "#667085", fontSize: "14px", marginBottom: "32px", fontFamily: "Inter, sans-serif" }}>
+          Manage your team and preferences here.
+        </p>
 
-        <Nav className="mb-4 d-flex gap-1" style={{ width:'fit-content', border:'1px solid #ECECEC !important', padding: '4px', borderRadius: '6px' }}>
-          <NavItem>
-            <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "myAccount",
-                'bg-light text-dark': activeTab === "myAccount"
-              })}
-              onClick={() => setActiveTab("myAccount")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
-            >
-              My Account
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "notifications",
-                'bg-light text-dark': activeTab === "notifications"
-              })}
-              onClick={() => setActiveTab("notifications")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
-            >
-              Notifications
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "billings",
-                'bg-light text-dark': activeTab === "billings"
-              })}
-              onClick={() => setActiveTab("billings")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
-            >
-              Billings
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "platformIntegration",
-                'bg-light text-dark': activeTab === "platformIntegration"
-              })}
-              onClick={() => setActiveTab("platformIntegration")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
-            >
-              Platform Integration
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames("border-0 rounded", {
-                'bg-white text-dark': activeTab !== "privacySafety",
-                'bg-light text-dark': activeTab === "privacySafety"
-              })}
-              onClick={() => setActiveTab("privacySafety")}
-              style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
-            >
-              Privacy & Safety
-            </NavLink>
-          </NavItem>
+        <Nav tabs style={{ border: 'none', marginBottom: '24px' }}>
+          <div className="d-flex gap-1" style={{ background: '#F9FAFB', padding: '4px', borderRadius: '6px', width: 'fit-content' }}>
+            {[
+              { id: "myAccount", label: "My Account" },
+              { id: "notifications", label: "Notifications" },
+              { id: "billings", label: "Billings" },
+              { id: "platformIntegration", label: "Platform Integration" },
+              { id: "privacySafety", label: "Privacy & Safety" }
+            ].map((tab) => (
+              <NavItem key={tab.id}>
+                <NavLink
+                  className={classnames("border-0", {
+                    'bg-white': activeTab !== tab.id,
+                    'bg-[#ECECEC]': activeTab === tab.id
+                  })}
+                  onClick={() => setActiveTab(tab.id)}
+                  style={{
+                    cursor: "pointer",
+                    padding: '8px 12px',
+                    fontSize: '14px',
+                    color: '#101828',
+                    borderRadius: '4px',
+                    fontFamily: "Inter, sans-serif"
+                  }}
+                >
+                  {tab.label}
+                </NavLink>
+              </NavItem>
+            ))}
+          </div>
         </Nav>
 
         <TabContent activeTab={activeTab}>
@@ -318,71 +297,88 @@ export default function Settings() {
           </TabPane>
 
           <TabPane tabId="notifications">
-            <Row>
-              <Col>
-                <div className="bg-white p-4">
-                  <div className="mb-4">
-                    <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Incoming Message Notifications</h6>
-                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
-                      <div className="d-flex justify-content-between align-items-center p-3">
-                        <div>
-                          <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>Message Notifications</div>
-                          <small style={{ fontSize: '14px', color: '#667085' }}>Show notifications for new messages</small>
-                        </div>
-                        <FormGroup switch className="mb-0">
-                          <Input type="switch" id="messageNotifications" defaultChecked />
-                        </FormGroup>
+            <div className="bg-white rounded-2 p-4">
+              <div className="mb-4">
+                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                  Incoming Message Notifications
+                </h6>
+                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    <div>
+                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                        Message Notifications
                       </div>
+                      <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                        Show notifications for new messages
+                      </small>
+                    </div>
+                    <FormGroup switch className="mb-0">
+                      <Input type="switch" role="switch" defaultChecked />
+                    </FormGroup>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                  Tournament Notifications
+                </h6>
+                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                  <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                          Announcement
+                        </div>
+                        <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                          Show notifications for new tournaments
+                        </small>
+                      </div>
+                      <FormGroup switch className="mb-0">
+                        <Input type="switch" role="switch" />
+                      </FormGroup>
                     </div>
                   </div>
-
-                  <div className="mb-4">
-                    <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Tournament Notifications</h6>
-                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
-                      <div className="p-3 border-bottom" style={{ borderColor: '#EAECF0 !important' }}>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>Announcement</div>
-                            <small style={{ fontSize: '14px', color: '#667085' }}>Show notifications for new tournaments</small>
-                          </div>
-                          <FormGroup switch className="mb-0">
-                            <Input type="switch" id="tournamentNotifications" />
-                          </FormGroup>
+                  <div className="p-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                          Reminder
                         </div>
+                        <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                          Remind me about tournament registration
+                        </small>
                       </div>
-                      <div className="p-3">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>Reminder</div>
-                            <small style={{ fontSize: '14px', color: '#667085' }}>Remind me about tournament registration</small>
-                          </div>
-                          <FormGroup switch className="mb-0">
-                            <Input type="switch" id="reminderNotifications" defaultChecked />
-                          </FormGroup>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Friends Notifications</h6>
-                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
-                      <div className="d-flex justify-content-between align-items-center p-3">
-                        <div>
-                          <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>User Requests</div>
-                          <small style={{ fontSize: '14px', color: '#667085' }}>When another user send you a friend request</small>
-                        </div>
-                        <FormGroup switch className="mb-0">
-                          <Input type="switch" id="friendRequestNotifications" />
-                        </FormGroup>
-                      </div>
+                      <FormGroup switch className="mb-0">
+                        <Input type="switch" role="switch" defaultChecked />
+                      </FormGroup>
                     </div>
                   </div>
                 </div>
-              </Col>
-            </Row>
-          </TabPane>
+              </div>
 
+              <div>
+                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                  Friends Notifications
+                </h6>
+                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    <div>
+                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                        User Requests
+                      </div>
+                      <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                        When another user send you a friend request
+                      </small>
+                    </div>
+                    <FormGroup switch className="mb-0">
+                      <Input type="switch" role="switch" />
+                    </FormGroup>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabPane>
           <TabPane tabId="billings">
             <Row>
               <Col md={8}>
