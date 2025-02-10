@@ -191,7 +191,7 @@ export default function Settings() {
         <TabContent activeTab={activeTab}>
           <TabPane tabId="myAccount">
             <Row>
-              <Col md={8}>
+              <Col md={12}>
                 <div className="bg-white rounded p-4 mb-4">
                   <div className="d-flex align-items-center mb-4">
                     <div
