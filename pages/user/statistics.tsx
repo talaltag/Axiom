@@ -37,8 +37,8 @@ export default function Statistics() {
       },
       plotOptions: {
         bar: {
-          columnWidth: "10px",
-          borderRadius: [10, 10, 0, 0],
+          columnWidth: "35%",
+          borderRadius: 4,
           distributed: true,
         },
       },
@@ -46,19 +46,36 @@ export default function Statistics() {
         normal: {
           filter: {
             type: 'drop-shadow',
-            color: 'rgba(0, 0, 0, 0.2)',
-            blur: 3,
-            opacity: 1
+            value: 4
+          }
+        },
+        hover: {
+          filter: {
+            type: 'drop-shadow',
+            value: 4
           }
         }
       },
       fill: {
-        opacity: 1,
-        colors: function(opts) {
-          const value = opts.value;
-          const maxValue = Math.max(...barChartData.series[0].data);
-          return value === maxValue ? '#FFD700' : '#F2F4F7';
-        }
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "vertical",
+          gradientToColors: ["#FFFFFF"],
+          stops: [0, 100],
+          colorStops: [
+            {
+              offset: 0,
+              color: "#FFD700",
+              opacity: 1,
+            },
+            {
+              offset: 100,
+              color: "#FFFFFF",
+              opacity: 0.8,
+            },
+          ],
+        },
       },
       colors: ["#FFD700"],
       xaxis: {
@@ -78,18 +95,11 @@ export default function Statistics() {
         ],
         labels: {
           style: {
-            fontSize: "14px",
-            fontFamily: "Inter, sans-serif",
+            fontSize: "12px",
             fontWeight: 500,
-            colors: "#667085",
+            colors: "#475467",
           },
         },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        }
       },
       yaxis: {
         labels: {
@@ -97,18 +107,11 @@ export default function Statistics() {
             return "$" + value;
           },
           style: {
-            fontSize: "14px",
-            fontFamily: "Inter, sans-serif",
+            fontSize: "12px",
             fontWeight: 500,
-            colors: "#667085",
+            colors: "#475467",
           },
         },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        }
       },
       grid: {
         borderColor: "#F0F0F0",
