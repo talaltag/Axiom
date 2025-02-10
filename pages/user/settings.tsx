@@ -297,66 +297,66 @@ export default function Settings() {
           </TabPane>
 
           <TabPane tabId="notifications">
-            <div className="bg-white p-4">
-              <div className="mb-4">
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '8px', padding: '24px' }}>
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ background: '#F9FAFB', borderRadius: '4px', padding: '8px 12px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500, lineHeight: '20px' }}>
                     Incoming Message Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
-                  <div className="p-3">
+                <div style={{ marginTop: '12px', background: '#FFFFFF', borderRadius: '4px' }}>
+                  <div style={{ padding: '16px' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500, lineHeight: '20px' }}>
                           Message Notifications
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                           Show notifications for new messages
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" defaultChecked />
+                        <Input type="switch" role="switch" defaultChecked style={{ width: '36px', height: '20px' }} />
                       </FormGroup>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mb-4">
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ background: '#F9FAFB', borderRadius: '4px', padding: '8px 12px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500, lineHeight: '20px' }}>
                     Tournament Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
-                  <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
+                <div style={{ marginTop: '12px', background: '#FFFFFF', borderRadius: '4px' }}>
+                  <div style={{ padding: '16px', borderBottom: '1px solid #EAECF0' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500, lineHeight: '20px' }}>
                           Announcement
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                           Show notifications for new tournaments
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" />
+                        <Input type="switch" role="switch" style={{ width: '36px', height: '20px' }} />
                       </FormGroup>
                     </div>
                   </div>
-                  <div className="p-3">
+                  <div style={{ padding: '16px' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500, lineHeight: '20px' }}>
                           Reminder
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                           Remind me about tournament registration
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" defaultChecked />
+                        <Input type="switch" role="switch" defaultChecked style={{ width: '36px', height: '20px' }} />
                       </FormGroup>
                     </div>
                   </div>
@@ -364,24 +364,24 @@ export default function Settings() {
               </div>
 
               <div>
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                <div style={{ background: '#F9FAFB', borderRadius: '4px', padding: '8px 12px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500, lineHeight: '20px' }}>
                     Friends Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
-                  <div className="p-3">
+                <div style={{ marginTop: '12px', background: '#FFFFFF', borderRadius: '4px' }}>
+                  <div style={{ padding: '16px' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500, lineHeight: '20px' }}>
                           User Requests
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085', lineHeight: '20px' }}>
                           When another user send you a friend request
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" />
+                        <Input type="switch" role="switch" style={{ width: '36px', height: '20px' }} />
                       </FormGroup>
                     </div>
                   </div>
