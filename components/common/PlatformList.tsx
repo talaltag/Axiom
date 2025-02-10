@@ -10,15 +10,15 @@ interface Platform {
 }
 
 const platforms: Platform[] = [
-  { id: 'dota', name: 'Dota', icon: '/platforms/dota.png' },
-  { id: 'freefire', name: 'Freefire', icon: '/platforms/freefire.png' },
-  { id: 'pubg', name: 'PUBG', icon: '/platforms/pubg.png' },
-  { id: 'counterstrike', name: 'Counterstrike', icon: '/platforms/counterstrike.png' },
-  { id: 'fortnite', name: 'Fortnite', icon: '/platforms/fortnite.png' },
-  { id: 'darksouls', name: 'Dark Souls', icon: '/platforms/darksouls.png' },
-  { id: 'gta', name: 'GTA', icon: '/platforms/gta.png' },
-  { id: 'lol', name: 'League of Legends', icon: '/platforms/lol.png' },
-  { id: 'valorant', name: 'Valorant', icon: '/platforms/valorant.png' },
+  { id: 'dota', name: 'Dota', icon: '/platforms/dota-icon.png' },
+  { id: 'freefire', name: 'Freefire', icon: '/platforms/freefire-icon.png' },
+  { id: 'pubg', name: 'PUBG', icon: '/platforms/pubg-icon.png' },
+  { id: 'counterstrike', name: 'Counterstrike', icon: '/platforms/cs-icon.png' },
+  { id: 'fortnite', name: 'Fortnite', icon: '/platforms/fortnite-icon.png' },
+  { id: 'darksouls', name: 'Dark Souls', icon: '/platforms/darksouls-icon.png' },
+  { id: 'gta', name: 'GTA', icon: '/platforms/gta-icon.png' },
+  { id: 'lol', name: 'League of Legends', icon: '/platforms/lol-icon.png' },
+  { id: 'valorant', name: 'Valorant', icon: '/platforms/valorant-icon.png' },
 ];
 
 const PlatformList: React.FC = () => {
