@@ -299,7 +299,7 @@ export default function Settings() {
           <TabPane tabId="notifications">
             <div className="bg-white p-4">
               <div className="mb-4">
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
                   <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
                     Incoming Message Notifications
                   </h6>
@@ -324,7 +324,7 @@ export default function Settings() {
               </div>
 
               <div className="mb-4">
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
                   <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
                     Tournament Notifications
                   </h6>
@@ -364,7 +364,7 @@ export default function Settings() {
               </div>
 
               <div>
-                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
                   <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
                     Friends Notifications
                   </h6>
