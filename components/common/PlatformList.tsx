@@ -1,40 +1,66 @@
-import React from "react";
-import Image from "next/image";
-import { Edit2 } from "react-feather";
 
-const platforms = [
-  { id: 1, name: "Dota", icon: "/platforms/dota.png" },
-  { id: 2, name: "Freefire", icon: "/platforms/freefire.png" },
-  { id: 3, name: "PUBG", icon: "/platforms/pubg.png" },
-  { id: 4, name: "Counterstrike", icon: "/platforms/cs.png" },
-  { id: 5, name: "Fortnite", icon: "/platforms/fortnite.png" },
-  { id: 6, name: "Dark Souls", icon: "/platforms/darksouls.png" },
-  { id: 7, name: "GTA", icon: "/platforms/gta.png" },
-  { id: 8, name: "League of Legends", icon: "/platforms/lol.png" },
-  { id: 9, name: "Valorant", icon: "/platforms/valorant.png" }
+import React from 'react';
+import Image from 'next/image';
+import { Button } from 'reactstrap';
+
+interface Platform {
+  id: string;
+  name: string;
+  icon: string;
+}
+
+const platforms: Platform[] = [
+  { id: 'dota', name: 'Dota', icon: '/user1.png' },
+  { id: 'freefire', name: 'Freefire', icon: '/user1.png' },
+  { id: 'pubg', name: 'PUBG', icon: '/user1.png' },
+  { id: 'counterstrike', name: 'Counterstrike', icon: '/user1.png' },
+  { id: 'fortnite', name: 'Fortnite', icon: '/user1.png' },
+  { id: 'darksouls', name: 'Dark Souls', icon: '/user1.png' },
+  { id: 'gta', name: 'GTA', icon: '/user1.png' },
+  { id: 'lol', name: 'League of Legends', icon: '/user1.png' },
+  { id: 'valorant', name: 'Valorant', icon: '/user1.png' },
 ];
 
-const connectedPlatforms = [
-  { id: 1, name: "Dota", icon: "/platforms/dota.png" },
-  { id: 2, name: "Freefire", icon: "/platforms/freefire.png" },
-  { id: 3, name: "Counterstrike", icon: "/platforms/cs.png" },
-  { id: 4, name: "Fortnite", icon: "/platforms/fortnite.png" },
-  { id: 5, name: "Dark Souls", icon: "/platforms/darksouls.png" },
-  { id: 6, name: "GTA", icon: "/platforms/gta.png" },
-  { id: 7, name: "League of Legends", icon: "/platforms/lol.png" },
-  { id: 8, name: "Valorant", icon: "/platforms/valorant.png" }
-];
+const PlatformList: React.FC = () => {
+  const [addedPlatforms, setAddedPlatforms] = React.useState<Platform[]>([
+    platforms[0], // Dota
+    platforms[1], // Freefire
+    platforms[3], // Counterstrike
+    platforms[4], // Fortnite
+    platforms[5], // Dark Souls
+    platforms[6], // GTA
+    platforms[7], // League of Legends
+    platforms[8], // Valorant
+  ]);
 
-const PlatformList = () => {
   return (
-    <div className="platform-integration">
-      <h6>Connect your Platforms</h6>
-      <p>Connect these accounts to integrate with your Axiom Gaming portal</p>
-
-      <div className="platform-grid">
+    <div>
+      <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px' }}>
         {platforms.map((platform) => (
-          <div key={platform.id} className="platform-item">
-            <div className="platform-icon">
+          <div
+            key={platform.id}
+            className="d-flex flex-column align-items-center"
+            style={{ 
+              width: '100px',
+              padding: '8px',
+              cursor: 'pointer',
+              transition: 'transform 0.2s',
+              ':hover': {
+                transform: 'scale(1.05)'
+              }
+            }}
+          >
+            <div
+              style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                position: 'relative',
+                border: '2px solid #EAECF0',
+                backgroundColor: '#F9FAFB'
+              }}
+            >
               <Image
                 src={platform.icon}
                 alt={platform.name}
@@ -42,34 +68,102 @@ const PlatformList = () => {
                 objectFit="cover"
               />
             </div>
-            <span className="platform-name">{platform.name}</span>
+            <span
+              style={{
+                fontSize: '14px',
+                color: '#344054',
+                textAlign: 'center',
+                marginTop: '8px',
+                fontWeight: '500',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%'
+              }}
+            >
+              {platform.name}
+            </span>
           </div>
         ))}
       </div>
 
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h6 className="m-0">Added Platforms</h6>
-        <button className="add-platform-btn">
-          <span>Add Platform</span>
-        </button>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h6 className="mb-0" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>Added Platforms</h6>
+        <Button
+          color="warning"
+          style={{
+            backgroundColor: '#FFD600',
+            border: 'none',
+            height: '36px',
+            padding: '8px 14px',
+            fontSize: '14px',
+            borderRadius: '8px',
+            fontWeight: '500'
+          }}
+        >
+          Add Platform
+        </Button>
       </div>
 
-      <div className="added-platforms">
-        {connectedPlatforms.map((platform) => (
-          <div key={platform.id} className="platform-item-row">
-            <Image
-              src={platform.icon}
-              alt={platform.name}
-              width={32}
-              height={32}
-            />
-            <span>{platform.name}</span>
-            <button>
-              <Edit2 size={16} />
+      <div className="platform-list">
+        {addedPlatforms.map((platform) => (
+          <div
+            key={platform.id}
+            className="platform-item d-flex justify-content-between align-items-center p-3 mb-2"
+            style={{
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #EAECF0',
+              borderRadius: '8px',
+              transition: 'background-color 0.2s'
+            }}
+          >
+            <div className="d-flex align-items-center gap-3">
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  border: '1px solid #EAECF0'
+                }}
+              >
+                <Image
+                  src={platform.icon}
+                  alt={platform.name}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+              <span style={{ 
+                fontSize: '14px', 
+                color: '#344054',
+                fontWeight: '500'
+              }}>
+                {platform.name}
+              </span>
+            </div>
+            <button
+              className="btn btn-link p-0"
+              style={{ 
+                color: '#667085',
+                transition: 'color 0.2s'
+              }}
+            >
+              <i className="fas fa-pencil-alt"></i>
             </button>
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        .platform-item:hover {
+          background-color: #F9FAFB !important;
+        }
+        .btn-link:hover {
+          color: #344054 !important;
+        }
+      `}</style>
     </div>
   );
 };
