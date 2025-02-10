@@ -47,10 +47,8 @@ const PlatformList: React.FC = () => {
               width: '100px',
               padding: '8px',
               cursor: 'pointer',
-              transition: 'transform 0.2s',
-              ':hover': {
-                transform: 'scale(1.05)'
-              }
+              backgroundColor: '#F9FAFB',
+              borderRadius: '8px'
             }}
           >
             <div
