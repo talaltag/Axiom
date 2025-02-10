@@ -37,8 +37,8 @@ export default function Statistics() {
       },
       plotOptions: {
         bar: {
-          columnWidth: "10px",
-          borderRadius: [20, 20, 0, 0],
+          columnWidth: "35%",
+          borderRadius: 4,
           distributed: true,
         },
       },
@@ -46,64 +46,72 @@ export default function Statistics() {
         normal: {
           filter: {
             type: 'drop-shadow',
-            value: 12
+            value: 4
+          }
+        },
+        hover: {
+          filter: {
+            type: 'drop-shadow',
+            value: 4
           }
         }
       },
       fill: {
-        opacity: 1
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "vertical",
+          gradientToColors: ["#FFFFFF"],
+          stops: [0, 100],
+          colorStops: [
+            {
+              offset: 0,
+              color: "#FFD700",
+              opacity: 1,
+            },
+            {
+              offset: 100,
+              color: "#FFFFFF",
+              opacity: 0.8,
+            },
+          ],
+        },
       },
-      colors: ['#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8', '#FFD600', '#C4A01C', '#FFD600'],
+      colors: ["#FFD700"],
       xaxis: {
         categories: [
-          "JAN",
-          "FEB",
-          "MAR",
-          "APR",
-          "MAY",
-          "JUN",
-          "JUL",
-          "AUG",
-          "SEP",
-          "OCT",
-          "NOV",
-          "DEC",
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
         ],
         labels: {
           style: {
-            fontSize: "14px",
-            fontWeight: 400,
-            colors: "#64748B",
-            fontFamily: "Inter, sans-serif"
+            fontSize: "12px",
+            fontWeight: 500,
+            colors: "#475467",
           },
         },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        }
       },
       yaxis: {
         labels: {
-          style: {
-            fontSize: "14px",
-            fontWeight: 400,
-            colors: "#64748B",
-            fontFamily: "Inter, sans-serif"
+          formatter: function (value) {
+            return "$" + value;
           },
-          formatter: function(value) {
-            if (value === 0) return "0";
-            if (value === 20) return "20 min";
-            if (value === 50) return "50 min";
-            if (value === 60) return "1 hr";
-            if (value === 120) return "2 hr";
-            return value;
-          }
-        }
-      },
-      grid: {
-        show: false
+          style: {
+            fontSize: "12px",
+            fontWeight: 500,
+            colors: "#475467",
+          },
+        },
       },
       grid: {
         borderColor: "#F0F0F0",
