@@ -26,7 +26,7 @@ export default function Statistics() {
         toolbar: {
           show: false,
         },
-        background: "transparent",
+        background: "#FAFBFC",
         fontFamily: "Inter, sans-serif",
       },
       plotOptions: {
