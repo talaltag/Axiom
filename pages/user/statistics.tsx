@@ -26,17 +26,19 @@ export default function Statistics() {
           toolbar: {
             show: false
           },
+          background: '#FFFFFF',
           dropShadow: {
             enabled: true,
-            top: 0,
+            top: 4,
             left: 0,
-            blur: 10,
+            blur: 8,
             opacity: 0.1
           }
         },
         plotOptions: {
           bar: {
-            columnWidth: '45%',
+            columnWidth: '55%',
+            borderRadius: 4,
           }
         },
         fill: {
@@ -44,28 +46,51 @@ export default function Statistics() {
           gradient: {
             shade: 'light',
             type: 'vertical',
-            shadeIntensity: 0.8,
-            gradientToColors: ['#F8CA15'],
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 0.2,
-            stops: [0, 100]
+            gradientToColors: ['#FFFFFF'],
+            stops: [0, 100],
+            colorStops: [
+              {
+                offset: 0,
+                color: '#FFD700',
+                opacity: 1
+              },
+              {
+                offset: 100,
+                color: '#FFFFFF',
+                opacity: 0.8
+              }
+            ]
           }
         },
-        colors: ['#A48610'],
+        colors: ['#FFD700'],
         xaxis: {
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          labels: {
+            style: {
+              fontSize: '12px',
+              fontWeight: 500,
+              colors: '#475467'
+            }
+          }
         },
         yaxis: {
           labels: {
             formatter: function (value) {
               return "$" + value;
+            },
+            style: {
+              fontSize: '12px',
+              fontWeight: 500,
+              colors: '#475467'
             }
           }
+        },
+        grid: {
+          borderColor: '#F0F0F0'
         }
       },
     series: [{
-      name: 'Revenue',
+      name: 'Tournament Earnings',
       data: [2100, 2300, 2000, 2700, 2400, 2800, 3000, 2900, 3200, 3400, 3600, 3800]
     }]
   };
@@ -74,15 +99,46 @@ export default function Statistics() {
     options: {
       chart: {
         type: 'donut',
+        background: '#FFFFFF',
+        dropShadow: {
+          enabled: true,
+          top: 4,
+          left: 0,
+          blur: 8,
+          opacity: 0.1
+        }
       },
-      colors: ['#FFD600', '#E0E0E0'],
+      colors: ['#FFD700', '#F2F4F7'],
       labels: ['Won', 'Lost'],
       plotOptions: {
         pie: {
           donut: {
-            size: '75%'
+            size: '75%',
+            labels: {
+              show: true,
+              name: {
+                show: false
+              },
+              value: {
+                show: true,
+                fontSize: '24px',
+                fontWeight: 600,
+                color: '#101828',
+                offsetY: 0
+              },
+              total: {
+                show: true,
+                label: 'Tournament Win Rate',
+                fontSize: '14px',
+                fontWeight: 400,
+                color: '#667085'
+              }
+            }
           }
         }
+      },
+      stroke: {
+        width: 0
       },
       dataLabels: {
         enabled: false
@@ -165,9 +221,9 @@ export default function Statistics() {
       <Container fluid className="p-4">
         <Row className="mb-4">
           <Col md={8}>
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.05)', borderRadius: '12px' }}>
               <CardBody>
-                <h6 className="mb-4">Tournament Statistics</h6>
+                <h6 className="mb-4" style={{ fontSize: '18px', fontWeight: 600, color: '#101828' }}>Tournament Statistics</h6>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
@@ -178,9 +234,9 @@ export default function Statistics() {
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.05)', borderRadius: '12px' }}>
               <CardBody>
-                <h6 className="mb-4">Winning Percentage</h6>
+                <h6 className="mb-4" style={{ fontSize: '18px', fontWeight: 600, color: '#101828' }}>Winning Percentage</h6>
                 <div className="text-center">
                   <Chart
                     options={donutChartData.options}
