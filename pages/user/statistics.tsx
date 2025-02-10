@@ -39,7 +39,22 @@ export default function Statistics() {
         bar: {
           columnWidth: "35%",
           borderRadius: 4,
+          distributed: true,
         },
+      },
+      states: {
+        normal: {
+          filter: {
+            type: 'drop-shadow',
+            value: 4
+          }
+        },
+        hover: {
+          filter: {
+            type: 'drop-shadow',
+            value: 4
+          }
+        }
       },
       fill: {
         type: "gradient",
