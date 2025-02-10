@@ -171,7 +171,7 @@ const PlatformList: React.FC = () => {
 
       <PlatformManagementModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        toggle={() => setModalOpen(false)}
         platforms={platforms}
         addedPlatforms={addedPlatforms}
         setAddedPlatforms={setAddedPlatforms}
