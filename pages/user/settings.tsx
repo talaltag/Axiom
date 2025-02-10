@@ -468,7 +468,28 @@ export default function Settings() {
             </div>
           </TabPane>
           <TabPane tabId="privacySafety">
-            {/* Privacy & Safety content */}
+            <div className="bg-white p-4">
+              <div className="mb-4">
+                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Privacy & Policy</h6>
+                <p style={{ color: '#667085', fontSize: '14px', marginBottom: '24px', lineHeight: '20px' }}>
+                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Rules & Regulations</h6>
+                <p style={{ color: '#667085', fontSize: '14px', marginBottom: '24px', lineHeight: '20px' }}>
+                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                </p>
+              </div>
+
+              <div>
+                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Terms & Condition</h6>
+                <p style={{ color: '#667085', fontSize: '14px', lineHeight: '20px' }}>
+                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                </p>
+              </div>
+            </div>
           </TabPane>
         </TabContent>
       </Container>
