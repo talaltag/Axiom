@@ -102,9 +102,13 @@ const PlatformList: React.FC = () => {
             borderRadius: '8px',
             fontWeight: '500',
             color: '#101828',
-            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)'
+            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
+          <i className="fas fa-plus" style={{ fontSize: '12px' }}></i>
           Add Platform
         </Button>
       </div>
