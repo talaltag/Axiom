@@ -32,11 +32,11 @@ export default function Statistics() {
         bar: {
           columnWidth: "60%",
           borderRadius: 0,
-          distributed: true,
+          distributed: false,
         },
       },
       title: {
-        text: "Gaming time",
+        text: "Gaming Score",
         align: "left",
         style: {
           fontSize: '16px',
@@ -45,7 +45,7 @@ export default function Statistics() {
         }
       },
       subtitle: {
-        text: "Daily Average 2 Hrs. 25 min",
+        text: "Daily Average +55% $2.5m",
         align: "left",
         style: {
           fontSize: '14px',
@@ -53,9 +53,30 @@ export default function Statistics() {
         }
       },
       fill: {
-        colors: ['#FFFFFF', '#8B4513']
+        type: "gradient",
+        gradient: {
+          type: "vertical",
+          shadeIntensity: 0.5,
+          gradientToColors: ['#FFB800'],
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 0.6,
+          stops: [0, 100],
+          colorStops: [
+            {
+              offset: 0,
+              color: '#FFD700',
+              opacity: 1
+            },
+            {
+              offset: 100,
+              color: '#FFB800',
+              opacity: 0.6
+            }
+          ]
+        },
       },
-      colors: ['#FFFFFF', '#8B4513'],
+      colors: ['#FFD700'],
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         labels: {
@@ -74,11 +95,11 @@ export default function Statistics() {
       },
       yaxis: {
         min: 0,
-        max: 120,
-        tickAmount: 5,
+        max: 4000,
+        tickAmount: 4,
         labels: {
           formatter: function(value) {
-            return value + ' min';
+            return '$' + value;
           },
           style: {
             fontSize: "12px",
