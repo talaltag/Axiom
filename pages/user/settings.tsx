@@ -1,5 +1,6 @@
 import { useState } from "react";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import PlatformList from "../../components/common/PlatformList";
 import {
   Container,
   Nav,
@@ -456,7 +457,15 @@ export default function Settings() {
             </Row>
           </TabPane>
           <TabPane tabId="platformIntegration">
-            {/* Platform Integration content */}
+            <div className="bg-white p-4">
+              <h6 className="mb-2" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                Connect your Platforms
+              </h6>
+              <p style={{ fontSize: '14px', color: '#667085', marginBottom: '24px' }}>
+                Connect these account to integrate with your Axiom Gaming portal
+              </p>
+              <PlatformList />
+            </div>
           </TabPane>
           <TabPane tabId="privacySafety">
             {/* Privacy & Safety content */}
