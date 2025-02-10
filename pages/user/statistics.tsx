@@ -46,19 +46,21 @@ export default function Statistics() {
       title: {
         text: "Gaming time",
         align: "left",
+        offsetY: 8,
         style: {
           fontSize: '14px',
-          fontWeight: 500,
+          fontWeight: 400,
           color: '#344054',
           fontFamily: "Inter, sans-serif"
         }
       },
       subtitle: {
-        text: "Daily Average 2 Hrs. 25 min",
+        text: "Daily Average",
         align: "left",
-        margin: 4,
+        offsetY: 26,
         style: {
           fontSize: '14px',
+          fontWeight: 400,
           color: '#667085',
           fontFamily: "Inter, sans-serif"
         }
