@@ -297,42 +297,48 @@ export default function Settings() {
           </TabPane>
 
           <TabPane tabId="notifications">
-            <div className="bg-white rounded-2 p-4">
+            <div className="bg-white p-4">
               <div className="mb-4">
-                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
-                  Incoming Message Notifications
-                </h6>
-                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
-                  <div className="d-flex justify-content-between align-items-center p-3">
-                    <div>
-                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
-                        Message Notifications
+                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                    Incoming Message Notifications
+                  </h6>
+                </div>
+                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
+                  <div className="p-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                          Message Notifications
+                        </div>
+                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                          Show notifications for new messages
+                        </div>
                       </div>
-                      <small style={{ fontSize: '14px', color: '#667085', fontWeight: 400 }}>
-                        Show notifications for new messages
-                      </small>
+                      <FormGroup switch className="mb-0">
+                        <Input type="switch" role="switch" defaultChecked />
+                      </FormGroup>
                     </div>
-                    <FormGroup switch className="mb-0">
-                      <Input type="switch" role="switch" defaultChecked />
-                    </FormGroup>
                   </div>
                 </div>
               </div>
 
               <div className="mb-4">
-                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
-                  Tournament Notifications
-                </h6>
-                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
+                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                    Tournament Notifications
+                  </h6>
+                </div>
+                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
                   <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
                           Announcement
                         </div>
-                        <small style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085' }}>
                           Show notifications for new tournaments
-                        </small>
+                        </div>
                       </div>
                       <FormGroup switch className="mb-0">
                         <Input type="switch" role="switch" />
@@ -342,12 +348,12 @@ export default function Settings() {
                   <div className="p-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
                           Reminder
                         </div>
-                        <small style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: '14px', color: '#667085' }}>
                           Remind me about tournament registration
-                        </small>
+                        </div>
                       </div>
                       <FormGroup switch className="mb-0">
                         <Input type="switch" role="switch" defaultChecked />
@@ -358,22 +364,26 @@ export default function Settings() {
               </div>
 
               <div>
-                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
-                  Friends Notifications
-                </h6>
-                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
-                  <div className="d-flex justify-content-between align-items-center p-3">
-                    <div>
-                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
-                        User Requests
+                <div className="p-2 mb-3" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
+                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                    Friends Notifications
+                  </h6>
+                </div>
+                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
+                  <div className="p-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                          User Requests
+                        </div>
+                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                          When another user send you a friend request
+                        </div>
                       </div>
-                      <small style={{ fontSize: '14px', color: '#667085' }}>
-                        When another user send you a friend request
-                      </small>
+                      <FormGroup switch className="mb-0">
+                        <Input type="switch" role="switch" />
+                      </FormGroup>
                     </div>
-                    <FormGroup switch className="mb-0">
-                      <Input type="switch" role="switch" />
-                    </FormGroup>
                   </div>
                 </div>
               </div>
