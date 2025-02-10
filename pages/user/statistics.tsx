@@ -31,16 +31,9 @@ export default function Statistics() {
       },
       plotOptions: {
         bar: {
-          columnWidth: "35%",
-          borderRadius: 2,
+          columnWidth: "8px",
+          borderRadius: 4,
           distributed: false,
-          colors: {
-            ranges: [{
-              from: 0,
-              to: 100,
-              color: "#FFD600"
-            }]
-          }
         },
       },
       title: {
@@ -70,11 +63,11 @@ export default function Statistics() {
         type: "gradient",
         gradient: {
           type: "vertical",
-          shadeIntensity: 0.5,
-          gradientToColors: ['#FFB800'],
+          shadeIntensity: 1,
+          gradientToColors: ['#8B4513'],
           inverseColors: false,
           opacityFrom: 1,
-          opacityTo: 0.6,
+          opacityTo: 1,
           stops: [0, 100],
           colorStops: [
             {
@@ -84,8 +77,8 @@ export default function Statistics() {
             },
             {
               offset: 100,
-              color: '#FFB800',
-              opacity: 0.6
+              color: '#8B4513',
+              opacity: 1
             }
           ]
         },
