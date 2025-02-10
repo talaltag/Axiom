@@ -323,7 +323,7 @@ export default function Settings() {
                 <div className="bg-white p-4">
                   <div className="mb-4">
                     <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Incoming Message Notifications</h6>
-                    <div className="bg-light rounded" style={{ backgroundColor: '#F9FAFB !important' }}>
+                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
                       <div className="d-flex justify-content-between align-items-center p-3">
                         <div>
                           <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>Message Notifications</div>
@@ -338,7 +338,7 @@ export default function Settings() {
 
                   <div className="mb-4">
                     <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Tournament Notifications</h6>
-                    <div className="bg-light rounded" style={{ backgroundColor: '#F9FAFB !important' }}>
+                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
                       <div className="p-3 border-bottom" style={{ borderColor: '#EAECF0 !important' }}>
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
@@ -366,7 +366,7 @@ export default function Settings() {
 
                   <div>
                     <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px' }}>Friends Notifications</h6>
-                    <div className="bg-light rounded" style={{ backgroundColor: '#F9FAFB !important' }}>
+                    <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
                       <div className="d-flex justify-content-between align-items-center p-3">
                         <div>
                           <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>User Requests</div>
