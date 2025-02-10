@@ -131,8 +131,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", { 
-                'bg-secondary text-white': activeTab === "myAccount",
-                'bg-white text-secondary': activeTab !== "myAccount" 
+                'bg-white text-dark shadow-sm': activeTab === "myAccount",
+                'text-secondary': activeTab !== "myAccount" 
               })}
               onClick={() => setActiveTab("myAccount")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
@@ -143,8 +143,8 @@ export default function Settings() {
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
-                'bg-secondary text-white': activeTab === "notifications",
-                'bg-white text-secondary': activeTab !== "notifications"
+                'bg-white text-dark shadow-sm': activeTab === "notifications",
+                'text-secondary': activeTab !== "notifications"
               })}
               onClick={() => setActiveTab("notifications")}
               style={{ cursor: "pointer", padding: '8px 12px', fontSize: '14px' }}
