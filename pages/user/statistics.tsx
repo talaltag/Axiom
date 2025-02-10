@@ -26,15 +26,22 @@ export default function Statistics() {
         toolbar: {
           show: false,
         },
-        background: "#FAFBFC",
+        background: "#FFFFFF",
         fontFamily: "Inter, sans-serif",
       },
       plotOptions: {
         bar: {
-          columnWidth: "8px",
-          borderRadius: 4,
-          distributed: false,
-        },
+          columnWidth: "12px",
+          borderRadius: 0,
+          distributed: true,
+          colors: {
+            ranges: [{
+              from: 0,
+              to: 100,
+              color: '#FFD600'
+            }]
+          }
+        }
       },
       title: {
         text: "Gaming time",
@@ -60,10 +67,9 @@ export default function Statistics() {
         }
       },
       fill: {
-        opacity: 1
+        colors: ['#FFD600']
       },
-      colors: ['#FFD700', '#8B4513'],
-      distributed: true,
+      colors: ['#FFD600'],
       xaxis: {
         categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         labels: {
@@ -131,7 +137,7 @@ export default function Statistics() {
         type: "donut",
         background: "#FFFFFF",
       },
-      colors: ["#FFD700", "#EAECF0"],
+      colors: ["#FFD600", "#EAECF0"],
       labels: ["Won", "Lost"],
       plotOptions: {
         pie: {
@@ -144,10 +150,10 @@ export default function Statistics() {
               },
               value: {
                 show: true,
-                fontSize: "32px",
+                fontSize: "36px",
                 fontWeight: 600,
                 color: "#101828",
-                offsetY: -10,
+                offsetY: 0,
               },
               total: {
                 show: true,
