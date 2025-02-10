@@ -124,43 +124,61 @@ export default function Settings() {
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <div className="mb-1">
-          <h2 style={{
-            marginBottom: "6px",
-            fontSize: "24px",
-            fontWeight: 500,
-            color: "#101828",
-            fontFamily: "Inter, sans-serif"
-          }}>
+          <h2
+            style={{
+              marginBottom: "6px",
+              fontSize: "24px",
+              fontWeight: 500,
+              color: "#101828",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
             Settings
           </h2>
         </div>
-        <p style={{ color: "#667085", fontSize: "14px", marginBottom: "32px", fontFamily: "Inter, sans-serif" }}>
+        <p
+          style={{
+            color: "#667085",
+            fontSize: "14px",
+            marginBottom: "32px",
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
           Manage your team and preferences here.
         </p>
 
-        <Nav tabs style={{ border: 'none', marginBottom: '24px' }}>
-          <div className="d-flex gap-1" style={{ background: '#F9FAFB', padding: '4px', borderRadius: '6px', width: 'fit-content' }}>
+        <Nav tabs style={{ border: "none", marginBottom: "24px" }}>
+          <div
+            className="d-flex gap-1"
+            style={{
+              background: "#F9FAFB",
+              padding: "4px",
+              borderRadius: "6px",
+              width: "fit-content",
+            }}
+          >
             {[
               { id: "myAccount", label: "My Account" },
               { id: "notifications", label: "Notifications" },
               { id: "billings", label: "Billings" },
               { id: "platformIntegration", label: "Platform Integration" },
-              { id: "privacySafety", label: "Privacy & Safety" }
+              { id: "privacySafety", label: "Privacy & Safety" },
             ].map((tab) => (
               <NavItem key={tab.id}>
                 <NavLink
-                  className={classnames("border-0", {
-                    'bg-white': activeTab !== tab.id,
-                    'bg-[#ECECEC]': activeTab === tab.id
+                  className={classnames({
+                    "bg-white": activeTab !== tab.id,
+                    "bg-[#ECECEC]": activeTab === tab.id,
                   })}
                   onClick={() => setActiveTab(tab.id)}
                   style={{
                     cursor: "pointer",
-                    padding: '8px 12px',
-                    fontSize: '14px',
-                    color: '#101828',
-                    borderRadius: '4px',
-                    fontFamily: "Inter, sans-serif"
+                    padding: "8px 12px",
+                    fontSize: "14px",
+                    color: "#101828",
+
+                    fontFamily: "Inter, sans-serif",
+                    borderRight: "2px solid #ECECEC !important",
                   }}
                 >
                   {tab.label}
@@ -176,7 +194,10 @@ export default function Settings() {
               <Col md={8}>
                 <div className="bg-white rounded p-4 mb-4">
                   <div className="d-flex align-items-center mb-4">
-                    <div className="position-relative" style={{ width: "100px", height: "100px" }}>
+                    <div
+                      className="position-relative"
+                      style={{ width: "100px", height: "100px" }}
+                    >
                       <Image
                         src={file ? URL.createObjectURL(file) : "/user1.png"}
                         alt="Profile"
@@ -196,7 +217,10 @@ export default function Settings() {
                           cursor: "pointer",
                         }}
                       >
-                        <label htmlFor="profile-image" style={{ cursor: "pointer", margin: 0 }}>
+                        <label
+                          htmlFor="profile-image"
+                          style={{ cursor: "pointer", margin: 0 }}
+                        >
                           <span>📷</span>
                           <Input
                             type="file"
@@ -215,7 +239,7 @@ export default function Settings() {
                       style={{
                         backgroundColor: "#FFD600",
                         border: "none",
-                        height: "40px"
+                        height: "40px",
                       }}
                     >
                       Update Image
@@ -238,7 +262,7 @@ export default function Settings() {
                         style={{
                           backgroundColor: "#FFD600",
                           border: "none",
-                          width: "120px"
+                          width: "120px",
                         }}
                       >
                         Update
@@ -300,19 +324,42 @@ export default function Settings() {
           <TabPane tabId="notifications">
             <div className="bg-white p-4">
               <div className="mb-4">
-                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                <div
+                  className="p-2"
+                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                >
+                  <h6
+                    style={{
+                      margin: 0,
+                      fontSize: "14px",
+                      color: "#101828",
+                      fontWeight: 500,
+                    }}
+                  >
                     Incoming Message Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    border: "1px solid #EAECF0",
+                    borderRadius: "8px",
+                  }}
+                >
                   <div className="p-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "4px",
+                            fontWeight: 500,
+                          }}
+                        >
                           Message Notifications
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: "14px", color: "#667085" }}>
                           Show notifications for new messages
                         </div>
                       </div>
@@ -325,19 +372,45 @@ export default function Settings() {
               </div>
 
               <div className="mb-4">
-                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                <div
+                  className="p-2"
+                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                >
+                  <h6
+                    style={{
+                      margin: 0,
+                      fontSize: "14px",
+                      color: "#101828",
+                      fontWeight: 500,
+                    }}
+                  >
                     Tournament Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
-                  <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    border: "1px solid #EAECF0",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <div
+                    className="p-3"
+                    style={{ borderBottom: "1px solid #EAECF0" }}
+                  >
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "4px",
+                            fontWeight: 500,
+                          }}
+                        >
                           Announcement
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: "14px", color: "#667085" }}>
                           Show notifications for new tournaments
                         </div>
                       </div>
@@ -349,10 +422,17 @@ export default function Settings() {
                   <div className="p-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "4px",
+                            fontWeight: 500,
+                          }}
+                        >
                           Reminder
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: "14px", color: "#667085" }}>
                           Remind me about tournament registration
                         </div>
                       </div>
@@ -365,19 +445,42 @@ export default function Settings() {
               </div>
 
               <div>
-                <div className="p-2" style={{ background: '#F2F4F7', borderRadius: '4px' }}>
-                  <h6 style={{ margin: 0, fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                <div
+                  className="p-2"
+                  style={{ background: "#F2F4F7", borderRadius: "4px" }}
+                >
+                  <h6
+                    style={{
+                      margin: 0,
+                      fontSize: "14px",
+                      color: "#101828",
+                      fontWeight: 500,
+                    }}
+                  >
                     Friends Notifications
                   </h6>
                 </div>
-                <div style={{ background: '#FFFFFF', border: '1px solid #EAECF0', borderRadius: '8px' }}>
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    border: "1px solid #EAECF0",
+                    borderRadius: "8px",
+                  }}
+                >
                   <div className="p-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "4px",
+                            fontWeight: 500,
+                          }}
+                        >
                           User Requests
                         </div>
-                        <div style={{ fontSize: '14px', color: '#667085' }}>
+                        <div style={{ fontSize: "14px", color: "#667085" }}>
                           When another user send you a friend request
                         </div>
                       </div>
@@ -400,13 +503,21 @@ export default function Settings() {
                       <Col md={6}>
                         <FormGroup>
                           <Label for="cardName">Name on Card</Label>
-                          <Input type="text" id="cardName" placeholder="John Doe" />
+                          <Input
+                            type="text"
+                            id="cardName"
+                            placeholder="John Doe"
+                          />
                         </FormGroup>
                       </Col>
                       <Col md={6}>
                         <FormGroup>
                           <Label for="cardNumber">Card Number</Label>
-                          <Input type="text" id="cardNumber" placeholder="**** **** **** ****" />
+                          <Input
+                            type="text"
+                            id="cardNumber"
+                            placeholder="**** **** **** ****"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -414,7 +525,11 @@ export default function Settings() {
                       <Col md={6}>
                         <FormGroup>
                           <Label for="expiryDate">Expiry Date</Label>
-                          <Input type="text" id="expiryDate" placeholder="MM/YY" />
+                          <Input
+                            type="text"
+                            id="expiryDate"
+                            placeholder="MM/YY"
+                          />
                         </FormGroup>
                       </Col>
                       <Col md={6}>
@@ -424,7 +539,10 @@ export default function Settings() {
                         </FormGroup>
                       </Col>
                     </Row>
-                    <Button color="warning" style={{ backgroundColor: "#FFD600", border: "none" }}>
+                    <Button
+                      color="warning"
+                      style={{ backgroundColor: "#FFD600", border: "none" }}
+                    >
                       Save Card Details
                     </Button>
                   </Form>
@@ -447,7 +565,9 @@ export default function Settings() {
                           <td>01/20/2024</td>
                           <td>Tournament Registration</td>
                           <td>$50.00</td>
-                          <td><span className="badge bg-success">Paid</span></td>
+                          <td>
+                            <span className="badge bg-success">Paid</span>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -458,10 +578,19 @@ export default function Settings() {
           </TabPane>
           <TabPane tabId="platformIntegration">
             <div className="bg-white p-4">
-              <h6 className="mb-2" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>
+              <h6
+                className="mb-2"
+                style={{ fontSize: "18px", color: "#101828", fontWeight: 500 }}
+              >
                 Connect your Platforms
               </h6>
-              <p style={{ fontSize: '16px', color: '#667085', marginBottom: '24px' }}>
+              <p
+                style={{
+                  fontSize: "16px",
+                  color: "#667085",
+                  marginBottom: "24px",
+                }}
+              >
                 Connect these account to integrate with your Axiom Gaming portal
               </p>
               <PlatformList />
@@ -470,23 +599,100 @@ export default function Settings() {
           <TabPane tabId="privacySafety">
             <div className="bg-white p-4">
               <div className="mb-4">
-                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Privacy & Policy</h6>
-                <p style={{ color: '#667085', fontSize: '14px', marginBottom: '24px', lineHeight: '20px' }}>
-                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                <h6
+                  className="mb-4"
+                  style={{
+                    fontSize: "18px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  Privacy & Policy
+                </h6>
+                <p
+                  style={{
+                    color: "#667085",
+                    fontSize: "14px",
+                    marginBottom: "24px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                  The point of using Lorem Ipsum is that it has a more-or-less
+                  normal distribution of letters, as opposed to using 'Content
+                  here, content here', making it look like readable English.
+                  Many desktop publishing packages and web page editors now use
+                  Lorem ipsum as their default model text, and a search for
+                  'lorem ipsum' will uncover many web sites still in their
+                  infancy. Various versions have evolved over the years,
+                  sometimes by accident, sometimes on purpose (injected humour
+                  and the like).
                 </p>
               </div>
 
               <div className="mb-4">
-                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Rules & Regulations</h6>
-                <p style={{ color: '#667085', fontSize: '14px', marginBottom: '24px', lineHeight: '20px' }}>
-                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                <h6
+                  className="mb-4"
+                  style={{
+                    fontSize: "18px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  Rules & Regulations
+                </h6>
+                <p
+                  style={{
+                    color: "#667085",
+                    fontSize: "14px",
+                    marginBottom: "24px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                  The point of using Lorem Ipsum is that it has a more-or-less
+                  normal distribution of letters, as opposed to using 'Content
+                  here, content here', making it look like readable English.
+                  Many desktop publishing packages and web page editors now use
+                  Lorem ipsum as their default model text, and a search for
+                  'lorem ipsum' will uncover many web sites still in their
+                  infancy. Various versions have evolved over the years,
+                  sometimes by accident, sometimes on purpose (injected humour
+                  and the like).
                 </p>
               </div>
 
               <div>
-                <h6 className="mb-4" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>Terms & Condition</h6>
-                <p style={{ color: '#667085', fontSize: '14px', lineHeight: '20px' }}>
-                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                <h6
+                  className="mb-4"
+                  style={{
+                    fontSize: "18px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  Terms & Condition
+                </h6>
+                <p
+                  style={{
+                    color: "#667085",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                  The point of using Lorem Ipsum is that it has a more-or-less
+                  normal distribution of letters, as opposed to using 'Content
+                  here, content here', making it look like readable English.
+                  Many desktop publishing packages and web page editors now use
+                  Lorem ipsum as their default model text, and a search for
+                  'lorem ipsum' will uncover many web sites still in their
+                  infancy. Various versions have evolved over the years,
+                  sometimes by accident, sometimes on purpose (injected humour
+                  and the like).
                 </p>
               </div>
             </div>
