@@ -124,6 +124,7 @@ export default function Settings() {
       <Container fluid className="p-4">
         <div className="mb-1">
           <h2 style={{
+            marginBottom: "6px",
             fontSize: "24px",
             fontWeight: 500,
             color: "#101828",
@@ -244,7 +245,7 @@ export default function Settings() {
                     </div>
                   </FormGroup>
 
-                  <h5>Change Password</h5>
+                  <h5 className="mb-4">Change Password</h5>
                   <Form onSubmit={handlePasswordChange}>
                     <Row>
                       <Col md={4}>
