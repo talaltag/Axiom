@@ -34,7 +34,7 @@ const PlatformList: React.FC = () => {
 
   return (
     <div>
-      <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px' }}>
+      <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px', padding: '24px', backgroundColor: '#FAFBFC' }}>
         {platforms.map((platform) => (
           <div
             key={platform.id}

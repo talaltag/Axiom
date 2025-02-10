@@ -458,10 +458,10 @@ export default function Settings() {
           </TabPane>
           <TabPane tabId="platformIntegration">
             <div className="bg-white p-4">
-              <h6 className="mb-2" style={{ fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+              <h6 className="mb-2" style={{ fontSize: '18px', color: '#101828', fontWeight: 500 }}>
                 Connect your Platforms
               </h6>
-              <p style={{ fontSize: '14px', color: '#667085', marginBottom: '24px' }}>
+              <p style={{ fontSize: '16px', color: '#667085', marginBottom: '24px' }}>
                 Connect these account to integrate with your Axiom Gaming portal
               </p>
               <PlatformList />
