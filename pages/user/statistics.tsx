@@ -279,107 +279,60 @@ export default function Statistics() {
               <CardBody style={{ padding: '24px' }}>
                 <h6
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight: 500,
-                    color: "#101828",
-                    marginBottom: "24px",
+                    color: "#344054",
+                    marginBottom: "20px",
                   }}
                 >
                   Winning Percentage
                 </h6>
-                <div className="d-flex">
-                  <div style={{ width: "50%" }}>
-                    <Chart
-                      options={{
-                        ...donutChartData.options,
-                        colors: ["#FFD700", "#8B4513"],
-                        plotOptions: {
-                          pie: {
-                            donut: {
-                              size: '85%',
-                              labels: {
+                <div>
+                  <Chart
+                    options={{
+                      ...donutChartData.options,
+                      colors: ["#FFD600", "#EAECF0"],
+                      plotOptions: {
+                        pie: {
+                          donut: {
+                            size: '90%',
+                            labels: {
+                              show: true,
+                              name: {
+                                show: false,
+                              },
+                              value: {
                                 show: true,
-                                name: {
-                                  show: false,
-                                },
-                                value: {
-                                  show: true,
-                                  fontSize: '24px',
-                                  fontWeight: 600,
-                                  color: '#101828',
-                                  offsetY: 0,
-                                },
-                                total: {
-                                  show: true,
-                                  label: 'Total',
-                                  formatter: function () {
-                                    return '98%'
-                                  },
-                                  fontSize: '24px',
-                                  fontWeight: 600,
-                                  color: '#101828',
-                                },
+                                fontSize: '24px',
+                                fontWeight: 600,
+                                color: '#101828',
+                                offsetY: 0,
+                              },
+                              total: {
+                                show: false,
                               },
                             },
                           },
                         },
-                      }}
-                      series={[98, 2]}
-                      type="donut"
-                      height={200}
-                    />
-                  </div>
-                  <div style={{ width: "50%" }} className="ps-4">
-                    <div className="mb-3">
-                      <div className="d-flex align-items-center gap-2 mb-1">
+                      },
+                    }}
+                    series={[98, 2]}
+                    type="donut"
+                    height={220}
+                  />
+                  <div className="mt-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex align-items-center gap-2">
                         <span style={{ 
                           width: '8px', 
                           height: '8px', 
                           borderRadius: '50%', 
-                          backgroundColor: '#FFD700' 
+                          backgroundColor: '#2E90FA' 
                         }}></span>
                         <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Wins</span>
                       </div>
-                      <div style={{ fontSize: "16px", fontWeight: "500", color: "#101828", paddingLeft: "20px" }}>1,230</div>
+                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>1,230</span>
                     </div>
-                    <div className="mb-3">
-                      <div className="d-flex align-items-center gap-2 mb-1">
-                        <span style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#8B4513' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Losses</span>
-                      </div>
-                      <div style={{ fontSize: "16px", fontWeight: "500", color: "#101828", paddingLeft: "20px" }}>130</div>
-                    </div>
-                    <div className="mb-3">
-                      <div className="d-flex align-items-center gap-2 mb-1">
-                        <span style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#E4E7EC' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Games Played</span>
-                      </div>
-                      <div style={{ fontSize: "16px", fontWeight: "500", color: "#101828", paddingLeft: "20px" }}>24</div>
-                    </div>
-                    <div>
-                      <div className="d-flex align-items-center gap-2 mb-1">
-                        <span style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#F2F4F7' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Tournaments participated in</span>
-                      </div>
-                      <div style={{ fontSize: "16px", fontWeight: "500", color: "#101828", paddingLeft: "20px" }}>12</div>
-                    </div>
-                  </div>
-                </div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center gap-2">
                         <span style={{ 
