@@ -112,11 +112,7 @@ export default function Statistics() {
         }
       },
       tooltip: {
-        custom: function({series, seriesIndex, dataPointIndex, w}) {
-          return '<div class="custom-tooltip">' +
-            '<span class="value">$' + series[seriesIndex][dataPointIndex] + '</span>' +
-          '</div>';
-        }
+        enabled: false
       }
     },
     series: [
