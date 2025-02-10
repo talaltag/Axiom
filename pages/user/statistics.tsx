@@ -294,19 +294,10 @@ export default function Statistics() {
               style={{
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
                 borderRadius: "12px",
+                backgroundColor: "#FAFBFC"
               }}
             >
               <CardBody>
-                <h6
-                  className="mb-4"
-                  style={{
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    color: "#101828",
-                  }}
-                >
-                  Tournament Statistics
-                </h6>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
