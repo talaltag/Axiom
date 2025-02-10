@@ -299,7 +299,7 @@ export default function Statistics() {
                 backgroundColor: "transparent"
               }}
             >
-              <CardBody>
+              <CardBody className="chart-card-body" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
