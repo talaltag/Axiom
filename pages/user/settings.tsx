@@ -127,7 +127,7 @@ export default function Settings() {
         </div>
         <p className="text-muted">Manage your team and preferences here.</p>
 
-        <Nav className="mb-4 border-0 d-flex gap-1" style={{ backgroundColor: '#F2F4F7', padding: '4px', borderRadius: '6px' }}>
+        <Nav className="mb-4 border-0 d-flex gap-1" style={{ padding: '4px', borderRadius: '6px' }}>
           <NavItem>
             <NavLink
               className={classnames("border-0 rounded", {
