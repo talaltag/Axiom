@@ -302,13 +302,13 @@ export default function Settings() {
                 <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Incoming Message Notifications
                 </h6>
-                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
                   <div className="d-flex justify-content-between align-items-center p-3">
                     <div>
-                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
                         Message Notifications
                       </div>
-                      <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                      <small style={{ fontSize: '14px', color: '#667085' }}>
                         Show notifications for new messages
                       </small>
                     </div>
@@ -323,14 +323,14 @@ export default function Settings() {
                 <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Tournament Notifications
                 </h6>
-                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
                   <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
                           Announcement
                         </div>
-                        <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                        <small style={{ fontSize: '14px', color: '#667085' }}>
                           Show notifications for new tournaments
                         </small>
                       </div>
@@ -342,10 +342,10 @@ export default function Settings() {
                   <div className="p-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                        <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
                           Reminder
                         </div>
-                        <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                        <small style={{ fontSize: '14px', color: '#667085' }}>
                           Remind me about tournament registration
                         </small>
                       </div>
@@ -361,13 +361,13 @@ export default function Settings() {
                 <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Friends Notifications
                 </h6>
-                <div className="rounded" style={{ backgroundColor: '#F9FAFB', border: '1px solid #EAECF0' }}>
+                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
                   <div className="d-flex justify-content-between align-items-center p-3">
                     <div>
-                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontFamily: "Inter, sans-serif" }}>
+                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
                         User Requests
                       </div>
-                      <small style={{ fontSize: '14px', color: '#667085', fontFamily: "Inter, sans-serif" }}>
+                      <small style={{ fontSize: '14px', color: '#667085' }}>
                         When another user send you a friend request
                       </small>
                     </div>
