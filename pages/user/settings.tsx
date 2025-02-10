@@ -299,16 +299,16 @@ export default function Settings() {
           <TabPane tabId="notifications">
             <div className="bg-white rounded-2 p-4">
               <div className="mb-4">
-                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Incoming Message Notifications
                 </h6>
-                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
+                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
                   <div className="d-flex justify-content-between align-items-center p-3">
                     <div>
-                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
+                      <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px', fontWeight: 500 }}>
                         Message Notifications
                       </div>
-                      <small style={{ fontSize: '14px', color: '#667085' }}>
+                      <small style={{ fontSize: '14px', color: '#667085', fontWeight: 400 }}>
                         Show notifications for new messages
                       </small>
                     </div>
@@ -320,10 +320,10 @@ export default function Settings() {
               </div>
 
               <div className="mb-4">
-                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Tournament Notifications
                 </h6>
-                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
+                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
                   <div className="p-3" style={{ borderBottom: '1px solid #EAECF0' }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
@@ -358,10 +358,10 @@ export default function Settings() {
               </div>
 
               <div>
-                <h6 style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
+                <h6 className="bg-[#F2F4F7] p-2 rounded" style={{ fontSize: '14px', color: '#101828', marginBottom: '16px', fontWeight: 500, fontFamily: "Inter, sans-serif" }}>
                   Friends Notifications
                 </h6>
-                <div className="rounded-2 bg-white" style={{ border: '1px solid #EAECF0' }}>
+                <div className="bg-white rounded-2" style={{ border: '1px solid #EAECF0' }}>
                   <div className="d-flex justify-content-between align-items-center p-3">
                     <div>
                       <div style={{ fontSize: '14px', color: '#344054', marginBottom: '4px' }}>
