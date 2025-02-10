@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from 'reactstrap';
+import PlatformManagementModal from "./PlatformManagementModal"
+
 
 interface Platform {
   id: string;
@@ -32,6 +34,8 @@ const PlatformList: React.FC = () => {
     platforms[8], // Valorant
   ]);
 
+  const [modalOpen,setModalOpen] = React.useState<Boolean>(false);
+  
   return (
     <div>
       <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px', padding: '24px', backgroundColor: '#FAFBFC' }}>
@@ -164,6 +168,14 @@ const PlatformList: React.FC = () => {
           ))}
         </div>
       </div>
+
+      <PlatformManagementModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        platforms={platforms}
+        addedPlatforms={addedPlatforms}
+        setAddedPlatforms={setAddedPlatforms}
+      />
 
       <style jsx>{`
         .platform-item:hover {
