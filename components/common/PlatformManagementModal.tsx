@@ -30,9 +30,7 @@ export default function PlatformManagementModal({ isOpen, toggle, onAddPlatform 
         className="modal-dialog-centered"
         style={{
           maxWidth: '400px',
-          margin: '0',
-          position: 'absolute',
-          right: '0',
+          margin: '1.75rem auto',
           height: '100vh'
         }}
       >
@@ -166,7 +164,7 @@ export default function PlatformManagementModal({ isOpen, toggle, onAddPlatform 
       <style jsx global>{`
         .modal-content {
           border: none;
-          border-radius: 12px 0 0 12px;
+          border-radius: 12px;
           box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
           height: 100vh;
         }
