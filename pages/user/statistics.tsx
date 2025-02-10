@@ -129,14 +129,14 @@ export default function Statistics() {
     options: {
       chart: {
         type: "donut",
-        background: "#FFFFFF",
+        background: "transparent",
       },
-      colors: ["#FFD700", "#EAECF0"],
+      colors: ["#FFD600", "#EAECF0"],
       labels: ["Won", "Lost"],
       plotOptions: {
         pie: {
           donut: {
-            size: "85%",
+            size: "90%",
             labels: {
               show: true,
               name: {
@@ -144,17 +144,13 @@ export default function Statistics() {
               },
               value: {
                 show: true,
-                fontSize: "32px",
+                fontSize: "24px",
                 fontWeight: 600,
                 color: "#101828",
-                offsetY: -10,
+                offsetY: 0,
               },
               total: {
-                show: true,
-                label: "Total",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "#667085",
+                show: false
               },
             },
           },
@@ -299,7 +295,7 @@ export default function Statistics() {
                       plotOptions: {
                         pie: {
                           donut: {
-                            size: '85%',
+                            size: '90%',
                             labels: {
                               show: true,
                               name: {
@@ -310,14 +306,10 @@ export default function Statistics() {
                                 fontSize: '24px',
                                 fontWeight: 600,
                                 color: '#101828',
-                                offsetY: -10,
+                                offsetY: 0,
                               },
                               total: {
-                                show: true,
-                                label: 'Total',
-                                fontSize: '14px',
-                                fontWeight: 500,
-                                color: '#98A2B3',
+                                show: false,
                               },
                             },
                           },
