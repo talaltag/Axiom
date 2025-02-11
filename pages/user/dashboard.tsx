@@ -318,9 +318,14 @@ export default function UserDashboard() {
                         <div
                           className="position-absolute start-50 translate-middle-x"
                           style={{
-                            bottom: "-12px",
+                            display: "flex",
+                            width: "62.142px",
+                            height: "86.998px",
+                            padding: "12.428px 22.526px",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "6.214px",
                             background: "white",
-                            padding: "8px 16px",
                             borderRadius: "16px",
                             fontSize: "14px",
                             fontWeight: 600,
@@ -329,7 +334,8 @@ export default function UserDashboard() {
                             border: "1px solid #FFD600"
                           }}
                         >
-                          1st • 1452 pts
+                          <span>1st</span>
+                          <span>🔥1452</span>
                         </div>
                       </div>
                       <div className="text-center mt-3">
