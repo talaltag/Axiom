@@ -27,6 +27,9 @@ export default function Statistics() {
         background: "#FAFBFC",
         fontFamily: "Inter, sans-serif",
       },
+      grid: {
+        show: false,
+      },
       plotOptions: {
         bar: {
           columnWidth: 13.87,
@@ -37,9 +40,9 @@ export default function Statistics() {
             backgroundBarRadius: 7,
           },
           dataLabels: {
-            position: 'top',
-            enabled: false
-          }
+            position: "top",
+            enabled: false,
+          },
         },
       },
       title: {
@@ -88,13 +91,6 @@ export default function Statistics() {
         max: 120,
         tickAmount: 4,
       },
-      grid: {
-        borderColor: "#EAECF0",
-        strokeDashArray: 4,
-        xaxis: { lines: { show: false } },
-        yaxis: { lines: { show: true } },
-      },
-      tooltip: { enabled: false },
     },
     series: [
       {
@@ -240,41 +236,54 @@ export default function Statistics() {
             >
               <CardBody
                 className="chart-card-body"
-                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px", padding: "0" }}
+                style={{
+                  backgroundColor: "#FAFBFC",
+                  borderRadius: "12px",
+                  padding: "0",
+                }}
               >
                 <div style={{ padding: "24px 24px 0 24px" }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <h6 style={{
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        color: "#101828",
-                        marginBottom: "4px"
-                      }}>
+                      <h6
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          color: "#101828",
+                          marginBottom: "4px",
+                        }}
+                      >
                         Gaming time
                       </h6>
-                      <p style={{
-                        fontSize: "14px",
-                        color: "#667085",
-                        margin: 0
-                      }}>
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          color: "#667085",
+                          margin: 0,
+                        }}
+                      >
                         Daily Average 2 Hrs. 25 min
                       </p>
                     </div>
-                    <div style={{
-                      padding: "10px 14px",
-                      borderRadius: "8px",
-                      border: "1px solid #D0D5DD",
-                      backgroundColor: "#FFFFFF",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      color: "#344054",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px"
-                    }}>
+                    <div
+                      style={{
+                        padding: "10px 14px",
+                        borderRadius: "8px",
+                        border: "1px solid #D0D5DD",
+                        backgroundColor: "#FFFFFF",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "#344054",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
                       Month
-                      <i className="fas fa-chevron-down" style={{ fontSize: "12px" }}></i>
+                      <i
+                        className="fas fa-chevron-down"
+                        style={{ fontSize: "12px" }}
+                      ></i>
                     </div>
                   </div>
                 </div>
