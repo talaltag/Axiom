@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import { DollarSign, CreditCard, Award } from "react-feather";
@@ -64,8 +63,18 @@ export default function Statistics() {
       colors: ["#FFD700"],
       xaxis: {
         categories: [
-          "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-          "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+          "JAN",
+          "FEB",
+          "MAR",
+          "APR",
+          "MAY",
+          "JUN",
+          "JUL",
+          "AUG",
+          "SEP",
+          "OCT",
+          "NOV",
+          "DEC",
         ],
         labels: {
           style: {
@@ -173,8 +182,15 @@ export default function Statistics() {
       },
       xaxis: {
         categories: [
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep"
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
         ],
       },
       legend: {
@@ -300,7 +316,7 @@ export default function Statistics() {
               }}
             >
               <CardBody style={{ padding: "32px" }}>
-                <div style={{ marginBottom: "32px" }}>
+                <div style={{ marginBottom: "50px" }}>
                   <h6
                     style={{
                       fontSize: "16px",
@@ -314,13 +330,25 @@ export default function Statistics() {
                   <div style={{ height: "1px", backgroundColor: "#EAECF0" }} />
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <div style={{ width: "240px", height: "240px", position: "relative" }}>
-                    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                  <div
+                    style={{
+                      width: "240px",
+                      height: "240px",
+                      position: "relative",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
                             data={[
-                              { name: "Wins", value: 100, fill: "#FFD600" },
+                              { name: "Wins", value: 100, fill: "#A48610" },
                               { name: "Losses", value: 40, fill: "#E1E1E1" },
                             ]}
                             cx="50%"
@@ -329,11 +357,16 @@ export default function Statistics() {
                             outerRadius={80}
                             startAngle={360}
                             endAngle={0}
+                            stroke="none"
                           />
                           <Pie
                             data={[
-                              { name: "Games", value: 75, fill: "#FFA500" },
-                              { name: "Tournaments", value: 25, fill: "#E1E1E1" },
+                              { name: "Games", value: 75, fill: "#F8CA15" },
+                              {
+                                name: "Tournaments",
+                                value: 25,
+                                fill: "#E1E1E1",
+                              },
                             ]}
                             cx="50%"
                             cy="50%"
@@ -341,6 +374,7 @@ export default function Statistics() {
                             outerRadius={105}
                             startAngle={360}
                             endAngle={0}
+                            stroke="none"
                           />
                         </PieChart>
                       </ResponsiveContainer>
@@ -368,8 +402,8 @@ export default function Statistics() {
                       </div>
                     </div>
                   </div>
-                  <div style={{ marginLeft: "60px", flex: 1 }}>
-                    <Row className="g-4">
+                  <div style={{ marginLeft: "10px", flex: 1 }}>
+                    <Row className="g-4 text-nowrap">
                       <Col xs={6} className="mb-4">
                         <div className="d-flex align-items-center gap-2">
                           <div
@@ -381,10 +415,18 @@ export default function Statistics() {
                             }}
                           />
                           <div className="d-flex flex-column">
-                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                            <span
+                              style={{ color: "#344054", fontSize: "14px" }}
+                            >
                               Total Wins
                             </span>
-                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                            <span
+                              style={{
+                                color: "#101828",
+                                fontSize: "16px",
+                                fontWeight: "600",
+                              }}
+                            >
                               1,230
                             </span>
                           </div>
@@ -401,10 +443,18 @@ export default function Statistics() {
                             }}
                           />
                           <div className="d-flex flex-column">
-                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                            <span
+                              style={{ color: "#344054", fontSize: "14px" }}
+                            >
                               Total Losses
                             </span>
-                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                            <span
+                              style={{
+                                color: "#101828",
+                                fontSize: "16px",
+                                fontWeight: "600",
+                              }}
+                            >
                               130
                             </span>
                           </div>
@@ -421,10 +471,18 @@ export default function Statistics() {
                             }}
                           />
                           <div className="d-flex flex-column">
-                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                            <span
+                              style={{ color: "#344054", fontSize: "14px" }}
+                            >
                               Total Games Played
                             </span>
-                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                            <span
+                              style={{
+                                color: "#101828",
+                                fontSize: "16px",
+                                fontWeight: "600",
+                              }}
+                            >
                               24
                             </span>
                           </div>
@@ -441,10 +499,18 @@ export default function Statistics() {
                             }}
                           />
                           <div className="d-flex flex-column">
-                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                            <span
+                              style={{ color: "#344054", fontSize: "14px" }}
+                            >
                               Total Tournaments
                             </span>
-                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                            <span
+                              style={{
+                                color: "#101828",
+                                fontSize: "16px",
+                                fontWeight: "600",
+                              }}
+                            >
                               12
                             </span>
                           </div>
@@ -542,7 +608,11 @@ export default function Statistics() {
                           <td>{tournament.amount}</td>
                           <td>
                             <Badge
-                              color={tournament.status === "Completed" ? "success" : "danger"}
+                              color={
+                                tournament.status === "Completed"
+                                  ? "success"
+                                  : "danger"
+                              }
                               className="rounded-pill"
                             >
                               {tournament.status}
@@ -556,7 +626,10 @@ export default function Statistics() {
                     <div className="d-flex">
                       <button className="btn btn-warning btn-sm me-2">1</button>
                       {[2, 3, 4, 5].map((page) => (
-                        <button key={page} className="btn btn-light btn-sm me-2">
+                        <button
+                          key={page}
+                          className="btn btn-light btn-sm me-2"
+                        >
                           {page}
                         </button>
                       ))}
