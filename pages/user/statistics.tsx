@@ -691,51 +691,68 @@ export default function Statistics() {
 
         <Row className="mb-4">
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
-              <div className="d-flex align-items-center gap-3">
-                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
-                  <DollarSign size={24} />
-                </div>
-                <div className="flex-grow-1">
-                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Total Earnings</div>
-                  <div className="d-flex justify-content-between align-items-baseline">
-                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>$2000</div>
+            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
+              <CardBody>
+                <div>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Cash Won</h6>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>$2000</h3>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>$1000</span>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>Last Cash</span>
+                      </div>
+                    </div>
+                    <div style={{ width: "40px", height: "40px" }}>
+                      <img src="/dollar-icon.png" alt="Cash" style={{ width: "100%", height: "100%" }} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>+15% from last month</div>
+              </CardBody>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
-              <div className="d-flex align-items-center gap-3">
-                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
-                  <CreditCard size={24} />
-                </div>
-                <div className="flex-grow-1">
-                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Prize Money</div>
-                  <div className="d-flex justify-content-between align-items-baseline">
-                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>$2000</div>
+            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
+              <CardBody>
+                <div>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Credits Won</h6>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>$2000</h3>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>$1000</span>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>Last Win</span>
+                      </div>
+                    </div>
+                    <div style={{ width: "40px", height: "40px" }}>
+                      <img src="/credit-icon.png" alt="Credits" style={{ width: "100%", height: "100%" }} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>+10% from last month</div>
+              </CardBody>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
-              <div className="d-flex align-items-center gap-3">
-                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
-                  <Award size={24} />
-                </div>
-                <div className="flex-grow-1">
-                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Tournaments Played</div>
-                  <div className="d-flex justify-content-between align-items-baseline">
-                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>12</div>
+            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
+              <CardBody>
+                <div>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Tournaments Played</h6>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>12</h3>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>4</span>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>Last Win</span>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>6</span>
+                        <span style={{ color: "#667085", fontSize: "14px" }}>Losses</span>
+                      </div>
+                    </div>
+                    <div style={{ width: "40px", height: "40px" }}>
+                      <img src="/trophy-icon.png" alt="Trophy" style={{ width: "100%", height: "100%" }} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>4 wins this month</div>
+              </CardBody>
             </Card>
           </Col>
         </Row>
