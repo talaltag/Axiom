@@ -242,27 +242,27 @@ export default function Statistics() {
                 }}
               >
                 <div style={{ padding: "24px 24px 0 24px" }}>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
+                  <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #EAECF0", paddingBottom: "16px" }}>
+                    <div className="d-flex align-items-center gap-2">
                       <h6
                         style={{
                           fontSize: "16px",
                           fontWeight: 500,
                           color: "#101828",
-                          marginBottom: "4px",
+                          margin: 0,
                         }}
                       >
                         Gaming time
                       </h6>
-                      <p
+                      <span
                         style={{
                           fontSize: "14px",
-                          color: "#667085",
+                          color: "#12B76A",
                           margin: 0,
                         }}
                       >
                         Daily Average 2 Hrs. 25 min
-                      </p>
+                      </span>
                     </div>
                     <div
                       style={{
