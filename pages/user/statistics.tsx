@@ -256,56 +256,53 @@ export default function Statistics() {
                   padding: "0",
                 }}
               >
-                <div style={{ padding: "14px 24px 0 24px" }}>
-                  <div
-                    className="d-flex justify-content-between align-items-center"
-                    style={{
-                      borderBottom: "1px solid #EAECF0",
-                      paddingBottom: "16px",
-                    }}
-                  >
-                    <div className="d-flex align-items-center gap-2">
-                      <h6
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          color: "#101828",
-                          margin: 0,
-                        }}
-                      >
-                        Gaming time
-                      </h6>
-                      <span style={{ color: "#7A798A", marginLeft: "10px" }}>
-                        Daily Average
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "14px",
-                          color: "#12B76A",
-                          margin: 0,
-                        }}
-                      >
-                        2 Hrs. 25 min
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        padding: "6px 10px",
+                <div style={{ padding: "20px 24px" }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <h6 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", margin: 0 }}>
+                      Tournament Stats
+                    </h6>
+                    <div className="d-flex align-items-center">
+                      <div style={{ 
+                        padding: "2px 8px",
                         borderRadius: "6px",
-                        backgroundColor: "transparent",
+                        backgroundColor: "#F9FAFB",
                         cursor: "pointer",
                         fontSize: "14px",
                         color: "#344054",
                         display: "flex",
                         alignItems: "center",
                         gap: "6px",
-                      }}
-                    >
-                      Month
-                      <i
-                        className="fas fa-chevron-down"
-                        style={{ fontSize: "10px" }}
-                      ></i>
+                        border: "1px solid #EAECF0"
+                      }}>
+                        Month
+                        <i className="fas fa-chevron-down" style={{ fontSize: "10px" }}></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-4 mt-4">
+                    <div>
+                      <div style={{ fontSize: "14px", color: "#667085", marginBottom: "4px" }}>
+                        Total Tournaments participated in
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>
+                        1,230
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "14px", color: "#667085", marginBottom: "4px" }}>
+                        Total Tournament Wins
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>
+                        24
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "14px", color: "#667085", marginBottom: "4px" }}>
+                        Total Tournament Losses
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>
+                        24
+                      </div>
                     </div>
                   </div>
                 </div>
