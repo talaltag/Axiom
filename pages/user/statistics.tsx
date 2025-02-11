@@ -704,7 +704,7 @@ export default function Statistics() {
                       </div>
                     </div>
                     <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <img src="/uploads/1737999862239-msv8ry98y.png" alt="Cash" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      <img src="/uploads/cash.png" alt="Cash" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
@@ -725,7 +725,7 @@ export default function Statistics() {
                       </div>
                     </div>
                     <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <img src="/uploads/1738889630728-q9f5a6xq5.png" alt="Credits" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      <img src="/uploads/card.png" alt="Credits" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
@@ -748,7 +748,7 @@ export default function Statistics() {
                       </div>
                     </div>
                     <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <img src="/uploads/1c110b85212f36170ead1a912.png" alt="Trophy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      <img src="/uploads/tournament.png" alt="Trophy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
