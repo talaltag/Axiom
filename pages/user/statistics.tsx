@@ -326,56 +326,49 @@ export default function Statistics() {
                   <Chart
                     options={{
                       ...donutChartData.options,
-                      colors: ["#F8CA15", "#F3F3F3"],
+                      colors: ["#F8CA15", "#8B4513"],
                       fill: {
                         type: 'gradient',
                         gradient: {
                           shade: 'light',
                           type: 'vertical',
                           shadeIntensity: 0.8,
-                          gradientToColors: ['rgba(248, 202, 21, 0.80)', '#F3F3F3'],
+                          gradientToColors: ['rgba(248, 202, 21, 0.80)', '#8B4513'],
                           inverseColors: false,
                           opacityFrom: 1,
-                          opacityTo: 0.8,
+                          opacityTo: 0.5,
                         }
                       },
                       plotOptions: {
                         pie: {
-                          expandOnClick: false,
                           donut: {
-                            size: "92%",
-                            background: 'transparent',
+                            size: "85%",
                             labels: {
                               show: true,
                               name: {
                                 show: true,
-                                offsetY: -20,
-                                color: "#667085",
-                                fontSize: '14px',
+                                offsetY: -5,
                                 formatter: function () {
                                   return "Total";
                                 },
                               },
                               value: {
                                 show: true,
-                                fontSize: "32px",
+                                fontSize: "24px",
                                 fontWeight: 600,
-                                fontFamily: "Inter",
                                 color: "#101828",
-                                offsetY: 10,
-                                formatter: function (val) {
-                                  return "98%";
-                                }
+                                offsetY: 5,
                               },
                               total: {
-                                show: false,
+                                show: true,
+                                label: "Total",
+                                formatter: function () {
+                                  return "98%";
+                                },
                               },
                             },
                           },
                         },
-                      },
-                      stroke: {
-                        show: false
                       },
                     }}
                     series={[98, 2]}
