@@ -689,7 +689,7 @@ export default function Statistics() {
           </Col>
         </Row>
 
-        <Row className="mb-4">
+        <Row>
           <Col md={4}>
             <Card
               className="border-0 shadow-sm"
@@ -1029,7 +1029,10 @@ export default function Statistics() {
                     ].map((item, index) => (
                       <tr
                         key={index}
-                        style={{ borderBottom: "1px solid #EAECF0" }}
+                        style={{
+                          borderBottom: "1px solid #EAECF0",
+                          backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                        }}
                       >
                         <td
                           style={{
@@ -1054,11 +1057,12 @@ export default function Statistics() {
                             color: "#101828",
                             fontSize: "14px",
                             padding: "16px 24px",
+                            width: "25%",
                           }}
                         >
                           {item.rewards}
                         </td>
-                        <td style={{ padding: "16px 24px" }}>
+                        <td style={{ padding: "16px 24px", textAlign: "right" }}>
                           <span
                             style={{
                               padding: "2px 8px",
@@ -1120,7 +1124,7 @@ export default function Statistics() {
                         key={num}
                         style={{
                           padding: "8px 14px",
-                          border: "1px solid #D0D5DD",
+                          border:"1px solid #D0D5DD",
                           borderRadius: "8px",
                           background: "none",
                           color: "#344054",
