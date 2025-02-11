@@ -324,80 +324,46 @@ export default function Statistics() {
                 >
                   Winning Percentage
                 </h6>
-                <div style={{ padding: "20px 0" }}>
-                  <h6 style={{ 
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    color: '#101828',
-                    marginBottom: '24px'
-                  }}>
-                    Winning Percentage
-                  </h6>
-                  <div style={{ position: 'relative', width: '100%', height: 140 }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={[
-                            { name: 'Progress', value: 98, fill: 'url(#winningGradient)' },
-                            { name: 'Remaining', value: 2, fill: '#F2F4F7' }
-                          ]}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={60}
-                          outerRadius={80}
-                          startAngle={180}
-                          endAngle={0}
-                        >
-                          <defs>
-                            <linearGradient id="winningGradient" x1="0" y1="0" x2="1" y2="0">
-                              <stop offset="0%" stopColor="#FFA500" />
-                              <stop offset="50%" stopColor="#FFD600" />
-                              <stop offset="100%" stopColor="#8B4513" />
-                            </linearGradient>
-                          </defs>
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
-                    <div style={{ 
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
+                <div style={{ position: 'relative', width: '100%', height: 200 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: 'Wins', value: 60, fill: '#FFD600' },
+                          { name: 'Losses', value: 40, fill: '#8B4513' },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        startAngle={180}
+                        endAngle={0}
+                      />
+                      <Pie
+                        data={[
+                          { name: 'Games', value: 75, fill: '#FFA500' },
+                          { name: 'Tournaments', value: 25, fill: '#654321' },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={85}
+                        outerRadius={105}
+                        startAngle={180}
+                        endAngle={0}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div 
+                    style={{ 
+                      position: 'absolute', 
+                      top: '50%', 
+                      left: '50%', 
                       transform: 'translate(-50%, -50%)',
                       textAlign: 'center'
-                    }}>
-                      <div style={{ color: '#344054', fontSize: '14px' }}>Total</div>
-                      <div style={{ color: '#101828', fontSize: '24px', fontWeight: 600 }}>98%</div>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: '32px' }}>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FFD600' }}></div>
-                        <span style={{ color: '#344054', fontSize: '14px' }}>Total Wins</span>
-                      </div>
-                      <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>1,230</span>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#8B4513' }}></div>
-                        <span style={{ color: '#344054', fontSize: '14px' }}>Total Losses</span>
-                      </div>
-                      <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>130</span>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#F2F4F7' }}></div>
-                        <span style={{ color: '#344054', fontSize: '14px' }}>Total Games Played</span>
-                      </div>
-                      <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>24</span>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#E4E7EC' }}></div>
-                        <span style={{ color: '#344054', fontSize: '14px' }}>Total Tournaments participated in</span>
-                      </div>
-                      <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>12</span>
-                    </div>
+                    }}
+                  >
+                    <div style={{ color: '#667085', fontSize: '14px' }}>Total</div>
+                    <div style={{ color: '#101828', fontSize: '28px', fontWeight: 600 }}>98%</div>
                   </div>
                 </div>
                 <div className="mt-4 pt-2">
