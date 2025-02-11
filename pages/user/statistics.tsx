@@ -13,7 +13,7 @@ import {
   Progress,
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
-import { PieChart, Pie, ResponsiveContainer } from 'recharts'; // Added Recharts imports
+import { PieChart, Pie, ResponsiveContainer } from "recharts"; // Added Recharts imports
 
 const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -324,46 +324,58 @@ export default function Statistics() {
                 >
                   Winning Percentage
                 </h6>
-                <div style={{ position: 'relative', width: '100%', height: 200 }}>
+                <div
+                  style={{ position: "relative", width: "100%", height: 200 }}
+                >
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={[
-                          { name: 'Wins', value: 60, fill: '#FFD600' },
-                          { name: 'Losses', value: 40, fill: '#8B4513' },
+                          { name: "Wins", value: 100, fill: "#FFD600" },
+                          { name: "Losses", value: 40, fill: "#E1E1E1" },
                         ]}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        startAngle={180}
+                        startAngle={360}
                         endAngle={0}
                       />
                       <Pie
                         data={[
-                          { name: 'Games', value: 75, fill: '#FFA500' },
-                          { name: 'Tournaments', value: 25, fill: '#654321' },
+                          { name: "Games", value: 75, fill: "#FFA500" },
+                          { name: "Tournaments", value: 25, fill: "#E1E1E1" },
                         ]}
                         cx="50%"
                         cy="50%"
                         innerRadius={85}
                         outerRadius={105}
-                        startAngle={180}
+                        startAngle={360}
                         endAngle={0}
                       />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div 
-                    style={{ 
-                      position: 'absolute', 
-                      top: '50%', 
-                      left: '50%', 
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center'
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      textAlign: "center",
                     }}
                   >
-                    <div style={{ color: '#667085', fontSize: '14px' }}>Total</div>
-                    <div style={{ color: '#101828', fontSize: '28px', fontWeight: 600 }}>98%</div>
+                    <div style={{ color: "#667085", fontSize: "14px" }}>
+                      Total
+                    </div>
+                    <div
+                      style={{
+                        color: "#101828",
+                        fontSize: "28px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      98%
+                    </div>
                   </div>
                 </div>
                 <div className="mt-4 pt-2">
