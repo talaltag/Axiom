@@ -410,8 +410,9 @@ export default function UserDashboard() {
                     className="d-flex align-items-center mb-2 p-3"
                     style={{
                       backgroundColor: "white",
-                      borderRadius: "8px",
+                      borderRadius: "12px",
                       transition: "all 0.3s ease",
+                      boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
                     }}
                   >
                     <div
