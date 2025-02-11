@@ -377,7 +377,6 @@ export default function Statistics() {
                       98%
                     </div>
                   </div>
-                </div>
                 <div className="mt-4 pt-2">
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <div className="d-flex align-items-center gap-2">
