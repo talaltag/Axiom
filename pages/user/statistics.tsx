@@ -36,6 +36,10 @@ export default function Statistics() {
             backgroundBarOpacity: 0.5,
             backgroundBarRadius: 7,
           },
+          dataLabels: {
+            position: 'top',
+            enabled: false
+          }
         },
       },
       title: {
