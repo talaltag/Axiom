@@ -313,38 +313,48 @@ export default function Statistics() {
                 borderRadius: "12px",
               }}
             >
-              <CardBody style={{ padding: "24px", backgroundColor: "#FFFFFF", borderRadius: "12px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.05)" }}>
+              <CardBody style={{ padding: "24px" }}>
                 <h6
                   style={{
                     fontSize: "16px",
                     fontWeight: 500,
                     color: "#101828",
-                    marginBottom: "32px",
+                    marginBottom: "24px",
                   }}
                 >
                   Winning Percentage
                 </h6>
-                <div className="d-flex" style={{ gap: "40px" }}>
-                  <div style={{ position: "relative", width: "45%", height: 180 }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={[
-                            { name: "Wins", value: 100, fill: "#F8CA15" },
-                            { name: "Losses", value: 40, fill: "#E1E1E1" },
-                          ]}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={60}
-                          outerRadius={80}
-                          startAngle={360}
-                          endAngle={0}
-                          style={{
-                            filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.10))"
-                          }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
+                <div
+                  style={{ position: "relative", width: "100%", height: 200 }}
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: "Wins", value: 100, fill: "#FFD600" },
+                          { name: "Losses", value: 40, fill: "#E1E1E1" },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        startAngle={360}
+                        endAngle={0}
+                      />
+                      <Pie
+                        data={[
+                          { name: "Games", value: 75, fill: "#FFA500" },
+                          { name: "Tournaments", value: 25, fill: "#E1E1E1" },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={85}
+                        outerRadius={105}
+                        startAngle={360}
+                        endAngle={0}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
                   <div
                     style={{
                       position: "absolute",
@@ -368,44 +378,38 @@ export default function Statistics() {
                     </div>
                   </div>
                 </div>
-                <div className="stats-details" style={{ width: "55%", paddingLeft: "24px" }}>
-                  <div style={{ 
-                    backgroundColor: "#F9FAFB", 
-                    padding: "20px", 
-                    borderRadius: "8px",
-                    boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)"
-                  }}>
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                      <div className="d-flex align-items-center gap-2">
-                        <div
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            backgroundColor: "#F8CA15",
-                            flexShrink: 0,
-                          }}
-                        ></div>
-                        <span
-                          style={{
-                            color: "#344054",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                          }}
-                        >
-                          Total Wins
-                        </span>
-                      </div>
+                <div className="mt-4 pt-2">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#FFD600",
+                          flexShrink: 0,
+                        }}
+                      ></div>
                       <span
                         style={{
-                          color: "#101828",
-                          fontSize: "16px",
-                          fontWeight: "600",
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "400",
                         }}
                       >
-                        1,230
+                        Total Wins
                       </span>
                     </div>
+                    <span
+                      style={{
+                        color: "#101828",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      1,230
+                    </span>
+                  </div>
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <div className="d-flex align-items-center gap-2">
                       <div
