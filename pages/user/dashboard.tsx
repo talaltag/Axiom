@@ -179,21 +179,6 @@ export default function UserDashboard() {
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
-                            {/* <div
-                              className="text-muted mb-1"
-                              style={{ fontSize: "12px" }}
-                            >
-                              Prize
-                            </div>
-                            <div
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                color: "#DC3545",
-                              }}
-                            >
-                              {tournament.prize}
-                            </div> */}
                           </div>
                           <div className="text-end">
                             <div
@@ -266,9 +251,10 @@ export default function UserDashboard() {
                 boxShadow:
                   "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
                 height: "500px",
+                padding: "24px",
               }}
             >
-              <CardBody style={{ maxHeight: "100%", overflowY: "auto" }}>
+              <CardBody style={{ maxHeight: "100%", overflowY: "auto", background: "#FFD600", padding: 0 }}>
                 <div className="text-center mb-4">
                   <div className="d-flex justify-content-between align-items-end mb-4 px-5">
                     <div className="text-center" style={{ marginTop: "40px" }}>
