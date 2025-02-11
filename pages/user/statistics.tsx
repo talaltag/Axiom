@@ -691,45 +691,51 @@ export default function Statistics() {
 
         <Row className="mb-4">
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white text-dark p-4">
-              <div className="d-flex align-items-center mb-3">
-                <div className="bg-light rounded p-3 me-3">
-                  <DollarSign size={24} className="text-warning" />
+            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
+              <div className="d-flex align-items-center gap-3">
+                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
+                  <DollarSign size={24} />
                 </div>
-                <div>
-                  <small className="text-muted">Total Earnings</small>
-                  <h4 className="mb-0">$2000</h4>
+                <div className="flex-grow-1">
+                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Total Earnings</div>
+                  <div className="d-flex justify-content-between align-items-baseline">
+                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>$2000</div>
+                  </div>
                 </div>
               </div>
-              <small className="text-success">+15% from last month</small>
+              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>+15% from last month</div>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white text-dark p-4">
-              <div className="d-flex align-items-center mb-3">
-                <div className="bg-light rounded p-3 me-3">
-                  <CreditCard size={24} className="text-warning" />
+            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
+              <div className="d-flex align-items-center gap-3">
+                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
+                  <CreditCard size={24} />
                 </div>
-                <div>
-                  <small className="text-muted">Prize Money</small>
-                  <h4 className="mb-0">$2000</h4>
+                <div className="flex-grow-1">
+                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Prize Money</div>
+                  <div className="d-flex justify-content-between align-items-baseline">
+                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>$2000</div>
+                  </div>
                 </div>
               </div>
-              <small className="text-success">+10% from last month</small>
+              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>+10% from last month</div>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm bg-white text-dark p-4">
-              <div className="d-flex align-items-center mb-3">
-                <div className="bg-light rounded p-3 me-3">
-                  <Award size={24} className="text-warning" />
+            <Card className="border-0 shadow-sm bg-white" style={{ padding: "24px" }}>
+              <div className="d-flex align-items-center gap-3">
+                <div style={{ color: "#FFD600", width: "24px", height: "24px" }}>
+                  <Award size={24} />
                 </div>
-                <div>
-                  <small className="text-muted">Tournaments Played</small>
-                  <h4 className="mb-0">12</h4>
+                <div className="flex-grow-1">
+                  <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>Tournaments Played</div>
+                  <div className="d-flex justify-content-between align-items-baseline">
+                    <div style={{ fontSize: "24px", fontWeight: "600", color: "#101828" }}>12</div>
+                  </div>
                 </div>
               </div>
-              <small className="text-success">4 wins this month</small>
+              <div style={{ fontSize: "14px", color: "#12B76A", marginTop: "16px" }}>4 wins this month</div>
             </Card>
           </Col>
         </Row>
