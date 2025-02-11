@@ -101,51 +101,7 @@ export default function Statistics() {
       },
     ],
   };
-
-  const donutChartData = {
-    options: {
-      chart: {
-        type: "donut",
-        background: "transparent",
-      },
-      colors: ["#FFD600", "#EAECF0"],
-      labels: ["Won", "Lost"],
-      plotOptions: {
-        pie: {
-          donut: {
-            size: "90%",
-            labels: {
-              show: true,
-              name: {
-                show: false,
-              },
-              value: {
-                show: true,
-                fontSize: "24px",
-                fontWeight: 600,
-                color: "#101828",
-                offsetY: 0,
-              },
-              total: {
-                show: false,
-              },
-            },
-          },
-        },
-      },
-      stroke: {
-        width: 0,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        show: false,
-      },
-    },
-    series: [98, 2],
-  };
-
+  
   const lineChartData = {
     options: {
       chart: {
@@ -166,30 +122,43 @@ export default function Statistics() {
         strokeDashArray: 4,
         xaxis: {
           lines: {
-            show: true
-          }
+            show: true,
+          },
         },
         yaxis: {
           lines: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
         labels: {
           style: {
             colors: "#667085",
             fontSize: "12px",
             fontWeight: 400,
-          }
+          },
         },
         axisBorder: {
-          show: false
+          show: false,
         },
         axisTicks: {
-          show: false
-        }
+          show: false,
+        },
       },
       yaxis: {
         min: 0,
@@ -201,37 +170,37 @@ export default function Statistics() {
             fontSize: "12px",
             fontWeight: 400,
           },
-          formatter: (value) => `${value}%`
-        }
+          formatter: (value) => `${value}%`,
+        },
       },
       legend: {
         show: true,
-        position: 'top',
-        horizontalAlign: 'right',
+        position: "top",
+        horizontalAlign: "right",
         labels: {
-          colors: "#101828"
-        }
+          colors: "#101828",
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       markers: {
-        size: 0
-      }
+        size: 0,
+      },
     },
     series: [
       {
         name: "Total Tournaments participated in",
-        data: [38, 40, 45, 48, 50, 55, 60, 65, 68, 72, 75, 80]
+        data: [38, 40, 45, 48, 50, 55, 60, 65, 68, 72, 75, 80],
       },
       {
         name: "Total Tournament Wins",
-        data: [30, 35, 38, 40, 45, 48, 50, 52, 55, 58, 60, 62]
+        data: [30, 35, 38, 40, 45, 48, 50, 52, 55, 58, 60, 62],
       },
       {
         name: "Total Tournament Losses",
-        data: [15, 18, 20, 25, 28, 30, 35, 38, 40, 42, 45, 48]
-      }
+        data: [15, 18, 20, 25, 28, 30, 35, 38, 40, 42, 45, 48],
+      },
     ],
   };
 
@@ -551,14 +520,14 @@ export default function Statistics() {
         </Row>
 
         <Row className="mb-4">
-          <Col md={12}>
+          <Col md={10}>
             <Card className="border-0 shadow-sm">
               <CardBody>
-                <h6 className="mb-4">Tournament Group Stats</h6>
+                <h6 className="mb-4">Tournament Stats</h6>
                 <Chart
                   options={lineChartData.options}
                   series={lineChartData.series}
-                  type="line"
+                  type="area"
                   height={350}
                 />
               </CardBody>
