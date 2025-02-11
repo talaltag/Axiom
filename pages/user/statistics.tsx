@@ -36,36 +36,15 @@ export default function Statistics() {
             backgroundBarOpacity: 0.5,
             backgroundBarRadius: 7,
           },
-          dataLabels: {
-            position: "top",
-            hideOverflowingLabels: true,
-          },
         },
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          type: "vertical",
-          shadeIntensity: 0.8,
-          gradientToColors: ["rgba(248, 202, 21, 0)"],
-          inverseColors: false,
-          opacityFrom: 0.8,
-          opacityTo: 0,
-          stops: [48.49, 282.14],
-        },
-      },
-      dataLabels: {
-        enabled: false,
       },
       title: {
         text: "Gaming time",
         align: "left",
         margin: 0,
-        offsetX: 0,
         offsetY: 0,
-        floating: false,
         style: {
-          fontSize: "14px",
+          fontSize: "16px",
           fontWeight: 500,
           color: "#101828",
           fontFamily: "Inter, sans-serif",
@@ -74,7 +53,6 @@ export default function Statistics() {
       subtitle: {
         text: "Daily Average 2 Hrs. 25 min",
         align: "left",
-        offsetX: 0,
         offsetY: 20,
         style: {
           fontSize: "14px",
@@ -91,10 +69,10 @@ export default function Statistics() {
         curve: "straight",
         lineCap: "butt",
         colors: ["#E1E1E1"],
-        width: 1,
+        width: 2,
         dashArray: 0,
       },
-      colors: ["#FFD700"], // Gray for placeholder, Yellow for actual gaming time
+      colors: ["#FFD700"],
       xaxis: {
         categories: [
           "JAN",
@@ -136,15 +114,8 @@ export default function Statistics() {
     },
     series: [
       {
-        name: "Gaming Time (Yellow)",
-        data: [20, 0, 25, 0, 35, 0, 35, 20, 0, 60, 0, 110],
-        color: "#FFD700",
-        zIndex: 2,
-      },
-      {
-        name: "Gaming Time (Brown)",
-        data: [0, 30, 0, 45, 0, 30, 0, 0, 40, 0, 90, 0],
-        color: "#8B4513",
+        name: "Gaming Time",
+        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
         zIndex: 2,
       },
     ],
