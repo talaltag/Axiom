@@ -260,11 +260,97 @@ export default function Statistics() {
             >
               <CardBody
                 className="chart-card-body"
-                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}
+                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px", padding: "0" }}
               >
+                <div style={{ padding: "24px 24px 0" }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 style={{ 
+                        fontSize: "16px", 
+                        fontWeight: 500, 
+                        color: "#101828", 
+                        marginBottom: "4px" 
+                      }}>
+                        Gaming time
+                      </h6>
+                      <span style={{ 
+                        fontSize: "14px", 
+                        color: "#667085",
+                        fontWeight: 400
+                      }}>
+                        Daily Average 2 Hrs. 25 min
+                      </span>
+                    </div>
+                    <div style={{ 
+                      display: "flex", 
+                      alignItems: "center", 
+                      gap: "8px",
+                      background: "#FFFFFF",
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      padding: "8px 14px",
+                      cursor: "pointer"
+                    }}>
+                      <span style={{ 
+                        fontSize: "14px", 
+                        color: "#344054",
+                        fontWeight: 500
+                      }}>Month</span>
+                      <i className="fas fa-chevron-down" style={{ fontSize: "12px", color: "#667085" }}></i>
+                    </div>
+                  </div>
+                </div>
                 <Chart
-                  options={barChartData.options}
-                  series={barChartData.series}
+                  options={{
+                    ...barChartData.options,
+                    chart: {
+                      ...barChartData.options.chart,
+                      toolbar: { show: false },
+                      background: "transparent"
+                    },
+                    title: { text: "" },
+                    subtitle: { text: "" },
+                    colors: ["#F8CA15", "#8B4513"],
+                    plotOptions: {
+                      bar: {
+                        columnWidth: 13.87,
+                        borderRadius: 7,
+                        colors: {
+                          backgroundBarColors: ["#E1E1E1"],
+                          backgroundBarOpacity: 0.5,
+                          backgroundBarRadius: 7,
+                        },
+                        dataLabels: {
+                          position: 'top',
+                          enabled: false
+                        }
+                      }
+                    },
+                    grid: {
+                      borderColor: "#EAECF0",
+                      strokeDashArray: 4,
+                      xaxis: { lines: { show: false } },
+                      yaxis: { lines: { show: true } },
+                      padding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                      }
+                    }
+                  }}
+                  series={[
+                    {
+                      name: "Gaming Time",
+                      data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
+                      color: "#F8CA15"
+                    },
+                    {
+                      name: "Gaming Time 2",
+                      data: [30, 20, 35, 25, 40, 25, 40, 25, 35, 50, 80, 100],
+                      color: "#8B4513"
+                    }
+                  ]}
                   type="bar"
                   height={350}
                 />
