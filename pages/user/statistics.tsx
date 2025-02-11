@@ -930,10 +930,18 @@ export default function Statistics() {
                   "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
               }}
             >
-              <div className="table-responsive">
+              <div className="table-responsive" style={{ 
+                background: "#FFFFFF",
+                borderRadius: "12px",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                border: "1px solid #EAECF0"
+              }}>
                 <Table borderless style={{ marginBottom: "20px" }}>
                   <thead>
-                    <tr style={{ borderBottom: "1px solid #EAECF0" }}>
+                    <tr style={{ 
+                      borderBottom: "1px solid #EAECF0",
+                      background: "#F9FAFB"
+                    }}>
                       <th
                         style={{
                           color: "#667085",
@@ -1032,6 +1040,11 @@ export default function Statistics() {
                         style={{
                           borderBottom: "1px solid #EAECF0",
                           backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                          transition: "background-color 0.2s ease",
+                          cursor: "pointer",
+                          "&:hover": {
+                            backgroundColor: "#F5F5F5"
+                          }
                         }}
                       >
                         <td
