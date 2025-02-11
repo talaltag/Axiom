@@ -412,6 +412,7 @@ export default function Statistics() {
                               height: "8px",
                               borderRadius: "50%",
                               backgroundColor: "#FFD600",
+                              boxShadow: "0 0 0 2px rgba(255, 214, 0, 0.2)",
                             }}
                           />
                           <div className="d-flex flex-column">
@@ -440,6 +441,7 @@ export default function Statistics() {
                               height: "8px",
                               borderRadius: "50%",
                               backgroundColor: "#8B4513",
+                              boxShadow: "0 0 0 2px rgba(139, 69, 19, 0.2)",
                             }}
                           />
                           <div className="d-flex flex-column">
@@ -468,6 +470,7 @@ export default function Statistics() {
                               height: "8px",
                               borderRadius: "50%",
                               backgroundColor: "#F2F4F7",
+                              boxShadow: "0 0 0 2px rgba(242, 244, 247, 0.4)",
                             }}
                           />
                           <div className="d-flex flex-column">
@@ -496,6 +499,7 @@ export default function Statistics() {
                               height: "8px",
                               borderRadius: "50%",
                               backgroundColor: "#E4E7EC",
+                              boxShadow: "0 0 0 2px rgba(228, 231, 236, 0.4)",
                             }}
                           />
                           <div className="d-flex flex-column">
