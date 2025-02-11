@@ -901,60 +901,67 @@ export default function Statistics() {
 
         <Row>
           <Col md={12}>
-            <Card className="border-0 shadow-sm">
-              <CardBody>
-                <h6 className="mb-4">Tournament History</h6>
-                <div className="table-responsive">
-                  <Table className="align-middle">
-                    <thead>
-                      <tr>
-                        <th>Tournament</th>
-                        <th>Tournament ID</th>
-                        <th>Amount</th>
-                        <th>Status</th>
+            <Card className="border-0" style={{ padding: "24px", backgroundColor: "#FFFFFF", borderRadius: "12px", boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
+              <h6 style={{ fontSize: "18px", fontWeight: 500, color: "#101828", marginBottom: "20px" }}>Tournament History</h6>
+              <div className="table-responsive">
+                <Table borderless style={{ marginBottom: "20px" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid #EAECF0" }}>
+                      <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Tournament</th>
+                      <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Placement</th>
+                      <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Rewards</th>
+                      <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "12px 24px" }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { tournament: "Vanguard Royale", placement: "23", rewards: "$2000", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "12", rewards: "$2000", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "32", rewards: "$2000", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "4", rewards: "$2000", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "44", rewards: "$2500", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "32", rewards: "$2500", status: "Completed" },
+                      { tournament: "Vanguard Royale", placement: "12", rewards: "$2500", status: "Ongoing" },
+                      { tournament: "Vanguard Royale", placement: "22", rewards: "$2500", status: "Ongoing" }
+                    ].map((item, index) => (
+                      <tr key={index} style={{ borderBottom: "1px solid #EAECF0" }}>
+                        <td style={{ color: "#101828", fontSize: "14px", padding: "16px 24px" }}>{item.tournament}</td>
+                        <td style={{ color: "#101828", fontSize: "14px", padding: "16px 24px" }}>{item.placement}</td>
+                        <td style={{ color: "#101828", fontSize: "14px", padding: "16px 24px" }}>{item.rewards}</td>
+                        <td style={{ padding: "16px 24px" }}>
+                          <span style={{
+                            padding: "2px 8px",
+                            borderRadius: "16px",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            backgroundColor: item.status === "Completed" ? "#ECFDF3" : "#FEF3F2",
+                            color: item.status === "Completed" ? "#027A48" : "#B42318"
+                          }}>
+                            {item.status === "Completed" ? "✓ Completed" : "• Ongoing"}
+                          </span>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {tournamentHistory.map((tournament, index) => (
-                        <tr key={index}>
-                          <td>{tournament.name}</td>
-                          <td>{tournament.id}</td>
-                          <td>{tournament.amount}</td>
-                          <td>
-                            <Badge
-                              color={
-                                tournament.status === "Completed"
-                                  ? "success"
-                                  : "danger"
-                              }
-                              className="rounded-pill"
-                            >
-                              {tournament.status}
-                            </Badge>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  <div className="d-flex justify-content-between align-items-center mt-4">
-                    <div className="d-flex">
-                      <button className="btn btn-warning btn-sm me-2">1</button>
-                      {[2, 3, 4, 5].map((page) => (
-                        <button
-                          key={page}
-                          className="btn btn-light btn-sm me-2"
-                        >
-                          {page}
-                        </button>
-                      ))}
-                      <button className="btn btn-light btn-sm">...</button>
-                    </div>
-                    <div>
-                      <small className="text-muted">1-20 of 320 entries</small>
-                    </div>
+                    ))}
+                  </tbody>
+                </Table>
+                <div className="d-flex justify-content-between align-items-center" style={{ padding: "0 12px" }}>
+                  <div className="d-flex align-items-center gap-1">
+                    <button style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", background: "none", cursor: "pointer" }}>
+                      <i className="fas fa-chevron-left" style={{ fontSize: "12px", color: "#344054" }}></i>
+                    </button>
+                    <button style={{ padding: "8px 14px", border: "none", borderRadius: "8px", background: "#FFD600", color: "#344054", fontWeight: 500 }}>1</button>
+                    {[2, 3, 4, 5].map(num => (
+                      <button key={num} style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", background: "none", color: "#344054" }}>{num}</button>
+                    ))}
+                    <button style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", background: "none", color: "#344054" }}>...</button>
+                    <button style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", background: "none", color: "#344054" }}>12</button>
+                    <button style={{ padding: "8px 14px", border: "1px solid #D0D5DD", borderRadius: "8px", background: "none", cursor: "pointer" }}>
+                      <i className="fas fa-chevron-right" style={{ fontSize: "12px", color: "#344054" }}></i>
+                    </button>
                   </div>
+                  <div style={{ color: "#344054", fontSize: "14px" }}>1 - 3 of 10 items</div>
                 </div>
-              </CardBody>
+              </div>
             </Card>
           </Col>
         </Row>
