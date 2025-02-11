@@ -226,7 +226,7 @@ export default function Statistics() {
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <Row className="mb-4">
-          <Col md={8}>
+          <Col md={6}>
             <Card
               className="border-0"
               style={{
@@ -305,16 +305,25 @@ export default function Statistics() {
               </CardBody>
             </Card>
           </Col>
-          <Col md={4}>
+          <Col md={6}>
             <Card
               className="border-0"
               style={{
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
                 borderRadius: "12px",
+                backgroundColor: "#FAFBFC",
+                height: "100%",
               }}
             >
-              <CardBody style={{ padding: "24px" }}>
-                <h6
+              <CardBody
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "24px",
+                }}
+              >
+                {/* <h6
                   style={{
                     fontSize: "16px",
                     fontWeight: 500,
@@ -323,7 +332,7 @@ export default function Statistics() {
                   }}
                 >
                   Winning Percentage
-                </h6>
+                </h6> */}
                 <div
                   style={{ position: "relative", width: "100%", height: 200 }}
                 >
@@ -380,67 +389,70 @@ export default function Statistics() {
                 </div>
                 <div className="mt-4 pt-2">
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    <div className="d-flex align-items-center gap-2">
-                      <div
-                        style={{
-                          width: "8px",
-                          height: "8px",
-                          borderRadius: "50%",
-                          backgroundColor: "#FFD600",
-                          flexShrink: 0,
-                        }}
-                      ></div>
+                    <div>
+                      <div className="d-flex align-items-center gap-2">
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#FFD600",
+                            flexShrink: 0,
+                          }}
+                        ></div>
+                        <span
+                          style={{
+                            color: "#344054",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Wins
+                        </span>
+                      </div>
                       <span
                         style={{
-                          color: "#344054",
+                          color: "#101828",
                           fontSize: "14px",
-                          fontWeight: "400",
+                          fontWeight: "500",
                         }}
                       >
-                        Total Wins
+                        1,230
                       </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#101828",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      1,230
-                    </span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <div className="d-flex align-items-center gap-2">
-                      <div
-                        style={{
-                          width: "8px",
-                          height: "8px",
-                          borderRadius: "50%",
-                          backgroundColor: "#8B4513",
-                          flexShrink: 0,
-                        }}
-                      ></div>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <div className="d-flex align-items-center gap-2">
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#8B4513",
+                            flexShrink: 0,
+                          }}
+                        ></div>
+                        <span
+                          style={{
+                            color: "#344054",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Losses
+                        </span>
+                      </div>
                       <span
                         style={{
-                          color: "#344054",
+                          color: "#101828",
                           fontSize: "14px",
-                          fontWeight: "400",
+                          fontWeight: "500",
                         }}
                       >
-                        Total Losses
+                        130
                       </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#101828",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      130
-                    </span>
                   </div>
+
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <div className="d-flex align-items-center gap-2">
                       <span
