@@ -936,12 +936,11 @@ export default function Statistics() {
                   borderRadius: "12px",
                 }}
               >
-                <Table borderless style={{ marginBottom: "20px" }}>
+                <Table striped borderless style={{ marginBottom: "20px" }}>
                   <thead>
                     <tr
                       style={{
                         borderBottom: "1px solid #EAECF0",
-                        background: "#F9FAFB",
                       }}
                     >
                       <th
@@ -1043,12 +1042,18 @@ export default function Statistics() {
                         key={index}
                         style={{
                           borderBottom: "1px solid #EAECF0",
-                          backgroundColor: item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF",
+                          backgroundColor:
+                            item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF",
                           transition: "background-color 0.2s ease",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#F5F5F5"}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF"}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#F5F5F5")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor =
+                            item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF")
+                        }
                       >
                         <td
                           style={{
