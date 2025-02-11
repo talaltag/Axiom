@@ -908,7 +908,7 @@ export default function Statistics() {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="mt-4">
           <Col md={12}>
             <h6
               style={{
@@ -923,25 +923,27 @@ export default function Statistics() {
             <Card
               className="border-0"
               style={{
-                padding: "24px",
                 backgroundColor: "#FFFFFF",
                 borderRadius: "12px",
-                boxShadow:
-                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                border: "1px solid #EAECF0",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <div className="table-responsive" style={{ 
-                background: "#FFFFFF",
-                borderRadius: "12px",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                border: "1px solid #EAECF0"
-              }}>
+              <div
+                className="table-responsive"
+                style={{
+                  background: "#FFFFFF",
+                  borderRadius: "12px",
+                }}
+              >
                 <Table borderless style={{ marginBottom: "20px" }}>
                   <thead>
-                    <tr style={{ 
-                      borderBottom: "1px solid #EAECF0",
-                      background: "#F9FAFB"
-                    }}>
+                    <tr
+                      style={{
+                        borderBottom: "1px solid #EAECF0",
+                        background: "#F9FAFB",
+                      }}
+                    >
                       <th
                         style={{
                           color: "#667085",
@@ -978,6 +980,8 @@ export default function Statistics() {
                           fontSize: "12px",
                           fontWeight: 500,
                           padding: "12px 24px",
+                          textAlign: "right",
+                          paddingRight: "73px",
                         }}
                       >
                         Status
@@ -1039,12 +1043,13 @@ export default function Statistics() {
                         key={index}
                         style={{
                           borderBottom: "1px solid #EAECF0",
-                          backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                          backgroundColor:
+                            index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
                           transition: "background-color 0.2s ease",
                           cursor: "pointer",
                           "&:hover": {
-                            backgroundColor: "#F5F5F5"
-                          }
+                            backgroundColor: "#F5F5F5",
+                          },
                         }}
                       >
                         <td
@@ -1070,12 +1075,14 @@ export default function Statistics() {
                             color: "#101828",
                             fontSize: "14px",
                             padding: "16px 24px",
-                            width: "25%",
+                            width: "15%",
                           }}
                         >
                           {item.rewards}
                         </td>
-                        <td style={{ padding: "16px 24px", textAlign: "right" }}>
+                        <td
+                          style={{ padding: "16px 24px", textAlign: "right" }}
+                        >
                           <span
                             style={{
                               padding: "2px 8px",
@@ -1103,7 +1110,7 @@ export default function Statistics() {
                 </Table>
                 <div
                   className="d-flex justify-content-between align-items-center"
-                  style={{ padding: "0 12px" }}
+                  style={{ padding: "0 12px 15px 12px" }}
                 >
                   <div className="d-flex align-items-center gap-1">
                     <button
@@ -1137,7 +1144,7 @@ export default function Statistics() {
                         key={num}
                         style={{
                           padding: "8px 14px",
-                          border:"1px solid #D0D5DD",
+                          border: "1px solid #D0D5DD",
                           borderRadius: "8px",
                           background: "none",
                           color: "#344054",
