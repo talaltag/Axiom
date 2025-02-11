@@ -691,20 +691,20 @@ export default function Statistics() {
 
         <Row className="mb-4">
           <Col md={4}>
-            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
-              <CardBody>
+            <Card className="border-0 shadow-sm" style={{ padding: "24px", borderRadius: "12px" }}>
+              <CardBody style={{ padding: "0" }}>
                 <div>
-                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Cash Won</h6>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "8px" }}>Cash Won</h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>$2000</h3>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "8px" }}>$2000</h3>
                       <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                         <span style={{ color: "#667085", fontSize: "14px" }}>$1000</span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>Last Cash</span>
                       </div>
                     </div>
-                    <div style={{ width: "40px", height: "40px" }}>
-                      <img src="/dollar-icon.png" alt="Cash" style={{ width: "100%", height: "100%" }} />
+                    <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <img src="/uploads/1737999862239-msv8ry98y.png" alt="Cash" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
@@ -712,20 +712,20 @@ export default function Statistics() {
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
-              <CardBody>
+            <Card className="border-0 shadow-sm" style={{ padding: "24px", borderRadius: "12px" }}>
+              <CardBody style={{ padding: "0" }}>
                 <div>
-                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Credits Won</h6>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "8px" }}>Credits Won</h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>$2000</h3>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "8px" }}>$2000</h3>
                       <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                         <span style={{ color: "#667085", fontSize: "14px" }}>$1000</span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>Last Win</span>
                       </div>
                     </div>
-                    <div style={{ width: "40px", height: "40px" }}>
-                      <img src="/credit-icon.png" alt="Credits" style={{ width: "100%", height: "100%" }} />
+                    <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <img src="/uploads/1738889630728-q9f5a6xq5.png" alt="Credits" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
@@ -733,13 +733,13 @@ export default function Statistics() {
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0 shadow-sm" style={{ padding: "16px" }}>
-              <CardBody>
+            <Card className="border-0 shadow-sm" style={{ padding: "24px", borderRadius: "12px" }}>
+              <CardBody style={{ padding: "0" }}>
                 <div>
-                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "4px" }}>Tournaments Played</h6>
+                  <h6 style={{ color: "#344054", fontSize: "14px", marginBottom: "8px" }}>Tournaments Played</h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "4px" }}>12</h3>
+                      <h3 style={{ color: "#101828", fontSize: "30px", fontWeight: "600", marginBottom: "8px" }}>12</h3>
                       <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                         <span style={{ color: "#667085", fontSize: "14px" }}>4</span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>Last Win</span>
@@ -747,8 +747,8 @@ export default function Statistics() {
                         <span style={{ color: "#667085", fontSize: "14px" }}>Losses</span>
                       </div>
                     </div>
-                    <div style={{ width: "40px", height: "40px" }}>
-                      <img src="/trophy-icon.png" alt="Trophy" style={{ width: "100%", height: "100%" }} />
+                    <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <img src="/uploads/1c110b85212f36170ead1a912.png" alt="Trophy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   </div>
                 </div>
