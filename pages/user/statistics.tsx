@@ -369,26 +369,28 @@ export default function Statistics() {
                     </div>
                   </div>
                   <div style={{ marginLeft: "40px" }}>
-                    <div style={{ marginBottom: "24px" }}>
-                      <div className="d-flex align-items-center gap-2 mb-2">
-                        <div
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            backgroundColor: "#FFD600",
-                          }}
-                        />
-                        <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
-                          <span style={{ color: "#344054", fontSize: "14px" }}>
-                            Total Wins
-                          </span>
-                          <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500", marginLeft: "24px" }}>
-                            1,230
-                          </span>
+                    <Row>
+                      <Col xs={6} className="mb-4">
+                        <div className="d-flex align-items-center gap-2">
+                          <div
+                            style={{
+                              width: "8px",
+                              height: "8px",
+                              borderRadius: "50%",
+                              backgroundColor: "#FFD600",
+                            }}
+                          />
+                          <div className="d-flex flex-column">
+                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                              Total Wins
+                            </span>
+                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                              1,230
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="d-flex justify-content-between align-items-center mb-3">
+                      </Col>
+                      <Col xs={6} className="mb-4">
                         <div className="d-flex align-items-center gap-2">
                           <div
                             style={{
@@ -396,54 +398,59 @@ export default function Statistics() {
                               height: "8px",
                               borderRadius: "50%",
                               backgroundColor: "#8B4513",
-                              flexShrink: 0,
                             }}
                           />
-                          <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>
-                            Total Losses
-                          </span>
+                          <div className="d-flex flex-column">
+                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                              Total Losses
+                            </span>
+                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                              130
+                            </span>
+                          </div>
                         </div>
-                        <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>
-                          130
-                        </span>
-                      </div>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <div className="d-flex align-items-center gap-2">
-                        <span
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            backgroundColor: "#F2F4F7",
-                          }}
-                        />
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
-                          Total Games Played
-                        </span>
-                      </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>
-                        24
-                      </span>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex align-items-center gap-2">
-                        <span
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            backgroundColor: "#E4E7EC",
-                          }}
-                        />
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
-                          Total Tournaments participated in
-                        </span>
-                      </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>
-                        12
-                      </span>
-                    </div>
+                      </Col>
+                      <Col xs={6}>
+                        <div className="d-flex align-items-center gap-2">
+                          <div
+                            style={{
+                              width: "8px",
+                              height: "8px",
+                              borderRadius: "50%",
+                              backgroundColor: "#F2F4F7",
+                            }}
+                          />
+                          <div className="d-flex flex-column">
+                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                              Total Games Played
+                            </span>
+                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                              24
+                            </span>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col xs={6}>
+                        <div className="d-flex align-items-center gap-2">
+                          <div
+                            style={{
+                              width: "8px",
+                              height: "8px",
+                              borderRadius: "50%",
+                              backgroundColor: "#E4E7EC",
+                            }}
+                          />
+                          <div className="d-flex flex-column">
+                            <span style={{ color: "#344054", fontSize: "14px" }}>
+                              Total Tournaments
+                            </span>
+                            <span style={{ color: "#101828", fontSize: "16px", fontWeight: "600" }}>
+                              12
+                            </span>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
                   </div>
                 </div>
               </CardBody>
