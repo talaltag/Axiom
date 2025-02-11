@@ -23,19 +23,19 @@ export default function Statistics() {
       chart: {
         type: "bar",
         height: 300,
-        toolbar: {
-          show: false,
-        },
+        toolbar: { show: false },
         background: "#FAFBFC",
         fontFamily: "Inter, sans-serif",
       },
       plotOptions: {
         bar: {
-          columnWidth: "8px",
-          borderRadius: 4,
-          distributed: false,
-          rangeBarOverlap: false,
-          rangeBarGroupRows: true,
+          columnWidth: 13.87,
+          borderRadius: 7,
+          colors: {
+            backgroundBarColors: ["#E1E1E1"],
+            backgroundBarOpacity: 0.5,
+            backgroundBarRadius: 7,
+          },
         },
       },
       title: {
@@ -44,93 +44,80 @@ export default function Statistics() {
         margin: 0,
         offsetY: 0,
         style: {
-          fontSize: '16px',
+          fontSize: "16px",
           fontWeight: 500,
-          color: '#101828',
-          fontFamily: "Inter, sans-serif"
-        }
+          color: "#101828",
+          fontFamily: "Inter, sans-serif",
+        },
       },
       subtitle: {
         text: "Daily Average 2 Hrs. 25 min",
         align: "left",
         offsetY: 20,
         style: {
-          fontSize: '14px',
+          fontSize: "14px",
           fontWeight: 400,
-          color: '#667085',
-          fontFamily: "Inter, sans-serif"
-        }
+          color: "#667085",
+          fontFamily: "Inter, sans-serif",
+        },
       },
       fill: {
-        opacity: 1
+        opacity: 1,
       },
-      colors: ['#FFD700', '#8B4513'],
-      distributed: true,
+      stroke: {
+        show: true,
+        curve: "straight",
+        lineCap: "butt",
+        colors: ["#E1E1E1"],
+        width: 2,
+        dashArray: 0,
+      },
+      colors: ["#FFD700"], // Gray for placeholder, Yellow for actual gaming time
       xaxis: {
-        categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+        categories: [
+          "JAN",
+          "FEB",
+          "MAR",
+          "APR",
+          "MAY",
+          "JUN",
+          "JUL",
+          "AUG",
+          "SEP",
+          "OCT",
+          "NOV",
+          "DEC",
+        ],
         labels: {
           style: {
             fontSize: "12px",
             fontWeight: 400,
             colors: "#667085",
-            fontFamily: "Inter, sans-serif"
+            fontFamily: "Inter, sans-serif",
           },
         },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        }
+        axisBorder: { show: false },
+        axisTicks: { show: false },
       },
       yaxis: {
         min: 0,
         max: 120,
         tickAmount: 4,
-        labels: {
-          formatter: function(value) {
-            return value + ' min';
-          },
-          style: {
-            fontSize: "12px",
-            fontWeight: 400,
-            colors: "#667085",
-            fontFamily: "Inter, sans-serif"
-          }
-        }
       },
       grid: {
         borderColor: "#EAECF0",
         strokeDashArray: 4,
-        xaxis: {
-          lines: {
-            show: false
-          }
-        },
-        yaxis: {
-          lines: {
-            show: true
-          }
-        }
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } },
       },
-      tooltip: {
-        enabled: false
-      }
+      tooltip: { enabled: false },
     },
     series: [
       {
         name: "Gaming Time",
-        data: [
-          20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110
-        ],
-        zIndex: 2
+        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
+        zIndex: 2,
       },
-      {
-        name: "Placeholder",
-        data: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
-        color: '#E1E1E1',
-        zIndex: 1
-      }
     ],
   };
 
@@ -159,7 +146,7 @@ export default function Statistics() {
                 offsetY: 0,
               },
               total: {
-                show: false
+                show: false,
               },
             },
           },
@@ -264,10 +251,13 @@ export default function Statistics() {
               style={{
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
                 borderRadius: "12px",
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
               }}
             >
-              <CardBody className="chart-card-body" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}>
+              <CardBody
+                className="chart-card-body"
+                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}
+              >
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
@@ -285,7 +275,7 @@ export default function Statistics() {
                 borderRadius: "12px",
               }}
             >
-              <CardBody style={{ padding: '24px' }}>
+              <CardBody style={{ padding: "24px" }}>
                 <h6
                   style={{
                     fontSize: "16px",
@@ -304,29 +294,29 @@ export default function Statistics() {
                       plotOptions: {
                         pie: {
                           donut: {
-                            size: '85%',
+                            size: "85%",
                             labels: {
                               show: true,
                               name: {
                                 show: true,
                                 offsetY: -5,
                                 formatter: function () {
-                                  return 'Total';
-                                }
+                                  return "Total";
+                                },
                               },
                               value: {
                                 show: true,
-                                fontSize: '24px',
+                                fontSize: "24px",
                                 fontWeight: 600,
-                                color: '#101828',
+                                color: "#101828",
                                 offsetY: 5,
                               },
                               total: {
                                 show: true,
-                                label: 'Total',
+                                label: "Total",
                                 formatter: function () {
-                                  return '98%';
-                                }
+                                  return "98%";
+                                },
                               },
                             },
                           },
@@ -340,53 +330,125 @@ export default function Statistics() {
                   <div className="mt-4 pt-2">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#FFD600',
-                          flexShrink: 0
-                        }}></div>
-                        <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>Total Wins</span>
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#FFD600",
+                            flexShrink: 0,
+                          }}
+                        ></div>
+                        <span
+                          style={{
+                            color: "#344054",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Wins
+                        </span>
                       </div>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>1,230</span>
+                      <span
+                        style={{
+                          color: "#101828",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        1,230
+                      </span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#8B4513',
-                          flexShrink: 0
-                        }}></div>
-                        <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>Total Losses</span>
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#8B4513",
+                            flexShrink: 0,
+                          }}
+                        ></div>
+                        <span
+                          style={{
+                            color: "#344054",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Losses
+                        </span>
                       </div>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>130</span>
+                      <span
+                        style={{
+                          color: "#101828",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        130
+                      </span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center gap-2">
-                        <span style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#F2F4F7' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Games Played</span>
+                        <span
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#F2F4F7",
+                          }}
+                        ></span>
+                        <span
+                          style={{
+                            color: "#667085",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Games Played
+                        </span>
                       </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>24</span>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        24
+                      </span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex align-items-center gap-2">
-                        <span style={{ 
-                          width: '8px', 
-                          height: '8px', 
-                          borderRadius: '50%', 
-                          backgroundColor: '#E4E7EC' 
-                        }}></span>
-                        <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>Total Tournaments participated in</span>
+                        <span
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#E4E7EC",
+                          }}
+                        ></span>
+                        <span
+                          style={{
+                            color: "#667085",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Total Tournaments participated in
+                        </span>
                       </div>
-                      <span style={{ color: "#344054", fontSize: "14px", fontWeight: "500" }}>12</span>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        12
+                      </span>
                     </div>
                   </div>
                 </div>
