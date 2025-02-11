@@ -576,7 +576,6 @@ export default function Statistics() {
                     <div
                       style={{
                         padding: "6px 12px",
-                        backgroundColor: "#F9FAFB",
                         borderRadius: "8px",
                         fontSize: "14px",
                         color: "#344054",
@@ -592,34 +591,94 @@ export default function Statistics() {
                     </div>
                     <div>
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#FFD600" }} />
-                        <div style={{ fontSize: "16px", color: "#344054", marginBottom: "8px" }}>
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#FFD600",
+                          }}
+                        />
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "8px",
+                          }}
+                        >
                           Total Tournaments participated in
                         </div>
                       </div>
-                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
+                      <div
+                        style={{
+                          fontSize: "32px",
+                          fontWeight: 700,
+                          color: "#101828",
+                          lineHeight: "1.2",
+                        }}
+                      >
                         1,230
                       </div>
                     </div>
                     <div>
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#12B76A" }} />
-                        <div style={{ fontSize: "16px", color: "#344054", marginBottom: "8px" }}>
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#12B76A",
+                          }}
+                        />
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "8px",
+                          }}
+                        >
                           Total Tournament Wins
                         </div>
                       </div>
-                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
+                      <div
+                        style={{
+                          fontSize: "32px",
+                          fontWeight: 700,
+                          color: "#101828",
+                          lineHeight: "1.2",
+                        }}
+                      >
                         24
                       </div>
                     </div>
                     <div>
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#F04438" }} />
-                        <div style={{ fontSize: "16px", color: "#344054", marginBottom: "8px" }}>
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#F04438",
+                          }}
+                        />
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "8px",
+                          }}
+                        >
                           Total Tournament Losses
                         </div>
                       </div>
-                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
+                      <div
+                        style={{
+                          fontSize: "32px",
+                          fontWeight: 700,
+                          color: "#101828",
+                          lineHeight: "1.2",
+                        }}
+                      >
                         24
                       </div>
                     </div>
