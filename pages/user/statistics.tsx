@@ -1,18 +1,30 @@
 "use client";
-import React from "react";
-import { Container, Row, Col, Card, CardBody } from "reactstrap";
-import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import { useEffect, useState } from "react";
+import { DollarSign, CreditCard, Award } from "react-feather";
 import dynamic from "next/dynamic";
-import { ResponsiveContainer, PieChart, Pie } from "recharts";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Table,
+  Badge,
+  Progress,
+} from "reactstrap";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import { PieChart, Pie, ResponsiveContainer } from "recharts"; // Added Recharts imports
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 export default function Statistics() {
   const barChartData = {
     options: {
       chart: {
         type: "bar",
-        height: 350,
+        height: 300,
         toolbar: { show: false },
         background: "#FAFBFC",
         fontFamily: "Inter, sans-serif",
@@ -29,30 +41,41 @@ export default function Statistics() {
             backgroundBarOpacity: 0.5,
             backgroundBarRadius: 7,
           },
-          dataLabels: {
-            position: "top",
-            enabled: false
-          }
         },
       },
+      dataLabels: {
+        enabled: false,
+      },
       title: {
-        text: "Gaming time",
+        text: "",
       },
       fill: {
-        type: "gradient",
-        gradient: {
-          type: "vertical",
-          shadeIntensity: 0.8,
-          gradientToColors: ["rgba(248, 202, 21, 0)"],
-          inverseColors: false,
-          opacityFrom: 0.8,
-          opacityTo: 0,
-          stops: [48.49, 282.14]
-        }
+        opacity: 1,
+      },
+      stroke: {
+        show: true,
+        curve: "straight",
+        lineCap: "butt",
+        colors: ["#E1E1E1"],
+        width: 2,
+        dashArray: 0,
       },
       colors: ["#FFD700"],
       xaxis: {
-        categories: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+        categories: [
+          "JAN",
+          "FEB",
+          "MAR",
+          "APR",
+          "MAY",
+          "JUN",
+          "JUL",
+          "AUG",
+          "SEP",
+          "OCT",
+          "NOV",
+          "DEC",
+        ],
         labels: {
           style: {
             fontSize: "12px",
@@ -70,18 +93,125 @@ export default function Statistics() {
         tickAmount: 4,
       },
     },
-    series: [{
-      name: "Gaming Time",
-      data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
-    }],
+    series: [
+      {
+        name: "Gaming Time",
+        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
+        zIndex: 2,
+      },
+    ],
   };
 
-  const data = [
-    { name: "Total Wins", value: 1230, color: "#FFD600" },
-    { name: "Total Losses", value: 130, color: "#8B4513" },
-    { name: "Total Games Played", value: 24, color: "#F2F4F7" },
-    { name: "Total Tournaments", value: 12, color: "#E4E7EC" }
-  ];
+  const donutChartData = {
+    options: {
+      chart: {
+        type: "donut",
+        background: "transparent",
+      },
+      colors: ["#FFD600", "#EAECF0"],
+      labels: ["Won", "Lost"],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "90%",
+            labels: {
+              show: true,
+              name: {
+                show: false,
+              },
+              value: {
+                show: true,
+                fontSize: "24px",
+                fontWeight: 600,
+                color: "#101828",
+                offsetY: 0,
+              },
+              total: {
+                show: false,
+              },
+            },
+          },
+        },
+      },
+      stroke: {
+        width: 0,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+    },
+    series: [98, 2],
+  };
+
+  const lineChartData = {
+    options: {
+      chart: {
+        type: "line",
+        height: 350,
+        toolbar: {
+          show: false,
+        },
+        dropShadow: {
+          enabled: true,
+          top: 0,
+          left: 0,
+          blur: 10,
+          opacity: 0.1,
+        },
+      },
+      stroke: {
+        curve: "smooth",
+        width: 2,
+      },
+      colors: ["#FFD700"],
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "vertical",
+          shadeIntensity: 0.5,
+          gradientToColors: ["#FFFFFF"],
+          inverseColors: false,
+          opacityFrom: 0.8,
+          opacityTo: 0.1,
+          stops: [0, 100],
+        },
+      },
+      xaxis: {
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+        ],
+      },
+      legend: {
+        show: false,
+      },
+    },
+    series: [
+      {
+        name: "Team A",
+        data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+      },
+      {
+        name: "Team B",
+        data: [20, 35, 40, 45, 50, 55, 65, 85, 100],
+      },
+      {
+        name: "Team C",
+        data: [15, 25, 30, 35, 40, 45, 55, 75, 90],
+      },
+    ],
+  };
 
   const tournamentHistory = [
     { name: "Vanguard Royale", id: 22, amount: "$150", status: "Completed" },
@@ -97,78 +227,286 @@ export default function Statistics() {
       <Container fluid className="p-4">
         <Row className="mb-4">
           <Col md={8}>
-            <Card className="border-0" style={{ boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)", borderRadius: "12px" }}>
-              <CardBody className="p-0" style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}>
+            <Card
+              className="border-0"
+              style={{
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
+                borderRadius: "12px",
+                backgroundColor: "transparent",
+              }}
+            >
+              <CardBody
+                className="chart-card-body"
+                style={{
+                  backgroundColor: "#FAFBFC",
+                  borderRadius: "12px",
+                  padding: "0",
+                }}
+              >
                 <div style={{ padding: "14px 24px 0 24px" }}>
-                  <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #EAECF0", paddingBottom: "16px" }}>
+                  <div
+                    className="d-flex justify-content-between align-items-center"
+                    style={{
+                      borderBottom: "1px solid #EAECF0",
+                      paddingBottom: "16px",
+                    }}
+                  >
                     <div className="d-flex align-items-center gap-2">
-                      <h6 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", margin: 0 }}>Gaming time</h6>
-                      <span style={{ color: "#7A798A", marginLeft: "10px" }}>Daily Average</span>
-                      <span style={{ fontSize: "14px", color: "#12B76A", margin: 0 }}>2 Hrs. 25 min</span>
+                      <h6
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          color: "#101828",
+                          margin: 0,
+                        }}
+                      >
+                        Gaming time
+                      </h6>
+                      <span style={{ color: "#7A798A", marginLeft: "10px" }}>
+                        Daily Average
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#12B76A",
+                          margin: 0,
+                        }}
+                      >
+                        2 Hrs. 25 min
+                      </span>
                     </div>
-                    <div style={{ padding: "6px 10px", borderRadius: "6px", backgroundColor: "transparent", cursor: "pointer", fontSize: "14px", color: "#344054", display: "flex", alignItems: "center", gap: "6px" }}>
+                    <div
+                      style={{
+                        padding: "6px 10px",
+                        borderRadius: "6px",
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "#344054",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
                       Month
-                      <i className="fas fa-chevron-down" style={{ fontSize: "10px" }}></i>
+                      <i
+                        className="fas fa-chevron-down"
+                        style={{ fontSize: "10px" }}
+                      ></i>
                     </div>
                   </div>
                 </div>
-                <Chart options={barChartData.options} series={barChartData.series} type="bar" height={350} />
+                <Chart
+                  options={barChartData.options}
+                  series={barChartData.series}
+                  type="bar"
+                  height={350}
+                />
               </CardBody>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="border-0" style={{ boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)", borderRadius: "12px" }}>
+            <Card
+              className="border-0"
+              style={{
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
+                borderRadius: "12px",
+              }}
+            >
               <CardBody style={{ padding: "24px" }}>
-                <h6 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "24px" }}>
+                <h6
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    color: "#101828",
+                    marginBottom: "24px",
+                  }}
+                >
                   Winning Percentage
                 </h6>
-                <div style={{ position: "relative", width: "100%", height: 200 }}>
+                <div
+                  style={{ position: "relative", width: "100%", height: 200 }}
+                >
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={[{ value: 98 }, { value: 2 }]}
-                        dataKey="value"
+                        data={[
+                          { name: "Wins", value: 100, fill: "#FFD600" },
+                          { name: "Losses", value: 40, fill: "#E1E1E1" },
+                        ]}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        fill="#FFD600"
-                        startAngle={90}
-                        endAngle={-270}
+                        startAngle={360}
+                        endAngle={0}
                       />
                       <Pie
-                        data={[{ value: 75 }, { value: 25 }]}
-                        dataKey="value"
+                        data={[
+                          { name: "Games", value: 75, fill: "#FFA500" },
+                          { name: "Tournaments", value: 25, fill: "#E1E1E1" },
+                        ]}
                         cx="50%"
                         cy="50%"
                         innerRadius={85}
                         outerRadius={105}
-                        fill="#FFA500"
-                        startAngle={90}
-                        endAngle={-270}
+                        startAngle={360}
+                        endAngle={0}
                       />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center" }}>
-                    <div style={{ color: "#667085", fontSize: "14px" }}>Total</div>
-                    <div style={{ color: "#101828", fontSize: "28px", fontWeight: 600 }}>98%</div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      textAlign: "center",
+                    }}
+                  >
+                    <div style={{ color: "#667085", fontSize: "14px" }}>
+                      Total
+                    </div>
+                    <div
+                      style={{
+                        color: "#101828",
+                        fontSize: "28px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      98%
+                    </div>
                   </div>
                 </div>
                 <div className="mt-4 pt-2">
-                  {data.map((item, index) => (
-                    <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                      <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: item.color }}></div>
-                        <span style={{ color: "#344054", fontSize: "14px", fontWeight: "400" }}>{item.name}</span>
-                      </div>
-                      <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500" }}>{item.value}</span>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#FFD600",
+                          flexShrink: 0,
+                        }}
+                      ></div>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Total Wins
+                      </span>
                     </div>
-                  ))}
+                    <span
+                      style={{
+                        color: "#101828",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      1,230
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#8B4513",
+                          flexShrink: 0,
+                        }}
+                      ></div>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Total Losses
+                      </span>
+                    </div>
+                    <span
+                      style={{
+                        color: "#101828",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      130
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <div className="d-flex align-items-center gap-2">
+                      <span
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#F2F4F7",
+                        }}
+                      ></span>
+                      <span
+                        style={{
+                          color: "#667085",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Total Games Played
+                      </span>
+                    </div>
+                    <span
+                      style={{
+                        color: "#344054",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      24
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="d-flex align-items-center gap-2">
+                      <span
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#E4E7EC",
+                        }}
+                      ></span>
+                      <span
+                        style={{
+                          color: "#667085",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Total Tournaments participated in
+                      </span>
+                    </div>
+                    <span
+                      style={{
+                        color: "#344054",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      12
+                    </span>
+                  </div>
                 </div>
               </CardBody>
             </Card>
           </Col>
         </Row>
+
         <Row className="mb-4">
           <Col md={12}>
             <Card className="border-0 shadow-sm">
@@ -184,6 +522,7 @@ export default function Statistics() {
             </Card>
           </Col>
         </Row>
+
         <Row className="mb-4">
           <Col md={4}>
             <Card className="border-0 shadow-sm bg-white text-dark p-4">
@@ -228,6 +567,7 @@ export default function Statistics() {
             </Card>
           </Col>
         </Row>
+
         <Row>
           <Col md={12}>
             <Card className="border-0 shadow-sm">
