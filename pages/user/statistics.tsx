@@ -591,62 +591,26 @@ export default function Statistics() {
                       ></i>
                     </div>
                     <div>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#FFD600",
-                          marginBottom: "4px",
-                        }}
-                      >
+                      <div style={{ fontSize: "16px", color: "#FFD600", marginBottom: "8px" }}>
                         Total Tournaments participated in
                       </div>
-                      <div
-                        style={{
-                          fontSize: "24px",
-                          fontWeight: 600,
-                          color: "#101828",
-                        }}
-                      >
+                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
                         1,230
                       </div>
                     </div>
                     <div>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#12B76A",
-                          marginBottom: "4px",
-                        }}
-                      >
+                      <div style={{ fontSize: "16px", color: "#12B76A", marginBottom: "8px" }}>
                         Total Tournament Wins
                       </div>
-                      <div
-                        style={{
-                          fontSize: "24px",
-                          fontWeight: 600,
-                          color: "#101828",
-                        }}
-                      >
+                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
                         24
                       </div>
                     </div>
                     <div>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#F04438",
-                          marginBottom: "4px",
-                        }}
-                      >
+                      <div style={{ fontSize: "16px", color: "#F04438", marginBottom: "8px" }}>
                         Total Tournament Losses
                       </div>
-                      <div
-                        style={{
-                          fontSize: "24px",
-                          fontWeight: 600,
-                          color: "#101828",
-                        }}
-                      >
+                      <div style={{ fontSize: "32px", fontWeight: 700, color: "#101828", lineHeight: "1.2" }}>
                         24
                       </div>
                     </div>
