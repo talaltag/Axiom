@@ -101,7 +101,7 @@ export default function Statistics() {
       },
     ],
   };
-  
+
   const lineChartData = {
     options: {
       chart: {
@@ -188,7 +188,7 @@ export default function Statistics() {
         size: 0,
       },
       fill: {
-        type: 'gradient',
+        type: "gradient",
         gradient: {
           shadeIntensity: 1,
           opacityFrom: 0.1,
@@ -197,18 +197,18 @@ export default function Statistics() {
           colorStops: [
             {
               offset: 0,
-              color: '#F8CA15',
-              opacity: 0.1
+              color: "#F8CA15",
+              opacity: 0.1,
             },
             {
               offset: 95.55,
-              color: '#F8CA15',
-              opacity: 0
-            }
-          ]
-        }
+              color: "#F8CA15",
+              opacity: 0,
+            },
+          ],
+        },
       },
-      colors: ['#F8CA15'],
+      colors: ["#F8CA15"],
     },
     series: [
       {
@@ -548,43 +548,105 @@ export default function Statistics() {
                 <div className="d-flex justify-content-between">
                   <div className="flex-grow-1">
                     <div className="mb-4">
-                      <h6 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                      <h6
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          color: "#101828",
+                          marginBottom: "4px",
+                        }}
+                      >
                         Tournament Stats
                       </h6>
-                      <div style={{ height: "1px", backgroundColor: "#EAECF0" }} />
+                      <div
+                        style={{ height: "1px", backgroundColor: "#EAECF0" }}
+                      />
                     </div>
                     <Chart
-                  options={lineChartData.options}
-                  series={lineChartData.series}
-                  type="area"
-                  height={350}
-                />
+                      options={lineChartData.options}
+                      series={lineChartData.series}
+                      type="area"
+                      height={350}
+                    />
                   </div>
-                  <div className="d-flex flex-column gap-4" style={{ width: "200px", paddingLeft: "24px" }}>
-                    <div style={{ padding: "6px 12px", backgroundColor: "#F9FAFB", borderRadius: "8px", fontSize: "14px", color: "#344054", cursor: "pointer", textAlign: "center" }}>
-                      Month <i className="fas fa-chevron-down" style={{ fontSize: "10px", marginLeft: "6px" }}></i>
+                  <div
+                    className="d-flex flex-column gap-4"
+                    style={{ width: "250px", paddingLeft: "24px" }}
+                  >
+                    <div
+                      style={{
+                        padding: "6px 12px",
+                        backgroundColor: "#F9FAFB",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "#344054",
+                        cursor: "pointer",
+                        textAlign: "center",
+                      }}
+                    >
+                      Month{" "}
+                      <i
+                        className="fas fa-chevron-down"
+                        style={{ fontSize: "10px", marginLeft: "6px" }}
+                      ></i>
                     </div>
                     <div>
-                      <div style={{ fontSize: "14px", color: "#FFD600", marginBottom: "4px" }}>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#FFD600",
+                          marginBottom: "4px",
+                        }}
+                      >
                         Total Tournaments participated in
                       </div>
-                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#101828",
+                        }}
+                      >
                         1,230
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "14px", color: "#12B76A", marginBottom: "4px" }}>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#12B76A",
+                          marginBottom: "4px",
+                        }}
+                      >
                         Total Tournament Wins
                       </div>
-                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#101828",
+                        }}
+                      >
                         24
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "14px", color: "#F04438", marginBottom: "4px" }}>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#F04438",
+                          marginBottom: "4px",
+                        }}
+                      >
                         Total Tournament Losses
                       </div>
-                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#101828",
+                        }}
+                      >
                         24
                       </div>
                     </div>
