@@ -542,10 +542,46 @@ export default function Statistics() {
         </Row>
 
         <Row className="mb-4">
-          <Col md={10}>
+          <Col md={12}>
             <Card className="border-0 shadow-sm">
-              <CardBody>
-                <h6 className="mb-4">Tournament Stats</h6>
+              <CardBody style={{ padding: "24px" }}>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <h6 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                      Tournament Stats
+                    </h6>
+                    <div style={{ height: "1px", backgroundColor: "#EAECF0" }} />
+                  </div>
+                  <div className="d-flex align-items-center gap-4">
+                    <div className="d-flex flex-column">
+                      <div style={{ fontSize: "14px", color: "#FFD600" }}>
+                        Total Tournaments participated in
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                        1,230
+                      </div>
+                    </div>
+                    <div className="d-flex flex-column">
+                      <div style={{ fontSize: "14px", color: "#12B76A" }}>
+                        Total Tournament Wins
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                        24
+                      </div>
+                    </div>
+                    <div className="d-flex flex-column">
+                      <div style={{ fontSize: "14px", color: "#F04438" }}>
+                        Total Tournament Losses
+                      </div>
+                      <div style={{ fontSize: "24px", fontWeight: 600, color: "#101828" }}>
+                        24
+                      </div>
+                    </div>
+                    <div style={{ padding: "6px 12px", backgroundColor: "#F9FAFB", borderRadius: "8px", fontSize: "14px", color: "#344054", cursor: "pointer" }}>
+                      Month <i className="fas fa-chevron-down" style={{ fontSize: "10px", marginLeft: "6px" }}></i>
+                    </div>
+                  </div>
+                </div>
                 <Chart
                   options={lineChartData.options}
                   series={lineChartData.series}
