@@ -326,7 +326,7 @@ export default function Statistics() {
                   <Chart
                     options={{
                       ...donutChartData.options,
-                      colors: ["#FFD600", "#8B4513"],
+                      colors: ["#FFD600", "#8B4513", "#FFA500", "#654321"],
                       chart: {
                         background: '#FFFFFF',
                         dropShadow: {
@@ -343,7 +343,7 @@ export default function Statistics() {
                           shade: 'light',
                           type: 'horizontal',
                           shadeIntensity: 0.5,
-                          gradientToColors: ['#F8CA15'],
+                          gradientToColors: ['#F8CA15', '#FFA500'],
                           inverseColors: false,
                           opacityFrom: 1,
                           opacityTo: 0.8,
@@ -352,6 +352,9 @@ export default function Statistics() {
                       },
                       plotOptions: {
                         pie: {
+                          startAngle: -90,
+                          endAngle: 90,
+                          offsetY: 10,
                           donut: {
                             background: '#FAFAFA',
                             size: "85%",
@@ -388,7 +391,7 @@ export default function Statistics() {
                         },
                       },
                     }}
-                    series={[98, 2]}
+                    series={[60, 40, 75, 25]}
                     type="donut"
                     height={180}
                   />
