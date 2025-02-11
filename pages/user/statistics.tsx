@@ -274,7 +274,7 @@ export default function Statistics() {
     <UserDashboardLayout>
       <Container fluid className="p-4">
         <Row className="mb-4">
-          <Col md={6}>
+          <Col md={8}>
             <Card
               className="border-0"
               style={{
@@ -296,7 +296,7 @@ export default function Statistics() {
               </CardBody>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <Card
               className="border-0"
               style={{
