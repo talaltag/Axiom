@@ -326,42 +326,59 @@ export default function Statistics() {
                   <Chart
                     options={{
                       ...donutChartData.options,
-                      colors: ["#F8CA15", "#8B4513"],
+                      colors: ["#FFD600", "#8B4513"],
+                      chart: {
+                        background: '#FFFFFF',
+                        dropShadow: {
+                          enabled: true,
+                          top: 2,
+                          left: 2,
+                          blur: 4,
+                          opacity: 0.15
+                        }
+                      },
                       fill: {
                         type: 'gradient',
                         gradient: {
                           shade: 'light',
-                          type: 'vertical',
-                          shadeIntensity: 0.8,
-                          gradientToColors: ['rgba(248, 202, 21, 0.80)', '#8B4513'],
+                          type: 'horizontal',
+                          shadeIntensity: 0.5,
+                          gradientToColors: ['#F8CA15'],
                           inverseColors: false,
                           opacityFrom: 1,
-                          opacityTo: 0.5,
+                          opacityTo: 0.8,
+                          stops: [0, 100]
                         }
                       },
                       plotOptions: {
                         pie: {
                           donut: {
+                            background: '#FAFAFA',
                             size: "85%",
                             labels: {
                               show: true,
                               name: {
                                 show: true,
-                                offsetY: -5,
+                                offsetY: -12,
+                                color: '#667085',
+                                fontSize: '14px',
+                                fontFamily: 'Inter, sans-serif',
                                 formatter: function () {
                                   return "Total";
                                 },
                               },
                               value: {
                                 show: true,
-                                fontSize: "24px",
+                                fontSize: "28px",
                                 fontWeight: 600,
+                                fontFamily: 'Inter, sans-serif',
                                 color: "#101828",
-                                offsetY: 5,
+                                offsetY: 8,
                               },
                               total: {
                                 show: true,
                                 label: "Total",
+                                color: '#667085',
                                 formatter: function () {
                                   return "98%";
                                 },
