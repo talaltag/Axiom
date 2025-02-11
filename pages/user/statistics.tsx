@@ -187,6 +187,28 @@ export default function Statistics() {
       markers: {
         size: 0,
       },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.1,
+          opacityTo: 0,
+          stops: [0, 95.55],
+          colorStops: [
+            {
+              offset: 0,
+              color: '#F8CA15',
+              opacity: 0.1
+            },
+            {
+              offset: 95.55,
+              color: '#F8CA15',
+              opacity: 0
+            }
+          ]
+        }
+      },
+      colors: ['#F8CA15'],
     },
     series: [
       {
