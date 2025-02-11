@@ -26,11 +26,14 @@ const PodiumDisplay: React.FC<{ players: Player[] }> = ({ players }) => {
               objectFit="cover"
             />
           </div>
-          <div className="podium-name">{player.name}</div>
-          <div className="podium-points">
-            <span>🔥</span>
-            <span className="podium-points-number">{player.points}</span>
-            <span className="podium-points-text">pts</span>
+          <div className="podium-info">
+            <div className="podium-name">{player.name}</div>
+            <div className="podium-rank">
+              {player.position === 1 ? "1st" : player.position === 2 ? "2nd" : "3rd"}
+              <span className="podium-points-divider">•</span>
+              <span className="podium-points-number">{player.points}</span>
+              <span className="podium-points-text">pts</span>
+            </div>
           </div>
         </div>
       ))}
