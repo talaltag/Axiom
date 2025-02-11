@@ -34,6 +34,8 @@ export default function Statistics() {
           columnWidth: "8px",
           borderRadius: 4,
           distributed: false,
+          rangeBarOverlap: false,
+          rangeBarGroupRows: true,
         },
       },
       title: {
@@ -121,7 +123,14 @@ export default function Statistics() {
         data: [
           20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110
         ],
+        zIndex: 2
       },
+      {
+        name: "Placeholder",
+        data: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
+        color: '#E1E1E1',
+        zIndex: 1
+      }
     ],
   };
 
