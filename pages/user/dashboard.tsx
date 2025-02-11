@@ -274,12 +274,13 @@ export default function UserDashboard() {
                           style={{
                             bottom: "-12px",
                             background: "white",
-                            padding: "4px 12px",
-                            borderRadius: "12px",
-                            fontSize: "12px",
+                            padding: "8px 16px",
+                            borderRadius: "16px",
+                            fontSize: "14px",
                             fontWeight: 600,
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap"
+                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                            whiteSpace: "nowrap",
+                            border: "1px solid #FFD600"
                           }}
                         >
                           2nd • 1223 pts
@@ -319,12 +320,13 @@ export default function UserDashboard() {
                           style={{
                             bottom: "-12px",
                             background: "white",
-                            padding: "4px 12px",
-                            borderRadius: "12px",
-                            fontSize: "12px",
+                            padding: "8px 16px",
+                            borderRadius: "16px",
+                            fontSize: "14px",
                             fontWeight: 600,
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap"
+                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                            whiteSpace: "nowrap",
+                            border: "1px solid #FFD600"
                           }}
                         >
                           1st • 1452 pts
@@ -354,12 +356,13 @@ export default function UserDashboard() {
                           style={{
                             bottom: "-12px",
                             background: "white",
-                            padding: "4px 12px",
-                            borderRadius: "12px",
-                            fontSize: "12px",
+                            padding: "8px 16px",
+                            borderRadius: "16px",
+                            fontSize: "14px",
                             fontWeight: 600,
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap"
+                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                            whiteSpace: "nowrap",
+                            border: "1px solid #FFD600"
                           }}
                         >
                           3rd • 968 pts
