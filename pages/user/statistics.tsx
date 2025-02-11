@@ -326,7 +326,19 @@ export default function Statistics() {
                   <Chart
                     options={{
                       ...donutChartData.options,
-                      colors: ["#FFD600", "#8B4513"],
+                      colors: ["#F8CA15", "#8B4513"],
+                      fill: {
+                        type: 'gradient',
+                        gradient: {
+                          shade: 'light',
+                          type: 'vertical',
+                          shadeIntensity: 0.8,
+                          gradientToColors: ['rgba(248, 202, 21, 0.80)', '#8B4513'],
+                          inverseColors: false,
+                          opacityFrom: 1,
+                          opacityTo: 0.5,
+                        }
+                      },
                       plotOptions: {
                         pie: {
                           donut: {
