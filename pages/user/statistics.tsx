@@ -299,23 +299,23 @@ export default function Statistics() {
                 height: "100%",
               }}
             >
-              <CardBody style={{ padding: "24px" }}>
-                <div style={{ marginBottom: "24px" }}>
+              <CardBody style={{ padding: "32px" }}>
+                <div style={{ marginBottom: "32px" }}>
                   <h6
                     style={{
                       fontSize: "16px",
                       fontWeight: 500,
                       color: "#101828",
-                      marginBottom: "4px",
+                      marginBottom: "8px",
                     }}
                   >
                     Winning Percentage
                   </h6>
                   <div style={{ height: "1px", backgroundColor: "#EAECF0" }} />
                 </div>
-                <div className="d-flex justify-content-between">
-                  <div style={{ width: "200px", height: "200px", position: "relative" }}>
-                    <div style={{ position: "relative", width: "100%", height: 200 }}>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div style={{ width: "240px", height: "240px", position: "relative" }}>
+                    <div style={{ position: "relative", width: "100%", height: "100%" }}>
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
@@ -368,8 +368,8 @@ export default function Statistics() {
                       </div>
                     </div>
                   </div>
-                  <div style={{ marginLeft: "40px" }}>
-                    <Row>
+                  <div style={{ marginLeft: "60px", flex: 1 }}>
+                    <Row className="g-4">
                       <Col xs={6} className="mb-4">
                         <div className="d-flex align-items-center gap-2">
                           <div
