@@ -42,7 +42,7 @@ export default function Statistics() {
         },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       title: {
         text: "",
@@ -241,8 +241,14 @@ export default function Statistics() {
                   padding: "0",
                 }}
               >
-                <div style={{ padding: "24px 24px 0 24px" }}>
-                  <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #EAECF0", paddingBottom: "16px" }}>
+                <div style={{ padding: "14px 24px 0 24px" }}>
+                  <div
+                    className="d-flex justify-content-between align-items-center"
+                    style={{
+                      borderBottom: "1px solid #EAECF0",
+                      paddingBottom: "16px",
+                    }}
+                  >
                     <div className="d-flex align-items-center gap-2">
                       <h6
                         style={{
@@ -254,6 +260,9 @@ export default function Statistics() {
                       >
                         Gaming time
                       </h6>
+                      <span style={{ color: "#7A798A", marginLeft: "10px" }}>
+                        Daily Average
+                      </span>
                       <span
                         style={{
                           fontSize: "14px",
@@ -261,14 +270,13 @@ export default function Statistics() {
                           margin: 0,
                         }}
                       >
-                        Daily Average 2 Hrs. 25 min
+                        2 Hrs. 25 min
                       </span>
                     </div>
                     <div
                       style={{
                         padding: "6px 10px",
                         borderRadius: "6px",
-                        border: "1px solid #D0D5DD",
                         backgroundColor: "transparent",
                         cursor: "pointer",
                         fontSize: "14px",
