@@ -1040,20 +1040,11 @@ export default function Statistics() {
                     ].map((item, index) => (
                       <tr
                         key={index}
+                        className={`${item.status === "Ongoing" ? "bg-light-red" : "bg-white"} hover-row`}
                         style={{
                           borderBottom: "1px solid #EAECF0",
-                          backgroundColor:
-                            item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF",
-                          transition: "background-color 0.2s ease",
                           cursor: "pointer",
                         }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.backgroundColor = "#F5F5F5")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.backgroundColor =
-                            item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF")
-                        }
                       >
                         <td
                           style={{

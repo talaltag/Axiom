@@ -1,3 +1,16 @@
+
+.bg-light-red {
+  background-color: #FEF3F2 !important;
+}
+
+.bg-white {
+  background-color: #FFFFFF !important;
+}
+
+.hover-row:hover {
+  background-color: #F5F5F5 !important;
+}
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 :root {
