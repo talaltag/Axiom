@@ -154,62 +154,84 @@ export default function Statistics() {
         toolbar: {
           show: false,
         },
-        dropShadow: {
-          enabled: true,
-          top: 0,
-          left: 0,
-          blur: 10,
-          opacity: 0.1,
-        },
+        background: "transparent",
       },
       stroke: {
         curve: "smooth",
         width: 2,
       },
-      colors: ["#FFD700"],
-      fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "vertical",
-          shadeIntensity: 0.5,
-          gradientToColors: ["#FFFFFF"],
-          inverseColors: false,
-          opacityFrom: 0.8,
-          opacityTo: 0.1,
-          stops: [0, 100],
+      colors: ["#F8CA15", "#FFB547", "#8B4513"],
+      grid: {
+        borderColor: "#EAECF0",
+        strokeDashArray: 4,
+        xaxis: {
+          lines: {
+            show: true
+          }
         },
+        yaxis: {
+          lines: {
+            show: true
+          }
+        }
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-        ],
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: {
+          style: {
+            colors: "#667085",
+            fontSize: "12px",
+            fontWeight: 400,
+          }
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            colors: "#667085",
+            fontSize: "12px",
+            fontWeight: 400,
+          },
+          formatter: (value) => `${value}%`
+        }
       },
       legend: {
-        show: false,
+        show: true,
+        position: 'top',
+        horizontalAlign: 'right',
+        labels: {
+          colors: "#101828"
+        }
       },
+      dataLabels: {
+        enabled: false
+      },
+      markers: {
+        size: 0
+      }
     },
     series: [
       {
-        name: "Team A",
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+        name: "Total Tournaments participated in",
+        data: [38, 40, 45, 48, 50, 55, 60, 65, 68, 72, 75, 80]
       },
       {
-        name: "Team B",
-        data: [20, 35, 40, 45, 50, 55, 65, 85, 100],
+        name: "Total Tournament Wins",
+        data: [30, 35, 38, 40, 45, 48, 50, 52, 55, 58, 60, 62]
       },
       {
-        name: "Team C",
-        data: [15, 25, 30, 35, 40, 45, 55, 75, 90],
-      },
+        name: "Total Tournament Losses",
+        data: [15, 18, 20, 25, 28, 30, 35, 38, 40, 42, 45, 48]
+      }
     ],
   };
 
