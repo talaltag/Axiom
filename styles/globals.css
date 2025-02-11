@@ -1,4 +1,28 @@
 
+/* Leaderboard styles */
+.leaderboard-card .leaderboard-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard-card .leaderboard-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.leaderboard-card .leaderboard-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.leaderboard-card .leaderboard-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.podium-container {
+  background: linear-gradient(180deg, rgba(255, 214, 0, 0) 0%, #FFD600 100%);
+}
+
+
 .bg-light-red {
   background-color: #FEF3F2 !important;
 }
