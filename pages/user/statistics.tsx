@@ -266,22 +266,22 @@ export default function Statistics() {
                     </div>
                     <div
                       style={{
-                        padding: "10px 14px",
-                        borderRadius: "8px",
+                        padding: "6px 10px",
+                        borderRadius: "6px",
                         border: "1px solid #D0D5DD",
-                        backgroundColor: "#FFFFFF",
+                        backgroundColor: "transparent",
                         cursor: "pointer",
                         fontSize: "14px",
                         color: "#344054",
                         display: "flex",
                         alignItems: "center",
-                        gap: "8px",
+                        gap: "6px",
                       }}
                     >
                       Month
                       <i
                         className="fas fa-chevron-down"
-                        style={{ fontSize: "12px" }}
+                        style={{ fontSize: "10px" }}
                       ></i>
                     </div>
                   </div>
