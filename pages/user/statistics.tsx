@@ -43,27 +43,7 @@ export default function Statistics() {
         },
       },
       title: {
-        text: "Gaming time",
-        align: "left",
-        margin: 0,
-        offsetY: 0,
-        style: {
-          fontSize: "16px",
-          fontWeight: 500,
-          color: "#101828",
-          fontFamily: "Inter, sans-serif",
-        },
-      },
-      subtitle: {
-        text: "Daily Average 2 Hrs. 25 min",
-        align: "left",
-        offsetY: 20,
-        style: {
-          fontSize: "14px",
-          fontWeight: 400,
-          color: "#667085",
-          fontFamily: "Inter, sans-serif",
-        },
+        text: "",
       },
       fill: {
         opacity: 1,
@@ -260,8 +240,44 @@ export default function Statistics() {
             >
               <CardBody
                 className="chart-card-body"
-                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px" }}
+                style={{ backgroundColor: "#FAFBFC", borderRadius: "12px", padding: "0" }}
               >
+                <div style={{ padding: "24px 24px 0 24px" }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 style={{
+                        fontSize: "16px",
+                        fontWeight: 500,
+                        color: "#101828",
+                        marginBottom: "4px"
+                      }}>
+                        Gaming time
+                      </h6>
+                      <p style={{
+                        fontSize: "14px",
+                        color: "#667085",
+                        margin: 0
+                      }}>
+                        Daily Average 2 Hrs. 25 min
+                      </p>
+                    </div>
+                    <div style={{
+                      padding: "10px 14px",
+                      borderRadius: "8px",
+                      border: "1px solid #D0D5DD",
+                      backgroundColor: "#FFFFFF",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      color: "#344054",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px"
+                    }}>
+                      Month
+                      <i className="fas fa-chevron-down" style={{ fontSize: "12px" }}></i>
+                    </div>
+                  </div>
+                </div>
                 <Chart
                   options={barChartData.options}
                   series={barChartData.series}
