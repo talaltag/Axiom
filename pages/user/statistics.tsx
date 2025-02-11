@@ -36,7 +36,26 @@ export default function Statistics() {
             backgroundBarOpacity: 0.5,
             backgroundBarRadius: 7,
           },
+          dataLabels: {
+            position: 'top',
+            hideOverflowingLabels: true
+          }
         },
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          type: "vertical",
+          shadeIntensity: 0.8,
+          gradientToColors: ["rgba(248, 202, 21, 0)"],
+          inverseColors: false,
+          opacityFrom: 0.8,
+          opacityTo: 0,
+          stops: [48.49, 282.14]
+        }
+      },
+      dataLabels: {
+        enabled: false
       },
       title: {
         text: "Gaming time",
