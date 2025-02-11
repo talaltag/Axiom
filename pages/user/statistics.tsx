@@ -704,7 +704,7 @@ export default function Statistics() {
                       marginBottom: "8px",
                     }}
                   >
-                    Cash Won
+                    Cash Won <span style={{ color: "#667085", fontSize: "12px" }}>Total Cash</span>
                   </h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
@@ -729,7 +729,7 @@ export default function Statistics() {
                           $1000
                         </span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>
-                          Last Cash
+                          Last Win
                         </span>
                       </div>
                     </div>
@@ -771,7 +771,7 @@ export default function Statistics() {
                       marginBottom: "8px",
                     }}
                   >
-                    Credits Won
+                    Credits Won <span style={{ color: "#667085", fontSize: "12px" }}>Total Credits</span>
                   </h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
@@ -838,7 +838,7 @@ export default function Statistics() {
                       marginBottom: "8px",
                     }}
                   >
-                    Tournaments Played
+                    Tournaments Played <span style={{ color: "#667085", fontSize: "12px" }}>Total Tournaments</span>
                   </h6>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
