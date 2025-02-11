@@ -315,24 +315,22 @@ export default function Statistics() {
                 height: "100%",
               }}
             >
-              <CardBody
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "24px",
-                }}
-              >
-                {/* <h6
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: 500,
-                    color: "#101828",
-                    marginBottom: "24px",
-                  }}
-                >
-                  Winning Percentage
-                </h6> */}
+              <CardBody style={{ padding: "24px" }}>
+                <div style={{ marginBottom: "24px" }}>
+                  <h6
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 500,
+                      color: "#101828",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Winning Percentage
+                  </h6>
+                  <div style={{ height: "1px", backgroundColor: "#EAECF0" }} />
+                </div>
+                <div className="d-flex justify-content-between">
+                  <div style={{ width: "200px", height: "200px", position: "relative" }}>
                 <div
                   style={{ position: "relative", width: "100%", height: 200 }}
                 >
@@ -387,38 +385,25 @@ export default function Statistics() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 pt-2">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                      <div className="d-flex align-items-center gap-2">
-                        <div
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            backgroundColor: "#FFD600",
-                            flexShrink: 0,
-                          }}
-                        ></div>
-                        <span
-                          style={{
-                            color: "#344054",
-                            fontSize: "14px",
-                            fontWeight: "400",
-                          }}
-                        >
+                <div style={{ marginLeft: "40px" }}>
+                  <div style={{ marginBottom: "24px" }}>
+                    <div className="d-flex align-items-center gap-2 mb-2">
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          backgroundColor: "#FFD600",
+                        }}
+                      />
+                      <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
+                        <span style={{ color: "#344054", fontSize: "14px" }}>
                           Total Wins
                         </span>
+                        <span style={{ color: "#101828", fontSize: "14px", fontWeight: "500", marginLeft: "24px" }}>
+                          1,230
+                        </span>
                       </div>
-                      <span
-                        style={{
-                          color: "#101828",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        1,230
-                      </span>
                     </div>
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center gap-2">
