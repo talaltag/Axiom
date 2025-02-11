@@ -37,9 +37,9 @@ export default function Statistics() {
             backgroundBarRadius: 7,
           },
           dataLabels: {
-            position: 'top',
-            hideOverflowingLabels: true
-          }
+            position: "top",
+            hideOverflowingLabels: true,
+          },
         },
       },
       fill: {
@@ -51,11 +51,11 @@ export default function Statistics() {
           inverseColors: false,
           opacityFrom: 0.8,
           opacityTo: 0,
-          stops: [48.49, 282.14]
-        }
+          stops: [48.49, 282.14],
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       title: {
         text: "Gaming time",
@@ -91,7 +91,7 @@ export default function Statistics() {
         curve: "straight",
         lineCap: "butt",
         colors: ["#E1E1E1"],
-        width: 2,
+        width: 1,
         dashArray: 0,
       },
       colors: ["#FFD700"], // Gray for placeholder, Yellow for actual gaming time
@@ -146,7 +146,7 @@ export default function Statistics() {
         data: [0, 30, 0, 45, 0, 30, 0, 0, 40, 0, 90, 0],
         color: "#8B4513",
         zIndex: 2,
-      }
+      },
     ],
   };
 
