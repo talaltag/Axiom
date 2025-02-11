@@ -61,9 +61,11 @@ export default function Statistics() {
         text: "Gaming time",
         align: "left",
         margin: 0,
+        offsetX: 0,
         offsetY: 0,
+        floating: false,
         style: {
-          fontSize: "16px",
+          fontSize: "14px",
           fontWeight: 500,
           color: "#101828",
           fontFamily: "Inter, sans-serif",
@@ -72,6 +74,7 @@ export default function Statistics() {
       subtitle: {
         text: "Daily Average 2 Hrs. 25 min",
         align: "left",
+        offsetX: 0,
         offsetY: 20,
         style: {
           fontSize: "14px",
@@ -133,10 +136,17 @@ export default function Statistics() {
     },
     series: [
       {
-        name: "Gaming Time",
-        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
+        name: "Gaming Time (Yellow)",
+        data: [20, 0, 25, 0, 35, 0, 35, 20, 0, 60, 0, 110],
+        color: "#FFD700",
         zIndex: 2,
       },
+      {
+        name: "Gaming Time (Brown)",
+        data: [0, 30, 0, 45, 0, 30, 0, 0, 40, 0, 90, 0],
+        color: "#8B4513",
+        zIndex: 2,
+      }
     ],
   };
 
