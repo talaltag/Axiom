@@ -1045,11 +1045,10 @@ export default function Statistics() {
                           borderBottom: "1px solid #EAECF0",
                           backgroundColor: item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF",
                           transition: "background-color 0.2s ease",
-                          cursor: "pointer",
-                          "&:hover": {
-                            backgroundColor: "#F5F5F5",
-                          },
+                          cursor: "pointer"
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#F5F5F5"}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = item.status === "Ongoing" ? "#FEF3F2" : "#FFFFFF"}
                       >
                         <td
                           style={{
