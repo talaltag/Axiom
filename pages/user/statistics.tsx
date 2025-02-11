@@ -377,15 +377,14 @@ export default function Statistics() {
                       98%
                     </div>
                   </div>
-                <div className="mt-4 pt-2">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex flex-column gap-3 mt-4"> {/* Changed to flex-column */}
                     <div className="d-flex align-items-center gap-2">
                       <div
                         style={{
                           width: "8px",
                           height: "8px",
                           borderRadius: "50%",
-                          backgroundColor: "#FFD600",
+                          backgroundColor: "#007AFF",
                           flexShrink: 0,
                         }}
                       ></div>
@@ -394,23 +393,22 @@ export default function Statistics() {
                           color: "#344054",
                           fontSize: "14px",
                           fontWeight: "400",
+                          marginRight: "auto",
                         }}
                       >
                         Total Wins
                       </span>
+                      <span
+                        style={{
+                          color: "#101828",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        1,230
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#101828",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      1,230
-                    </span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2"> {/* Added a div for Losses */}
                       <div
                         style={{
                           width: "8px",
@@ -425,29 +423,29 @@ export default function Statistics() {
                           color: "#344054",
                           fontSize: "14px",
                           fontWeight: "400",
+                          marginRight: "auto",
                         }}
                       >
                         Total Losses
                       </span>
+                      <span
+                        style={{
+                          color: "#101828",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        130
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#101828",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      130
-                    </span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2"> {/* Added a div for Games Played */}
                       <span
                         style={{
                           width: "8px",
                           height: "8px",
                           borderRadius: "50%",
                           backgroundColor: "#F2F4F7",
+                          flexShrink: 0,
                         }}
                       ></span>
                       <span
@@ -455,29 +453,29 @@ export default function Statistics() {
                           color: "#667085",
                           fontSize: "14px",
                           fontWeight: "400",
+                          marginRight: "auto",
                         }}
                       >
                         Total Games Played
                       </span>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        24
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#344054",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      24
-                    </span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2"> {/* Added a div for Tournaments */}
                       <span
                         style={{
                           width: "8px",
                           height: "8px",
                           borderRadius: "50%",
                           backgroundColor: "#E4E7EC",
+                          flexShrink: 0,
                         }}
                       ></span>
                       <span
@@ -485,20 +483,21 @@ export default function Statistics() {
                           color: "#667085",
                           fontSize: "14px",
                           fontWeight: "400",
+                          marginRight: "auto",
                         }}
                       >
                         Total Tournaments participated in
                       </span>
+                      <span
+                        style={{
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        12
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        color: "#344054",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      12
-                    </span>
                   </div>
                 </div>
               </CardBody>
