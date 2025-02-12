@@ -450,152 +450,104 @@ export default function Tournaments() {
                     </Col>
                   ) : (
                     currentTournaments.map((tournament) => (
-                      <Col
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
-                        key={tournament._id}
-                        className="mb-4"
-                      >
-                        <Card
-                          className="tournament-card h-100"
-                          style={{
-                            borderRadius: "12px",
-                            overflow: "hidden",
-                            border: "none",
-                            backgroundColor: "#FAFBFC",
-                            boxShadow:
-                              "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
-                          }}
-                        >
-                          <div
-                            style={{ position: "relative", height: "160px" }}
-                          >
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "12px",
-                                left: "12px",
-                                zIndex: 2,
-                                background: "rgba(255, 255, 255, 0.9)",
-                                padding: "4px 8px",
-                                borderRadius: "6px",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Closing in:10:88:00
+                      <Col xs={12} sm={6} md={4} lg={3} key={tournament._id} className="mb-4">
+                        <Card className="tournament-card h-100" style={{
+                          borderRadius: "16px",
+                          overflow: "hidden",
+                          border: "1px solid #EAECF0",
+                          backgroundColor: "#FFFFFF",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                        }}>
+                          <div style={{ position: "relative", height: "180px" }}>
+                            <div style={{
+                              position: "absolute",
+                              top: "12px",
+                              left: "12px",
+                              zIndex: 2,
+                              background: "#FFFFFF",
+                              padding: "4px 12px",
+                              borderRadius: "16px",
+                              fontSize: "14px",
+                              color: "#344054",
+                              fontWeight: 500,
+                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                            }}>
+                              Closing in: 10:88:00
                             </div>
                             <Image
-                              src={
-                                tournament.images?.[0] || "/fortnite-banner.png"
-                              }
+                              src={tournament.images?.[0] || "/fortnite-banner.png"}
                               alt={tournament.name || "Tournament"}
                               layout="fill"
                               objectFit="cover"
-                              style={{ borderRadius: "12px 12px 0 0" }}
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
-                          <CardBody className="p-3">
-                            <h5
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                marginBottom: "8px",
-                                color: "#101828",
-                              }}
-                            >
+                          <CardBody className="p-4">
+                            <h5 style={{
+                              fontSize: "18px",
+                              fontWeight: 600,
+                              marginBottom: "4px",
+                              color: "#101828"
+                            }}>
                               {tournament.name}
                             </h5>
-                            <div
-                              style={{
-                                fontSize: "12px",
-                                color: "#667085",
-                                marginBottom: "16px",
-                              }}
-                            >
-                              {tournament.date} {tournament.time}
+                            <div style={{
+                              fontSize: "14px",
+                              color: "#667085",
+                              marginBottom: "24px"
+                            }}>
+                              {tournament.date} • {tournament.time}
                             </div>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div className="d-flex justify-content-between align-items-center mb-4">
                               <div>
-                                <div
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "#667085",
-                                    marginBottom: "4px",
-                                  }}
-                                >
+                                <div style={{
+                                  fontSize: "14px",
+                                  color: "#344054",
+                                  marginBottom: "4px",
+                                  fontWeight: 500
+                                }}>
                                   Prize
                                 </div>
-                                <div
-                                  style={{
-                                    fontSize: "16px",
-                                    fontWeight: 600,
-                                    color: "#DC3545",
-                                  }}
-                                >
+                                <div style={{
+                                  fontSize: "20px",
+                                  fontWeight: 600,
+                                  color: "#F04438"
+                                }}>
                                   ${tournament.totalPrizePool}
                                 </div>
                               </div>
                               <div className="text-end">
-                                <div
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "#667085",
-                                    marginBottom: "4px",
-                                  }}
-                                >
+                                <div style={{
+                                  fontSize: "14px",
+                                  color: "#344054",
+                                  marginBottom: "4px",
+                                  fontWeight: 500
+                                }}>
                                   Entry Cost
                                 </div>
-                                <div
-                                  style={{
-                                    fontSize: "16px",
-                                    fontWeight: 600,
-                                    color: "#DC3545",
-                                  }}
-                                >
+                                <div style={{
+                                  fontSize: "20px",
+                                  fontWeight: 600,
+                                  color: "#F04438"
+                                }}>
                                   ${tournament.entryFee}
                                 </div>
                               </div>
                             </div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <Button
-                                color="link"
-                                className="text-decoration-none"
-                                style={{
-                                  color: "#FFD600",
-                                  fontSize: "14px",
-                                  fontWeight: 600,
-                                  padding: "4px",
-                                }}
-                                onClick={() =>
-                                  router.push(
-                                    `/user/dashboard/tournament/${tournament._id}`
-                                  )
-                                }
-                              >
-                                See Details
-                              </Button>
-                              <Button
-                                color="link"
-                                className="text-decoration-none d-flex align-items-center"
-                                style={{
-                                  color: "#FFD600",
-                                  fontSize: "14px",
-                                  fontWeight: 600,
-                                  padding: "4px",
-                                }}
-                                onClick={() =>
-                                  router.push(
-                                    `/user/dashboard/register-tournament/${tournament._id}`
-                                  )
-                                }
-                              >
-                                Register Now{" "}
-                                <ArrowRight size={16} className="ms-2" />
-                              </Button>
-                            </div>
+                            <Button
+                              color="link"
+                              className="text-decoration-none p-0"
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                color: "#101828",
+                                display: "flex",
+                                alignItems: "center"
+                              }}
+                              onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                            >
+                              Register Now <ArrowRight size={20} className="ms-2" />
+                            </Button>
                           </CardBody>
                         </Card>
                       </Col>
