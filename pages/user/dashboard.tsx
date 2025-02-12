@@ -255,185 +255,67 @@ export default function UserDashboard() {
               }}
             >
               <CardBody className="p-0" style={{ background: "#FFD600" }}>
-                <div
-                  className="position-relative podium-container mb-4"
-                  style={{ height: "180px" }}
-                >
-                  {/* Second Place */}
-                  <div
-                    className="position-absolute"
-                    style={{ left: "15%", bottom: "20px" }}
-                  >
-                    <div className="d-flex flex-column align-items-center">
-                      <div className="position-relative mb-2">
-                        <div
-                          style={{
-                            width: "64px",
-                            height: "64px",
-                            position: "relative",
-                          }}
-                        >
-                          <Image
-                            src="/user1.png"
-                            alt="2nd Place"
-                            layout="fill"
-                            className="rounded-circle"
-                            style={{ border: "3px solid white" }}
-                          />
-                        </div>
-                        <div
-                          className="position-absolute start-50 translate-middle-x"
-                          style={{
-                            bottom: "-12px",
-                            background: "white",
-                            padding: "8px 16px",
-                            borderRadius: "16px",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap",
-                            border: "1px solid #FFD600",
-                            marginTop: "40px",
-                          }}
-                        >
+                <div className="position-relative podium-container mb-4" style={{ height: "240px" }}>
+                  <div className="d-flex justify-content-center align-items-center" style={{ padding: "20px" }}>
+                    {/* Second Place - Left */}
+                    <div className="podium-player" style={{ marginTop: "40px" }}>
+                      <div className="podium-avatar-container">
+                        <Image
+                          src="/user1.png"
+                          alt="2nd Place"
+                          width={64}
+                          height={64}
+                          className="rounded-circle"
+                          style={{ border: "3px solid white" }}
+                        />
+                      </div>
+                      <div className="podium-info">
+                        <div className="podium-name">MirayK</div>
+                        <div className="podium-rank">
                           2nd • 1223 pts
                         </div>
                       </div>
-                      <div className="text-center mt-3">
-                        <div
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            color: "#101828",
-                          }}
-                        >
-                          MirayK
+                    </div>
+
+                    {/* First Place - Center */}
+                    <div className="podium-player" style={{ margin: "0 40px" }}>
+                      <div className="podium-avatar-container">
+                        <div className="crown-container">👑</div>
+                        <Image
+                          src="/user1.png"
+                          alt="1st Place"
+                          width={80}
+                          height={80}
+                          className="rounded-circle"
+                          style={{ border: "4px solid white" }}
+                        />
+                      </div>
+                      <div className="podium-info" style={{ minWidth: "160px" }}>
+                        <div className="podium-name">Mert Kahveci</div>
+                        <div className="podium-rank">
+                          1st <span className="podium-points-divider">•</span> 
+                          <span className="podium-points-number">1452</span>
+                          <span className="podium-points-text"> pts</span>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* First Place */}
-                  <div
-                    className="position-absolute"
-                    style={{
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      bottom: "40px",
-                    }}
-                  >
-                    <div className="d-flex flex-column align-items-center">
-                      <div className="position-relative mb-2">
-                        <div
-                          style={{
-                            width: "88px",
-                            height: "88px",
-                            position: "relative",
-                          }}
-                        >
-                          <Image
-                            src="/user1.png"
-                            alt="1st Place"
-                            layout="fill"
-                            className="rounded-circle"
-                            style={{ border: "4px solid white" }}
-                          />
-                          <span
-                            className="position-absolute"
-                            style={{
-                              top: "-24px",
-                              right: "-12px",
-                              fontSize: "32px",
-                            }}
-                          >
-                            👑
-                          </span>
-                        </div>
-                        <div
-                          className="position-absolute start-50 translate-middle-x"
-                          style={{
-                            display: "flex",
-                            width: "62.142px",
-                            height: "86.998px",
-                            padding: "12.428px 22.526px",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: "6.214px",
-                            background: "white",
-                            borderRadius: "16px",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap",
-                            border: "1px solid #FFD600",
-                          }}
-                        >
-                          <span>1st</span>
-                          <span>🔥1452</span>
-                        </div>
+                    {/* Third Place - Right */}
+                    <div className="podium-player" style={{ marginTop: "60px" }}>
+                      <div className="podium-avatar-container">
+                        <Image
+                          src="/user1.png"
+                          alt="3rd Place"
+                          width={56}
+                          height={56}
+                          className="rounded-circle"
+                          style={{ border: "3px solid white" }}
+                        />
                       </div>
-                      <div className="text-center mt-3">
-                        <div
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            color: "#101828",
-                          }}
-                        >
-                          Mert Kahveci
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Third Place */}
-                  <div
-                    className="position-absolute"
-                    style={{ right: "15%", bottom: "10px" }}
-                  >
-                    <div className="d-flex flex-column align-items-center">
-                      <div className="position-relative mb-2">
-                        <div
-                          style={{
-                            width: "56px",
-                            height: "56px",
-                            position: "relative",
-                          }}
-                        >
-                          <Image
-                            src="/user1.png"
-                            alt="3rd Place"
-                            layout="fill"
-                            className="rounded-circle"
-                            style={{ border: "3px solid white" }}
-                          />
-                        </div>
-                        <div
-                          className="position-absolute start-50 translate-middle-x"
-                          style={{
-                            bottom: "-12px",
-                            background: "white",
-                            padding: "8px 16px",
-                            borderRadius: "16px",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                            whiteSpace: "nowrap",
-                            border: "1px solid #FFD600",
-                          }}
-                        >
+                      <div className="podium-info">
+                        <div className="podium-name">Onur O.</div>
+                        <div className="podium-rank">
                           3rd • 968 pts
-                        </div>
-                      </div>
-                      <div className="text-center mt-3">
-                        <div
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            color: "#101828",
-                          }}
-                        >
-                          Onur O.
                         </div>
                       </div>
                     </div>
@@ -459,53 +341,31 @@ export default function UserDashboard() {
                         boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
                       }}
                     >
-                      <div
-                        className="me-3"
-                        style={{
-                          color: "#101828",
-                          width: "24px",
-                          fontSize: "14px",
-                          fontWeight: 600,
-                        }}
-                      >
+                      <div className="me-3" style={{ 
+                        color: "#101828", 
+                        width: "24px", 
+                        fontSize: "16px", 
+                        fontWeight: 600,
+                        textAlign: "center" 
+                      }}>
                         {player.rank}
                       </div>
-                      <div
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          position: "relative",
-                        }}
-                        className="me-3"
-                      >
+                      <div style={{ width: "40px", height: "40px", position: "relative" }} className="me-3">
                         <Image
                           src={player.avatar}
                           alt={player.name}
-                          layout="fill"
+                          width={40}
+                          height={40}
                           className="rounded-circle"
                           style={{ border: "2px solid #FFD600" }}
                         />
                       </div>
                       <div className="flex-grow-1 d-flex justify-content-between align-items-center">
-                        <div>
-                          <div
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 600,
-                              color: "#101828",
-                            }}
-                          >
-                            {player.name}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "12px",
-                              color: "#666",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {player.time}
-                          </div>
+                        <div style={{ fontSize: "14px", color: "#101828" }}>
+                          {player.name}
+                        </div>
+                        <div style={{ fontSize: "14px", color: "#667085", fontWeight: 500 }}>
+                          {player.time}
                         </div>
                       </div>
                     </div>
