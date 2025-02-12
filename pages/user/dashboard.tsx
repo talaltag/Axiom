@@ -255,73 +255,67 @@ export default function UserDashboard() {
               }}
             >
               <CardBody className="p-0" style={{ background: "#FFD600" }}>
-                <div className="position-relative podium-container mb-4" style={{ height: "300px" }}>
-                  <div className="d-flex justify-content-center align-items-end" style={{ padding: "20px", height: "100%" }}>
+                <div className="position-relative podium-container mb-4" style={{ height: "240px" }}>
+                  <div className="d-flex justify-content-center align-items-center" style={{ padding: "20px" }}>
                     {/* Second Place - Left */}
-                    <div className="podium-player" style={{ marginBottom: "40px" }}>
-                      <div className="podium-avatar-container mb-3">
+                    <div className="podium-player" style={{ marginTop: "40px" }}>
+                      <div className="podium-avatar-container">
                         <Image
                           src="/user1.png"
                           alt="2nd Place"
                           width={64}
                           height={64}
                           className="rounded-circle"
-                          style={{ border: "2px solid white" }}
+                          style={{ border: "3px solid white" }}
                         />
                       </div>
                       <div className="podium-info">
                         <div className="podium-name">MirayK</div>
                         <div className="podium-rank">
-                          <span style={{ color: "#344054" }}>2nd</span>
-                          <span style={{ color: "#D0D5DD", margin: "0 4px" }}>•</span>
-                          <span style={{ color: "#667085" }}>1223 pts</span>
+                          2nd • 1223 pts
                         </div>
                       </div>
                     </div>
 
                     {/* First Place - Center */}
-                    <div className="podium-player" style={{ margin: "0 48px", marginBottom: "80px" }}>
-                      <div className="podium-avatar-container mb-3">
-                        <div className="crown-container">
-                          <Image src="/crown.png" alt="Crown" width={32} height={32} style={{ position: 'absolute', top: '-20px', right: '-10px' }} />
-                        </div>
+                    <div className="podium-player" style={{ margin: "0 40px" }}>
+                      <div className="podium-avatar-container">
+                        <div className="crown-container">👑</div>
                         <Image
                           src="/user1.png"
                           alt="1st Place"
                           width={80}
                           height={80}
                           className="rounded-circle"
-                          style={{ border: "2px solid white" }}
+                          style={{ border: "4px solid white" }}
                         />
                       </div>
-                      <div className="podium-info" style={{ minWidth: "140px" }}>
+                      <div className="podium-info" style={{ minWidth: "160px" }}>
                         <div className="podium-name">Mert Kahveci</div>
                         <div className="podium-rank">
-                          <span style={{ color: "#344054" }}>1st</span>
-                          <span style={{ color: "#D0D5DD", margin: "0 4px" }}>•</span>
-                          <span style={{ color: "#667085" }}>1452 pts</span>
+                          1st <span className="podium-points-divider">•</span> 
+                          <span className="podium-points-number">1452</span>
+                          <span className="podium-points-text"> pts</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Third Place - Right */}
-                    <div className="podium-player" style={{ marginBottom: "20px" }}>
-                      <div className="podium-avatar-container mb-3">
+                    <div className="podium-player" style={{ marginTop: "60px" }}>
+                      <div className="podium-avatar-container">
                         <Image
                           src="/user1.png"
                           alt="3rd Place"
                           width={56}
                           height={56}
                           className="rounded-circle"
-                          style={{ border: "2px solid white" }}
+                          style={{ border: "3px solid white" }}
                         />
                       </div>
                       <div className="podium-info">
                         <div className="podium-name">Onur O.</div>
                         <div className="podium-rank">
-                          <span style={{ color: "#344054" }}>3rd</span>
-                          <span style={{ color: "#D0D5DD", margin: "0 4px" }}>•</span>
-                          <span style={{ color: "#667085" }}>968 pts</span>
+                          3rd • 968 pts
                         </div>
                       </div>
                     </div>
@@ -339,37 +333,38 @@ export default function UserDashboard() {
                   {leaderboardData.map((player, index) => (
                     <div
                       key={index}
-                      className="d-flex align-items-center mb-2 px-4 py-3"
+                      className="d-flex align-items-center mb-2 p-3"
                       style={{
                         backgroundColor: "white",
-                        borderRadius: "8px",
+                        borderRadius: "12px",
                         transition: "all 0.2s ease",
+                        boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
                       }}
                     >
                       <div className="me-3" style={{ 
-                        color: "#344054", 
+                        color: "#101828", 
                         width: "24px", 
-                        fontSize: "14px", 
-                        fontWeight: 500,
-                        textAlign: "left" 
+                        fontSize: "16px", 
+                        fontWeight: 600,
+                        textAlign: "center" 
                       }}>
                         {player.rank}
                       </div>
-                      <div style={{ width: "32px", height: "32px", position: "relative" }} className="me-3">
+                      <div style={{ width: "40px", height: "40px", position: "relative" }} className="me-3">
                         <Image
                           src={player.avatar}
                           alt={player.name}
-                          width={32}
-                          height={32}
+                          width={40}
+                          height={40}
                           className="rounded-circle"
-                          style={{ border: "1px solid #EAECF0" }}
+                          style={{ border: "2px solid #FFD600" }}
                         />
                       </div>
                       <div className="flex-grow-1 d-flex justify-content-between align-items-center">
-                        <div style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>
+                        <div style={{ fontSize: "14px", color: "#101828" }}>
                           {player.name}
                         </div>
-                        <div style={{ fontSize: "14px", color: "#667085" }}>
+                        <div style={{ fontSize: "14px", color: "#667085", fontWeight: 500 }}>
                           {player.time}
                         </div>
                       </div>
