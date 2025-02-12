@@ -451,14 +451,9 @@ export default function UserDashboard() {
             </Card>
           </Col>
           <Col md={4}>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h5
-                className="mb-0"
-                style={{ fontSize: "16px", fontWeight: 600 }}
-              >
-                Last Game Stats
-              </h5>
-            </div>
+            <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>
+              Last Game Stats
+            </h5>
             <Card
               className="border-0 mb-4"
               style={{
@@ -466,40 +461,29 @@ export default function UserDashboard() {
                 background: "#FFFFFF",
                 boxShadow:
                   "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                height: "500px",
               }}
             >
               <CardBody className="p-4">
                 {gameStats.map((stat, index) => (
-                  <div key={index} className="mb-5">
-                    <div className="d-flex flex-column mb-2">
+                  <div key={index} className="mb-4">
+                    <div className="d-flex flex-column mb-1">
                       <span
                         style={{
-                          fontSize: "16px",
+                          fontSize: "14px",
                           color: "#344054",
-                          fontWeight: 500,
-                          marginBottom: "12px",
+                          marginBottom: "4px",
                         }}
                       >
                         {stat.name}
                       </span>
-                      <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
                         <small
-                          style={{ 
-                            fontSize: "14px", 
-                            color: "#667085",
-                            fontWeight: 400
-                          }}
+                          className="text-muted"
+                          style={{ fontSize: "12px" }}
                         >
                           Last Score
                         </small>
-                        <span 
-                          style={{ 
-                            fontSize: "14px", 
-                            color: "#344054",
-                            fontWeight: 500
-                          }}
-                        >
+                        <span style={{ fontSize: "12px", color: "#344054" }}>
                           {stat.lastScore}
                         </span>
                       </div>
@@ -507,41 +491,27 @@ export default function UserDashboard() {
                     <Progress
                       value={stat.score}
                       style={{
-                        height: "12px",
+                        height: "8px",
                         borderRadius: "16px",
                         backgroundColor: "#F2F4F7",
                         backgroundImage:
-                          "linear-gradient(90deg, #6366F1 0%, #FFD600 100%)",
+                          "linear-gradient(90deg, #FFD600 75%, #F2F4F7 75%)",
                       }}
                     />
                   </div>
                 ))}
                 <div
-                  className="mt-5 p-4 text-center"
-                  style={{ 
-                    background: "#FFD600", 
-                    borderRadius: "12px",
-                    boxShadow: "0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
-                  }}
+                  className="mt-4 p-3 text-center"
+                  style={{ background: "#FFD600", borderRadius: "8px" }}
                 >
                   <div
-                    style={{ 
-                      fontSize: "32px", 
-                      color: "#101828",
-                      fontWeight: 600,
-                      marginBottom: "4px"
-                    }}
+                    className="fw-bold mb-1"
+                    style={{ fontSize: "24px", color: "#101828" }}
                   >
                     98%
                   </div>
-                  <div 
-                    style={{ 
-                      fontSize: "16px", 
-                      color: "#101828",
-                      fontWeight: 500
-                    }}
-                  >
-                    Winning Streak
+                  <div style={{ fontSize: "14px", color: "#101828" }}>
+                    Winning streak
                   </div>
                 </div>
               </CardBody>
