@@ -178,8 +178,7 @@ export default function UserDashboard() {
                           {tournament.date} {tournament.time}
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                          </div>
+                          <div></div>
                           <div className="text-end">
                             <div
                               className="text-muted mb-1"
@@ -209,7 +208,7 @@ export default function UserDashboard() {
                           }}
                           onClick={() =>
                             router.push(
-                              `/user/dashboard/register-tournament/${tournament._id}`
+                              `/user/dashboard/register-tournament/${tournament._id}`,
                             )
                           }
                         >
@@ -248,19 +247,32 @@ export default function UserDashboard() {
               style={{
                 borderRadius: "16px",
                 background: "#FFD600",
-                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                boxShadow:
+                  "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
                 height: "500px",
                 padding: "24px",
-                overflow: "hidden"
+                overflow: "hidden",
               }}
             >
               <CardBody className="p-0" style={{ background: "#FFD600" }}>
-                <div className="position-relative podium-container mb-4" style={{ height: "220px" }}>
+                <div
+                  className="position-relative podium-container mb-4"
+                  style={{ height: "180px" }}
+                >
                   {/* Second Place */}
-                  <div className="position-absolute" style={{ left: "15%", bottom: "20px" }}>
+                  <div
+                    className="position-absolute"
+                    style={{ left: "15%", bottom: "20px" }}
+                  >
                     <div className="d-flex flex-column align-items-center">
                       <div className="position-relative mb-2">
-                        <div style={{ width: "64px", height: "64px", position: "relative" }}>
+                        <div
+                          style={{
+                            width: "64px",
+                            height: "64px",
+                            position: "relative",
+                          }}
+                        >
                           <Image
                             src="/user1.png"
                             alt="2nd Place"
@@ -280,23 +292,45 @@ export default function UserDashboard() {
                             fontWeight: 600,
                             boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
                             whiteSpace: "nowrap",
-                            border: "1px solid #FFD600"
+                            border: "1px solid #FFD600",
+                            marginTop: "40px",
                           }}
                         >
                           2nd • 1223 pts
                         </div>
                       </div>
                       <div className="text-center mt-3">
-                        <div style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>MirayK</div>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            color: "#101828",
+                          }}
+                        >
+                          MirayK
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* First Place */}
-                  <div className="position-absolute" style={{ left: "50%", transform: "translateX(-50%)", bottom: "40px" }}>
+                  <div
+                    className="position-absolute"
+                    style={{
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      bottom: "40px",
+                    }}
+                  >
                     <div className="d-flex flex-column align-items-center">
                       <div className="position-relative mb-2">
-                        <div style={{ width: "88px", height: "88px", position: "relative" }}>
+                        <div
+                          style={{
+                            width: "88px",
+                            height: "88px",
+                            position: "relative",
+                          }}
+                        >
                           <Image
                             src="/user1.png"
                             alt="1st Place"
@@ -331,7 +365,7 @@ export default function UserDashboard() {
                             fontWeight: 600,
                             boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
                             whiteSpace: "nowrap",
-                            border: "1px solid #FFD600"
+                            border: "1px solid #FFD600",
                           }}
                         >
                           <span>1st</span>
@@ -339,16 +373,33 @@ export default function UserDashboard() {
                         </div>
                       </div>
                       <div className="text-center mt-3">
-                        <div style={{ fontSize: "16px", fontWeight: 600, color: "#101828" }}>Mert Kahveci</div>
+                        <div
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            color: "#101828",
+                          }}
+                        >
+                          Mert Kahveci
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Third Place */}
-                  <div className="position-absolute" style={{ right: "15%", bottom: "10px" }}>
+                  <div
+                    className="position-absolute"
+                    style={{ right: "15%", bottom: "10px" }}
+                  >
                     <div className="d-flex flex-column align-items-center">
                       <div className="position-relative mb-2">
-                        <div style={{ width: "56px", height: "56px", position: "relative" }}>
+                        <div
+                          style={{
+                            width: "56px",
+                            height: "56px",
+                            position: "relative",
+                          }}
+                        >
                           <Image
                             src="/user1.png"
                             alt="3rd Place"
@@ -368,20 +419,35 @@ export default function UserDashboard() {
                             fontWeight: 600,
                             boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
                             whiteSpace: "nowrap",
-                            border: "1px solid #FFD600"
+                            border: "1px solid #FFD600",
                           }}
                         >
                           3rd • 968 pts
                         </div>
                       </div>
                       <div className="text-center mt-3">
-                        <div style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>Onur O.</div>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            color: "#101828",
+                          }}
+                        >
+                          Onur O.
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="leaderboard-list px-3" style={{ maxHeight: "220px", overflowY: "auto" }}>
+                <div
+                  className="leaderboard-list px-3"
+                  style={{
+                    maxHeight: "220px",
+                    overflowY: "auto",
+                    marginTop: "70px",
+                  }}
+                >
                   {leaderboardData.map((player, index) => (
                     <div
                       key={index}
@@ -404,7 +470,14 @@ export default function UserDashboard() {
                       >
                         {player.rank}
                       </div>
-                      <div style={{ width: "40px", height: "40px", position: "relative" }} className="me-3">
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          position: "relative",
+                        }}
+                        className="me-3"
+                      >
                         <Image
                           src={player.avatar}
                           alt={player.name}
@@ -415,10 +488,22 @@ export default function UserDashboard() {
                       </div>
                       <div className="flex-grow-1 d-flex justify-content-between align-items-center">
                         <div>
-                          <div style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 600,
+                              color: "#101828",
+                            }}
+                          >
                             {player.name}
                           </div>
-                          <div style={{ fontSize: "12px", color: "#666", fontWeight: 500 }}>
+                          <div
+                            style={{
+                              fontSize: "12px",
+                              color: "#666",
+                              fontWeight: 500,
+                            }}
+                          >
                             {player.time}
                           </div>
                         </div>
