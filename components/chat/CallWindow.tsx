@@ -38,10 +38,13 @@ export default function CallWindow({
     if (localVideoRef.current && localStream) {
       localVideoRef.current.srcObject = localStream;
     }
+  }, [localStream]);
+
+  useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream;
     }
-  }, [localStream, remoteStream]);
+  }, [remoteStream]);
 
   const handleToggleVideo = () => {
     setIsVideoEnabled(!isVideoEnabled);

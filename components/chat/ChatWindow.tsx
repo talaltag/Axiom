@@ -333,7 +333,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       // Get user media
       const stream = await navigator.mediaDevices.getUserMedia({
         video: video,
-        audio: false,
+        audio: true, // Added audio
       });
       setLocalStream(stream);
 
@@ -361,6 +361,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
             to: receiver._id,
+            from: currentUser._id, // Added from
           });
         }
       };
@@ -371,6 +372,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       socketRef.current.emit("call-offer", {
         offer: offer,
         to: receiver._id,
+        from: currentUser._id, // Added from
       });
 
       setPeerConnection(pc);
@@ -390,7 +392,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: false,
+        audio: true, // Added audio
       });
       setLocalStream(stream);
 
@@ -414,6 +416,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
             to: data.from,
+            from: currentUser._id, // Added from
           });
         }
       };
@@ -425,6 +428,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       socketRef.current.emit("call-answer", {
         answer: answer,
         to: data.from,
+        from: currentUser._id, // Added from
       });
 
       setPeerConnection(pc);

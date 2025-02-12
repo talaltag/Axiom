@@ -31,16 +31,16 @@ function initSocket(server) {
       console.log(`Message sent in room: ${data.roomId}`);
     });
 
-    socket.on("call-offer", ({ offer, to }) => {
-      socket.broadcast.emit("call-offer", { offer, from: socket.id });
+    socket.on("call-offer", ({ offer, to, from }) => {
+      socket.broadcast.to(to).emit("call-offer", { offer, from });
     });
 
     socket.on("call-answer", ({ answer, to }) => {
-      socket.broadcast.emit("call-answer", { answer, from: socket.id });
+      socket.broadcast.to(to).emit("call-answer", { answer, from: socket.id });
     });
 
     socket.on("ice-candidate", ({ candidate, to }) => {
-      socket.broadcast.emit("ice-candidate", { candidate, from: socket.id });
+      socket.broadcast.to(to).emit("ice-candidate", { candidate, from: socket.id });
     });
 
     socket.on("disconnect", () => {
