@@ -51,7 +51,6 @@
   padding: 12px 16px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  min-width: 140px;
 }
 
 .podium-name {
@@ -72,6 +71,9 @@
 }
 
 .podium-points-divider {
+  display:'flex';
+    justify-content:'center';
+    align-items:'center';
   color: #D0D5DD;
   margin: 0 4px;
 }
@@ -96,10 +98,8 @@
   background: white;
   border-radius: 12px;
   padding: 12px 16px;
-  margin-top: 10px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  min-width: 140px;
 }
 
 .podium-name {
@@ -116,11 +116,6 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-}
-
-.podium-points-divider {
-  color: #D0D5DD;
-  margin: 0 2px;
 }
 
 .podium-points-number {

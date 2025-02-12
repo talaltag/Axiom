@@ -255,10 +255,19 @@ export default function UserDashboard() {
               }}
             >
               <CardBody className="p-0" style={{ background: "#FFD600" }}>
-                <div className="position-relative podium-container mb-4" style={{ height: "240px" }}>
-                  <div className="d-flex justify-content-center align-items-center" style={{ padding: "20px" }}>
+                <div
+                  className="position-relative podium-container mb-4"
+                  style={{ height: "240px" }}
+                >
+                  <div
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ padding: "20px" }}
+                  >
                     {/* Second Place - Left */}
-                    <div className="podium-player" style={{ marginTop: "40px" }}>
+                    <div
+                      className="podium-player"
+                      style={{ marginTop: "40px" }}
+                    >
                       <div className="podium-avatar-container">
                         <Image
                           src="/user1.png"
@@ -269,10 +278,26 @@ export default function UserDashboard() {
                           style={{ border: "3px solid white" }}
                         />
                       </div>
-                      <div className="podium-info">
-                        <div className="podium-name">MirayK</div>
-                        <div className="podium-rank">
-                          2nd • 1223 pts
+                      <div className="podium-name">MirayK</div>
+                      <div
+                        className="podium-info"
+                        style={{
+                          width: "62.142px",
+                          height: "86.998px",
+                          borderRadius: "32px !important",
+                        }}
+                      >
+                        2nd
+                        <div
+                          style={{
+                            background: "#FFF3DA",
+                            marginTop: "12px",
+                            fontSize: "12px",
+                            color: "rgba(254, 168, 0, 1)",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          1223
                         </div>
                       </div>
                     </div>
@@ -290,18 +315,37 @@ export default function UserDashboard() {
                           style={{ border: "4px solid white" }}
                         />
                       </div>
-                      <div className="podium-info" style={{ minWidth: "160px" }}>
-                        <div className="podium-name">Mert Kahveci</div>
-                        <div className="podium-rank">
-                          1st <span className="podium-points-divider">•</span> 
-                          <span className="podium-points-number">1452</span>
-                          <span className="podium-points-text"> pts</span>
+                      <div className="podium-name">Mert Kahveci</div>
+                      <div
+                        className="podium-info"
+                        style={{
+                          width: "62.142px",
+                          height: "86.998px",
+                          borderRadius: "32px !important",
+                        }}
+                      >
+                        <div>
+                          1st
+                          <p
+                            style={{
+                              background: "#FFF3DA",
+                              marginTop: "12px",
+                              fontSize: "12px",
+                              color: "rgba(254, 168, 0, 1)",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            1452
+                          </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Third Place - Right */}
-                    <div className="podium-player" style={{ marginTop: "60px" }}>
+                    <div
+                      className="podium-player"
+                      style={{ marginTop: "60px" }}
+                    >
                       <div className="podium-avatar-container">
                         <Image
                           src="/user1.png"
@@ -312,10 +356,26 @@ export default function UserDashboard() {
                           style={{ border: "3px solid white" }}
                         />
                       </div>
-                      <div className="podium-info">
-                        <div className="podium-name">Onur O.</div>
-                        <div className="podium-rank">
-                          3rd • 968 pts
+                      <div className="podium-name">Onur O.</div>
+                      <div
+                        className="podium-info"
+                        style={{
+                          width: "62.142px",
+                          height: "86.998px",
+                          borderRadius: "32px !important",
+                        }}
+                      >
+                        3rd
+                        <div
+                          style={{
+                            background: "#FFF3DA",
+                            marginTop: "12px",
+                            fontSize: "12px",
+                            color: "rgba(254, 168, 0, 1)",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          968
                         </div>
                       </div>
                     </div>
@@ -341,16 +401,26 @@ export default function UserDashboard() {
                         boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
                       }}
                     >
-                      <div className="me-3" style={{ 
-                        color: "#101828", 
-                        width: "24px", 
-                        fontSize: "16px", 
-                        fontWeight: 600,
-                        textAlign: "center" 
-                      }}>
+                      <div
+                        className="me-3"
+                        style={{
+                          color: "#101828",
+                          width: "24px",
+                          fontSize: "16px",
+                          fontWeight: 600,
+                          textAlign: "center",
+                        }}
+                      >
                         {player.rank}
                       </div>
-                      <div style={{ width: "40px", height: "40px", position: "relative" }} className="me-3">
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          position: "relative",
+                        }}
+                        className="me-3"
+                      >
                         <Image
                           src={player.avatar}
                           alt={player.name}
@@ -364,7 +434,13 @@ export default function UserDashboard() {
                         <div style={{ fontSize: "14px", color: "#101828" }}>
                           {player.name}
                         </div>
-                        <div style={{ fontSize: "14px", color: "#667085", fontWeight: 500 }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#667085",
+                            fontWeight: 500,
+                          }}
+                        >
                           {player.time}
                         </div>
                       </div>
