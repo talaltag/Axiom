@@ -489,9 +489,9 @@ export default function UserDashboard() {
                       style={{
                         height: "8px",
                         borderRadius: "16px",
-                        backgroundColor: "#F2F4F7",
+                        backgroundColor: "rgba(221, 226, 234, 1)",
                         backgroundImage:
-                          "linear-gradient(90deg, #FFD600 75%, #F2F4F7 75%)",
+                          "linear-gradient(90deg, rgba(100, 105, 228, 0.75), rgba(248, 202, 21, 1))",
                       }}
                     />
                   </div>
