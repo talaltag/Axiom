@@ -249,8 +249,8 @@ export default function UserDashboard() {
                 background: "#FFD600",
                 boxShadow:
                   "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                height: "500px",
-                padding: "24px",
+                height: "420px",
+                padding: "0 24px 24px 24px",
                 overflow: "hidden",
               }}
             >
@@ -259,10 +259,7 @@ export default function UserDashboard() {
                   className="position-relative podium-container mb-4"
                   style={{ height: "240px" }}
                 >
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ padding: "20px" }}
-                  >
+                  <div className="d-flex justify-content-center align-items-center">
                     {/* Second Place - Left */}
                     <div
                       className="podium-player"
@@ -387,7 +384,6 @@ export default function UserDashboard() {
                   style={{
                     maxHeight: "220px",
                     overflowY: "auto",
-                    marginTop: "70px",
                   }}
                 >
                   {leaderboardData.map((player, index) => (
@@ -502,7 +498,11 @@ export default function UserDashboard() {
                 ))}
                 <div
                   className="mt-4 p-3 text-center"
-                  style={{ background: "#FFD600", borderRadius: "8px" }}
+                  style={{
+                    background: "#FFD600",
+                    borderRadius: "8px",
+                    marginTop: "44px !important",
+                  }}
                 >
                   <div
                     className="fw-bold mb-1"
