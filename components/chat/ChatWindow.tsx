@@ -17,9 +17,9 @@ import Image from "next/image";
 import RecordRTC from "recordrtc";
 import { Settings } from "@mui/icons-material";
 import { ShowNavigatorDeviceModal } from "../../utils/helper";
-import CallIcon from '@mui/icons-material/Call';
-import VideocamIcon from '@mui/icons-material/Videocam';
-
+import CallIcon from "@mui/icons-material/Call";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import CallWindow from "./CallWindow";
 
 interface User {
   _id: string;
@@ -322,7 +322,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     );
   };
 
-  const [peerConnection, setPeerConnection] = useState<RTCPeerConnection | null>(null);
+  const [peerConnection, setPeerConnection] =
+    useState<RTCPeerConnection | null>(null);
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [isInCall, setIsInCall] = useState(false);
@@ -332,20 +333,20 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       // Get user media
       const stream = await navigator.mediaDevices.getUserMedia({
         video: video,
-        audio: true
+        audio: false,
       });
       setLocalStream(stream);
 
       // Create and configure peer connection
       const pc = new RTCPeerConnection({
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
-        ]
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun1.l.google.com:19302" },
+        ],
       });
 
       // Add local stream tracks to peer connection
-      stream.getTracks().forEach(track => {
+      stream.getTracks().forEach((track) => {
         pc.addTrack(track, stream);
       });
 
@@ -357,9 +358,9 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       // Handle ICE candidates
       pc.onicecandidate = (event) => {
         if (event.candidate) {
-          socketRef.current.emit('ice-candidate', {
+          socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
-            to: receiver._id
+            to: receiver._id,
           });
         }
       };
@@ -367,35 +368,40 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       // Create and send offer
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
-      socketRef.current.emit('call-offer', {
+      socketRef.current.emit("call-offer", {
         offer: offer,
-        to: receiver._id
+        to: receiver._id,
       });
 
       setPeerConnection(pc);
       setIsInCall(true);
     } catch (error) {
-      console.error('Error starting call:', error);
-      alert('Failed to start call. Please check your camera/microphone permissions.');
+      console.error("Error starting call:", error);
+      alert(
+        "Failed to start call. Please check your camera/microphone permissions."
+      );
     }
   };
 
-  const handleCallOffer = async (data: { offer: RTCSessionDescriptionInit, from: string }) => {
+  const handleCallOffer = async (data: {
+    offer: RTCSessionDescriptionInit;
+    from: string;
+  }) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true
+        audio: false,
       });
       setLocalStream(stream);
 
       const pc = new RTCPeerConnection({
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
-        ]
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun1.l.google.com:19302" },
+        ],
       });
 
-      stream.getTracks().forEach(track => {
+      stream.getTracks().forEach((track) => {
         pc.addTrack(track, stream);
       });
 
@@ -405,9 +411,9 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
 
       pc.onicecandidate = (event) => {
         if (event.candidate) {
-          socketRef.current.emit('ice-candidate', {
+          socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
-            to: data.from
+            to: data.from,
           });
         }
       };
@@ -416,41 +422,51 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
 
-      socketRef.current.emit('call-answer', {
+      socketRef.current.emit("call-answer", {
         answer: answer,
-        to: data.from
+        to: data.from,
       });
 
       setPeerConnection(pc);
       setIsInCall(true);
     } catch (error) {
-      console.error('Error handling call offer:', error);
+      console.error("Error handling call offer:", error);
     }
   };
 
-  const handleCallAnswer = async (data: { answer: RTCSessionDescriptionInit, from: string }) => {
+  const handleCallAnswer = async (data: {
+    answer: RTCSessionDescriptionInit;
+    from: string;
+  }) => {
     try {
       if (peerConnection) {
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        await peerConnection.setRemoteDescription(
+          new RTCSessionDescription(data.answer)
+        );
       }
     } catch (error) {
-      console.error('Error handling call answer:', error);
+      console.error("Error handling call answer:", error);
     }
   };
 
-  const handleIceCandidate = async (data: { candidate: RTCIceCandidateInit, from: string }) => {
+  const handleIceCandidate = async (data: {
+    candidate: RTCIceCandidateInit;
+    from: string;
+  }) => {
     try {
       if (peerConnection) {
-        await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        await peerConnection.addIceCandidate(
+          new RTCIceCandidate(data.candidate)
+        );
       }
     } catch (error) {
-      console.error('Error handling ICE candidate:', error);
+      console.error("Error handling ICE candidate:", error);
     }
   };
 
   const endCall = () => {
     if (localStream) {
-      localStream.getTracks().forEach(track => track.stop());
+      localStream.getTracks().forEach((track) => track.stop());
       setLocalStream(null);
     }
     if (peerConnection) {
@@ -460,7 +476,6 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     setRemoteStream(null);
     setIsInCall(false);
   };
-
 
   if (loading) {
     return (
@@ -480,7 +495,16 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       {isInCall && (
-        <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1000 }}>
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1000,
+          }}
+        >
           <CallWindow
             peerConnection={peerConnection}
             localStream={localStream}

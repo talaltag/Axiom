@@ -4,9 +4,7 @@ import { withAuth } from "../../../middleware/withAuth";
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export default withAuth(async function handler(
   req: NextApiRequest,

@@ -13,7 +13,7 @@ import {
 import UserDashboardLayout from "../components/layouts/UserDashboardLayout";
 import ChatWindow from "../components/chat/ChatWindow";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 interface User {
   _id: string;
@@ -31,7 +31,6 @@ export default function ChatPage() {
   const router = useRouter();
   const { receiver } = router.query;
 
-
   useEffect(() => {
     if (session.data) {
       const fetchUsers = async () => {
@@ -41,7 +40,7 @@ export default function ChatPage() {
             session.data.user.role === "Admin"
               ? fetch("/api/users")
               : fetch("/api/users/me/friends?others=true"),
-            receiver ? fetch(`/api/users/${receiver}`) : Promise.resolve(null)
+            receiver ? fetch(`/api/users/${receiver}`) : Promise.resolve(null),
           ]);
 
           if (!usersResponse.ok) {
@@ -62,7 +61,7 @@ export default function ChatPage() {
             usersList = [
               ...usersData.data,
               {
-                _id: "6792d847811967dbede75c5b",
+                _id: "67ab624e0bda1b8874d72f2e",
                 name: "Admin",
                 email: "admin@admin.com",
                 cName: "talal@theappguys.com",
@@ -79,7 +78,9 @@ export default function ChatPage() {
           if (receiverData) {
             setSelectedUser(receiverData);
           } else if (receiver) {
-            const receiverUser = usersList.find(user => user._id === receiver);
+            const receiverUser = usersList.find(
+              (user) => user._id === receiver
+            );
             if (receiverUser) {
               setSelectedUser(receiverUser);
             }

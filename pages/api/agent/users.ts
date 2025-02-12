@@ -21,11 +21,11 @@ export default withAuth(async function handler(
             .json({ success: false, message: "User not found" });
         }
 
-        const { role = "" } = req.query;
+        const { role = "User" } = req.query;
 
         let query: any = {};
 
-        query.role = "Agent";
+        query.role = role;
 
         query._id = { $ne: userId };
 

@@ -44,7 +44,7 @@ export default function ChatPage() {
             setUsers([
               ...data.data,
               {
-                _id: "6792d847811967dbede75c5b",
+                _id: "67ab624e0bda1b8874d72f2e",
                 name: "Admin ",
                 email: "admin@admin.com",
                 cName: "talal@theappguys.com",
