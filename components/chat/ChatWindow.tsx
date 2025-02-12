@@ -17,6 +17,9 @@ import Image from "next/image";
 import RecordRTC from "recordrtc";
 import { Settings } from "@mui/icons-material";
 import { ShowNavigatorDeviceModal } from "../../utils/helper";
+import CallIcon from '@mui/icons-material/Call';
+import VideocamIcon from '@mui/icons-material/Videocam';
+
 
 interface User {
   _id: string;
@@ -315,6 +318,13 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     );
   };
 
+  const startCall = (video: boolean) => {
+    // Placeholder for WebRTC call initiation
+    console.log("Starting call with video:", video);
+    // Implement WebRTC logic here using the 'video' flag to determine video enablement.
+  };
+
+
   if (loading) {
     return (
       <Box
@@ -362,6 +372,12 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           </IconButton>
           <IconButton size="small" onClick={ShowNavigatorDeviceModal}>
             <Settings />
+          </IconButton>
+          <IconButton size="small" onClick={() => startCall(false)}>
+            <CallIcon />
+          </IconButton>
+          <IconButton size="small" onClick={() => startCall(true)}>
+            <VideocamIcon />
           </IconButton>
           <IconButton
             onClick={() => (isRecording ? stopRecording() : startRecording())}
