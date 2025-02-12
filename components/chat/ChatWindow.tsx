@@ -67,6 +67,10 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       setMessages((prev) => [...prev, message]);
     });
 
+    socketRef.current.on("call-offer", handleCallOffer);
+    socketRef.current.on("call-answer", handleCallAnswer);
+    socketRef.current.on("ice-candidate", handleIceCandidate);
+
     return () => {
       socketRef.current.emit("leave", roomId);
       socketRef.current.disconnect();
@@ -318,10 +322,143 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     );
   };
 
-  const startCall = (video: boolean) => {
-    // Placeholder for WebRTC call initiation
-    console.log("Starting call with video:", video);
-    // Implement WebRTC logic here using the 'video' flag to determine video enablement.
+  const [peerConnection, setPeerConnection] = useState<RTCPeerConnection | null>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [isInCall, setIsInCall] = useState(false);
+
+  const startCall = async (video: boolean) => {
+    try {
+      // Get user media
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: video,
+        audio: true
+      });
+      setLocalStream(stream);
+
+      // Create and configure peer connection
+      const pc = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
+        ]
+      });
+
+      // Add local stream tracks to peer connection
+      stream.getTracks().forEach(track => {
+        pc.addTrack(track, stream);
+      });
+
+      // Handle remote stream
+      pc.ontrack = (event) => {
+        setRemoteStream(event.streams[0]);
+      };
+
+      // Handle ICE candidates
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          socketRef.current.emit('ice-candidate', {
+            candidate: event.candidate,
+            to: receiver._id
+          });
+        }
+      };
+
+      // Create and send offer
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socketRef.current.emit('call-offer', {
+        offer: offer,
+        to: receiver._id
+      });
+
+      setPeerConnection(pc);
+      setIsInCall(true);
+    } catch (error) {
+      console.error('Error starting call:', error);
+      alert('Failed to start call. Please check your camera/microphone permissions.');
+    }
+  };
+
+  const handleCallOffer = async (data: { offer: RTCSessionDescriptionInit, from: string }) => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+      setLocalStream(stream);
+
+      const pc = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
+        ]
+      });
+
+      stream.getTracks().forEach(track => {
+        pc.addTrack(track, stream);
+      });
+
+      pc.ontrack = (event) => {
+        setRemoteStream(event.streams[0]);
+      };
+
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          socketRef.current.emit('ice-candidate', {
+            candidate: event.candidate,
+            to: data.from
+          });
+        }
+      };
+
+      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+
+      socketRef.current.emit('call-answer', {
+        answer: answer,
+        to: data.from
+      });
+
+      setPeerConnection(pc);
+      setIsInCall(true);
+    } catch (error) {
+      console.error('Error handling call offer:', error);
+    }
+  };
+
+  const handleCallAnswer = async (data: { answer: RTCSessionDescriptionInit, from: string }) => {
+    try {
+      if (peerConnection) {
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+      }
+    } catch (error) {
+      console.error('Error handling call answer:', error);
+    }
+  };
+
+  const handleIceCandidate = async (data: { candidate: RTCIceCandidateInit, from: string }) => {
+    try {
+      if (peerConnection) {
+        await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+      }
+    } catch (error) {
+      console.error('Error handling ICE candidate:', error);
+    }
+  };
+
+  const endCall = () => {
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+      setLocalStream(null);
+    }
+    if (peerConnection) {
+      peerConnection.close();
+      setPeerConnection(null);
+    }
+    setRemoteStream(null);
+    setIsInCall(false);
   };
 
 
@@ -342,6 +479,29 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      {isInCall && (
+        <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1000 }}>
+          <CallWindow
+            peerConnection={peerConnection}
+            localStream={localStream}
+            remoteStream={remoteStream}
+            isVideo={true}
+            onEndCall={endCall}
+            onToggleVideo={() => {
+              if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                if (videoTrack) videoTrack.enabled = !videoTrack.enabled;
+              }
+            }}
+            onToggleAudio={() => {
+              if (localStream) {
+                const audioTrack = localStream.getAudioTracks()[0];
+                if (audioTrack) audioTrack.enabled = !audioTrack.enabled;
+              }
+            }}
+          />
+        </Box>
+      )}
       <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
         <Typography variant="h6">{receiver.name}</Typography>
       </Box>
