@@ -462,7 +462,7 @@ export default function Tournaments() {
                             <div style={{
                               position: "absolute",
                               top: "12px",
-                              left: "12px",
+                              right: "12px",
                               zIndex: 2,
                               background: "#FFFFFF",
                               padding: "4px 12px",
@@ -496,7 +496,7 @@ export default function Tournaments() {
                               color: "#667085",
                               marginBottom: "24px"
                             }}>
-                              {tournament.date} • {tournament.time}
+                              May 23, 2023 • 9:00PM - 10:30PM EST
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-4">
                               <div>
