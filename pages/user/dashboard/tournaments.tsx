@@ -462,17 +462,16 @@ export default function Tournaments() {
                             <div style={{
                               position: "absolute",
                               top: "12px",
-                              right: "12px",
+                              left: "12px",
                               zIndex: 2,
-                              background: "#FFFFFF",
+                              background: "rgba(237, 20, 91, 0.9)",
                               padding: "4px 12px",
                               borderRadius: "16px",
                               fontSize: "14px",
-                              color: "#344054",
-                              fontWeight: 500,
-                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                              color: "#FFFFFF",
+                              fontWeight: 500
                             }}>
-                              Closing in: 10:88:00
+                              Closing in:10:88:00
                             </div>
                             <Image
                               src={tournament.images?.[0] || "/fortnite-banner.png"}
