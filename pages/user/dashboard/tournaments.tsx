@@ -384,64 +384,103 @@ export default function Tournaments() {
                     </Col>
                   ) : activeTab === "my" ? (
                     registeredTournaments.map((registration) => (
-                      <Col md={4} key={registration._id} className="mb-4">
-                        <Card className="tournament-card h-100">
-                          <div
-                            style={{ position: "relative", height: "200px" }}
-                          >
+                      <Col xs={12} sm={6} md={4} lg={3} key={registration._id} className="mb-4">
+                        <Card className="tournament-card h-100" style={{
+                          borderRadius: "16px",
+                          overflow: "hidden",
+                          border: "1px solid #EAECF0",
+                          backgroundColor: "#FFFFFF",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                        }}>
+                          <div style={{ position: "relative", height: "180px" }}>
+                            <div style={{
+                              position: "absolute",
+                              bottom: "12px",
+                              left: "12px",
+                              zIndex: 2,
+                              background: "rgba(237, 20, 91, 0.9)",
+                              padding: "4px 12px",
+                              borderRadius: "16px",
+                              fontSize: "14px",
+                              color: "#FFFFFF",
+                              fontWeight: 500
+                            }}>
+                              Closing in: 10:88:00
+                            </div>
                             <Image
-                              src={
-                                registration?.tournament?.images?.[0] ||
-                                "/fortnite-banner.png"
-                              }
-                              alt={
-                                registration?.tournament?.name || "Tournament"
-                              }
+                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
+                              alt={registration?.tournament?.name || "Tournament"}
                               layout="fill"
                               objectFit="cover"
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
-                          <CardBody>
-                            <CardTitle tag="h5" className="mb-3">
+                          <CardBody className="p-4">
+                            <h5 style={{
+                              fontSize: "18px",
+                              fontWeight: 600,
+                              marginBottom: "4px",
+                              color: "#101828"
+                            }}>
                               {registration.tournament.name}
-                            </CardTitle>
-                            <CardText>
-                              <small className="text-muted">
-                                {registration.tournament.date} •{" "}
-                                {registration.tournament.time}
-                              </small>
-                              <div className="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                  <small className="text-muted">
-                                    Prize Pool
-                                  </small>
-                                  <h6 className="mb-0">
-                                    ${registration.tournament.totalPrizePool}
-                                  </h6>
+                            </h5>
+                            <div style={{
+                              fontSize: "14px",
+                              color: "#667085",
+                              marginBottom: "24px"
+                            }}>
+                              {registration.tournament.date} • {registration.tournament.time}
+                            </div>
+                            <div className="d-flex justify-content-between align-items-center mb-4">
+                              <div>
+                                <div style={{
+                                  fontSize: "14px",
+                                  color: "#344054",
+                                  marginBottom: "4px",
+                                  fontWeight: 500
+                                }}>
+                                  Prize
                                 </div>
-                                <div className="text-end">
-                                  <small className="text-muted">
-                                    Entry Fee
-                                  </small>
-                                  <h6 className="mb-0">
-                                    ${registration.tournament.entryFee}
-                                  </h6>
+                                <div style={{
+                                  fontSize: "20px",
+                                  fontWeight: 600,
+                                  color: "#F04438"
+                                }}>
+                                  ${registration.tournament.totalPrizePool}
                                 </div>
                               </div>
-                              <Button
-                                color="warning"
-                                block
-                                onClick={() =>
-                                  router.push(
-                                    `/user/dashboard/confirm/${registration._id}`
-                                  )
-                                }
-                              >
-                                View Details{" "}
-                                <ArrowRight size={16} className="ms-2" />
-                              </Button>
-                            </CardText>
+                              <div className="text-end">
+                                <div style={{
+                                  fontSize: "14px",
+                                  color: "#344054",
+                                  marginBottom: "4px",
+                                  fontWeight: 500
+                                }}>
+                                  Entry Cost
+                                </div>
+                                <div style={{
+                                  fontSize: "20px",
+                                  fontWeight: 600,
+                                  color: "#F04438"
+                                }}>
+                                  ${registration.tournament.entryFee}
+                                </div>
+                              </div>
+                            </div>
+                            <Button
+                              color="link"
+                              className="text-decoration-none p-0"
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                color: "#101828",
+                                display: "flex",
+                                alignItems: "center"
+                              }}
+                              onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
+                            >
+                              See Details <ArrowRight size={20} className="ms-2" />
+                            </Button>
                           </CardBody>
                         </Card>
                       </Col>
