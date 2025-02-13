@@ -14,8 +14,6 @@ function initSocket(server) {
   });
 
   io.on("connection", (socket) => {
-    console.log("Client connected:", socket.id);
-
     socket.on("join", (roomId) => {
       socket.join(roomId);
       console.log(`User joined room: ${roomId}`);
@@ -28,19 +26,19 @@ function initSocket(server) {
 
     socket.on("message", async (data) => {
       io.to(data.roomId).emit("message", data);
-      console.log(`Message sent in room: ${data.roomId}`);
+      console.log(`Message sent in room id: ${data.roomId}`);
     });
 
-    socket.on("call-offer", ({ offer, to, from }) => {
-      socket.broadcast.to(to).emit("call-offer", { offer, from });
+    socket.on("call-offer", ({ offer, to, from, roomId }) => {
+      io.to(roomId).emit("call-offer", { offer, from });
     });
 
-    socket.on("call-answer", ({ answer, to }) => {
-      socket.broadcast.to(to).emit("call-answer", { answer, from: socket.id });
+    socket.on("call-answer", ({ answer, to, from, roomId }) => {
+      io.to(roomId).emit("call-answer", { answer, from });
     });
 
-    socket.on("ice-candidate", ({ candidate, to }) => {
-      socket.broadcast.to(to).emit("ice-candidate", { candidate, from: socket.id });
+    socket.on("ice-candidate", ({ candidate, to, from, roomId }) => {
+      io.to(roomId).emit("ice-candidate", { candidate, from });
     });
 
     socket.on("disconnect", () => {

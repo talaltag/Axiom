@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   TextField,
@@ -20,6 +20,8 @@ import { ShowNavigatorDeviceModal } from "../../utils/helper";
 import CallIcon from "@mui/icons-material/Call";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import CallWindow from "./CallWindow";
+import usePeerService from "../../service/peer";
+import { useSocket } from "../../context/SocketProvider";
 
 interface User {
   _id: string;
@@ -57,6 +59,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const socketRef = useRef<any>(null);
   const roomId = [currentUser._id, receiver._id].sort().join("-");
 
+  const peer = usePeerService();
+
   useEffect(() => {
     socketRef.current = io(
       process.env.NEXT_PUBLIC_SOCKET_URL || "http://0.0.0.0:3000"
@@ -75,7 +79,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       socketRef.current.emit("leave", roomId);
       socketRef.current.disconnect();
     };
-  }, [roomId]);
+  }, [roomId, peer]);
 
   useEffect(() => {
     fetchMessages();
@@ -322,60 +326,44 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     );
   };
 
-  const [peerConnection, setPeerConnection] =
-    useState<RTCPeerConnection | null>(null);
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [isInCall, setIsInCall] = useState(false);
-
   const startCall = async (video: boolean) => {
     try {
       // Get user media
       const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
         video: video,
-        audio: true, // Added audio
       });
+
       setLocalStream(stream);
 
-      // Create and configure peer connection
-      const pc = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:stun.l.google.com:19302" },
-          { urls: "stun:stun1.l.google.com:19302" },
-        ],
-      });
+      for (const track of stream.getTracks()) {
+        peer.peer.addTrack(track, stream);
+      }
 
-      // Add local stream tracks to peer connection
-      stream.getTracks().forEach((track) => {
-        pc.addTrack(track, stream);
-      });
-
-      // Handle remote stream
-      pc.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-      };
-
-      // Handle ICE candidates
-      pc.onicecandidate = (event) => {
+      peer.peer.onicecandidate = (event) => {
         if (event.candidate) {
           socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
             to: receiver._id,
-            from: currentUser._id, // Added from
+            from: currentUser._id,
+            roomId, // Added from
           });
         }
       };
 
       // Create and send offer
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
+      const offer = await peer.getOffer();
+
       socketRef.current.emit("call-offer", {
         offer: offer,
         to: receiver._id,
-        from: currentUser._id, // Added from
+        from: currentUser._id,
+        roomId, // Added from
       });
 
-      setPeerConnection(pc);
       setIsInCall(true);
     } catch (error) {
       console.error("Error starting call:", error);
@@ -390,67 +378,54 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     from: string;
   }) => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true, // Added audio
-      });
-      setLocalStream(stream);
-
-      const pc = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:stun.l.google.com:19302" },
-          { urls: "stun:stun1.l.google.com:19302" },
-        ],
-      });
-
-      stream.getTracks().forEach((track) => {
-        pc.addTrack(track, stream);
-      });
-
-      pc.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-      };
-
-      pc.onicecandidate = (event) => {
+      peer.peer.onicecandidate = (event) => {
         if (event.candidate) {
           socketRef.current.emit("ice-candidate", {
             candidate: event.candidate,
             to: data.from,
-            from: currentUser._id, // Added from
+            from: currentUser._id,
+            roomId,
           });
         }
       };
 
-      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
+      const ans = await peer.getAnswer(data.offer);
 
-      socketRef.current.emit("call-answer", {
-        answer: answer,
-        to: data.from,
-        from: currentUser._id, // Added from
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: true,
       });
 
-      setPeerConnection(pc);
+      setLocalStream(stream);
+
+      for (const track of stream.getTracks()) {
+        peer.peer.addTrack(track, stream);
+      }
+
+      socketRef.current.emit("call-answer", {
+        answer: ans,
+        to: data.from,
+        from: currentUser._id, // Added from
+        roomId,
+      });
+
       setIsInCall(true);
     } catch (error) {
       console.error("Error handling call offer:", error);
     }
   };
 
-  const handleCallAnswer = async (data: {
-    answer: RTCSessionDescriptionInit;
-    from: string;
-  }) => {
-    try {
-      if (peerConnection) {
-        await peerConnection.setRemoteDescription(
-          new RTCSessionDescription(data.answer)
-        );
-      }
-    } catch (error) {
-      console.error("Error handling call answer:", error);
-    }
+  useEffect(() => {
+    if (peer)
+      peer.peer.ontrack = (event) => {
+        console.log("event", event);
+        setRemoteStream(event.streams[0]);
+      };
+  }, [peer]);
+
+  const handleCallAnswer = ({ from, answer }) => {
+    console.log(answer, "answer");
+    peer.setLocalDescription(answer);
   };
 
   const handleIceCandidate = async (data: {
@@ -458,10 +433,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     from: string;
   }) => {
     try {
-      if (peerConnection) {
-        await peerConnection.addIceCandidate(
-          new RTCIceCandidate(data.candidate)
-        );
+      if (peer.peer) {
+        await peer.peer.addIceCandidate(new RTCIceCandidate(data.candidate));
       }
     } catch (error) {
       console.error("Error handling ICE candidate:", error);
@@ -470,12 +443,12 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
 
   const endCall = () => {
     if (localStream) {
+      console.log("close");
       localStream.getTracks().forEach((track) => track.stop());
       setLocalStream(null);
     }
-    if (peerConnection) {
-      peerConnection.close();
-      setPeerConnection(null);
+    if (peer.peer) {
+      peer.peer.close();
     }
     setRemoteStream(null);
     setIsInCall(false);
@@ -510,7 +483,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           }}
         >
           <CallWindow
-            peerConnection={peerConnection}
+            peerConnection={peer.peer}
             localStream={localStream}
             remoteStream={remoteStream}
             isVideo={true}

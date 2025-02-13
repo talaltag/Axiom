@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import {
@@ -37,12 +36,14 @@ export default function CallWindow({
   useEffect(() => {
     if (localVideoRef.current && localStream) {
       localVideoRef.current.srcObject = localStream;
+      console.log("localStream", localStream);
     }
-  }, [localStream]);
+  }, [localStream, remoteStream]);
 
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
-      remoteVideoRef.current.srcObject = remoteStream;
+      console.log("remoteStream", remoteStream);
+      remoteVideoRef.current.srcObject = localStream;
     }
   }, [remoteStream]);
 
