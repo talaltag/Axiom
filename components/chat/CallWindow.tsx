@@ -43,7 +43,7 @@ export default function CallWindow({
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       console.log("remoteStream", remoteStream);
-      remoteVideoRef.current.srcObject = localStream;
+      remoteVideoRef.current.srcObject = remoteStream;
     }
   }, [remoteStream]);
 

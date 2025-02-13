@@ -378,6 +378,17 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
     from: string;
   }) => {
     try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+
+      setLocalStream(stream);
+
+      stream.getTracks().forEach((track) => {
+        peer.peer.addTrack(track, stream);
+      });
+
       peer.peer.onicecandidate = (event) => {
         if (event.candidate) {
           socketRef.current.emit("ice-candidate", {
@@ -389,23 +400,14 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
         }
       };
 
-      const ans = await peer.getAnswer(data.offer);
-
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true,
-      });
-
-      setLocalStream(stream);
-
-      for (const track of stream.getTracks()) {
-        peer.peer.addTrack(track, stream);
-      }
+      await peer.peer.setRemoteDescription(new RTCSessionDescription(data.offer));
+      const answer = await peer.peer.createAnswer();
+      await peer.peer.setLocalDescription(answer);
 
       socketRef.current.emit("call-answer", {
-        answer: ans,
+        answer: answer,
         to: data.from,
-        from: currentUser._id, // Added from
+        from: currentUser._id,
         roomId,
       });
 

@@ -22,16 +22,26 @@ class PeerService {
 
   async getAnswer(offer) {
     if (this.peer) {
-      await this.peer.setRemoteDescription(offer);
-      const ans = await this.peer.createAnswer();
-      await this.peer.setLocalDescription(new RTCSessionDescription(ans));
-      return ans;
+      try {
+        await this.peer.setRemoteDescription(new RTCSessionDescription(offer));
+        const answer = await this.peer.createAnswer();
+        await this.peer.setLocalDescription(answer);
+        return answer;
+      } catch (error) {
+        console.error("Error creating answer:", error);
+        throw error;
+      }
     }
   }
 
   async setLocalDescription(ans) {
     if (this.peer) {
-      await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
+      try {
+        await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
+      } catch (error) {
+        console.error("Error setting remote description:", error);
+        throw error;
+      }
     }
   }
 
