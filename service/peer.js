@@ -37,7 +37,7 @@ class PeerService {
   async setLocalDescription(ans) {
     if (this.peer) {
       try {
-        if (this.peer.signalingState !== "have-remote-offer") {
+        if (this.peer.signalingState === "stable" || this.peer.signalingState === "have-local-offer") {
           await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
         }
       } catch (error) {

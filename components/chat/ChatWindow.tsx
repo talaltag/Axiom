@@ -428,7 +428,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const handleCallAnswer = async ({ from, answer }) => {
     try {
       console.log("Received answer:", answer);
-      if (peer && peer.peer.signalingState !== "have-remote-offer") {
+      if (peer && peer.peer.signalingState === "have-local-offer") {
         await peer.peer.setRemoteDescription(new RTCSessionDescription(answer));
       }
     } catch (error) {
