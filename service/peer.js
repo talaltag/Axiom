@@ -37,7 +37,9 @@ class PeerService {
   async setLocalDescription(ans) {
     if (this.peer) {
       try {
-        await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
+        if (this.peer.signalingState !== "have-remote-offer") {
+          await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
+        }
       } catch (error) {
         console.error("Error setting remote description:", error);
         throw error;

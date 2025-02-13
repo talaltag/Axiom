@@ -425,9 +425,15 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       };
   }, [peer]);
 
-  const handleCallAnswer = ({ from, answer }) => {
-    console.log(answer, "answer");
-    peer.setLocalDescription(answer);
+  const handleCallAnswer = async ({ from, answer }) => {
+    try {
+      console.log("Received answer:", answer);
+      if (peer && peer.peer.signalingState !== "have-remote-offer") {
+        await peer.peer.setRemoteDescription(new RTCSessionDescription(answer));
+      }
+    } catch (error) {
+      console.error("Error handling call answer:", error);
+    }
   };
 
   const handleIceCandidate = async (data: {
