@@ -21,7 +21,7 @@ const TournamentSchema = new mongoose.Schema({
   attributes: String,
   totalPrizePool: String,
   winnerCount: Number,
-  prizeSplit: [Number],
+  prizeSplit: [String],
   paymentMethod: String,
   images: [String],
   status: {

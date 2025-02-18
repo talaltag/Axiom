@@ -86,7 +86,7 @@ export default function CreateTournament() {
       const percentage = i === 0 ? 50 : i === 1 ? 30 : 20;
       distribution[i] = (totalPrize * percentage) / 100;
     }
-    setPrizeDistribution(distribution);
+    setFormData({ ...formData, prizeSplit: distribution });
   };
 
   const handleSubmit = async (e) => {
@@ -94,9 +94,9 @@ export default function CreateTournament() {
     try {
       const formDataObj = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key === "images") {
-          value.forEach((file) => {
-            formDataObj.append("images", file);
+        if (key === "images" || key === "prizeSplit") {
+          value.forEach((val) => {
+            formDataObj.append(key, val);
           });
         } else {
           formDataObj.append(key, value);
@@ -454,7 +454,7 @@ export default function CreateTournament() {
               </Button>
             </Grid>
 
-            {prizeDistribution.map((prize, index) => (
+            {formData.prizeSplit.map((prize, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <TextField
                   fullWidth

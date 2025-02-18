@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   TextField,
@@ -400,7 +400,9 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
         }
       };
 
-      await peer.peer.setRemoteDescription(new RTCSessionDescription(data.offer));
+      await peer.peer.setRemoteDescription(
+        new RTCSessionDescription(data.offer)
+      );
       const answer = await peer.peer.createAnswer();
       await peer.peer.setLocalDescription(answer);
 
