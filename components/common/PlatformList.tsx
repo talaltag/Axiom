@@ -35,7 +35,7 @@ const PlatformList: React.FC = () => {
   ]);
 
   const [modalOpen,setModalOpen] = React.useState<Boolean>(false);
-  
+
   return (
     <div>
       <div className="d-flex flex-wrap gap-3 mb-5" style={{ margin: '-8px', padding: '24px', backgroundColor: '#FAFBFC' }}>
@@ -50,6 +50,7 @@ const PlatformList: React.FC = () => {
               backgroundColor: '#F9FAFB',
               borderRadius: '8px'
             }}
+            onClick={() => platform.id === 'pubg' && setModalOpen(true)}
           >
             <div
               style={{
@@ -59,7 +60,8 @@ const PlatformList: React.FC = () => {
                 overflow: 'hidden',
                 position: 'relative',
                 border: '2px solid #EAECF0',
-                backgroundColor: '#F9FAFB'
+                backgroundColor: '#F9FAFB',
+                cursor: platform.id === 'pubg' ? 'pointer' : 'default'
               }}
             >
               <Image

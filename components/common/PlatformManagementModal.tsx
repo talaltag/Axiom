@@ -13,212 +13,109 @@ import {
 interface PlatformManagementModalProps {
   isOpen: boolean;
   toggle: () => void;
-  onAddPlatform: (platformData: any) => void;
+  platforms: any[];
+  addedPlatforms: any[];
+  setAddedPlatforms: (platforms: any[]) => void;
 }
 
 export default function PlatformManagementModal({
   isOpen,
   toggle,
-  onAddPlatform,
+  platforms,
+  addedPlatforms,
+  setAddedPlatforms,
 }: PlatformManagementModalProps) {
   const [platformData, setPlatformData] = useState({
-    platformId: "",
-    platform: "",
+    pubgId: "",
     username: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onAddPlatform(platformData);
-    setPlatformData({ platformId: "", platform: "", username: "" });
-    toggle();
+
+    try {
+      const response = await fetch('/api/users/me/platforms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          platform: 'pubg',
+          platformId: platformData.pubgId,
+          username: platformData.username
+        }),
+      });
+
+      if (response.ok) {
+        const platform = platforms.find(p => p.id === 'pubg');
+        if (platform && !addedPlatforms.find(p => p.id === 'pubg')) {
+          setAddedPlatforms([...addedPlatforms, platform]);
+        }
+        toggle();
+      } else {
+        const error = await response.json();
+        alert(error.message || 'Failed to connect PUBG account');
+      }
+    } catch (error) {
+      console.error('Error connecting PUBG account:', error);
+      alert('Failed to connect PUBG account');
+    }
   };
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        toggle={toggle}
-        className="modal-dialog-centered"
-        style={{
-          maxWidth: "400px",
-          margin: "1.75rem auto",
-          height: "100vh",
-        }}
-      >
-        <div className="d-flex flex-column h-100">
-          <div className="p-4">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h5
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 500,
-                  color: "#101828",
-                  margin: 0,
-                }}
-              >
-                Platform Management
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggle}
-                aria-label="Close"
-              />
-            </div>
-
-            <Form onSubmit={handleSubmit}>
-              <FormGroup className="mb-3">
-                <Label
-                  for="platformId"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Platform ID
-                </Label>
-                <Input
-                  id="platformId"
-                  placeholder="Platform ID"
-                  value={platformData.platformId}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      platformId: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
-
-              <FormGroup className="mb-3">
-                <Label
-                  for="platform"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Platform
-                </Label>
-                <Input
-                  id="platform"
-                  placeholder="Platform"
-                  value={platformData.platform}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      platform: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
-
-              <FormGroup className="mb-4">
-                <Label
-                  for="username"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  placeholder="Username"
-                  value={platformData.username}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      username: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
-            </Form>
-          </div>
-
-          <div className="mt-auto p-4">
-            <Button
-              type="submit"
-              className="w-100"
-              style={{
-                height: "44px",
-                backgroundColor: "#FFD600",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: 500,
-                color: "#101828",
-                padding: "10px",
-              }}
-            >
-              Add Platform
-            </Button>
-          </div>
+    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
+      <div className="p-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h5 style={{ fontSize: "18px", fontWeight: 500, color: "#101828", margin: 0 }}>
+            Connect PUBG Account
+          </h5>
+          <button type="button" className="btn-close" onClick={toggle} />
         </div>
-      </Modal>
 
-      <style jsx global>{`
-        .modal-content {
-          border: none;
-          border-radius: 12px;
-          box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
-          height: 90vh;
-        }
+        <Form onSubmit={handleSubmit}>
+          <FormGroup className="mb-3">
+            <Label for="pubgId" style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>
+              PUBG ID
+            </Label>
+            <Input
+              id="pubgId"
+              value={platformData.pubgId}
+              onChange={(e) => setPlatformData({ ...platformData, pubgId: e.target.value })}
+              placeholder="Enter your PUBG ID"
+              required
+            />
+          </FormGroup>
 
-        .modal-backdrop.show {
-          opacity: 0.7;
-          background-color: rgba(52, 64, 84, 0.7);
-          backdrop-filter: blur(100px);
-        }
+          <FormGroup className="mb-4">
+            <Label for="username" style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>
+              PUBG Username
+            </Label>
+            <Input
+              id="username"
+              value={platformData.username}
+              onChange={(e) => setPlatformData({ ...platformData, username: e.target.value })}
+              placeholder="Enter your PUBG username"
+              required
+            />
+          </FormGroup>
 
-        .btn-close {
-          background-size: 14px;
-          opacity: 1;
-          padding: 8px;
-        }
-
-        .btn-close:hover {
-          opacity: 0.7;
-        }
-
-        .form-control:focus {
-          border-color: #ffd600;
-          box-shadow: 0 0 0 4px rgba(255, 214, 0, 0.25);
-        }
-      `}</style>
-    </>
+          <Button
+            type="submit"
+            className="w-100"
+            style={{
+              height: "44px",
+              backgroundColor: "#FFD600",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: 500,
+              color: "#101828",
+            }}
+          >
+            Connect Account
+          </Button>
+        </Form>
+      </div>
+    </Modal>
   );
 }
