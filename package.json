@@ -25,6 +25,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/reactstrap": "^8.7.1",
+    "@wojtekmaj/react-timerange-picker": "^6.0.0",
     "apexcharts": "^4.4.0",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",

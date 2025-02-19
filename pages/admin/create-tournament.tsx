@@ -26,12 +26,23 @@ const ReactQuill = dynamic(() => import("react-quill"), {
   loading: () => <p>Loading editor...</p>,
 });
 import "react-quill/dist/quill.snow.css";
+import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
+import "react-clock/dist/Clock.css";
+
+const TimePicker = dynamic(() => import("@wojtekmaj/react-timerange-picker"), {
+  ssr: false,
+  loading: () => <p>Loading time picker...</p>,
+});
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fileToUrl } from "../../utils/helper";
 
 export default function CreateTournament() {
   const router = useRouter();
+  type ValuePiece = Date | string | null;
+
+  type Value = ValuePiece | [ValuePiece, ValuePiece];
+
   const [formData, setFormData] = useState({
     name: "Call of Duty Tournament 2024",
     type: "Kill Race",
@@ -40,7 +51,7 @@ export default function CreateTournament() {
     gameMode: "Battle Royale",
     teamSize: "Squad",
     date: "2024-02-01",
-    time: "21:00",
+    time: ["10:00", "11:00"] as Value,
     entryFee: "50",
     category: "Cash",
     restrictions: "Platform-Specific",
@@ -98,6 +109,9 @@ export default function CreateTournament() {
           value.forEach((val) => {
             formDataObj.append(key, val);
           });
+        } else if (key === "time") {
+          formDataObj.append("time", value[0]);
+          formDataObj.append("end", value[1]);
         } else {
           formDataObj.append(key, value);
         }
@@ -235,15 +249,9 @@ export default function CreateTournament() {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Time"
-                type="time"
+              <TimePicker
+                onChange={(e) => setFormData({ ...formData, time: e })}
                 value={formData.time}
-                onChange={(e) =>
-                  setFormData({ ...formData, time: e.target.value })
-                }
-                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 

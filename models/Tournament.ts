@@ -12,6 +12,7 @@ const TournamentSchema = new mongoose.Schema({
   teamSize: String,
   date: String,
   time: String,
+  end: String,
   entryFee: String,
   category: String,
   restrictions: String,
@@ -26,7 +27,7 @@ const TournamentSchema = new mongoose.Schema({
   images: [String],
   status: {
     type: String,
-    default: "Registration Open",
+    default: "pending",
   },
   createdAt: {
     type: Date,

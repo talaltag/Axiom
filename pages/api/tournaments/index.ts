@@ -78,8 +78,6 @@ export default async function handler(
           images: uploadedImages, // Attach image paths
         };
 
-        console.log(payload); // Log the prepared payload
-
         // Create the tournament
         const tournament = await Tournament.create(payload);
 
