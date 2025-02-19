@@ -34,6 +34,7 @@
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "formidable": "^3.5.2",
+    "fortnite-api-io": "^1.9.0",
     "jose": "^5.9.6",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",

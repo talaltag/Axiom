@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DollarSign, CreditCard, Award } from "react-feather";
 import dynamic from "next/dynamic";
 import {
@@ -20,6 +20,27 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function Statistics() {
+  interface StatsType {
+    global_stats?: {
+      [key: string]: {
+        matchesplayed: number;
+        winrate: number;
+      };
+    };
+    result: boolean;
+  }
+
+  const [stats, setStats] = useState<StatsType>();
+  const [matchesStats, setMatchesStats] = useState({ played: 0, wins: 0 });
+  const percentage = useMemo(() => {
+    const win = ((matchesStats.wins / matchesStats.played) * 100).toFixed(0);
+    const loss = (
+      ((matchesStats.played - matchesStats.wins) / matchesStats.played) *
+      100
+    ).toFixed(0);
+
+    return { win: parseInt(win), loss: parseInt(loss) };
+  }, [matchesStats]);
   const barChartData = {
     options: {
       chart: {
@@ -235,6 +256,41 @@ export default function Statistics() {
     { name: "Vanguard Royale", id: 17, amount: "$150", status: "Declined" },
   ];
 
+  // UseEffect to calculate totals when the component mounts
+  useEffect(() => {
+    if (stats?.result) {
+      let totalPlayed = 0;
+      let totalWins = 0;
+      // Iterate through each game mode to calculate the total played and total wins
+      Object.keys(stats.global_stats).forEach((key) => {
+        const { matchesplayed, winrate } = stats.global_stats[key];
+        totalPlayed += matchesplayed;
+        totalWins += Math.round(matchesplayed * winrate);
+      });
+      // Update the state with the calculated totals
+      setMatchesStats({ played: totalPlayed, wins: totalWins });
+    }
+  }, [stats]);
+
+  const fetchStats = async () => {
+    // setIsLoading(true);
+    try {
+      const response = await fetch("/api/platforms/fortnite/connect");
+      const data = await response.json();
+      if (data.result) {
+        setStats(data);
+      }
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
@@ -361,8 +417,16 @@ export default function Statistics() {
                         <PieChart>
                           <Pie
                             data={[
-                              { name: "Wins", value: 100, fill: "#A48610" },
-                              { name: "Losses", value: 40, fill: "#E1E1E1" },
+                              {
+                                name: "Wins",
+                                value: percentage.win,
+                                fill: "#ffd600",
+                              },
+                              {
+                                name: "Losses",
+                                value: percentage.loss,
+                                fill: "#8b4513",
+                              },
                             ]}
                             cx="50%"
                             cy="50%"
@@ -374,10 +438,14 @@ export default function Statistics() {
                           />
                           <Pie
                             data={[
-                              { name: "Games", value: 75, fill: "#F8CA15" },
+                              {
+                                name: "Games",
+                                value: 0,
+                                fill: "#F8CA15",
+                              },
                               {
                                 name: "Tournaments",
-                                value: 25,
+                                value: 0,
                                 fill: "#E1E1E1",
                               },
                             ]}
@@ -410,7 +478,7 @@ export default function Statistics() {
                             fontWeight: 600,
                           }}
                         >
-                          98%
+                          {percentage.win}%
                         </div>
                       </div>
                     </div>
@@ -441,7 +509,7 @@ export default function Statistics() {
                                 fontWeight: "600",
                               }}
                             >
-                              1,230
+                              {matchesStats.wins.toLocaleString()}
                             </span>
                           </div>
                         </div>
@@ -470,7 +538,7 @@ export default function Statistics() {
                                 fontWeight: "600",
                               }}
                             >
-                              130
+                              {matchesStats.played - matchesStats.wins}
                             </span>
                           </div>
                         </div>
@@ -499,7 +567,7 @@ export default function Statistics() {
                                 fontWeight: "600",
                               }}
                             >
-                              24
+                              {matchesStats.played.toLocaleString()}
                             </span>
                           </div>
                         </div>
@@ -1040,7 +1108,11 @@ export default function Statistics() {
                     ].map((item, index) => (
                       <tr
                         key={index}
-                        className={`${item.status === "Ongoing" ? "bg-light-red" : "bg-white"} hover-row`}
+                        className={`${
+                          item.status === "Ongoing"
+                            ? "bg-light-red"
+                            : "bg-white"
+                        } hover-row`}
                         style={{
                           borderBottom: "1px solid #EAECF0",
                           cursor: "pointer",
