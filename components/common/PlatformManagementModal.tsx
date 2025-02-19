@@ -8,189 +8,152 @@ import {
   Label,
   Input,
   Button,
+  Alert,
 } from "reactstrap";
 
 interface PlatformManagementModalProps {
   isOpen: boolean;
   toggle: () => void;
-  onAddPlatform: (platformData: any) => void;
+  platform: string;
 }
 
 export default function PlatformManagementModal({
   isOpen,
   toggle,
-  onAddPlatform,
+  platform,
 }: PlatformManagementModalProps) {
-  const [platformData, setPlatformData] = useState({
-    platformId: "",
-    platform: "",
-    username: "",
-  });
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onAddPlatform(platformData);
-    setPlatformData({ platformId: "", platform: "", username: "" });
-    toggle();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch("/api/platforms/pubg/connect", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(data.message);
+        setTimeout(() => {
+          toggle();
+          window.location.reload();
+        }, 2000);
+      } else {
+        setError(data.message || "Failed to connect account");
+      }
+    } catch (error: any) {
+      setError(error.message || "Failed to connect account");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        toggle={toggle}
-        className="modal-dialog-centered"
-        style={{
-          maxWidth: "400px",
-          margin: "1.75rem auto",
-          height: "100vh",
-        }}
-      >
-        <div className="d-flex flex-column h-100">
-          <div className="p-4">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h5
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 500,
-                  color: "#101828",
-                  margin: 0,
-                }}
-              >
-                Platform Management
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={toggle}
-                aria-label="Close"
-              />
-            </div>
+    <Modal
+      isOpen={isOpen}
+      toggle={toggle}
+      className="modal-dialog-centered"
+      style={{
+        maxWidth: "400px",
+        margin: "1.75rem auto",
+      }}
+    >
+      <div className="p-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h5
+            style={{
+              fontSize: "18px",
+              fontWeight: 500,
+              color: "#101828",
+              margin: 0,
+            }}
+          >
+            Connect {platform} Account
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={toggle}
+            aria-label="Close"
+          />
+        </div>
 
-            <Form onSubmit={handleSubmit}>
-              <FormGroup className="mb-3">
-                <Label
-                  for="platformId"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Platform ID
-                </Label>
-                <Input
-                  id="platformId"
-                  placeholder="Platform ID"
-                  value={platformData.platformId}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      platformId: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
+        {error && (
+          <Alert color="danger" className="mb-4">
+            {error}
+          </Alert>
+        )}
 
-              <FormGroup className="mb-3">
-                <Label
-                  for="platform"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Platform
-                </Label>
-                <Input
-                  id="platform"
-                  placeholder="Platform"
-                  value={platformData.platform}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      platform: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
+        {success && (
+          <Alert color="success" className="mb-4">
+            {success}
+          </Alert>
+        )}
 
-              <FormGroup className="mb-4">
-                <Label
-                  for="username"
-                  style={{
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500,
-                    marginBottom: "6px",
-                  }}
-                >
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  placeholder="Username"
-                  value={platformData.username}
-                  onChange={(e) =>
-                    setPlatformData({
-                      ...platformData,
-                      username: e.target.value,
-                    })
-                  }
-                  style={{
-                    height: "44px",
-                    padding: "10px 14px",
-                    fontSize: "16px",
-                    border: "1px solid #D0D5DD",
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                  }}
-                />
-              </FormGroup>
-            </Form>
-          </div>
-
-          <div className="mt-auto p-4">
-            <Button
-              type="submit"
-              className="w-100"
+        <Form onSubmit={handleSubmit}>
+          <FormGroup className="mb-4">
+            <Label
+              for="username"
               style={{
-                height: "44px",
-                backgroundColor: "#FFD600",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "16px",
+                fontSize: "14px",
+                color: "#344054",
                 fontWeight: 500,
-                color: "#101828",
-                padding: "10px",
+                marginBottom: "6px",
               }}
             >
-              Add Platform
-            </Button>
-          </div>
-        </div>
-      </Modal>
+              Username
+            </Label>
+            <Input
+              id="username"
+              placeholder="Enter your PUBG username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              disabled={loading}
+              style={{
+                height: "44px",
+                padding: "10px 14px",
+                fontSize: "16px",
+                border: "1px solid #D0D5DD",
+                borderRadius: "8px",
+                background: "#FFFFFF",
+              }}
+            />
+          </FormGroup>
 
-      <style jsx global>{`
+          <Button
+            type="submit"
+            className="w-100"
+            disabled={loading}
+            style={{
+              height: "44px",
+              backgroundColor: "#FFD600",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: 500,
+              color: "#101828",
+              padding: "10px",
+            }}
+          >
+            {loading ? "Connecting..." : "Connect Account"}
+          </Button>
+        </Form>
+      </div>
+    </Modal>
+    
+    <style jsx global>{`
         .modal-content {
           border: none;
           border-radius: 12px;
@@ -219,6 +182,5 @@ export default function PlatformManagementModal({
           box-shadow: 0 0 0 4px rgba(255, 214, 0, 0.25);
         }
       `}</style>
-    </>
   );
 }
