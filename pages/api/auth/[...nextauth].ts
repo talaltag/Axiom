@@ -12,6 +12,7 @@ declare module "next-auth" {
       profileImage?: string;
       role?: string;
       id?: string;
+      walletBalance?: number;
     };
   }
 }
@@ -35,6 +36,7 @@ export default NextAuth({
               name: user.name,
               role: user.role,
               profileImage: user?.profileImage,
+              walletBalance: user?.walletBalance,
             };
           }
           return null;

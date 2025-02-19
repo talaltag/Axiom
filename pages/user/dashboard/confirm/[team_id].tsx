@@ -49,6 +49,8 @@ export default function ConfirmRegistration() {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const session = useSession();
 
@@ -107,6 +109,44 @@ export default function ConfirmRegistration() {
       fetchRegistrationDetails();
     }
   }, [team_id]);
+
+  const handleSubmit = async () => {
+    setIsProcessing(true);
+
+    try {
+      const response = await fetch(
+        `/api/tournament-registrations/${team_id}/pay`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentStatus: "completed",
+            paymentMethod: "wallet",
+            amount: registrationData?.tournament?.entryFee,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (!data.success) {
+        setIsProcessing(false);
+        return;
+      }
+
+      if (response.ok) {
+        setShowModal(true);
+        setTimeout(() => {
+          window.location.href = "/user/dashboard/tournaments";
+        }, 5000);
+      }
+    } catch (error) {
+      setErrorMessage("Payment failed");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (!registrationData) return <div>Registration not found</div>;
@@ -240,7 +280,9 @@ export default function ConfirmRegistration() {
                         padding: "10px 16px",
                         cursor: "pointer",
                         backgroundColor: "#fff",
-                        border: "1px solid #EAECF0",
+                        border: `1px solid ${
+                          paymentMethod === "wallet" ? "#FFD700" : "#EAECF0"
+                        }`,
                         borderRadius: "8px",
                         display: "flex",
                         alignItems: "center",
@@ -256,7 +298,7 @@ export default function ConfirmRegistration() {
                           fontWeight: 500,
                         }}
                       >
-                        $1,000.00
+                        ${session.data.user?.walletBalance}
                       </div>
                       <div
                         style={{
@@ -275,7 +317,9 @@ export default function ConfirmRegistration() {
                         padding: "10px 16px",
                         cursor: "pointer",
                         backgroundColor: "#fff",
-                        border: "1px solid #EAECF0",
+                        border: `1px solid ${
+                          paymentMethod === "bank" ? "#FFD700" : "#EAECF0"
+                        }`,
                         borderRadius: "8px",
                         display: "flex",
                         alignItems: "center",
@@ -302,7 +346,9 @@ export default function ConfirmRegistration() {
                         padding: "10px 16px",
                         cursor: "pointer",
                         backgroundColor: "#fff",
-                        border: "1px solid #EAECF0",
+                        border: `1px solid ${
+                          paymentMethod === "stripe" ? "#FFD700" : "#EAECF0"
+                        }`,
                         borderRadius: "8px",
                         display: "flex",
                         alignItems: "center",
@@ -482,11 +528,12 @@ export default function ConfirmRegistration() {
                           fontSize: "14px",
                           fontWeight: 500,
                         }}
+                        disabled={isProcessing}
                       >
                         Back
                       </Button>
                       <Button
-                        onClick={() => setShowModal(true)}
+                        onClick={handleSubmit}
                         style={{
                           backgroundColor: "#FFD700",
                           border: "none",
@@ -497,6 +544,7 @@ export default function ConfirmRegistration() {
                           fontSize: "14px",
                           fontWeight: 500,
                         }}
+                        disabled={isProcessing}
                       >
                         Pay Now
                       </Button>

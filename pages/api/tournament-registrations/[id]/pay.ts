@@ -24,7 +24,7 @@ export default withAuth(async function handler(
   const { id } = req.query;
   const { paymentToken, paymentMethod, amount } = req.body;
 
-  if (!paymentToken || !paymentMethod) {
+  if ((!paymentToken || !paymentMethod) && paymentMethod !== "wallet") {
     return res
       .status(400)
       .json({ success: false, message: "Payment details required" });
