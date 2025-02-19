@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from 'reactstrap';
-import PlatformManagementModal from "./PlatformManagementModal"
+import FortniteModal from "./FortniteModal";
 
 
 interface Platform {
@@ -34,7 +34,13 @@ const PlatformList: React.FC = () => {
     platforms[8], // Valorant
   ]);
 
-  const [modalOpen,setModalOpen] = React.useState<Boolean>(false);
+  const [fortniteModalOpen, setFortniteModalOpen] = React.useState<boolean>(false);
+
+  const handlePlatformClick = (platformId: string) => {
+    if (platformId === 'fortnite') {
+      setFortniteModalOpen(true);
+    }
+  };
   
   return (
     <div>
@@ -43,6 +49,7 @@ const PlatformList: React.FC = () => {
           <div
             key={platform.id}
             className="d-flex flex-column align-items-center"
+            onClick={() => handlePlatformClick(platform.id)}
             style={{ 
               width: '100px',
               padding: '8px',
@@ -171,12 +178,9 @@ const PlatformList: React.FC = () => {
         </div>
       </div>
 
-      <PlatformManagementModal
-        isOpen={modalOpen}
-        toggle={() => setModalOpen(false)}
-        platforms={platforms}
-        addedPlatforms={addedPlatforms}
-        setAddedPlatforms={setAddedPlatforms}
+      <FortniteModal
+        isOpen={fortniteModalOpen}
+        toggle={() => setFortniteModalOpen(false)}
       />
 
       <style jsx>{`
