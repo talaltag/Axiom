@@ -1,8 +1,18 @@
-import { useState, useEffect } from 'react';
-import UserDashboardLayout from '../../components/layouts/UserDashboardLayout';
-import { Container, Row, Col, Input, Nav, NavItem, NavLink, Button } from 'reactstrap';
-import Image from 'next/image';
-import { Search } from 'react-feather';
+import { useState, useEffect } from "react";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import {
+  Container,
+  Row,
+  Col,
+  Input,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+} from "reactstrap";
+import Image from "next/image";
+import { Search } from "react-feather";
+import { useSession } from "next-auth/react";
 
 interface User {
   _id: string;
@@ -11,14 +21,14 @@ interface User {
 }
 
 export default function Friends() {
-  const [activeTab, setActiveTab] = useState('myFriends');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState("myFriends");
+  const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [friends, setFriends] = useState<User[]>([]);
   const [filteredFriends, setFilteredFriends] = useState<User[]>([]);
   const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
-
+  const session = useSession();
   useEffect(() => {
     fetchUsers();
     fetchFriends();
@@ -30,35 +40,31 @@ export default function Friends() {
       fetchSentRequests();
     };
 
-    window.addEventListener('friendRequestHandled', handleFriendRequest);
-    return () => window.removeEventListener('friendRequestHandled', handleFriendRequest);
+    window.addEventListener("friendRequestHandled", handleFriendRequest);
+    return () =>
+      window.removeEventListener("friendRequestHandled", handleFriendRequest);
   }, []);
 
   const fetchSentRequests = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/friend-requests', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await fetch("/api/friend-requests");
       if (response.ok) {
         const data = await response.json();
         setSentRequests(new Set(data.data));
       }
     } catch (error) {
-      console.error('Error fetching sent requests:', error);
+      console.error("Error fetching sent requests:", error);
     }
   };
 
   useEffect(() => {
-    if (activeTab === 'players') {
-      const filtered = users.filter(user => 
+    if (activeTab === "players") {
+      const filtered = users.filter((user) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredUsers(filtered);
     } else {
-      const filtered = friends.filter(friend => 
+      const filtered = friends.filter((friend) =>
         friend.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredFriends(filtered);
@@ -67,37 +73,31 @@ export default function Friends() {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/users', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await fetch("/api/users");
       if (response.ok) {
         const data = await response.json();
-        setUsers(data.data);
+        setUsers(
+          data.data.filter(
+            (i) => i._id !== session?.data.user.id && i.role == "User"
+          )
+        );
         setFilteredUsers(data.data);
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error("Error fetching users:", error);
     }
   };
 
   const fetchFriends = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/users/me/friends', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await fetch("/api/users/me/friends");
       if (response.ok) {
         const data = await response.json();
         setFriends(data.data);
         setFilteredFriends(data.data);
       }
     } catch (error) {
-      console.error('Error fetching friends:', error);
+      console.error("Error fetching friends:", error);
     }
   };
 
@@ -108,25 +108,37 @@ export default function Friends() {
           <Nav tabs className="border-0">
             <NavItem>
               <NavLink
-                className={`border-0 px-4 ${activeTab === 'myFriends' ? 'bg-warning text-dark' : 'text-muted'}`}
-                onClick={() => setActiveTab('myFriends')}
-                style={{ cursor: 'pointer' }}
+                className={`border-0 px-4 ${
+                  activeTab === "myFriends"
+                    ? "bg-warning text-dark"
+                    : "text-muted"
+                }`}
+                onClick={() => setActiveTab("myFriends")}
+                style={{ cursor: "pointer" }}
               >
                 My Friends
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={`border-0 px-4 ${activeTab === 'players' ? 'bg-warning text-dark' : 'text-muted'}`}
-                onClick={() => setActiveTab('players')}
-                style={{ cursor: 'pointer' }}
+                className={`border-0 px-4 ${
+                  activeTab === "players"
+                    ? "bg-warning text-dark"
+                    : "text-muted"
+                }`}
+                onClick={() => setActiveTab("players")}
+                style={{ cursor: "pointer" }}
               >
                 Players
               </NavLink>
             </NavItem>
           </Nav>
-          <div className="position-relative" style={{ width: '300px' }}>
-            <Search size={18} className="position-absolute" style={{ top: '10px', left: '10px' }} />
+          <div className="position-relative" style={{ width: "300px" }}>
+            <Search
+              size={18}
+              className="position-absolute"
+              style={{ top: "10px", left: "10px" }}
+            />
             <Input
               placeholder="Search"
               value={searchQuery}
@@ -136,14 +148,14 @@ export default function Friends() {
           </div>
         </div>
 
-        {activeTab === 'myFriends' ? (
+        {activeTab === "myFriends" ? (
           <Row>
             {filteredFriends.map((friend) => (
               <Col md={6} key={friend._id} className="mb-3">
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={friend.profileImage || '/user1.png'}
+                      src={friend.profileImage || "/user1.png"}
                       alt={friend.name}
                       width={48}
                       height={48}
@@ -165,7 +177,7 @@ export default function Friends() {
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={user.profileImage || '/user1.png'}
+                      src={user.profileImage || "/user1.png"}
                       alt={user.name}
                       width={48}
                       height={48}
@@ -175,33 +187,35 @@ export default function Friends() {
                       <h6 className="mb-1">{user.name}</h6>
                     </div>
                   </div>
-                  <Button 
+                  <Button
                     color={sentRequests.has(user._id) ? "success" : "info"}
                     size="sm"
                     onClick={async () => {
                       if (!sentRequests.has(user._id)) {
                         try {
-                          const token = localStorage.getItem('token');
-                          const response = await fetch('/api/friend-requests', {
-                            method: 'POST',
+                          const token = localStorage.getItem("token");
+                          const response = await fetch("/api/friend-requests", {
+                            method: "POST",
                             headers: {
-                              'Content-Type': 'application/json',
-                              'Authorization': `Bearer ${token}`
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${token}`,
                             },
-                            body: JSON.stringify({ receiverId: user._id })
+                            body: JSON.stringify({ receiverId: user._id }),
                           });
 
                           if (response.ok) {
-                            setSentRequests(prev => new Set([...prev, user._id]));
+                            setSentRequests(
+                              (prev) => new Set([...prev, user._id])
+                            );
                           }
                         } catch (error) {
-                          console.error('Error sending friend request:', error);
+                          console.error("Error sending friend request:", error);
                         }
                       }
                     }}
                     disabled={sentRequests.has(user._id)}
                   >
-                    {sentRequests.has(user._id) ? 'Request Sent' : 'Add Friend'}
+                    {sentRequests.has(user._id) ? "Request Sent" : "Add Friend"}
                   </Button>
                 </div>
               </Col>

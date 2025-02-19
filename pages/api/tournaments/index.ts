@@ -4,6 +4,8 @@ import Tournament from "../../../models/Tournament";
 import TournamentRegistration from "../../../models/TournamentRegistration";
 import mongoose from "mongoose";
 import formidable from "formidable";
+import cron from "node-cron";
+import { formatDateCron } from "../../../utils/helper";
 
 export const config = {
   api: {
@@ -81,28 +83,49 @@ export default async function handler(
         // Create the tournament
         const tournament = await Tournament.create(payload);
 
-        // Schedule status updates using node-cron
-        const cron = require('node-cron');
-        
         // Schedule tournament start (change to ongoing)
-        const startTime = new Date(tournament.time);
+        const startDateTime = new Date(tournament.date);
+
+        const [hours, minutes] = tournament.time.split(":").map(Number);
+        startDateTime.setHours(hours, minutes, 0);
+        const startTime = formatDateCron(startDateTime);
+        console.log("startTime", startTime);
         cron.schedule(startTime, async () => {
           try {
-            await Tournament.findByIdAndUpdate(tournament._id, { status: 'ongoing' });
-            console.log(`Tournament ${tournament._id} status updated to ongoing`);
+            await Tournament.findByIdAndUpdate(tournament._id, {
+              status: "ongoing",
+            });
+            console.log(
+              `Tournament ${tournament._id} status updated to ongoing`
+            );
           } catch (error) {
-            console.error(`Error updating tournament ${tournament._id} status:`, error);
+            console.error(
+              `Error updating tournament ${tournament._id} status:`,
+              error
+            );
           }
         });
 
         // Schedule tournament end
-        const endTime = new Date(tournament.end);
+        const endDateTime = new Date(tournament.date);
+        const [endHours, endMinutes] = tournament.end.split(":").map(Number);
+        endDateTime.setHours(endHours, endMinutes, 0);
+
+        const endTime = formatDateCron(endDateTime);
+        console.log("startTime", endTime, tournament.end);
         cron.schedule(endTime, async () => {
           try {
-            await Tournament.findByIdAndUpdate(tournament._id, { status: 'completed' });
-            console.log(`Tournament ${tournament._id} status updated to completed`);
+            await Tournament.findByIdAndUpdate(tournament._id, {
+              status: "completed",
+            });
+            console.log(
+              `Tournament ${tournament._id} status updated to completed`
+            );
           } catch (error) {
-            console.error(`Error updating tournament ${tournament._id} status:`, error);
+            console.error(
+              `Error updating tournament ${tournament._id} status:`,
+              error
+            );
           }
         });
 

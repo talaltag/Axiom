@@ -72,3 +72,10 @@ export const fileToUrl = (file: File) => {
   const blob = new Blob([file], { type: file.type });
   return URL.createObjectURL(blob);
 };
+
+export const formatDateCron = (currentDate) => {
+  const date = new Date(currentDate);
+  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
+    date.getMonth() + 1
+  } ${date.getDay()}`;
+};

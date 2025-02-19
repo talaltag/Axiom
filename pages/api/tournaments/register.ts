@@ -3,6 +3,7 @@ import dbConnect from "../../../lib/dbConnect";
 import Team from "../../../models/Team";
 import TournamentRegistration from "../../../models/TournamentRegistration";
 import { withAuth } from "../../../middleware/withAuth";
+import Tournament from "../../../models/Tournament";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -25,6 +26,19 @@ export default withAuth(async function handler(
       payment_token,
     } = req.body;
 
+    const tournament = await Tournament.findById(tournament_id);
+    if (!tournament) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tournament not found" });
+    }
+
+    if (tournament.status !== "Registration Open") {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tournament Registration closed" });
+    }
+
     // Create team
     const team = await Team.create({
       name: team_name,
@@ -33,19 +47,19 @@ export default withAuth(async function handler(
     });
 
     // Initialize payment records for each team member
-    const memberPayments = user_ids.map(userId => ({
+    const memberPayments = user_ids.map((userId) => ({
       userId,
-      paymentStatus: 'pending',
+      paymentStatus: "pending",
       paymentToken: null,
       paymentMethod: null,
-      paidAt: null
+      paidAt: null,
     }));
 
     const registration = await TournamentRegistration.create({
       tournament: tournament_id,
       team: team._id,
       organizer: req.user.id,
-      memberPayments
+      memberPayments,
     });
 
     res.status(201).json({
