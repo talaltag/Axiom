@@ -1,15 +1,17 @@
 import { useSession } from "next-auth/react";
 import { Table } from "reactstrap";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import Link from "next/link";
 
-const TournamentHistoryTable = () => {
+interface Props {
+  setTotalTournament?: Dispatch<SetStateAction<number>>;
+}
+const TournamentHistoryTable = ({ setTotalTournament }: Props) => {
   const session = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [registeredTournaments, setRegisteredTournaments] = useState([]);
-  const [activeTab, setActiveTab] = useState("my");
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -23,8 +25,9 @@ const TournamentHistoryTable = () => {
         }
         const data = await response.json();
         if (data.success) {
-          if (activeTab === "my") {
-            setRegisteredTournaments(data.data);
+          setRegisteredTournaments(data.data);
+          if (setTotalTournament) {
+            setTotalTournament(data.count);
           }
         } else {
           throw new Error(data.message || "An unexpected error occurred");

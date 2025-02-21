@@ -32,6 +32,7 @@ export default function Statistics() {
   }
 
   const [stats, setStats] = useState<StatsType>();
+  const [totalTournaments, setTotalTournament] = useState(0);
   const [matchesStats, setMatchesStats] = useState({ played: 0, wins: 0 });
   const percentage = useMemo(() => {
     const win = ((matchesStats.wins / matchesStats.played) * 100).toFixed(0);
@@ -247,15 +248,6 @@ export default function Statistics() {
       },
     ],
   };
-
-  const tournamentHistory = [
-    { name: "Vanguard Royale", id: 22, amount: "$150", status: "Completed" },
-    { name: "Vanguard Royale", id: 21, amount: "$150", status: "Completed" },
-    { name: "Vanguard Royale", id: 20, amount: "$150", status: "Completed" },
-    { name: "Vanguard Royale", id: 19, amount: "$150", status: "Completed" },
-    { name: "Vanguard Royale", id: 18, amount: "$150", status: "Declined" },
-    { name: "Vanguard Royale", id: 17, amount: "$150", status: "Declined" },
-  ];
 
   // UseEffect to calculate totals when the component mounts
   useEffect(() => {
@@ -597,7 +589,7 @@ export default function Statistics() {
                                 fontWeight: "600",
                               }}
                             >
-                              12
+                              {totalTournaments}
                             </span>
                           </div>
                         </div>
@@ -686,7 +678,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        1,230
+                        {totalTournaments.toLocaleString()}
                       </div>
                     </div>
                     <div>
@@ -717,7 +709,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        24
+                        0
                       </div>
                     </div>
                     <div>
@@ -748,7 +740,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        24
+                        0
                       </div>
                     </div>
                   </div>
@@ -928,7 +920,7 @@ export default function Statistics() {
                           marginBottom: "8px",
                         }}
                       >
-                        12
+                        {totalTournaments.toLocaleString()}
                       </h3>
                       <div
                         style={{
@@ -1005,7 +997,9 @@ export default function Statistics() {
                   borderRadius: "12px",
                 }}
               >
-                <TournamentHistoryTable />
+                <TournamentHistoryTable
+                  setTotalTournament={setTotalTournament}
+                />
               </div>
             </Card>
           </Col>
