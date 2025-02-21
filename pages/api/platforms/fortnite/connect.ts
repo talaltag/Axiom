@@ -75,7 +75,7 @@ export default withAuth(async function handler(
         if (!statsData.result) {
           return res.status(500).json({
             success: false,
-            message: "Failed to retrieve account stats",
+            message: statsData.error,
           });
         }
         res.status(200).json(statsData);
