@@ -29,6 +29,7 @@ interface Tournament {
   game: string;
   images: String[];
   gameMode: string;
+  end: string;
 }
 
 export default function UserDashboard() {
@@ -188,7 +189,7 @@ export default function UserDashboard() {
                           style={{ fontSize: "12px" }}
                           className="text-muted mb-2"
                         >
-                          {tournament.date} {tournament.time}
+                          {tournament.date} {tournament.time} - {tournament.end}
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
                           <div></div>
