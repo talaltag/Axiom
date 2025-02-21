@@ -90,7 +90,8 @@ export default function UserDashboard() {
         {
           name: "Fortnite",
           lastScore: leaderStat.afterTournamentScore.reduce(
-            (a, b) => parseInt(a.score) + parseInt(b.score)
+            (acc, curr) => acc + parseInt(curr.score),
+            0
           ),
           score: 80,
         },
