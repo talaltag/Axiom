@@ -61,7 +61,37 @@ export default withAuth(async function handler(
           payment.userId.toString() === userId.toString()
       ) || null;
 
+    const tournament = await Tournament.findById(
+      tournamentRegistration.tournament
+    );
+
+    if (!tournament) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tournament not found" });
+    }
+
     if (existingPayment) {
+      if (paymentMethod === "wallet") {
+        // Get user and check balance
+        const user = await User.findById(userId);
+        if (!user) {
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
+        }
+
+        if (user.walletBalance < tournament.entryFee) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Insufficient wallet balance" });
+        }
+
+        // Deduct from wallet
+        user.walletBalance -= tournament.entryFee;
+        await user.save();
+      }
+
       // If payment exists, update it
       existingPayment.paymentStatus = "completed";
       existingPayment.paymentToken = paymentToken;
@@ -84,14 +114,6 @@ export default withAuth(async function handler(
       });
 
       // Get tournament entry fee
-      const tournament = await Tournament.findById(
-        tournamentRegistration.tournament
-      );
-      if (!tournament) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Tournament not found" });
-      }
 
       if (paymentMethod === "wallet") {
         // Get user and check balance
@@ -113,11 +135,12 @@ export default withAuth(async function handler(
         await user.save();
       }
 
-      // Save the new payment record in the tournament registration
       await tournamentRegistration.save();
       return res
         .status(200)
         .json({ success: true, data: tournamentRegistration });
+
+      // Save the new payment record in the tournament registration
     }
   } catch (error) {
     console.error("Error updating payment status:", error);

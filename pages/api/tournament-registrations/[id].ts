@@ -23,7 +23,7 @@ export default async function handler(
               select: "-password",
             },
           })
-          .populate('organizer', 'name email');
+          .populate("organizer", "name email profileImage");
 
         if (!registration) {
           return res

@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Loader from '../../components/common/Loader';
+import Loader from "../../components/common/Loader";
 
 export default function TournamentManagement() {
   const router = useRouter();
@@ -84,13 +84,16 @@ export default function TournamentManagement() {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await fetch(`/api/tournaments?id=${selectedTournament._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editFormData),
-      });
+      const response = await fetch(
+        `/api/tournaments?id=${selectedTournament._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editFormData),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setOpenEditDialog(false);
@@ -103,9 +106,12 @@ export default function TournamentManagement() {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`/api/tournaments?id=${selectedTournament._id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/tournaments?id=${selectedTournament._id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setOpenDeleteDialog(false);
@@ -160,19 +166,32 @@ export default function TournamentManagement() {
             + Create
           </Button>
         </Box>
-
         <TableContainer sx={{ boxShadow: "none" }}>
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: "#F8F9FA" }}>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>T-ID</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Tournament Name</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Game</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Mode</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Time</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Platform</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Status</TableCell>
-                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Actions</TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  T-ID
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Tournament Name
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Game
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Mode
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Time
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Platform
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Status
+                </TableCell>
+                {/* <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Actions</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -187,7 +206,10 @@ export default function TournamentManagement() {
                   </TableCell>
                   <TableCell>{tournament.game}</TableCell>
                   <TableCell>{tournament.gameMode}</TableCell>
-                  <TableCell>{tournament.time}</TableCell>
+                  <TableCell>
+                    {tournament.date}&nbsp;
+                    {tournament.time} - {tournament.end}
+                  </TableCell>
                   <TableCell>{tournament.platform}</TableCell>
                   <TableCell>
                     <Chip
@@ -201,20 +223,19 @@ export default function TournamentManagement() {
                       }}
                     />
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <IconButton onClick={() => handleEdit(tournament)} color="primary" size="small">
                       <EditIcon />
                     </IconButton>
                     <IconButton onClick={() => handleDelete(tournament)} color="error" size="small">
                       <DeleteIcon />
                     </IconButton>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-
         <Box
           sx={{
             display: "flex",
@@ -242,7 +263,6 @@ export default function TournamentManagement() {
             1-{itemsPerPage} of {tournaments.length} items
           </Typography>
         </Box>
-
         {/* Edit Dialog */}
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
           <DialogTitle>Edit Tournament</DialogTitle>
@@ -252,35 +272,45 @@ export default function TournamentManagement() {
                 fullWidth
                 label="Tournament Name"
                 value={editFormData.name}
-                onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, name: e.target.value })
+                }
                 sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Game"
                 value={editFormData.game}
-                onChange={(e) => setEditFormData({ ...editFormData, game: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, game: e.target.value })
+                }
                 sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Game Mode"
                 value={editFormData.gameMode}
-                onChange={(e) => setEditFormData({ ...editFormData, gameMode: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, gameMode: e.target.value })
+                }
                 sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Platform"
                 value={editFormData.platform}
-                onChange={(e) => setEditFormData({ ...editFormData, platform: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, platform: e.target.value })
+                }
                 sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Time"
                 value={editFormData.time}
-                onChange={(e) => setEditFormData({ ...editFormData, time: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, time: e.target.value })
+                }
                 sx={{ mb: 2 }}
               />
               <FormControl fullWidth>
@@ -288,9 +318,13 @@ export default function TournamentManagement() {
                 <Select
                   value={editFormData.status}
                   label="Status"
-                  onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, status: e.target.value })
+                  }
                 >
-                  <MenuItem value="Registration Open">Registration Open</MenuItem>
+                  <MenuItem value="Registration Open">
+                    Registration Open
+                  </MenuItem>
                   <MenuItem value="Ongoing">Ongoing</MenuItem>
                   <MenuItem value="Completed">Completed</MenuItem>
                 </Select>
@@ -304,16 +338,23 @@ export default function TournamentManagement() {
             </Button>
           </DialogActions>
         </Dialog>
-
         {/* Delete Dialog */}
-        <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+        <Dialog
+          open={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+        >
           <DialogTitle>Delete Tournament</DialogTitle>
           <DialogContent>
-            Are you sure you want to delete this tournament? This action cannot be undone.
+            Are you sure you want to delete this tournament? This action cannot
+            be undone.
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
-            <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+            <Button
+              onClick={handleDeleteConfirm}
+              color="error"
+              variant="contained"
+            >
               Delete
             </Button>
           </DialogActions>

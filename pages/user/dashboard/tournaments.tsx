@@ -21,6 +21,7 @@ import Image from "next/image";
 import { ArrowRight, Search, MessageSquare } from "react-feather"; // Added import for MessageSquare
 import Loader from "../../../components/common/Loader";
 import { useRouter } from "next/router";
+import TournamentHistoryTable from "../../../components/tournaments/TournamentHistoryTable";
 
 export default function Tournaments() {
   const { data: session } = useSession();
@@ -60,39 +61,41 @@ export default function Tournaments() {
   );
 
   useEffect(() => {
-    const fetchTournaments = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const url =
-          activeTab === "my"
-            ? `/api/tournaments?filter=my&userId=${session?.user?.id}`
-            : "/api/tournaments";
-        const response = await fetch(url);
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Failed to fetch tournaments");
-        }
-        const data = await response.json();
-        if (data.success) {
-          if (activeTab === "my") {
-            setRegisteredTournaments(data.data);
-          } else {
-            setTournaments(data.data);
+    if (activeTab !== "history") {
+      const fetchTournaments = async () => {
+        try {
+          setIsLoading(true);
+          setError(null);
+          const url =
+            activeTab === "my"
+              ? `/api/tournaments?filter=my&userId=${session?.user?.id}`
+              : "/api/tournaments";
+          const response = await fetch(url);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to fetch tournaments");
           }
-        } else {
-          throw new Error(data.message || "An unexpected error occurred");
+          const data = await response.json();
+          if (data.success) {
+            if (activeTab === "my") {
+              setRegisteredTournaments(data.data);
+            } else {
+              setTournaments(data.data);
+            }
+          } else {
+            throw new Error(data.message || "An unexpected error occurred");
+          }
+        } catch (error) {
+          console.error("Error fetching tournaments:", error);
+          setError(error.message);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching tournaments:", error);
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      };
 
-    if (session?.user?.id) {
-      fetchTournaments();
+      if (session?.user?.id) {
+        fetchTournaments();
+      }
     }
   }, [activeTab, session?.user?.id]);
 
@@ -112,14 +115,15 @@ export default function Tournaments() {
                       onClick={() => setActiveTab("upcoming")}
                       className="me-2"
                       style={{
-                        backgroundColor: activeTab === "upcoming" ? "#FFD600" : "#FFFFFF",
+                        backgroundColor:
+                          activeTab === "upcoming" ? "#FFD600" : "#FFFFFF",
                         color: "#101828",
                         border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
                         fontWeight: 500,
                         padding: "8px 14px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                       }}
                     >
                       Upcoming Tournaments
@@ -128,14 +132,15 @@ export default function Tournaments() {
                       onClick={() => setActiveTab("my")}
                       className="me-2"
                       style={{
-                        backgroundColor: activeTab === "my" ? "#FFD600" : "#FFFFFF",
+                        backgroundColor:
+                          activeTab === "my" ? "#FFD600" : "#FFFFFF",
                         color: "#101828",
                         border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
                         fontWeight: 500,
                         padding: "8px 14px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                       }}
                     >
                       My Tournaments
@@ -147,14 +152,15 @@ export default function Tournaments() {
                         onClick={() => setActiveTab("history")}
                         className="me-2"
                         style={{
-                          backgroundColor: activeTab === "history" ? "#FFD600" : "#FFFFFF",
+                          backgroundColor:
+                            activeTab === "history" ? "#FFD600" : "#FFFFFF",
                           color: "#101828",
                           border: "1px solid #D0D5DD",
                           borderRadius: "8px",
                           fontSize: "14px",
                           fontWeight: 500,
                           padding: "8px 14px",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                         }}
                       >
                         Tournament History
@@ -163,14 +169,15 @@ export default function Tournaments() {
                     <Button
                       onClick={() => setActiveTab("info")}
                       style={{
-                        backgroundColor: activeTab === "info" ? "#FFD600" : "#FFFFFF",
+                        backgroundColor:
+                          activeTab === "info" ? "#FFD600" : "#FFFFFF",
                         color: "#101828",
                         border: "1px solid #D0D5DD",
                         borderRadius: "8px",
                         fontSize: "14px",
                         fontWeight: 500,
                         padding: "8px 14px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
+                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                       }}
                     >
                       Info
@@ -207,88 +214,52 @@ export default function Tournaments() {
                 </div>
 
                 {activeTab === "history" && (
-  <div className="bg-white rounded" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)" }}>
-    <div className="d-flex justify-content-between align-items-center p-4 border-bottom">
-      <div>
-        <h4 className="mb-0" style={{ fontSize: "18px", fontWeight: 600, color: "#101828", lineHeight: "28px" }}>
-          Last Played Tournaments History
-        </h4>
-      </div>
-      <Button
-        color="light"
-        className="d-flex align-items-center"
-        style={{
-          padding: "8px 14px",
-          backgroundColor: "#fff",
-          border: "1px solid #D0D5DD",
-          borderRadius: "8px",
-          color: "#344054",
-          fontSize: "14px",
-          fontWeight: 500,
-          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-        }}
-      >
-        Back
-      </Button>
-    </div>
+                  <div
+                    className="bg-white rounded"
+                    style={{
+                      boxShadow:
+                        "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                    }}
+                  >
+                    <div className="d-flex justify-content-between align-items-center p-4 border-bottom">
+                      <div>
+                        <h4
+                          className="mb-0"
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: 600,
+                            color: "#101828",
+                            lineHeight: "28px",
+                          }}
+                        >
+                          Last Played Tournaments History
+                        </h4>
+                      </div>
+                      <Button
+                        color="light"
+                        className="d-flex align-items-center"
+                        style={{
+                          padding: "8px 14px",
+                          backgroundColor: "#fff",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "8px",
+                          color: "#344054",
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                        }}
+                      >
+                        Back
+                      </Button>
+                    </div>
 
-    <div className="table-responsive px-4">
-      <table className="table" style={{ marginBottom: 0 }}>
-        <thead>
-          <tr>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "40%" }}>Tournament</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%" }}>Placement</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%" }}>Rewards</th>
-            <th style={{ color: "#667085", fontSize: "12px", fontWeight: 500, padding: "10px 0", borderBottom: "1px solid #EAECF0", width: "20%", textAlign: "right" }}>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            { name: "Vanguard Royale", placement: "23", reward: "$2000", status: "Completed" },
-            { name: "Vanguard Royale", placement: "12", reward: "$2000", status: "Completed" },
-            { name: "Vanguard Royale", placement: "32", reward: "$2000", status: "Completed" },
-            { name: "Vanguard Royale", placement: "4", reward: "$2000", status: "Completed" },
-            { name: "Vanguard Royale", placement: "44", reward: "$2500", status: "Completed" },
-            { name: "Vanguard Royale", placement: "32", reward: "$2500", status: "Completed" },
-            { name: "Vanguard Royale", placement: "12", reward: "$2500", status: "Ongoing" },
-            { name: "Vanguard Royale", placement: "22", reward: "$2500", status: "Ongoing" }
-          ].map((tournament, index) => (
-            <tr key={index}>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
-                <span style={{ textDecoration: "underline" }}>{tournament.name}</span>
-              </td>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
-                {tournament.placement}
-              </td>
-              <td style={{ fontSize: "14px", color: "#101828", padding: "16px 0", borderBottom: "1px solid #EAECF0" }}>
-                {tournament.reward}
-              </td>
-              <td style={{ padding: "16px 0", borderBottom: "1px solid #EAECF0", textAlign: "right" }}>
-                <span className={`badge ${tournament.status === "Completed" ? "text-success" : "text-danger"}`}
-                  style={{ 
-                    backgroundColor: tournament.status === "Completed" ? "#ECFDF3" : "#FEF3F2",
-                    color: tournament.status === "Completed" ? "#027A48" : "#B42318",
-                    padding: "2px 8px",
-                    borderRadius: "16px",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                    display: "inline-block",
-                    marginLeft: "auto"
-                  }}>
-                  {tournament.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                    <div className="table-responsive">
+                      <TournamentHistoryTable />
+                    </div>
+                  </div>
+                )}
 
-
-  </div>
-)}
-
-{activeTab === "info" && (
+                {activeTab === "info" && (
                   <div className="bg-white p-4 rounded">
                     <h4
                       className="mb-4"
@@ -384,85 +355,122 @@ export default function Tournaments() {
                     </Col>
                   ) : activeTab === "my" ? (
                     registeredTournaments.map((registration) => (
-                      <Col xs={12} sm={6} md={4} lg={3} key={registration._id} className="mb-4">
-                        <Card className="tournament-card h-100" style={{
-                          borderRadius: "16px",
-                          overflow: "hidden",
-                          border: "1px solid #EAECF0",
-                          backgroundColor: "#FFFFFF",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}>
-                          <div style={{ position: "relative", height: "180px" }}>
-                            <div style={{
-                              position: "absolute",
-                              bottom: "12px",
-                              left: "12px",
-                              zIndex: 2,
-                              background: "rgba(237, 20, 91, 0.9)",
-                              padding: "4px 12px",
-                              borderRadius: "16px",
-                              fontSize: "14px",
-                              color: "#FFFFFF",
-                              fontWeight: 500
-                            }}>
-                              Closing in: 10:88:00
-                            </div>
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        key={registration._id}
+                        className="mb-4"
+                      >
+                        <Card
+                          className="tournament-card h-100"
+                          style={{
+                            borderRadius: "16px",
+                            overflow: "hidden",
+                            border: "1px solid #EAECF0",
+                            backgroundColor: "#FFFFFF",
+                            boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                          }}
+                        >
+                          <div
+                            style={{ position: "relative", height: "180px" }}
+                          >
+                            {registration?.tournament.status ===
+                            "Registration Open" ? (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  bottom: "12px",
+                                  left: "12px",
+                                  zIndex: 2,
+                                  background: "rgba(237, 20, 91, 0.9)",
+                                  padding: "4px 12px",
+                                  borderRadius: "16px",
+                                  fontSize: "14px",
+                                  color: "#FFFFFF",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Closing in: 10:88:00
+                              </div>
+                            ) : null}
                             <Image
-                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
-                              alt={registration?.tournament?.name || "Tournament"}
+                              src={
+                                registration?.tournament?.images?.[0] ||
+                                "/fortnite-banner.png"
+                              }
+                              alt={
+                                registration?.tournament?.name || "Tournament"
+                              }
                               layout="fill"
                               objectFit="cover"
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                           </div>
                           <CardBody className="p-4">
-                            <h5 style={{
-                              fontSize: "18px",
-                              fontWeight: 600,
-                              marginBottom: "4px",
-                              color: "#101828"
-                            }}>
+                            <h5
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: 600,
+                                marginBottom: "4px",
+                                color: "#101828",
+                              }}
+                            >
                               {registration.tournament.name}
                             </h5>
-                            <div style={{
-                              fontSize: "14px",
-                              color: "#667085",
-                              marginBottom: "24px"
-                            }}>
-                              {registration.tournament.date} • {registration.tournament.time}
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#667085",
+                                marginBottom: "24px",
+                              }}
+                            >
+                              {registration.tournament.date} •{" "}
+                              {registration.tournament.time}
+                              {" - "}
+                              {registration.tournament.end}
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-4">
                               <div>
-                                <div style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  marginBottom: "4px",
-                                  fontWeight: 500
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    marginBottom: "4px",
+                                    fontWeight: 500,
+                                  }}
+                                >
                                   Prize
                                 </div>
-                                <div style={{
-                                  fontSize: "20px",
-                                  fontWeight: 600,
-                                  color: "#F04438"
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: 600,
+                                    color: "#F04438",
+                                  }}
+                                >
                                   ${registration.tournament.totalPrizePool}
                                 </div>
                               </div>
                               <div className="text-end">
-                                <div style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  marginBottom: "4px",
-                                  fontWeight: 500
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    marginBottom: "4px",
+                                    fontWeight: 500,
+                                  }}
+                                >
                                   Entry Cost
                                 </div>
-                                <div style={{
-                                  fontSize: "20px",
-                                  fontWeight: 600,
-                                  color: "#F04438"
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: 600,
+                                    color: "#F04438",
+                                  }}
+                                >
                                   ${registration.tournament.entryFee}
                                 </div>
                               </div>
@@ -475,47 +483,68 @@ export default function Tournaments() {
                                 fontWeight: 600,
                                 color: "#101828",
                                 display: "flex",
-                                alignItems: "center"
+                                alignItems: "center",
                               }}
-                              onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
+                              onClick={() =>
+                                router.push(
+                                  `/user/dashboard/confirm/${registration._id}`
+                                )
+                              }
                             >
-                              See Details <ArrowRight size={20} className="ms-2" />
+                              See Details{" "}
+                              <ArrowRight size={20} className="ms-2" />
                             </Button>
                           </CardBody>
                         </Card>
                       </Col>
                     ))
-                  ) : tournaments.length === 0 ? (
+                  ) : tournaments.length === 0 && activeTab !== "history" ? (
                     <Col xs={12}>
-                      <Alert color="info">No tournaments found.</Alert>
+                      <Alert color="danger">No tournaments found.</Alert>
                     </Col>
                   ) : (
                     currentTournaments.map((tournament) => (
-                      <Col xs={12} sm={6} md={4} lg={3} key={tournament._id} className="mb-4">
-                        <Card className="tournament-card h-100" style={{
-                          borderRadius: "16px",
-                          overflow: "hidden",
-                          border: "1px solid #EAECF0",
-                          backgroundColor: "#FFFFFF",
-                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)"
-                        }}>
-                          <div style={{ position: "relative", height: "180px" }}>
-                            <div style={{
-                              position: "absolute",
-                              bottom: "12px",
-                              left: "12px",
-                              zIndex: 2,
-                              background: "rgba(237, 20, 91, 0.9)",
-                              padding: "4px 12px",
-                              borderRadius: "16px",
-                              fontSize: "14px",
-                              color: "#FFFFFF",
-                              fontWeight: 500
-                            }}>
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        key={tournament._id}
+                        className="mb-4"
+                      >
+                        <Card
+                          className="tournament-card h-100"
+                          style={{
+                            borderRadius: "16px",
+                            overflow: "hidden",
+                            border: "1px solid #EAECF0",
+                            backgroundColor: "#FFFFFF",
+                            boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                          }}
+                        >
+                          <div
+                            style={{ position: "relative", height: "180px" }}
+                          >
+                            <div
+                              style={{
+                                position: "absolute",
+                                bottom: "12px",
+                                left: "12px",
+                                zIndex: 2,
+                                background: "rgba(237, 20, 91, 0.9)",
+                                padding: "4px 12px",
+                                borderRadius: "16px",
+                                fontSize: "14px",
+                                color: "#FFFFFF",
+                                fontWeight: 500,
+                              }}
+                            >
                               Closing in: 10:88:00
                             </div>
                             <Image
-                              src={tournament.images?.[0] || "/fortnite-banner.png"}
+                              src={
+                                tournament.images?.[0] || "/fortnite-banner.png"
+                              }
                               alt={tournament.name || "Tournament"}
                               layout="fill"
                               objectFit="cover"
@@ -523,53 +552,67 @@ export default function Tournaments() {
                             />
                           </div>
                           <CardBody className="p-4">
-                            <h5 style={{
-                              fontSize: "18px",
-                              fontWeight: 600,
-                              marginBottom: "4px",
-                              color: "#101828"
-                            }}>
+                            <h5
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: 600,
+                                marginBottom: "4px",
+                                color: "#101828",
+                              }}
+                            >
                               {tournament.name}
                             </h5>
-                            <div style={{
-                              fontSize: "14px",
-                              color: "#667085",
-                              marginBottom: "24px"
-                            }}>
-                              May 23, 2023 • 9:00PM - 10:30PM EST
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#667085",
+                                marginBottom: "24px",
+                              }}
+                            >
+                              {tournament.date} • {tournament.time} -{" "}
+                              {tournament.end}
+                              EST
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-4">
                               <div>
-                                <div style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  marginBottom: "4px",
-                                  fontWeight: 500
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    marginBottom: "4px",
+                                    fontWeight: 500,
+                                  }}
+                                >
                                   Prize
                                 </div>
-                                <div style={{
-                                  fontSize: "20px",
-                                  fontWeight: 600,
-                                  color: "#F04438"
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: 600,
+                                    color: "#F04438",
+                                  }}
+                                >
                                   ${tournament.totalPrizePool}
                                 </div>
                               </div>
                               <div className="text-end">
-                                <div style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  marginBottom: "4px",
-                                  fontWeight: 500
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    marginBottom: "4px",
+                                    fontWeight: 500,
+                                  }}
+                                >
                                   Entry Cost
                                 </div>
-                                <div style={{
-                                  fontSize: "20px",
-                                  fontWeight: 600,
-                                  color: "#F04438"
-                                }}>
+                                <div
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: 600,
+                                    color: "#F04438",
+                                  }}
+                                >
                                   ${tournament.entryFee}
                                 </div>
                               </div>
@@ -582,11 +625,16 @@ export default function Tournaments() {
                                 fontWeight: 600,
                                 color: "#101828",
                                 display: "flex",
-                                alignItems: "center"
+                                alignItems: "center",
                               }}
-                              onClick={() => router.push(`/user/dashboard/register-tournament/${tournament._id}`)}
+                              onClick={() =>
+                                router.push(
+                                  `/user/dashboard/register-tournament/${tournament._id}`
+                                )
+                              }
                             >
-                              Register Now <ArrowRight size={20} className="ms-2" />
+                              Register Now{" "}
+                              <ArrowRight size={20} className="ms-2" />
                             </Button>
                           </CardBody>
                         </Card>
@@ -597,15 +645,15 @@ export default function Tournaments() {
 
                 <div className="d-flex justify-content-between align-items-center p-4 border-top">
                   <div className="d-flex align-items-center gap-2">
-                    <Button 
-                      color="light" 
+                    <Button
+                      color="light"
                       disabled={currentPage === 1}
-                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} 
-                      style={{ 
-                        padding: "8px 14px", 
-                        border: "1px solid #D0D5DD", 
-                        borderRadius: "8px", 
-                        minWidth: "40px" 
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      style={{
+                        padding: "8px 14px",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        minWidth: "40px",
                       }}
                     >
                       «
@@ -618,33 +666,39 @@ export default function Tournaments() {
                           color={pageNum === currentPage ? "warning" : "light"}
                           onClick={() => setCurrentPage(pageNum)}
                           style={{
-                            backgroundColor: pageNum === currentPage ? "#FFD600" : undefined,
+                            backgroundColor:
+                              pageNum === currentPage ? "#FFD600" : undefined,
                             padding: "8px 14px",
-                            border: pageNum === currentPage ? "none" : "1px solid #D0D5DD",
+                            border:
+                              pageNum === currentPage
+                                ? "none"
+                                : "1px solid #D0D5DD",
                             borderRadius: "8px",
                             minWidth: "40px",
-                            fontWeight: 500
+                            fontWeight: 500,
                           }}
                         >
                           {pageNum}
                         </Button>
                       );
                     })}
-                    <Button 
+                    <Button
                       color="light"
                       disabled={currentPage === totalPages}
-                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                      style={{ 
-                        padding: "8px 14px", 
-                        border: "1px solid #D0D5DD", 
-                        borderRadius: "8px", 
-                        minWidth: "40px" 
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      style={{
+                        padding: "8px 14px",
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        minWidth: "40px",
                       }}
                     >
                       »
                     </Button>
-                    <select 
-                      className="form-select ms-2" 
+                    <select
+                      className="form-select ms-2"
                       style={{ width: "70px" }}
                       value={itemsPerPage}
                       onChange={(e) => setItemsPerPage(Number(e.target.value))}
@@ -655,7 +709,9 @@ export default function Tournaments() {
                     </select>
                   </div>
                   <div style={{ color: "#667085", fontSize: "14px" }}>
-                    {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, tournaments.length)} of {tournaments.length} items
+                    {indexOfFirstItem + 1} -{" "}
+                    {Math.min(indexOfLastItem, tournaments.length)} of{" "}
+                    {tournaments.length} items
                   </div>
                 </div>
               </CardBody>

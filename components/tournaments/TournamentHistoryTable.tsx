@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { Table } from "reactstrap";
 import { useEffect, useState } from "react";
 import Loader from "../common/Loader";
+import Link from "next/link";
 
 const TournamentHistoryTable = () => {
   const session = useSession();
@@ -49,7 +50,7 @@ const TournamentHistoryTable = () => {
     );
   return (
     <>
-      <Table striped borderless style={{ marginBottom: "20px" }}>
+      <Table borderless style={{ marginBottom: "20px" }}>
         <thead>
           <tr
             style={{
@@ -119,7 +120,9 @@ const TournamentHistoryTable = () => {
                   padding: "16px 24px",
                 }}
               >
-                {item.tournament.name}
+                <Link href={`/user/dashboard/confirm/${item._id}`}>
+                  {item.tournament.name}
+                </Link>
               </td>
               <td
                 style={{
@@ -148,20 +151,27 @@ const TournamentHistoryTable = () => {
                     fontSize: "12px",
                     fontWeight: 500,
                     backgroundColor:
-                      item.status === "Completed" ? "#ECFDF3" : "#FEF3F2",
-                    color: item.status === "Completed" ? "#027A48" : "#B42318",
+                      item.tournament.status == "completed"
+                        ? "#ECFDF3"
+                        : "#FEF3F2",
+                    color:
+                      item.tournament.status == "completed"
+                        ? "#027A48"
+                        : "#B42318",
                   }}
                 >
-                  {item.tournament.status === "Completed"
+                  {item.tournament.status == "completed"
                     ? "✓ Completed"
-                    : "• Ongoing"}
+                    : item.tournament.status == "ongoing"
+                    ? "• Ongoing"
+                    : "Registration Open"}
                 </span>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <div
+      {/* <div
         className="d-flex justify-content-between align-items-center"
         style={{ padding: "0 12px 15px 12px" }}
       >
@@ -246,7 +256,7 @@ const TournamentHistoryTable = () => {
         <div style={{ color: "#344054", fontSize: "14px" }}>
           1 - 3 of 10 items
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

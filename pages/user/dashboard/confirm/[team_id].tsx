@@ -4,7 +4,7 @@ import CongratulationsModal from "../../../../components/tournaments/Congratulat
 import Image from "next/image";
 import Link from "next/link";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import { Container, Button } from "reactstrap";
+import { Container, Button, Alert } from "reactstrap";
 import { StripePaymentForm } from "../../../../components/stripe/StripePaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -24,7 +24,10 @@ interface RegistrationData {
     game: string;
     images: String[];
     gameMode: string;
+    status: string;
+    prizeSplit: String[];
   };
+  organizer: Member;
   team: {
     id: string;
     name: string;
@@ -35,7 +38,7 @@ interface RegistrationData {
 
 interface Member {
   name: string;
-  avatar: string;
+  profileImage: string;
 }
 
 export default function ConfirmRegistration() {
@@ -57,7 +60,9 @@ export default function ConfirmRegistration() {
   const isPaid = useMemo(
     () =>
       registrationData?.memberPayments?.find(
-        (payment) => payment.userId === session.data.user?.id
+        (payment) =>
+          payment.userId === session.data.user?.id &&
+          payment.paymentStatus == "completed"
       ),
     [registrationData, session]
   );
@@ -77,6 +82,10 @@ export default function ConfirmRegistration() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [paymentMethod]);
 
   useEffect(() => {
     if (paymentMethod === "stripe") {
@@ -132,6 +141,7 @@ export default function ConfirmRegistration() {
       const data = await response.json();
       if (!data.success) {
         setIsProcessing(false);
+        setErrorMessage(data?.message || "Payment failed");
         return;
       }
 
@@ -142,7 +152,8 @@ export default function ConfirmRegistration() {
         }, 5000);
       }
     } catch (error) {
-      setErrorMessage("Payment failed");
+      const { response } = error;
+      setErrorMessage(response?.data?.message || "Payment failed");
     } finally {
       setIsProcessing(false);
     }
@@ -198,7 +209,10 @@ export default function ConfirmRegistration() {
                     }}
                   >
                     <Image
-                      src="/fortnite-banner.png"
+                      src={
+                        registrationData.tournament?.images?.[0] ||
+                        "/fortnite-banner.png"
+                      }
                       alt="Tournament"
                       fill
                       style={{ objectFit: "cover", borderRadius: "8px" }}
@@ -247,315 +261,322 @@ export default function ConfirmRegistration() {
                   </div>
                 </div>
               </div>
-              {!isPaid && (
-                <div
-                  className="bg-white rounded-3 p-4"
-                  style={{
-                    boxShadow:
-                      "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  <h5
-                    style={{
-                      fontSize: "16px",
-                      color: "#101828",
-                      marginBottom: "24px",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Payment Method
-                  </h5>
-
+              {!isPaid &&
+                registrationData.tournament.status == "Registration Open" && (
                   <div
+                    className="bg-white rounded-3 p-4"
                     style={{
-                      display: "flex",
-                      gap: "12px",
-                      marginBottom: "24px",
+                      boxShadow:
+                        "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                      backgroundColor: "#fff",
                     }}
                   >
-                    <div
-                      onClick={() => setPaymentMethod("wallet")}
+                    <h5
                       style={{
-                        padding: "10px 16px",
-                        cursor: "pointer",
-                        backgroundColor: "#fff",
-                        border: `1px solid ${
-                          paymentMethod === "wallet" ? "#FFD700" : "#EAECF0"
-                        }`,
-                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#101828",
+                        marginBottom: "24px",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Payment Method
+                    </h5>
+
+                    <div
+                      style={{
                         display: "flex",
-                        alignItems: "center",
-                        minWidth: "164px",
-                        height: "44px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                        gap: "12px",
+                        marginBottom: "24px",
                       }}
                     >
                       <div
+                        onClick={() => setPaymentMethod("wallet")}
                         style={{
-                          fontSize: "14px",
-                          color: "#000000",
-                          fontWeight: 500,
+                          padding: "10px 16px",
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          border: `1px solid ${
+                            paymentMethod === "wallet" ? "#FFD700" : "#EAECF0"
+                          }`,
+                          borderRadius: "8px",
+                          display: "flex",
+                          alignItems: "center",
+                          minWidth: "164px",
+                          height: "44px",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                         }}
                       >
-                        ${session.data.user?.walletBalance}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#667085",
-                          marginLeft: "8px",
-                        }}
-                      >
-                        Axiom Wallet
-                      </div>
-                    </div>
-
-                    <div
-                      onClick={() => setPaymentMethod("bank")}
-                      style={{
-                        padding: "10px 16px",
-                        cursor: "pointer",
-                        backgroundColor: "#fff",
-                        border: `1px solid ${
-                          paymentMethod === "bank" ? "#FFD700" : "#EAECF0"
-                        }`,
-                        borderRadius: "8px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: "164px",
-                        height: "44px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#344054",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Bank Card
-                      </div>
-                    </div>
-
-                    <div
-                      onClick={() => setPaymentMethod("stripe")}
-                      style={{
-                        padding: "10px 16px",
-                        cursor: "pointer",
-                        backgroundColor: "#fff",
-                        border: `1px solid ${
-                          paymentMethod === "stripe" ? "#FFD700" : "#EAECF0"
-                        }`,
-                        borderRadius: "8px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: "164px",
-                        height: "44px",
-                        boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "14px",
-                          color: "#344054",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Stripe
-                      </span>
-                    </div>
-                  </div>
-                  {paymentMethod === "bank" && (
-                    <>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          color: "#344054",
-                          marginBottom: "16px",
-                        }}
-                      >
-                        Card Information
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#000000",
+                            fontWeight: 500,
+                          }}
+                        >
+                          ${session.data.user?.walletBalance}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#667085",
+                            marginLeft: "8px",
+                          }}
+                        >
+                          Axiom Wallet
+                        </div>
                       </div>
 
-                      <div style={{ display: "grid", gap: "16px" }}>
-                        <div>
-                          <div
-                            style={{
-                              display: "grid",
-                              gridTemplateColumns: "2fr 1fr 1fr",
-                              gap: "16px",
-                            }}
-                          >
-                            <div>
-                              <label
-                                style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  fontWeight: 500,
-                                  marginBottom: "6px",
-                                  display: "block",
-                                }}
-                              >
-                                Card Number
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="XXXX XXXX XXXX XXXX"
-                                style={{
-                                  height: "44px",
-                                  fontSize: "16px",
-                                  border: "1px solid #D0D5DD",
-                                  borderRadius: "8px",
-                                  padding: "10px 14px",
-                                  boxShadow:
-                                    "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                                }}
-                              />
-                            </div>
-                            <div>
-                              <label
-                                style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  fontWeight: 500,
-                                  marginBottom: "6px",
-                                  display: "block",
-                                }}
-                              >
-                                MM/YY
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="MM/YY"
-                                style={{
-                                  height: "44px",
-                                  fontSize: "16px",
-                                  border: "1px solid #D0D5DD",
-                                  borderRadius: "8px",
-                                  padding: "10px 14px",
-                                  boxShadow:
-                                    "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                                }}
-                              />
-                            </div>
-                            <div>
-                              <label
-                                style={{
-                                  fontSize: "14px",
-                                  color: "#344054",
-                                  fontWeight: 500,
-                                  marginBottom: "6px",
-                                  display: "block",
-                                }}
-                              >
-                                CVV
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="XXX"
-                                style={{
-                                  height: "44px",
-                                  fontSize: "16px",
-                                  border: "1px solid #D0D5DD",
-                                  borderRadius: "8px",
-                                  padding: "10px 14px",
-                                  boxShadow:
-                                    "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                                }}
-                              />
+                      <div
+                        onClick={() => setPaymentMethod("bank")}
+                        style={{
+                          padding: "10px 16px",
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          border: `1px solid ${
+                            paymentMethod === "bank" ? "#FFD700" : "#EAECF0"
+                          }`,
+                          borderRadius: "8px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minWidth: "164px",
+                          height: "44px",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Bank Card
+                        </div>
+                      </div>
+
+                      <div
+                        onClick={() => setPaymentMethod("stripe")}
+                        style={{
+                          padding: "10px 16px",
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          border: `1px solid ${
+                            paymentMethod === "stripe" ? "#FFD700" : "#EAECF0"
+                          }`,
+                          borderRadius: "8px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minWidth: "164px",
+                          height: "44px",
+                          boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Stripe
+                        </span>
+                      </div>
+                    </div>
+                    {paymentMethod === "bank" && (
+                      <>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "16px",
+                          }}
+                        >
+                          Card Information
+                        </div>
+
+                        <div style={{ display: "grid", gap: "16px" }}>
+                          <div>
+                            <div
+                              style={{
+                                display: "grid",
+                                gridTemplateColumns: "2fr 1fr 1fr",
+                                gap: "16px",
+                              }}
+                            >
+                              <div>
+                                <label
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    fontWeight: 500,
+                                    marginBottom: "6px",
+                                    display: "block",
+                                  }}
+                                >
+                                  Card Number
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="XXXX XXXX XXXX XXXX"
+                                  style={{
+                                    height: "44px",
+                                    fontSize: "16px",
+                                    border: "1px solid #D0D5DD",
+                                    borderRadius: "8px",
+                                    padding: "10px 14px",
+                                    boxShadow:
+                                      "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    fontWeight: 500,
+                                    marginBottom: "6px",
+                                    display: "block",
+                                  }}
+                                >
+                                  MM/YY
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="MM/YY"
+                                  style={{
+                                    height: "44px",
+                                    fontSize: "16px",
+                                    border: "1px solid #D0D5DD",
+                                    borderRadius: "8px",
+                                    padding: "10px 14px",
+                                    boxShadow:
+                                      "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  style={{
+                                    fontSize: "14px",
+                                    color: "#344054",
+                                    fontWeight: 500,
+                                    marginBottom: "6px",
+                                    display: "block",
+                                  }}
+                                >
+                                  CVV
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="XXX"
+                                  style={{
+                                    height: "44px",
+                                    fontSize: "16px",
+                                    border: "1px solid #D0D5DD",
+                                    borderRadius: "8px",
+                                    padding: "10px 14px",
+                                    boxShadow:
+                                      "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                  }}
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div>
-                          <h6
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 500,
-                              color: "#344054",
-                              marginBottom: "16px",
-                            }}
-                          >
-                            Name on Card
-                          </h6>
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter name on card"
-                            style={{
-                              height: "44px",
-                              fontSize: "16px",
-                              border: "1px solid #D0D5DD",
-                              borderRadius: "8px",
-                              padding: "10px 14px",
-                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
-                            }}
-                          />
+                          <div>
+                            <h6
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: 500,
+                                color: "#344054",
+                                marginBottom: "16px",
+                              }}
+                            >
+                              Name on Card
+                            </h6>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter name on card"
+                              style={{
+                                height: "44px",
+                                fontSize: "16px",
+                                border: "1px solid #D0D5DD",
+                                borderRadius: "8px",
+                                padding: "10px 14px",
+                                boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                              }}
+                            />
+                          </div>
                         </div>
+                      </>
+                    )}
+                    {paymentMethod === "stripe" && clientSecret && (
+                      <Elements
+                        stripe={stripePromise}
+                        options={{ clientSecret }}
+                      >
+                        <StripePaymentForm
+                          clientSecret={clientSecret}
+                          teamId={team_id as string}
+                        />
+                      </Elements>
+                    )}
+                    {errorMessage && (
+                      <Alert color="danger">{errorMessage}</Alert>
+                    )}
+                    {paymentMethod !== "stripe" && (
+                      <div
+                        className="d-flex justify-content-end mt-4"
+                        style={{ gap: "12px" }}
+                      >
+                        <Button
+                          color="light"
+                          onClick={() => router.back()}
+                          style={{
+                            backgroundColor: "#fff",
+                            border: "1px solid #D0D5DD",
+                            height: "40px",
+                            padding: "10px 16px",
+                            borderRadius: "8px",
+                            color: "#344054",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                          }}
+                          disabled={isProcessing}
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          onClick={handleSubmit}
+                          style={{
+                            backgroundColor: "#FFD700",
+                            border: "none",
+                            height: "40px",
+                            padding: "10px 16px",
+                            borderRadius: "8px",
+                            color: "#000",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                          }}
+                          disabled={isProcessing}
+                        >
+                          Pay Now
+                        </Button>
                       </div>
-                    </>
-                  )}
-                  {paymentMethod === "stripe" && clientSecret && (
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <StripePaymentForm
-                        clientSecret={clientSecret}
-                        teamId={team_id as string}
-                      />
-                    </Elements>
-                  )}
-                  {paymentMethod !== "stripe" && (
-                    <div
-                      className="d-flex justify-content-end mt-4"
-                      style={{ gap: "12px" }}
-                    >
-                      <Button
-                        color="light"
-                        onClick={() => router.back()}
-                        style={{
-                          backgroundColor: "#fff",
-                          border: "1px solid #D0D5DD",
-                          height: "40px",
-                          padding: "10px 16px",
-                          borderRadius: "8px",
-                          color: "#344054",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                        }}
-                        disabled={isProcessing}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        onClick={handleSubmit}
-                        style={{
-                          backgroundColor: "#FFD700",
-                          border: "none",
-                          height: "40px",
-                          padding: "10px 16px",
-                          borderRadius: "8px",
-                          color: "#000",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                        }}
-                        disabled={isProcessing}
-                      >
-                        Pay Now
-                      </Button>
-                    </div>
-                  )}
-                  <CongratulationsModal
-                    isOpen={showModal}
-                    toggle={() => setShowModal(!showModal)}
-                  />
-                </div>
-              )}
+                    )}
+                    <CongratulationsModal
+                      isOpen={showModal}
+                      toggle={() => setShowModal(!showModal)}
+                    />
+                  </div>
+                )}
             </div>
 
             <div
@@ -699,14 +720,17 @@ export default function ConfirmRegistration() {
                     />
                     <span>{registrationData.team.name}</span>
                   </div>
-                  {registrationData.team.members.map((member, index) => (
+                  {[
+                    ...registrationData.team.members,
+                    registrationData.organizer,
+                  ].map((member, index) => (
                     <div
                       key={index}
                       className="d-flex justify-content-between align-items-center py-2"
                     >
                       <div className="d-flex align-items-center gap-2">
                         <Image
-                          src="/user1.png"
+                          src={member.profileImage ?? "/profile-avatar.png"}
                           alt={member.name}
                           width={24}
                           height={24}
@@ -732,13 +756,13 @@ export default function ConfirmRegistration() {
                 >
                   Prizes
                 </div>
-                {/* {registrationData.tournament.prizes.map((prize, index) => (
+                {registrationData.tournament.prizeSplit.map((prize, index) => (
                   <div
                     key={index}
                     className="d-flex justify-content-between mb-2"
                   >
                     <span style={{ fontSize: "14px", color: "#101828" }}>
-                      {prize.place}
+                      {index + 1}
                     </span>
                     <span
                       style={{
@@ -747,10 +771,10 @@ export default function ConfirmRegistration() {
                         fontWeight: 500,
                       }}
                     >
-                      {prize.amount}
+                      ${prize}
                     </span>
                   </div>
-                ))} */}
+                ))}
               </div>
             </div>
           </div>

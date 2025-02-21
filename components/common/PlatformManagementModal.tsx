@@ -48,7 +48,7 @@ export default function PlatformManagementModal({
         setSuccess(data.message);
         setTimeout(() => {
           toggle();
-          window.location.reload();
+          window.location.href == "/user/statistics";
         }, 2000);
       } else {
         setError(data.message || "Failed to connect account");

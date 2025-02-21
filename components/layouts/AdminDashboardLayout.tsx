@@ -185,8 +185,10 @@ export default function AdminDashboardLayout({
               <UncontrolledDropdown dropup nav inNavbar>
                 <DropdownToggle nav>
                   <Image
-                    src="/user1.png"
-                    alt="username"
+                    src={
+                      session.data?.user.profileImage ?? "/profile-avatar.png"
+                    }
+                    alt={session.data?.user?.name}
                     width={40}
                     height={40}
                     className="me-2"

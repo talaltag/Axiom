@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Modal,
@@ -44,7 +43,7 @@ export default function FortniteModal({ isOpen, toggle }: FortniteModalProps) {
         setSuccess(data.message);
         setTimeout(() => {
           toggle();
-          window.location.reload();
+          window.location.href = "/user/statistics";
         }, 2000);
       } else {
         setError(data.message || "Failed to connect account");

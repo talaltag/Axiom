@@ -28,15 +28,17 @@ import {
   ChevronsLeft,
   LogOut,
   BarChart2,
+  ChevronDown,
 } from "react-feather";
 import Link from "next/link";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function UserDashboardLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const session = useSession();
 
   const menuItems = [
     { text: "Dashboard", path: "/user/dashboard", icon: <Grid size={18} /> },
@@ -129,12 +131,15 @@ export default function UserDashboardLayout({ children }) {
               <UncontrolledDropdown inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image
-                    src="/user1.png"
-                    alt="User"
+                    src={
+                      session.data?.user.profileImage ?? "/profile-avatar.png"
+                    }
+                    alt={session.data?.user?.name}
                     width={32}
                     height={32}
-                    className="rounded-circle"
+                    className="rounded-circle me-2"
                   />
+                  {session.data?.user?.name} <ChevronDown size={16} />
                 </DropdownToggle>
                 <DropdownMenu end className="position-absolute">
                   <DropdownItem onClick={handleLogout}>

@@ -6,6 +6,10 @@ import mongoose from "mongoose";
 import formidable from "formidable";
 import cron from "node-cron";
 import { formatDateCron } from "../../../utils/helper";
+import Platform from "../../../models/Platform";
+import FortniteAPI from "fortnite-api-io";
+import User from "../../../models/User";
+import { withAuth } from "../../../middleware/withAuth";
 
 export const config = {
   api: {
@@ -13,7 +17,7 @@ export const config = {
   },
 };
 
-export default async function handler(
+export default withAuth(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -22,6 +26,72 @@ export default async function handler(
       .status(500)
       .json({ success: false, message: "MongoDB URI not configured" });
   }
+
+  const client = new FortniteAPI(process.env.FORTNITE_API_KEY, {
+    defaultLanguage: "en",
+    ignoreWarnings: false,
+  });
+
+  const tournamnetStoreScore = async (id, key) => {
+    const registeredTournaments = await TournamentRegistration.find({
+      tournament: id,
+    }).populate("tournament");
+
+    for (const reg of registeredTournaments) {
+      const tournamentScore = [];
+      for (const member of reg.memberPayments) {
+        try {
+          const account = await Platform.findOne({
+            userId: member.userId,
+          }).select("accountId");
+
+          if (account) {
+            const statsData = await client.getGlobalPlayerStats(
+              account.accountId
+            );
+
+            if (statsData.result) {
+              const score =
+                statsData.global_stats[reg.tournament.teamSize.toLowerCase()]
+                  ?.score;
+
+              if (score !== undefined) {
+                tournamentScore.push({
+                  score,
+                  userId: member.userId,
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching data for user ${member.userId}:`,
+            error
+          );
+        }
+      }
+
+      reg[key] = tournamentScore;
+
+      await reg.save();
+
+      if (key === "afterTournamentScore") {
+        const sortedScoreUsers = tournamentScore.sort(
+          (a, b) => b.score - a.score
+        );
+
+        sortedScoreUsers.forEach(async (scoreUser, index) => {
+          if (reg.tournament.prizeSplit[index]) {
+            const userData = await User.findById(scoreUser.userId);
+            if (userData) {
+              userData.walletBalance += reg.tournament.prizeSplit[index];
+              await userData.save();
+            }
+          }
+        });
+      }
+    }
+  };
 
   try {
     await dbConnect();
@@ -89,12 +159,13 @@ export default async function handler(
         const [hours, minutes] = tournament.time.split(":").map(Number);
         startDateTime.setHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
-        console.log("startTime", startTime);
+
         cron.schedule(startTime, async () => {
           try {
             await Tournament.findByIdAndUpdate(tournament._id, {
               status: "ongoing",
             });
+            tournamnetStoreScore(tournament._id, "beforeTournamentScore");
             console.log(
               `Tournament ${tournament._id} status updated to ongoing`
             );
@@ -112,15 +183,13 @@ export default async function handler(
         endDateTime.setHours(endHours, endMinutes, 0);
 
         const endTime = formatDateCron(endDateTime);
-        console.log("startTime", endTime, tournament.end);
+
         cron.schedule(endTime, async () => {
           try {
             await Tournament.findByIdAndUpdate(tournament._id, {
               status: "completed",
             });
-            console.log(
-              `Tournament ${tournament._id} status updated to completed`
-            );
+            tournamnetStoreScore(tournament._id, "afterTournamentScore");
           } catch (error) {
             console.error(
               `Error updating tournament ${tournament._id} status:`,
@@ -129,7 +198,6 @@ export default async function handler(
           }
         });
 
-        // Respond with the created tournament data
         return res.status(201).json({ success: true, data: tournament });
       } catch (error) {
         console.error("Tournament creation error:", error);
@@ -197,7 +265,13 @@ export default async function handler(
             count: registrations.length,
           });
         } else {
-          const tournaments = await Tournament.find({}).lean();
+          const tournaments =
+            req.user.role == "User"
+              ? await Tournament.find({
+                  status: "Registration Open",
+                }).lean()
+              : await Tournament.find().lean();
+
           return res.status(200).json({ success: true, data: tournaments });
         }
       } catch (error) {
@@ -231,9 +305,8 @@ export default async function handler(
       .status(405)
       .json({ success: false, message: "Method not allowed" });
   } catch (error: any) {
-    console.error("Server error:", error);
     return res
       .status(500)
       .json({ success: false, message: "Database connection failed" });
   }
-}
+});

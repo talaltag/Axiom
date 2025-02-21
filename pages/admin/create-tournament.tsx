@@ -50,7 +50,7 @@ export default function CreateTournament() {
     platform: "PC",
     gameMode: "Battle Royale",
     teamSize: "Squad",
-    date: "2024-02-01",
+    date: new Date().toISOString().split("T")[0],
     time: ["10:00", "11:00"] as Value,
     entryFee: "50",
     category: "Cash",
@@ -231,6 +231,7 @@ export default function CreateTournament() {
                   <MenuItem value="Solo">Solo</MenuItem>
                   <MenuItem value="Duo">Duo</MenuItem>
                   <MenuItem value="Squad">Squad</MenuItem>
+                  <MenuItem value="Trio">Trio</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -241,6 +242,9 @@ export default function CreateTournament() {
                 label="Date"
                 type="date"
                 value={formData.date}
+                InputProps={{
+                  inputProps: { min: new Date().toISOString().split("T")[0] },
+                }}
                 onChange={(e) =>
                   setFormData({ ...formData, date: e.target.value })
                 }
