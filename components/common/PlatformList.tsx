@@ -107,7 +107,7 @@ const PlatformList: React.FC = () => {
         </h6>
         <Button
           color="warning"
-          onClick={() => setModalOpen(true)}
+          // onClick={() => setModalOpen(true)}
           style={{
             backgroundColor: "#FFD600",
             border: "none",
