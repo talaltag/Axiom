@@ -79,3 +79,7 @@ export const formatDateCron = (currentDate) => {
     date.getMonth() + 1
   } ${date.getDay()}`;
 };
+
+export const totalCountInArray = (data, key) => {
+  return data.reduce((acc, curr) => acc + parseInt(curr[key]), 0);
+};

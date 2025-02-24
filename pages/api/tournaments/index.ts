@@ -10,6 +10,7 @@ import Platform from "../../../models/Platform";
 import FortniteAPI from "fortnite-api-io";
 import User from "../../../models/User";
 import { withAuth } from "../../../middleware/withAuth";
+import TournamentHistory from "../../../models/TournamentHistory";
 
 export const config = {
   api: {
@@ -37,8 +38,11 @@ export default withAuth(async function handler(
       tournament: id,
     }).populate("tournament");
 
+    const allTeamsScore = [];
+
     for (const reg of registeredTournaments) {
       const tournamentScore = [];
+      const membersStats = [];
       for (const member of reg.memberPayments) {
         try {
           const account = await Platform.findOne({
@@ -51,14 +55,20 @@ export default withAuth(async function handler(
             );
 
             if (statsData.result) {
-              const score =
-                statsData.global_stats[reg.tournament.teamSize.toLowerCase()]
-                  ?.score;
+              const stat =
+                statsData.global_stats[reg.tournament.teamSize.toLowerCase()];
 
-              if (score !== undefined) {
+              if (stat) {
                 tournamentScore.push({
-                  score,
+                  score: stat.score,
                   userId: member.userId,
+                });
+                membersStats.push({
+                  score: stat.score,
+                  userId: member.userId,
+                  kills: stat.kills,
+                  kd: stat.kd,
+                  deaths: Math.round(stat.kills / stat.kd),
                 });
               }
             }
@@ -73,24 +83,60 @@ export default withAuth(async function handler(
 
       reg[key] = tournamentScore;
 
-      await reg.save();
+      const updatedRecord = await reg.save();
 
       if (key === "afterTournamentScore") {
-        const sortedScoreUsers = tournamentScore.sort(
-          (a, b) => b.score - a.score
-        );
+        const getHighestAfterScore = () => {
+          return updatedRecord.afterTournamentScore.reduce(
+            (acc, curr) => acc + parseInt(curr.score),
+            0
+          );
+        };
 
-        sortedScoreUsers.forEach(async (scoreUser, index) => {
-          if (reg.tournament.prizeSplit[index]) {
-            const userData = await User.findById(scoreUser.userId);
-            if (userData) {
-              userData.walletBalance += reg.tournament.prizeSplit[index];
-              await userData.save();
-            }
-          }
+        // Sort data by highest afterTournamentScore
+
+        allTeamsScore.push({
+          registerTorunamentId: updatedRecord._id,
+          tournament: updatedRecord.tournament._id,
+          team: updatedRecord.team,
+          stats: membersStats,
+          totalScore: getHighestAfterScore(),
         });
+        // updatedRecord.sort(
+        //   (a, b) => getHighestAfterScore(b) - getHighestAfterScore(a)
+        // );
+
+        // const sortedScoreUsers = updatedRecord.sort(
+        //   (a, b) => b.score - a.score
+        // );
+
+        // sortedScoreUsers.forEach(async (scoreUser, index) => {
+        //   if (reg.tournament.prizeSplit[index]) {
+        //     const userData = await User.findById(scoreUser.userId);
+        //     if (userData) {
+        //       userData.walletBalance += reg.tournament.prizeSplit[index];
+        //       await userData.save();
+        //     }
+        //   }
+        // });
       }
     }
+
+    allTeamsScore
+      .sort((a, b) => b.totalScore - a.totalScore)
+      .forEach(async (team, index) => {
+        const prize = registeredTournaments[0].tournament.prizeSplit[index];
+        if (prize) {
+          team.stats.forEach(async (stat) => {
+            const userData = await User.findById(stat.userId);
+            if (userData) {
+              userData.walletBalance += prize / team.stats.length;
+              await userData.save();
+            }
+          });
+        }
+        await TournamentHistory.create({ ...team, ranking: index + 1 });
+      });
   };
 
   try {
@@ -212,6 +258,7 @@ export default withAuth(async function handler(
       const userIdObject = new mongoose.Types.ObjectId(
         Array.isArray(userId) ? userId[0] : userId
       );
+
       try {
         if (filter === "my" && userIdObject) {
           const registrations = await TournamentRegistration.aggregate([
