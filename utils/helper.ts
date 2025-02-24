@@ -74,13 +74,12 @@ export const fileToUrl = (file: File) => {
 };
 
 export const formatDateCron = (currentDate) => {
-  const date = new Date(
-    currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
-  );
+  const date = new Date(currentDate);
+  const utcDate = new Date(date.toUTCString());
 
-  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
-    date.getMonth() + 1
-  } ${date.getUTCDay()}`;
+  return `${utcDate.getUTCSeconds()} ${utcDate.getUTCMinutes()} ${utcDate.getUTCHours()} ${utcDate.getUTCDate()} ${
+    utcDate.getUTCMonth() + 1
+  } ${utcDate.getUTCDay()}`;
 };
 
 export const totalCountInArray = (data, key) => {
