@@ -208,7 +208,6 @@ export default withAuth(async function handler(
 
         cron.schedule(
           startTime,
-          { scheduled: true, timezone: "UTC" },
           async () => {
             console.log("Cron job is running at:", new Date().toLocaleString());
             try {
@@ -225,7 +224,8 @@ export default withAuth(async function handler(
                 error
               );
             }
-          }
+          },
+          { scheduled: true, timezone: "UTC" }
         );
 
         // Schedule tournament end
@@ -237,7 +237,6 @@ export default withAuth(async function handler(
 
         cron.schedule(
           endTime,
-          { scheduled: true, timezone: "UTC" },
           async () => {
             console.log("Cron job is ending at:", new Date().toLocaleString());
             try {
@@ -251,7 +250,8 @@ export default withAuth(async function handler(
                 error
               );
             }
-          }
+          },
+          { scheduled: true, timezone: "UTC" }
         );
 
         return res.status(201).json({ success: true, data: tournament });
