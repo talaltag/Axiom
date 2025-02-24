@@ -75,8 +75,8 @@ export const fileToUrl = (file: File) => {
 
 export const formatDateCron = (currentDate) => {
   const date = new Date(currentDate);
-  const utcDate = new Date(date.toUTCString());
-
+  const utcDate = new Date(date.getTime() - 5 * 60 * 60 * 1000);
+  console.log(utcDate);
   return `${utcDate.getUTCSeconds()} ${utcDate.getUTCMinutes()} ${utcDate.getUTCHours()} ${utcDate.getUTCDate()} ${
     utcDate.getUTCMonth() + 1
   } ${utcDate.getUTCDay()}`;
