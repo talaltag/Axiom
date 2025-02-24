@@ -74,16 +74,18 @@ export const fileToUrl = (file: File) => {
 };
 
 export const formatDateCron = (currentDate) => {
-  const date = new Date(currentDate);
+  const date = new Date(
+    currentDate.getTime() + currentDate.getTimezoneOffset() * 60000
+  );
 
   console.log(
-    `${date.getUTCSeconds()} ${date.getUTCMinutes()} ${date.getUTCHours()} ${date.getUTCDate()} ${
-      date.getUTCMonth() + 1
+    `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
+      date.getMonth() + 1
     } ${date.getUTCDay()}`
   );
 
-  return `${date.getUTCSeconds()} ${date.getUTCMinutes()} ${date.getUTCHours()} ${date.getUTCDate()} ${
-    date.getUTCMonth() + 1
+  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
+    date.getMonth() + 1
   } ${date.getUTCDay()}`;
 };
 
