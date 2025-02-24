@@ -56,6 +56,7 @@ export default NextAuth({
       await dbConnect();
       const dbUser = await User.findById(token.id).select("-password");
       session.user = { ...dbUser._doc, id: dbUser._id.toString() };
+      console.log(new Date().toDateString() + " " + new Date().toTimeString());
       return session;
     },
   },
