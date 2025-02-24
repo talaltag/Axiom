@@ -3,7 +3,8 @@
   "rules": {
     // This will disable all rules
     "@next/next/no-html-link-for-pages": "off",
+    "react/display-name": "off",
     "react/no-unescaped-entities": "off",
-    "react/display-name": "off"
+    "@next/next/no-page-custom-font": "off"
   }
 }
