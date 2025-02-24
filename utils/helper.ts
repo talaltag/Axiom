@@ -75,9 +75,9 @@ export const fileToUrl = (file: File) => {
 
 export const formatDateCron = (currentDate) => {
   const date = new Date(currentDate);
-  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
-    date.getMonth() + 1
-  } ${date.getDay()}`;
+  return `${date.getUTCSeconds()} ${date.getUTCMinutes()} ${date.getUTCHours()} ${date.getUTCDate()} ${
+    date.getUTCMonth() + 1
+  } ${date.getUTCDay()}`;
 };
 
 export const totalCountInArray = (data, key) => {

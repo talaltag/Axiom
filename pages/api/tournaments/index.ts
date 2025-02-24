@@ -203,7 +203,7 @@ export default withAuth(async function handler(
         const startDateTime = new Date(tournament.date);
 
         const [hours, minutes] = tournament.time.split(":").map(Number);
-        startDateTime.setHours(hours, minutes, 0);
+        startDateTime.setUTCHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
 
         cron.schedule(startTime, async () => {
@@ -226,7 +226,7 @@ export default withAuth(async function handler(
         // Schedule tournament end
         const endDateTime = new Date(tournament.date);
         const [endHours, endMinutes] = tournament.end.split(":").map(Number);
-        endDateTime.setHours(endHours, endMinutes, 0);
+        endDateTime.setUTCHours(endHours, endMinutes, 0);
 
         const endTime = formatDateCron(endDateTime);
 
