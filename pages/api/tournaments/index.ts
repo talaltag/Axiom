@@ -206,27 +206,23 @@ export default withAuth(async function handler(
         startDateTime.setHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
         console.log("start", startTime);
-        cron.schedule(
-          startTime,
-          async () => {
-            console.log("Cron job is running at:", new Date().toLocaleString());
-            try {
-              await Tournament.findByIdAndUpdate(tournament._id, {
-                status: "ongoing",
-              });
-              tournamnetStoreScore(tournament._id, "beforeTournamentScore");
-              console.log(
-                `Tournament ${tournament._id} status updated to ongoing`
-              );
-            } catch (error) {
-              console.error(
-                `Error updating tournament ${tournament._id} status:`,
-                error
-              );
-            }
-          },
-          { scheduled: true, timezone: "UTC" }
-        );
+        cron.schedule(startTime, async () => {
+          console.log("Cron job is running at:", new Date().toLocaleString());
+          try {
+            await Tournament.findByIdAndUpdate(tournament._id, {
+              status: "ongoing",
+            });
+            tournamnetStoreScore(tournament._id, "beforeTournamentScore");
+            console.log(
+              `Tournament ${tournament._id} status updated to ongoing`
+            );
+          } catch (error) {
+            console.error(
+              `Error updating tournament ${tournament._id} status:`,
+              error
+            );
+          }
+        });
 
         // Schedule tournament end
         const endDateTime = new Date(tournament.date);
@@ -237,24 +233,20 @@ export default withAuth(async function handler(
 
         console.log("end", endTime);
 
-        cron.schedule(
-          endTime,
-          async () => {
-            console.log("Cron job is ending at:", new Date().toLocaleString());
-            try {
-              await Tournament.findByIdAndUpdate(tournament._id, {
-                status: "completed",
-              });
-              tournamnetStoreScore(tournament._id, "afterTournamentScore");
-            } catch (error) {
-              console.error(
-                `Error updating tournament ${tournament._id} status:`,
-                error
-              );
-            }
-          },
-          { scheduled: true, timezone: "UTC" }
-        );
+        cron.schedule(endTime, async () => {
+          console.log("Cron job is ending at:", new Date().toLocaleString());
+          try {
+            await Tournament.findByIdAndUpdate(tournament._id, {
+              status: "completed",
+            });
+            tournamnetStoreScore(tournament._id, "afterTournamentScore");
+          } catch (error) {
+            console.error(
+              `Error updating tournament ${tournament._id} status:`,
+              error
+            );
+          }
+        });
 
         return res.status(201).json({ success: true, data: tournament });
       } catch (error) {
