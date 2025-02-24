@@ -80,6 +80,8 @@ export const formatDateCron = (currentDate) => {
   const localOffset = date.getTimezoneOffset(); // in minutes
   date.setMinutes(date.getMinutes() - localOffset); // Adjust to local time
 
+  console.log("localOffset", localOffset);
+
   console.log(
     "date time",
     date,

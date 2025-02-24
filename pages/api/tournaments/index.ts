@@ -203,10 +203,11 @@ export default withAuth(async function handler(
         const startDateTime = new Date(tournament.date);
 
         const [hours, minutes] = tournament.time.split(":").map(Number);
-        startDateTime.setUTCHours(hours, minutes, 0);
+        startDateTime.setHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
 
         cron.schedule(startTime, async () => {
+          console.log("Cron job is running at:", new Date().toLocaleString());
           try {
             await Tournament.findByIdAndUpdate(tournament._id, {
               status: "ongoing",
@@ -226,11 +227,12 @@ export default withAuth(async function handler(
         // Schedule tournament end
         const endDateTime = new Date(tournament.date);
         const [endHours, endMinutes] = tournament.end.split(":").map(Number);
-        endDateTime.setUTCHours(endHours, endMinutes, 0);
+        endDateTime.setHours(endHours, endMinutes, 0);
 
         const endTime = formatDateCron(endDateTime);
 
         cron.schedule(endTime, async () => {
+          console.log("Cron job is ending at:", new Date().toLocaleString());
           try {
             await Tournament.findByIdAndUpdate(tournament._id, {
               status: "completed",
