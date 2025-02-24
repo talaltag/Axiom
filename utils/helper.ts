@@ -75,13 +75,7 @@ export const fileToUrl = (file: File) => {
 
 export const formatDateCron = (currentDate) => {
   const date = new Date(
-    currentDate.getTime() + currentDate.getTimezoneOffset() * 60000
-  );
-
-  console.log(
-    `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
-      date.getMonth() + 1
-    } ${date.getUTCDay()}`
+    currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
   );
 
   return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${

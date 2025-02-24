@@ -205,7 +205,7 @@ export default withAuth(async function handler(
         const [hours, minutes] = tournament.time.split(":").map(Number);
         startDateTime.setHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
-
+        console.log("start", startTime);
         cron.schedule(
           startTime,
           async () => {
@@ -234,6 +234,8 @@ export default withAuth(async function handler(
         endDateTime.setHours(endHours, endMinutes, 0);
 
         const endTime = formatDateCron(endDateTime);
+
+        console.log("end", endTime);
 
         cron.schedule(
           endTime,
