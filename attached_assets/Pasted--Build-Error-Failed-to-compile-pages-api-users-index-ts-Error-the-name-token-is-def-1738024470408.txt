@@ -1,0 +1,227 @@
+
+Build Error
+Failed to compile
+
+./pages/api/users/index.ts
+Error: 
+  × the name `token` is defined multiple times
+    ╭─[/home/runner/workspace/pages/api/users/index.ts:33:1]
+ 33 │         }
+ 34 │ 
+ 35 │         // Get current user
+ 36 │         const token = req.headers.authorization?.split(" ")[1];
+    ·               ──┬──
+    ·                 ╰── previous definition of `token` here
+ 37 │         if (!token) {
+ 38 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 39 │         }
+ 40 │ 
+ 41 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+ 42 │         const userId = decoded.userId;
+ 43 │ 
+ 44 │         const currentUser = await User.findById(userId);
+ 45 │         if (!currentUser) {
+ 46 │           return res.status(404).json({ success: false, message: 'User not found' });
+ 47 │         }
+ 48 │ 
+ 49 │         // Different behavior based on user role
+ 50 │         if (currentUser.role === 'Admin') {
+ 51 │           // For admin, show all users except themselves
+ 52 │           query._id = { $ne: userId };
+ 53 │         } else {
+ 54 │           // For regular users, only show non-admin users excluding friends and friend requests
+ 55 │           const friendIds = currentUser.friends.map(friend => friend.toString());
+ 56 │           const friendRequests = await FriendRequest.find({
+ 57 │             $or: [
+ 58 │               { sender: userId },
+ 59 │               { receiver: userId }
+ 60 │             ]
+ 61 │           });
+ 62 │           const requestUserIds = friendRequests.map(request => 
+ 63 │             request.sender.toString() === userId ? 
+ 64 │               request.receiver.toString() : 
+ 65 │               request.sender.toString()
+ 66 │           );
+ 67 │           const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+ 68 │           query._id = { 
+ 69 │             $ne: userId,
+ 70 │             $nin: excludeIds
+ 71 │           };
+ 72 │           query.role = { $ne: "Admin" };
+ 73 │         }
+ 74 │ 
+ 75 │         // Get the logged-in user from the request headers
+ 76 │         const token = req.headers.authorization?.split(" ")[1];
+    ·               ──┬──
+    ·                 ╰── `token` redefined here
+ 77 │         if (!token) {
+ 78 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 79 │         }
+    ╰────
+
+  × the name `decoded` is defined multiple times
+    ╭─[/home/runner/workspace/pages/api/users/index.ts:38:1]
+ 38 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 39 │         }
+ 40 │ 
+ 41 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+    ·               ───┬───
+    ·                  ╰── previous definition of `decoded` here
+ 42 │         const userId = decoded.userId;
+ 43 │ 
+ 44 │         const currentUser = await User.findById(userId);
+ 45 │         if (!currentUser) {
+ 46 │           return res.status(404).json({ success: false, message: 'User not found' });
+ 47 │         }
+ 48 │ 
+ 49 │         // Different behavior based on user role
+ 50 │         if (currentUser.role === 'Admin') {
+ 51 │           // For admin, show all users except themselves
+ 52 │           query._id = { $ne: userId };
+ 53 │         } else {
+ 54 │           // For regular users, only show non-admin users excluding friends and friend requests
+ 55 │           const friendIds = currentUser.friends.map(friend => friend.toString());
+ 56 │           const friendRequests = await FriendRequest.find({
+ 57 │             $or: [
+ 58 │               { sender: userId },
+ 59 │               { receiver: userId }
+ 60 │             ]
+ 61 │           });
+ 62 │           const requestUserIds = friendRequests.map(request => 
+ 63 │             request.sender.toString() === userId ? 
+ 64 │               request.receiver.toString() : 
+ 65 │               request.sender.toString()
+ 66 │           );
+ 67 │           const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+ 68 │           query._id = { 
+ 69 │             $ne: userId,
+ 70 │             $nin: excludeIds
+ 71 │           };
+ 72 │           query.role = { $ne: "Admin" };
+ 73 │         }
+ 74 │ 
+ 75 │         // Get the logged-in user from the request headers
+ 76 │         const token = req.headers.authorization?.split(" ")[1];
+ 77 │         if (!token) {
+ 78 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 79 │         }
+ 80 │ 
+ 81 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+    ·               ───┬───
+    ·                  ╰── `decoded` redefined here
+ 82 │         const userId = decoded.userId;
+ 83 │ 
+ 84 │         // Get current user with friends list
+    ╰────
+
+  × the name `userId` is defined multiple times
+    ╭─[/home/runner/workspace/pages/api/users/index.ts:39:1]
+ 39 │         }
+ 40 │ 
+ 41 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+ 42 │         const userId = decoded.userId;
+    ·               ───┬──
+    ·                  ╰── previous definition of `userId` here
+ 43 │ 
+ 44 │         const currentUser = await User.findById(userId);
+ 45 │         if (!currentUser) {
+ 46 │           return res.status(404).json({ success: false, message: 'User not found' });
+ 47 │         }
+ 48 │ 
+ 49 │         // Different behavior based on user role
+ 50 │         if (currentUser.role === 'Admin') {
+ 51 │           // For admin, show all users except themselves
+ 52 │           query._id = { $ne: userId };
+ 53 │         } else {
+ 54 │           // For regular users, only show non-admin users excluding friends and friend requests
+ 55 │           const friendIds = currentUser.friends.map(friend => friend.toString());
+ 56 │           const friendRequests = await FriendRequest.find({
+ 57 │             $or: [
+ 58 │               { sender: userId },
+ 59 │               { receiver: userId }
+ 60 │             ]
+ 61 │           });
+ 62 │           const requestUserIds = friendRequests.map(request => 
+ 63 │             request.sender.toString() === userId ? 
+ 64 │               request.receiver.toString() : 
+ 65 │               request.sender.toString()
+ 66 │           );
+ 67 │           const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+ 68 │           query._id = { 
+ 69 │             $ne: userId,
+ 70 │             $nin: excludeIds
+ 71 │           };
+ 72 │           query.role = { $ne: "Admin" };
+ 73 │         }
+ 74 │ 
+ 75 │         // Get the logged-in user from the request headers
+ 76 │         const token = req.headers.authorization?.split(" ")[1];
+ 77 │         if (!token) {
+ 78 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 79 │         }
+ 80 │ 
+ 81 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+ 82 │         const userId = decoded.userId;
+    ·               ───┬──
+    ·                  ╰── `userId` redefined here
+ 83 │ 
+ 84 │         // Get current user with friends list
+ 85 │         const currentUser = await User.findById(userId).populate('friends');
+    ╰────
+
+  × the name `currentUser` is defined multiple times
+    ╭─[/home/runner/workspace/pages/api/users/index.ts:41:1]
+ 41 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+ 42 │         const userId = decoded.userId;
+ 43 │ 
+ 44 │         const currentUser = await User.findById(userId);
+    ·               ─────┬─────
+    ·                    ╰── previous definition of `currentUser` here
+ 45 │         if (!currentUser) {
+ 46 │           return res.status(404).json({ success: false, message: 'User not found' });
+ 47 │         }
+ 48 │ 
+ 49 │         // Different behavior based on user role
+ 50 │         if (currentUser.role === 'Admin') {
+ 51 │           // For admin, show all users except themselves
+ 52 │           query._id = { $ne: userId };
+ 53 │         } else {
+ 54 │           // For regular users, only show non-admin users excluding friends and friend requests
+ 55 │           const friendIds = currentUser.friends.map(friend => friend.toString());
+ 56 │           const friendRequests = await FriendRequest.find({
+ 57 │             $or: [
+ 58 │               { sender: userId },
+ 59 │               { receiver: userId }
+ 60 │             ]
+ 61 │           });
+ 62 │           const requestUserIds = friendRequests.map(request => 
+ 63 │             request.sender.toString() === userId ? 
+ 64 │               request.receiver.toString() : 
+ 65 │               request.sender.toString()
+ 66 │           );
+ 67 │           const excludeIds = [...new Set([...friendIds, ...requestUserIds])];
+ 68 │           query._id = { 
+ 69 │             $ne: userId,
+ 70 │             $nin: excludeIds
+ 71 │           };
+ 72 │           query.role = { $ne: "Admin" };
+ 73 │         }
+ 74 │ 
+ 75 │         // Get the logged-in user from the request headers
+ 76 │         const token = req.headers.authorization?.split(" ")[1];
+ 77 │         if (!token) {
+ 78 │           return res.status(401).json({ success: false, message: 'Not authenticated' });
+ 79 │         }
+ 80 │ 
+ 81 │         const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as any;
+ 82 │         const userId = decoded.userId;
+ 83 │ 
+ 84 │         // Get current user with friends list
+ 85 │         const currentUser = await User.findById(userId).populate('friends');
+    ·               ─────┬─────
+    ·                    ╰── `currentUser` redefined here
+ 86 │         if (!currentUser) {
+ 87 │           return res.status(404).json({ success: false, message: 'User not found' });
+ 88 │         }
+    ╰────
+This error occurred during the build process and can only be dismissed by fixing the error.

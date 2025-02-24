@@ -1,0 +1,837 @@
+.container {
+  background: #FFFFFF;
+  padding: 24px;
+  border-radius: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.bracketWrapper {
+  width: 100%;
+  min-height: 800px;
+  overflow: auto;
+  padding: 20px;
+}
+
+.matchCard {
+  background: #F8F9FA;
+  border-radius: 8px;
+  width: 240px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 8px;
+}
+
+.matchHeader {
+  background: #E9ECEF;
+  color: #495057;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.participant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background: #FFFFFF;
+}
+
+.winner {
+  background: #E7F5FF;
+}
+
+.loser {
+  background: #FFF9DB;
+}
+
+.participantName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+}
+
+.result {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.winBadge {
+  background: #D3F9D8;
+  color: #2B8A3E;
+}
+
+.loseBadge {
+  background: #FFE3E3;
+  color: #C92A2A;
+}
+
+.matchFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #DEE2E6;
+}
+
+.matchId {
+  font-size: 12px;
+  color: #868E96;
+}
+
+.viewDetail {
+  background: none;
+  border: none;
+  color: #339AF0;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.viewDetail:hover {
+  text-decoration: underline;
+}
+.roundTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #EAECF0;
+  padding-bottom: 8px;
+}
+
+.tab {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #667085;
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+}
+
+.tab.active {
+  color: #101828;
+  border-bottom: 2px solid #FFD600;
+}
+
+.brackets {
+  display: flex;
+  gap: 80px;
+  overflow-x: auto;
+  padding: 20px 0;
+  position: relative;
+}
+
+.brackets::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #E5E5E5;
+  z-index: 0;
+}
+
+.round {
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+}
+
+.roundTitleWrapper {
+  background: #FFFFFF;
+  padding: 0 12px;
+  margin-bottom: 20px;
+  z-index: 1;
+}
+
+.roundTitle {
+  font-size: 14px;
+  color: #666666;
+  font-weight: 500;
+  padding: 8px 12px;
+  background: #E5E5E5;
+  border-radius: 4px;
+  margin: 0;
+  display: inline-block;
+  width: fit-content;
+}
+
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+}
+
+.matches::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  width: 40px;
+  height: 2px;
+  background: #E5E5E5;
+  z-index: 0;
+}
+
+.match {
+  background: #F8F8F8;
+  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #E5E5E5;
+  position: relative;
+  z-index: 1;
+}
+
+.teams {
+  border-bottom: 1px solid #E5E5E5;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #FFFFFF;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.team:last-child {
+  margin-bottom: 0;
+}
+
+.teamName {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.status {
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.w {
+  background-color: #FFF9E7;
+}
+
+.l {
+  background-color: #FFF5F5;
+}
+
+.w .status {
+  background-color: #E6FAE6;
+  color: #00B300;
+}
+
+.l .status {
+  background-color: #FFE6E6;
+  color: #FF0000;
+}
+
+.w .teamName {
+  color: #00B300;
+}
+
+.l .teamName {
+  color: #FF0000;
+}
+
+.matchFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.matchId {
+  font-size: 12px;
+  color: #666666;
+}
+
+.viewButton {
+  background: none;
+  border: none;
+  color: #FFB800;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.viewButton:hover {
+  text-decoration: underline;
+}
+
+.matchDetailsModal {
+  max-width: 480px !important;
+  margin: 1.75rem auto;
+}
+
+.matchDetailsContent {
+  background: white;
+  border-radius: 12px;
+  border: none;
+  padding: 0;
+  box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+}
+
+.modalContent {
+  padding: 0;
+}
+
+.modalHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.modalHeader h5 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.matchInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.teamStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusBadge {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.winBadge {
+  background: #ECFDF3;
+  color: #027A48;
+}
+
+.loseBadge {
+  background: #FEF3F2;
+  color: #B42318;
+}
+
+.teamName {
+  font-size: 14px;
+  color: #344054;
+}
+
+.matchId {
+  font-size: 14px;
+  color: #667085;
+}
+
+.matchStatus {
+  text-align: center;
+  color: #027A48;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.tabContainer {
+  display: flex;
+  border-bottom: 1px solid #EAECF0;
+  padding: 0 20px;
+}
+
+.tab {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #667085;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab:hover {
+  color: #101828;
+}
+
+.tab.active {
+  color: #101828;
+  font-weight: 500;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #FFD600;
+}
+
+.resultContent {
+  padding: 20px;
+}
+
+.resultTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.resultTable th {
+  text-align: left;
+  padding: 8px;
+  font-size: 12px;
+  color: #667085;
+  font-weight: 500;
+}
+
+.resultTable td {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.scoreInput {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #D0D5DD;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.resultButtons {
+  display: flex;
+  gap: 4px;
+}
+
+.resultButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D0D5DD;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.resultButton.winButton {
+  background: #ECFDF3;
+  border-color: #027A48;
+  color: #027A48;
+}
+
+.resultButton.drawButton {
+  background: #FFF9E7;
+  border-color: #B54708;
+  color: #B54708;
+}
+
+.resultButton.loseButton {
+  background: #FEF3F2;
+  border-color: #B42318;
+  color: #B42318;
+}
+
+.saveButton {
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  padding: 10px;
+  background: #FFD600;
+  border: none;
+  border-radius: 8px;
+  color: #101828;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background: #E6C200;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #667085;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.statusIndicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.winner {
+  background: #ECFDF3;
+  color: #027A48;
+}
+
+.loser {
+  background: #FEF3F2;
+  color: #B42318;
+}
+
+.tab {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #667085;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #101828;
+  border-bottom: 2px solid #FFD600;
+}
+
+.saveButton {
+  width: 100%;
+  padding: 10px;
+  background: #FFD600;
+  border: none;
+  border-radius: 8px;
+  color: #101828;
+  font-weight: 600;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background: #E6C200;
+}
+
+.matchDetailsHeader {
+  padding: 16px 24px;
+  border-bottom: 1px solid #EAECF0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.matchDetailsHeader h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #667085;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.matchInfo {
+  padding: 24px;
+}
+
+.matchHeader {
+  margin-bottom: 24px;
+}
+
+.matchId {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #101828;
+}
+
+.matchStatus {
+  color: #027A48;
+  font-size: 14px;
+}
+
+.tabContainer {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.tab {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #667085;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #101828;
+  border-bottom: 2px solid #FFD600;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 12px;
+  background: #F9FAFB;
+  border-radius: 8px 8px 0 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+.participantRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 12px;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.participantName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusIndicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.winner {
+  background: #ECFDF3;
+  color: #027A48;
+}
+
+.loser {
+  background: #FEF3F2;
+  color: #B42318;
+}
+
+.inputContainer {
+  padding-right: 8px;
+}
+
+.scoreInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #D0D5DD;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.resultButtons {
+  display: flex;
+  gap: 4px;
+}
+
+.resultButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D0D5DD;
+  background: #FFFFFF;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.winButton:hover, .winButton.active {
+  background: #ECFDF3;
+  border-color: #027A48;
+  color: #027A48;
+}
+
+.drawButton:hover, .drawButton.active {
+  background: #FFF9E7;
+  border-color: #B54708;
+  color: #B54708;
+}
+
+.loseButton:hover, .loseButton.active {
+  background: #FEF3F2;
+  border-color: #B42318;
+  color: #B42318;
+}
+
+.saveButton {
+  width: 100%;
+  padding: 10px;
+  background: #FFD600;
+  border: none;
+  border-radius: 8px;
+  color: #101828;
+  font-weight: 600;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background: #E6C200;
+}
+
+.matchDetailsHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid #EAECF0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.matchDetailsHeader h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #667085;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.matchTeams {
+  padding: 20px;
+  border-bottom: 1px solid #EAECF0;
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.teamRow:last-child {
+  margin-bottom: 0;
+}
+
+.teamIndicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 12px;
+}
+
+.teamIndicator.winner {
+  background: #ECFDF3;
+  color: #027A48;
+}
+
+.teamIndicator.loser {
+  background: #FEF3F2;
+  color: #B42318;
+}
+
+.teamName {
+  flex-grow: 1;
+  font-size: 14px;
+  color: #344054;
+}
+
+.matchScore {
+  font-size: 14px;
+  font-weight: 500;
+  color: #344054;
+}
+
+.matchInfo {
+  padding: 16px 24px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.infoRow span:first-child {
+  color: #667085;
+}
+
+.infoRow span:last-child {
+  color: #344054;
+}
+
+.timeButton {
+  background: none;
+  border: none;
+  padding: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.notes {
+  color: #667085 !important;
+}
+
+.saveButton {
+  width: calc(100% - 48px);
+  margin: 0 24px 24px;
+  padding: 10px;
+  background: #FFD600;
+  border: none;
+  border-radius: 8px;
+  color: #101828;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background: #E6C200;
+}

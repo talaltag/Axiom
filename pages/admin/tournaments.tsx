@@ -1,122 +1,364 @@
-import { useState } from 'react';
-import AdminDashboardLayout from '../../components/layouts/AdminDashboardLayout';
-import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Pagination } from '@mui/material';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
+import {
+  Box,
+  Button,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  Select,
+  MenuItem,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Loader from "../../components/common/Loader";
 
 export default function TournamentManagement() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState<string>("10");
+  const [tournaments, setTournaments] = useState([]);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [selectedTournament, setSelectedTournament] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    name: "",
+    game: "",
+    gameMode: "",
+    platform: "",
+    time: "",
+    status: "",
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const tournaments = [
-    { id: '141414', name: 'COD KILL RACE', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'XBOX', status: 'Completed' },
-    { id: '141414', name: 'Fortnight Champions', game: 'Fornite', mode: 'Individual', time: '9:00pm - 12:00pm', platform: 'PC', status: 'Registration Open' },
-    { id: '141414', name: 'CS GO LIVE', game: 'CS', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Completed' },
-    { id: '141414', name: 'Battle Arena 2023', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Completed' },
-    { id: '141414', name: 'COD KILL RACE', game: 'CS', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Completed' },
-    { id: '141414', name: 'Fortnight Champions', game: 'Fornite', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Completed' },
-    { id: '141414', name: 'CS GO LIVE', game: 'CS', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Ongoing' },
-    { id: '141414', name: 'GOLF PLUS 2k24', game: 'COD', mode: 'Team', time: '9:00pm - 12:00pm', platform: 'Xbox', status: 'Ongoing' },
-  ];
+  useEffect(() => {
+    fetchTournaments();
+  }, []);
+
+  const fetchTournaments = async () => {
+    setIsLoading(true); // Set loading state to true before fetching
+    try {
+      const response = await fetch("/api/tournaments");
+      const data = await response.json();
+      if (data.success) {
+        setTournaments(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      setIsLoading(false); // Set loading state to false after fetching, regardless of success or failure
+    }
+  };
+
+  const handleEdit = (tournament) => {
+    setSelectedTournament(tournament);
+    setEditFormData({
+      name: tournament.name,
+      game: tournament.game,
+      gameMode: tournament.gameMode,
+      platform: tournament.platform,
+      time: tournament.time,
+      status: tournament.status,
+    });
+    setOpenEditDialog(true);
+  };
+
+  const handleDelete = (tournament) => {
+    setSelectedTournament(tournament);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      const response = await fetch(
+        `/api/tournaments?id=${selectedTournament._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editFormData),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        setOpenEditDialog(false);
+        fetchTournaments();
+      }
+    } catch (error) {
+      console.error("Error updating tournament:", error);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      const response = await fetch(
+        `/api/tournaments?id=${selectedTournament._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        setOpenDeleteDialog(false);
+        fetchTournaments();
+      }
+    } catch (error) {
+      console.error("Error deleting tournament:", error);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return { bg: "#E8F5E9", color: "#2E7D32" };
+      case "Registration Open":
+        return { bg: "#FFF8E1", color: "#F57C00" };
+      case "Ongoing":
+        return { bg: "#FFF4E5", color: "#ED6C02" };
+      default:
+        return { bg: "#E8F5E9", color: "#2E7D32" };
+    }
+  };
 
   return (
     <AdminDashboardLayout>
-      <Box sx={{ p: 3, bgcolor: '#fff', borderRadius: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box sx={{ p: 3, bgcolor: "#fff", borderRadius: 2 }}>
+        {isLoading && <Loader fullscreen />} {/* Added Loader */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 4,
+          }}
+        >
           <Typography variant="h6" sx={{ fontWeight: 500 }}>
             Tournament Management
           </Typography>
-          <Button 
-            variant="contained" 
-            sx={{ 
-              bgcolor: '#F8B602', 
-              color: '#000',
-              '&:hover': {
-                bgcolor: '#e6a800'
+          <Button
+            variant="contained"
+            onClick={() => router.push("/admin/create-tournament")}
+            sx={{
+              bgcolor: "#F8B602",
+              color: "#000",
+              "&:hover": {
+                bgcolor: "#e6a800",
               },
-              textTransform: 'none',
-              px: 3
+              textTransform: "none",
+              px: 3,
             }}
           >
             + Create
           </Button>
         </Box>
-
-        <TableContainer sx={{ boxShadow: 'none' }}>
+        <TableContainer sx={{ boxShadow: "none" }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ bgcolor: '#F8F9FA' }}>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>T-ID</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Tournament Name</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Game</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Mode</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Time</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Platform</TableCell>
-                <TableCell sx={{ color: '#6C757D', fontWeight: 500 }}>Status</TableCell>
+              <TableRow sx={{ bgcolor: "#F8F9FA" }}>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  T-ID
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Tournament Name
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Game
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Mode
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Time
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Platform
+                </TableCell>
+                <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>
+                  Status
+                </TableCell>
+                {/* <TableCell sx={{ color: "#6C757D", fontWeight: 500 }}>Actions</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
-              {tournaments.map((tournament, index) => (
-                <TableRow key={index} sx={{ '&:nth-of-type(even)': { bgcolor: '#F8F9FA' } }}>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.id}</TableCell>
-                  <TableCell sx={{ 
-                    color: '#000000',
-                    textDecoration: 'underline', 
-                    cursor: 'pointer',
-                    fontWeight: 500
-                  }}>
+              {tournaments.map((tournament) => (
+                <TableRow
+                  key={tournament._id}
+                  sx={{ "&:nth-of-type(even)": { bgcolor: "#F8F9FA" } }}
+                >
+                  <TableCell>{tournament._id}</TableCell>
+                  <TableCell sx={{ color: "#000000", fontWeight: 500 }}>
                     {tournament.name}
                   </TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.game}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.mode}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.time}</TableCell>
-                  <TableCell sx={{ color: '#000000' }}>{tournament.platform}</TableCell>
+                  <TableCell>{tournament.game}</TableCell>
+                  <TableCell>{tournament.gameMode}</TableCell>
                   <TableCell>
-                    <Chip 
-                      label={tournament.status} 
+                    {tournament.date}&nbsp;
+                    {tournament.time} - {tournament.end}
+                  </TableCell>
+                  <TableCell>{tournament.platform}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={tournament.status}
                       size="small"
                       sx={{
-                        bgcolor: tournament.status === 'Completed' ? '#E8F5E9' : 
-                               tournament.status === 'Registration Open' ? '#FFF8E1' :
-                               '#FFF4E5',
-                        color: tournament.status === 'Completed' ? '#2E7D32' :
-                               tournament.status === 'Registration Open' ? '#F57C00' :
-                               '#ED6C02',
-                        borderRadius: '4px',
+                        bgcolor: getStatusColor(tournament.status).bg,
+                        color: getStatusColor(tournament.status).color,
+                        borderRadius: "4px",
                         fontWeight: 500,
-                        textTransform: 'none'
                       }}
                     />
                   </TableCell>
+                  {/* <TableCell>
+                    <IconButton onClick={() => handleEdit(tournament)} color="primary" size="small">
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(tournament)} color="error" size="small">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mt: 3,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Typography variant="body2" color="text.secondary">
               Items per page
             </Typography>
-            <select style={{ 
-              padding: '4px 8px', 
-              borderRadius: '4px', 
-              border: '1px solid #ddd',
-              backgroundColor: '#fff' 
-            }}>
-              <option>12</option>
-            </select>
+            <Select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(e.target.value)}
+              size="small"
+              sx={{ minWidth: 80 }}
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+            </Select>
           </Box>
-          <Pagination 
-            count={Math.ceil(tournaments.length / rowsPerPage)} 
-            page={page} 
-            onChange={(e, value) => setPage(value)}
-            sx={{
-              '& .MuiPaginationItem-root': {
-                color: '#6C757D'
-              }
-            }}
-          />
+          <Typography variant="body2" color="text.secondary">
+            1-{itemsPerPage} of {tournaments.length} items
+          </Typography>
         </Box>
+        {/* Edit Dialog */}
+        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+          <DialogTitle>Edit Tournament</DialogTitle>
+          <DialogContent>
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                label="Tournament Name"
+                value={editFormData.name}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, name: e.target.value })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                fullWidth
+                label="Game"
+                value={editFormData.game}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, game: e.target.value })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                fullWidth
+                label="Game Mode"
+                value={editFormData.gameMode}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, gameMode: e.target.value })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                fullWidth
+                label="Platform"
+                value={editFormData.platform}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, platform: e.target.value })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                fullWidth
+                label="Time"
+                value={editFormData.time}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, time: e.target.value })
+                }
+                sx={{ mb: 2 }}
+              />
+              <FormControl fullWidth>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={editFormData.status}
+                  label="Status"
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, status: e.target.value })
+                  }
+                >
+                  <MenuItem value="Registration Open">
+                    Registration Open
+                  </MenuItem>
+                  <MenuItem value="Ongoing">Ongoing</MenuItem>
+                  <MenuItem value="Completed">Completed</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+            <Button onClick={handleEditSubmit} variant="contained">
+              Save Changes
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* Delete Dialog */}
+        <Dialog
+          open={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+        >
+          <DialogTitle>Delete Tournament</DialogTitle>
+          <DialogContent>
+            Are you sure you want to delete this tournament? This action cannot
+            be undone.
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
+            <Button
+              onClick={handleDeleteConfirm}
+              color="error"
+              variant="contained"
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </AdminDashboardLayout>
   );
