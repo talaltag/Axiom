@@ -75,6 +75,11 @@ export const fileToUrl = (file: File) => {
 
 export const formatDateCron = (currentDate) => {
   const date = new Date(currentDate);
+
+  // Get the local timezone offset in minutes and apply it to the date
+  const localOffset = date.getTimezoneOffset(); // in minutes
+  date.setMinutes(date.getMinutes() - localOffset); // Adjust to local time
+
   console.log(
     "date time",
     date,
@@ -82,6 +87,7 @@ export const formatDateCron = (currentDate) => {
       date.getUTCMonth() + 1
     } ${date.getUTCDay()}`
   );
+
   return `${date.getUTCSeconds()} ${date.getUTCMinutes()} ${date.getUTCHours()} ${date.getUTCDate()} ${
     date.getUTCMonth() + 1
   } ${date.getUTCDay()}`;
