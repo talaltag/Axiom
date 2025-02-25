@@ -109,10 +109,6 @@ export default withAuth(async function handler(
         },
       ]);
 
-      console.log(tournament);
-
-      console.log(tournament);
-
       return res.status(200).json({
         success: true,
         data: tournament[0] ?? null,

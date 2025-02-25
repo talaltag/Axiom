@@ -5,9 +5,9 @@ import Loader from "../common/Loader";
 import Link from "next/link";
 
 interface Props {
-  setTotalTournament?: Dispatch<SetStateAction<number>>;
+  setTournaments?: Dispatch<SetStateAction<any>>;
 }
-const TournamentHistoryTable = ({ setTotalTournament }: Props) => {
+const TournamentHistoryTable = ({ setTournaments }: Props) => {
   const session = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +17,7 @@ const TournamentHistoryTable = ({ setTotalTournament }: Props) => {
     const fetchTournaments = async () => {
       try {
         setIsLoading(true);
-        const url = `/api/tournaments?filter=my&userId=${session?.data.user.id}`;
+        const url = `/api/tournaments/history`;
         const response = await fetch(url);
         if (!response.ok) {
           const errorData = await response.json();
@@ -26,8 +26,8 @@ const TournamentHistoryTable = ({ setTotalTournament }: Props) => {
         const data = await response.json();
         if (data.success) {
           setRegisteredTournaments(data.data);
-          if (setTotalTournament) {
-            setTotalTournament(data.count);
+          if (setTournaments) {
+            setTournaments(data);
           }
         } else {
           throw new Error(data.message || "An unexpected error occurred");

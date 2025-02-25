@@ -11,6 +11,7 @@ import FortniteAPI from "fortnite-api-io";
 import User from "../../../models/User";
 import { withAuth } from "../../../middleware/withAuth";
 import TournamentHistory from "../../../models/TournamentHistory";
+import TournamentPrize from "../../../models/TournamentPrize";
 
 export const config = {
   api: {
@@ -102,6 +103,7 @@ export default withAuth(async function handler(
           stats: membersStats,
           totalScore: getHighestAfterScore(),
         });
+
         // updatedRecord.sort(
         //   (a, b) => getHighestAfterScore(b) - getHighestAfterScore(a)
         // );
@@ -132,6 +134,14 @@ export default withAuth(async function handler(
             if (userData) {
               userData.walletBalance += prize / team.stats.length;
               await userData.save();
+              await TournamentPrize.create({
+                tournament: team.tournament,
+                team: team.team,
+                amount: prize / team.stats.length,
+                userId: stat.userId,
+                registerTorunamentId: team.registerTorunamentId,
+                paymentMethod: "wallet",
+              });
             }
           });
         }

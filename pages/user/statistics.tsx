@@ -32,7 +32,7 @@ export default function Statistics() {
   }
 
   const [stats, setStats] = useState<StatsType>();
-  const [totalTournaments, setTotalTournament] = useState(0);
+  const [totalTournaments, setTotalTournament] = useState(null);
   const [matchesStats, setMatchesStats] = useState({ played: 0, wins: 0 });
   const percentage = useMemo(() => {
     const win = ((matchesStats.wins / matchesStats.played) * 100).toFixed(0);
@@ -43,6 +43,24 @@ export default function Statistics() {
 
     return { win: parseInt(win), loss: parseInt(loss) };
   }, [matchesStats]);
+
+  const totalWinAmount = useMemo(() => {
+    if (totalTournaments?.prizes?.length > 0) {
+      return totalTournaments?.prizes?.reduce(
+        (acc, curr) => acc + parseInt(curr.amount),
+        0
+      );
+    }
+    return 0;
+  }, [totalTournaments]);
+
+  const totalWinTournaments = useMemo(() => {
+    if (totalTournaments?.prizes?.length > 0) {
+      return totalTournaments?.prizes?.reduce((acc, curr) => acc + 1, 0);
+    }
+    return 0;
+  }, [totalTournaments]);
+
   const barChartData = {
     options: {
       chart: {
@@ -589,7 +607,7 @@ export default function Statistics() {
                                 fontWeight: "600",
                               }}
                             >
-                              {totalTournaments}
+                              {totalTournaments?.count ?? 0}
                             </span>
                           </div>
                         </div>
@@ -678,7 +696,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        {totalTournaments.toLocaleString()}
+                        {totalTournaments?.count?.toLocaleString() ?? 0}
                       </div>
                     </div>
                     <div>
@@ -709,7 +727,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        0
+                        {totalWinTournaments}
                       </div>
                     </div>
                     <div>
@@ -740,7 +758,7 @@ export default function Statistics() {
                           lineHeight: "1.2",
                         }}
                       >
-                        0
+                        {(totalTournaments?.count ?? 0) - totalWinTournaments}
                       </div>
                     </div>
                   </div>
@@ -780,7 +798,7 @@ export default function Statistics() {
                           marginBottom: "8px",
                         }}
                       >
-                        $2000
+                        ${totalWinAmount.toLocaleString()}
                       </h3>
                       <div
                         style={{
@@ -789,12 +807,12 @@ export default function Statistics() {
                           gap: "4px",
                         }}
                       >
-                        <span style={{ color: "#667085", fontSize: "14px" }}>
+                        {/* <span style={{ color: "#667085", fontSize: "14px" }}>
                           $1000
                         </span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>
                           Last Win
-                        </span>
+                        </span> */}
                       </div>
                     </div>
                     <div
@@ -850,7 +868,7 @@ export default function Statistics() {
                           marginBottom: "8px",
                         }}
                       >
-                        $2000
+                        ${totalWinAmount.toLocaleString()}
                       </h3>
                       <div
                         style={{
@@ -859,12 +877,12 @@ export default function Statistics() {
                           gap: "4px",
                         }}
                       >
-                        <span style={{ color: "#667085", fontSize: "14px" }}>
+                        {/* <span style={{ color: "#667085", fontSize: "14px" }}>
                           $1000
                         </span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>
                           Last Win
-                        </span>
+                        </span> */}
                       </div>
                     </div>
                     <div
@@ -920,7 +938,7 @@ export default function Statistics() {
                           marginBottom: "8px",
                         }}
                       >
-                        {totalTournaments.toLocaleString()}
+                        {totalTournaments?.count?.toLocaleString() ?? 0}
                       </h3>
                       <div
                         style={{
@@ -929,7 +947,7 @@ export default function Statistics() {
                           gap: "4px",
                         }}
                       >
-                        <span style={{ color: "#667085", fontSize: "14px" }}>
+                        {/* <span style={{ color: "#667085", fontSize: "14px" }}>
                           4
                         </span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>
@@ -940,7 +958,7 @@ export default function Statistics() {
                         </span>
                         <span style={{ color: "#667085", fontSize: "14px" }}>
                           Losses
-                        </span>
+                        </span> */}
                       </div>
                     </div>
                     <div
@@ -997,9 +1015,7 @@ export default function Statistics() {
                   borderRadius: "12px",
                 }}
               >
-                <TournamentHistoryTable
-                  setTotalTournament={setTotalTournament}
-                />
+                <TournamentHistoryTable setTournaments={setTotalTournament} />
               </div>
             </Card>
           </Col>
