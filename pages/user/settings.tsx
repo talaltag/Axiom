@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("myAccount");
@@ -27,6 +28,7 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const session = useSession();
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -199,7 +201,11 @@ export default function Settings() {
                       style={{ width: "100px", height: "100px" }}
                     >
                       <Image
-                        src={file ? URL.createObjectURL(file) : "/user1.png"}
+                        src={
+                          file
+                            ? URL.createObjectURL(file)
+                            : session?.data?.user?.profileImage || "/user1.png"
+                        }
                         alt="Profile"
                         layout="fill"
                         className="rounded-circle"
@@ -232,18 +238,6 @@ export default function Settings() {
                         </label>
                       </div>
                     </div>
-                    <Button
-                      color="warning"
-                      className="ms-3"
-                      onClick={handleImageUpload}
-                      style={{
-                        backgroundColor: "#FFD600",
-                        border: "none",
-                        height: "40px",
-                      }}
-                    >
-                      Update Image
-                    </Button>
                   </div>
 
                   <FormGroup className="mb-4">
@@ -326,7 +320,11 @@ export default function Settings() {
               <div className="mb-4">
                 <div
                   className="p-2 mb-2"
-                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
+                  style={{
+                    background: "#F9FAFB",
+                    borderRadius: "8px",
+                    border: "1px solid #EAECF0",
+                  }}
                 >
                   <h6
                     style={{
@@ -374,7 +372,11 @@ export default function Settings() {
               <div className="mb-4">
                 <div
                   className="p-2 mb-2"
-                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
+                  style={{
+                    background: "#F9FAFB",
+                    borderRadius: "8px",
+                    border: "1px solid #EAECF0",
+                  }}
                 >
                   <h6
                     style={{
@@ -447,7 +449,11 @@ export default function Settings() {
               <div>
                 <div
                   className="p-2 mb-2"
-                  style={{ background: "#F9FAFB", borderRadius: "8px", border: "1px solid #EAECF0" }}
+                  style={{
+                    background: "#F9FAFB",
+                    borderRadius: "8px",
+                    border: "1px solid #EAECF0",
+                  }}
                 >
                   <h6
                     style={{

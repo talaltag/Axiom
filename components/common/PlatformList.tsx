@@ -1,37 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { Button } from "reactstrap";
 import FortniteModal from "./FortniteModal";
+import { Edit2 } from "react-feather";
 
 interface Platform {
   id: string;
   name: string;
   icon: string;
+  type?: string;
 }
 
 const platforms: Platform[] = [
-  { id: "dota", name: "Dota", icon: "/user1.png" },
-  { id: "freefire", name: "Freefire", icon: "/user1.png" },
-  { id: "pubg", name: "PUBG", icon: "/user1.png" },
-  { id: "counterstrike", name: "Counterstrike", icon: "/user1.png" },
-  { id: "fortnite", name: "Fortnite", icon: "/user1.png" },
-  { id: "darksouls", name: "Dark Souls", icon: "/user1.png" },
-  { id: "gta", name: "GTA", icon: "/user1.png" },
-  { id: "lol", name: "League of Legends", icon: "/user1.png" },
-  { id: "valorant", name: "Valorant", icon: "/user1.png" },
+  // { id: "dota", name: "Dota", icon: "/user1.png" },
+  // { id: "freefire", name: "Freefire", icon: "/user1.png" },
+  // { id: "pubg", name: "PUBG", icon: "/user1.png" },
+  // { id: "counterstrike", name: "Counterstrike", icon: "/user1.png" },
+  { id: "fortnite", name: "Fortnite", icon: "/fortnite-logo.webp" },
+  // { id: "darksouls", name: "Dark Souls", icon: "/user1.png" },
+  // { id: "gta", name: "GTA", icon: "/user1.png" },
+  // { id: "lol", name: "League of Legends", icon: "/user1.png" },
+  // { id: "valorant", name: "Valorant", icon: "/user1.png" },
 ];
 
 const PlatformList: React.FC = () => {
-  const [addedPlatforms, setAddedPlatforms] = React.useState<Platform[]>([
-    platforms[0], // Dota
-    platforms[1], // Freefire
-    platforms[3], // Counterstrike
-    platforms[4], // Fortnite
-    platforms[5], // Dark Souls
-    platforms[6], // GTA
-    platforms[7], // League of Legends
-    platforms[8], // Valorant
-  ]);
+  const [addedPlatforms, setAddedPlatforms] = React.useState<Platform>(null);
+  const [isEdit, setIsEdit] = React.useState<string>("");
 
   const [fortniteModalOpen, setFortniteModalOpen] =
     React.useState<boolean>(false);
@@ -41,6 +35,32 @@ const PlatformList: React.FC = () => {
       setFortniteModalOpen(true);
     }
   };
+
+  const fetchPlatforms = async () => {
+    // setIsLoading(true);
+    try {
+      const response = await fetch(
+        "/api/platforms/fortnite/connect?stats=false"
+      );
+      const data = await response.json();
+      if (data.success) {
+        setAddedPlatforms({
+          id: data.data._id,
+          name: data.data.username,
+          icon: platforms[0].icon,
+          type: data.platformType,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlatforms();
+  }, []);
 
   return (
     <div>
@@ -105,9 +125,9 @@ const PlatformList: React.FC = () => {
         >
           Added Platforms
         </h6>
-        <Button
+        {/* <Button
           color="warning"
-          // onClick={() => setModalOpen(true)}
+          onClick={() => setModalOpen(true)}
           style={{
             backgroundColor: "#FFD600",
             border: "none",
@@ -125,13 +145,12 @@ const PlatformList: React.FC = () => {
         >
           <i className="fas fa-plus" style={{ fontSize: "12px" }}></i>
           Add Platform
-        </Button>
+        </Button> */}
       </div>
-
-      <div className="platform-list">
-        <div className="row">
-          {addedPlatforms.map((platform, index) => (
-            <div className="col-md-6" key={platform.id}>
+      {addedPlatforms && (
+        <div className="platform-list">
+          <div className="row">
+            <div className="col-md-6">
               <div
                 className="platform-item d-flex justify-content-between align-items-center px-3 py-2 mb-2"
                 style={{
@@ -154,8 +173,8 @@ const PlatformList: React.FC = () => {
                     }}
                   >
                     <Image
-                      src={platform.icon}
-                      alt={platform.name}
+                      src={addedPlatforms.icon}
+                      alt={addedPlatforms.name}
                       layout="fill"
                       objectFit="cover"
                     />
@@ -167,7 +186,7 @@ const PlatformList: React.FC = () => {
                       fontWeight: "500",
                     }}
                   >
-                    {platform.name}
+                    {addedPlatforms.name}
                   </span>
                 </div>
                 <button
@@ -180,20 +199,25 @@ const PlatformList: React.FC = () => {
                     borderRadius: "4px",
                   }}
                 >
-                  <i
-                    className="fas fa-pencil-alt"
-                    style={{ fontSize: "14px" }}
-                  ></i>
+                  <Edit2
+                    size={20}
+                    className="text-warning"
+                    onClick={() => {
+                      setIsEdit(addedPlatforms.name);
+                      setFortniteModalOpen(true);
+                    }}
+                  />
                 </button>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <FortniteModal
         isOpen={fortniteModalOpen}
         toggle={() => setFortniteModalOpen(false)}
+        isEdit={isEdit}
       />
 
       <style jsx>{`

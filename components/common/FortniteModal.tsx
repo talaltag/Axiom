@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalHeader,
@@ -14,9 +14,14 @@ import {
 interface FortniteModalProps {
   isOpen: boolean;
   toggle: () => void;
+  isEdit?: string;
 }
 
-export default function FortniteModal({ isOpen, toggle }: FortniteModalProps) {
+export default function FortniteModal({
+  isOpen,
+  toggle,
+  isEdit,
+}: FortniteModalProps) {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -54,6 +59,12 @@ export default function FortniteModal({ isOpen, toggle }: FortniteModalProps) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isEdit) {
+      setUsername(isEdit);
+    }
+  }, [isEdit]);
 
   return (
     <Modal
