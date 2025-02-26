@@ -317,6 +317,76 @@ export default function Settings() {
 
           <TabPane tabId="notifications">
             <div className="bg-white p-4">
+              {["messages", "tournaments", "friends"].map((type) => (
+                <div key={type} className="mb-4">
+                  <div
+                    className="p-2 mb-2"
+                    style={{
+                      background: "#F9FAFB",
+                      borderRadius: "8px",
+                      border: "1px solid #EAECF0",
+                    }}
+                  >
+                    <h6
+                      style={{
+                        margin: 0,
+                        fontSize: "14px",
+                        color: "#101828",
+                        fontWeight: 500,
+                        textTransform: "capitalize"
+                      }}
+                    >
+                      {type} Notifications
+                    </h6>
+                  </div>
+                  <div
+                    style={{
+                      background: "#FFFFFF",
+                      border: "1px solid #EAECF0",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <div className="p-3">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              color: "#344054",
+                              marginBottom: "4px",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Notifications Settings
+                          </div>
+                          <div style={{ fontSize: "14px", color: "#667085" }}>
+                            Enable or disable {type} notifications
+                          </div>
+                        </div>
+                        <FormGroup switch className="mb-0">
+                          <Input
+                            type="switch"
+                            role="switch"
+                            onChange={(e) => {
+                              fetch("/api/users/me/settings", {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  module: "notifications",
+                                  type,
+                                  enabled: e.target.checked,
+                                }),
+                              });
+                            }}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
               <div className="mb-4">
                 <div
                   className="p-2 mb-2"
