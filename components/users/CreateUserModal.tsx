@@ -139,6 +139,14 @@ export default function CreateUserModal({
               placeholder="Enter username"
             />
           </FormGroup>
+          <FormGroup>
+            <Label for="cName">Role</Label>
+            <Input type="select" name="role" onChange={handleChange}>
+              <option value="User">User</option>
+              <option value="Super">Super Admin</option>
+              <option value="Agent">Support Agent</option>
+            </Input>
+          </FormGroup>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>

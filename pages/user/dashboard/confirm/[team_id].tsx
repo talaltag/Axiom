@@ -1,19 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
+import CongratulationsModal from "../../../../components/tournaments/CongratulationsModal";
 import Image from "next/image";
+import Link from "next/link";
 import UserDashboardLayout from "../../../../components/layouts/UserDashboardLayout";
-import { Container, Row, Col, Card, CardBody, Button, Form } from "reactstrap";
+import { Container, Button, Alert, Badge } from "reactstrap";
+import { StripePaymentForm } from "../../../../components/stripe/StripePaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { StripePaymentForm } from "../../../../components/stripe/StripePaymentForm";
 import { useSession } from "next-auth/react";
+import CompletedTournamentDetail from "../../../../components/tournaments/CompletedTournamentDetail";
 
-interface Member {
-  name: string;
-  avatar: string;
-}
-
-interface RegistrationData {
+export interface RegistrationData {
   tournament: {
     name: string;
     date: string;
@@ -26,39 +24,50 @@ interface RegistrationData {
     type: string;
     game: string;
     images: String[];
+    gameMode: string;
+    status: string;
+    prizeSplit: String[];
   };
+  organizer: Member;
   team: {
+    id: string;
     name: string;
     members: Member[];
   };
   memberPayments: { userId: string; paymentStatus: string }[];
+  leads: [];
+}
+
+interface Member {
+  name: string;
+  profileImage: string;
 }
 
 export default function ConfirmRegistration() {
   const router = useRouter();
   const { team_id } = router.query;
-  const [registrationData, setRegistrationData] =
-    useState<RegistrationData | null>(null);
-  const session = useSession();
+  const [paymentMethod, setPaymentMethod] = useState("wallet");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("wallet");
+  const [registrationData, setRegistrationData] =
+    useState<RegistrationData | null>(null);
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
-  const [cardDetails, setCardDetails] = useState({
-    number: "",
-    name: "",
-    expMonth: "",
-    expYear: "",
-    security: "",
-  });
-  const [userPaymentStatus, setUserPaymentStatus] = useState(""); // Added state for user's payment status
+  const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  useEffect(() => {
-    if (team_id) {
-      fetchRegistrationDetails();
-    }
-  }, [team_id]);
+  const session = useSession();
+
+  const isPaid = useMemo(
+    () =>
+      registrationData?.memberPayments?.find(
+        (payment) =>
+          payment.userId === session.data.user?.id &&
+          payment.paymentStatus == "completed"
+      ),
+    [registrationData, session]
+  );
 
   const fetchRegistrationDetails = async () => {
     try {
@@ -66,13 +75,6 @@ export default function ConfirmRegistration() {
       const data = await response.json();
       if (data.success) {
         setRegistrationData(data.data);
-
-        const currentUserId = session?.data?.user?.id;
-        const userPayment = data.data.memberPayments?.find(
-          (payment) => payment.userId === currentUserId
-        );
-
-        setUserPaymentStatus(userPayment?.paymentStatus || "not_paid");
       } else {
         setError("Failed to fetch registration details");
       }
@@ -83,7 +85,9 @@ export default function ConfirmRegistration() {
     }
   };
 
-  const handleBack = () => router.back();
+  useEffect(() => {
+    setErrorMessage("");
+  }, [paymentMethod]);
 
   useEffect(() => {
     if (paymentMethod === "stripe") {
@@ -111,336 +115,710 @@ export default function ConfirmRegistration() {
     }
   }, [paymentMethod, team_id, registrationData?.tournament?.entryFee]);
 
+  useEffect(() => {
+    if (team_id) {
+      fetchRegistrationDetails();
+    }
+  }, [team_id]);
+
+  const handleSubmit = async () => {
+    setIsProcessing(true);
+
+    try {
+      const response = await fetch(
+        `/api/tournament-registrations/${team_id}/pay`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentStatus: "completed",
+            paymentMethod: "wallet",
+            amount: registrationData?.tournament?.entryFee,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (!data.success) {
+        setIsProcessing(false);
+        setErrorMessage(data?.message || "Payment failed");
+        return;
+      }
+
+      if (response.ok) {
+        setShowModal(true);
+        setTimeout(() => {
+          window.location.href = "/user/dashboard/tournaments";
+        }, 5000);
+      }
+    } catch (error) {
+      const { response } = error;
+      setErrorMessage(response?.data?.message || "Payment failed");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!registrationData) return <div>Registration not found</div>;
 
   return (
     <UserDashboardLayout>
-      <Container fluid className="p-4">
-        <div className="d-flex align-items-center mb-4">
-          <a
-            onClick={() => router.back()}
-            className="text-decoration-none me-2"
+      <div style={{ backgroundColor: "#F9FAFB", minHeight: "100vh" }}>
+        <Container fluid style={{ padding: "24px" }}>
+          <div className="d-flex align-items-center mb-4">
+            <Link
+              href="/dashboard"
+              style={{
+                color: "#667085",
+                fontSize: "14px",
+                textDecoration: "none",
+              }}
+            >
+              Dashboard
+            </Link>
+            <span className="mx-2" style={{ color: "#667085" }}>
+              /
+            </span>
+            <span style={{ color: "#101828", fontSize: "14px" }}>
+              Tournament Name
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr",
+              gap: "24px",
+            }}
           >
-            ‹
-          </a>
-          <span>Dashboard / {registrationData.tournament.name}</span>
-        </div>
-
-        <Row>
-          <Col md={8}>
-            <div className="d-flex gap-4 mb-4">
-              <Image
-                src={`${
-                  registrationData.tournament.images &&
-                  registrationData.tournament.images.length > 0
-                    ? registrationData.tournament.images[0]
-                    : "/fortnite-banner.png"
-                }`}
-                alt="Tournament Banner"
-                width={120}
-                height={120}
-                className="rounded"
-                priority
-              />
-              <div>
-                <h4>{registrationData.tournament.name}</h4>
-                <p className="text-muted">
-                  {registrationData.tournament.date} ·{" "}
-                  {registrationData.tournament.startTime} -{" "}
-                  {registrationData.tournament.endTime} EST
-                </p>
-              </div>
-            </div>
-
-            <Card className="mb-4">
-              <CardBody>
-                <Row className="mb-4">
-                  <Col md={6}>
-                    <div className="mb-3">
-                      <h5>Entry Fee</h5>
-                      <p>${registrationData.tournament.entryFee}</p>
-                    </div>
-                    <div className="mb-3">
-                      <h5>Platform</h5>
-                      <p>{registrationData.tournament.platform}</p>
-                    </div>
-                    <div className="mb-3">
-                      <h5>Team Size</h5>
-                      <p>{registrationData.tournament.teamSize}</p>
-                    </div>
-                  </Col>
-                  <Col md={6}>
-                    <div className="mb-3">
-                      <h5>Prize</h5>
-                      <p>${registrationData.tournament.prize}</p>
-                    </div>
-                    <div className="mb-3">
-                      <h5>Tournament Type</h5>
-                      <p>{registrationData.tournament.type}</p>
-                    </div>
-                    <div className="mb-3">
-                      <h5>Game</h5>
-                      <p>{registrationData.tournament.game}</p>
-                    </div>
-                  </Col>
-                </Row>
-
-                <div className="mb-4">
-                  <h5>Team Member Payments</h5>
-                  {registrationData.team.members.map((member: any) => {
-                    const memberPayment = registrationData.memberPayments?.find(
-                      (mp: any) => mp.userId === member._id
-                    );
-                    return (
-                      <div
-                        key={member._id}
-                        className="d-flex justify-content-between align-items-center mb-2"
-                      >
-                        <span>{member.name}</span>
-                        <span
-                          className={`badge ${
-                            memberPayment?.paymentStatus === "completed"
-                              ? "bg-success"
-                              : "bg-warning"
-                          }`}
-                        >
-                          {memberPayment?.paymentStatus || "pending"}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-                {registrationData.memberPayments && (
-                  <p>Your Payment Status: {userPaymentStatus}</p>
-                )}
-                {userPaymentStatus !== "completed" && (
-                  <>
-                    <div className="mt-4">
-                      <h5>Payment Method</h5>
-                      <div className="d-flex gap-3 mt-3">
-                        <Card
-                          className={`p-3 cursor-pointer ${
-                            paymentMethod === "wallet" ? "border-warning" : ""
-                          }`}
-                          onClick={() => setPaymentMethod("wallet")}
-                        >
-                          <div className="text-center">
-                            <h6>$120.00</h6>
-                            <small>Axiom Wallet</small>
-                          </div>
-                        </Card>
-                        <Card
-                          className={`p-3 cursor-pointer ${
-                            paymentMethod === "bank" ? "border-warning" : ""
-                          }`}
-                          onClick={() => setPaymentMethod("bank")}
-                        >
-                          <div className="text-center">
-                            <h6>Bank Card</h6>
-                          </div>
-                        </Card>
-                        <Card
-                          className={`p-3 cursor-pointer ${
-                            paymentMethod === "stripe" ? "border-warning" : ""
-                          }`}
-                          onClick={() => setPaymentMethod("stripe")}
-                        >
-                          <div className="text-center">
-                            <h6>Stripe</h6>
-                          </div>
-                        </Card>
-                      </div>
-                    </div>
-
-                    {paymentMethod === "bank" && (
-                      <div className="mt-4">
-                        <h5>Card Information</h5>
-                        <Form className="mt-3">
-                          <Row>
-                            <Col md={6} className="mb-3">
-                              <label>Card Number</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="XXXX XXXX XXXX"
-                                value={cardDetails.number}
-                                onChange={(e) =>
-                                  setCardDetails({
-                                    ...cardDetails,
-                                    number: e.target.value,
-                                  })
-                                }
-                              />
-                            </Col>
-                            <Col md={6} className="mb-3">
-                              <label>Security Code</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="XXXX XXXX XXXX"
-                                value={cardDetails.security}
-                                onChange={(e) =>
-                                  setCardDetails({
-                                    ...cardDetails,
-                                    security: e.target.value,
-                                  })
-                                }
-                              />
-                            </Col>
-                          </Row>
-                          <div className="mb-3">
-                            <label>Name on Card</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="XXXX XXXX XXXX"
-                              value={cardDetails.name}
-                              onChange={(e) =>
-                                setCardDetails({
-                                  ...cardDetails,
-                                  name: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                          <Row>
-                            <Col md={6}>
-                              <label>Expiration Date</label>
-                              <select
-                                className="form-select"
-                                value={cardDetails.expMonth}
-                                onChange={(e) =>
-                                  setCardDetails({
-                                    ...cardDetails,
-                                    expMonth: e.target.value,
-                                  })
-                                }
-                              >
-                                <option value="">Month</option>
-                                {Array.from(
-                                  { length: 12 },
-                                  (_, i) => i + 1
-                                ).map((month) => (
-                                  <option key={month} value={month}>
-                                    {month}
-                                  </option>
-                                ))}
-                              </select>
-                            </Col>
-                            <Col md={6}>
-                              <label>&nbsp;</label>
-                              <select
-                                className="form-select"
-                                value={cardDetails.expYear}
-                                onChange={(e) =>
-                                  setCardDetails({
-                                    ...cardDetails,
-                                    expYear: e.target.value,
-                                  })
-                                }
-                              >
-                                <option value="">Year</option>
-                                {Array.from(
-                                  { length: 10 },
-                                  (_, i) => new Date().getFullYear() + i
-                                ).map((year) => (
-                                  <option key={year} value={year}>
-                                    {year}
-                                  </option>
-                                ))}
-                              </select>
-                            </Col>
-                          </Row>
-                        </Form>
-                      </div>
-                    )}
-
-                    {paymentMethod === "stripe" &&
-                      stripePromise &&
-                      clientSecret && (
-                        <Elements
-                          stripe={stripePromise}
-                          options={{ clientSecret }}
-                        >
-                          <StripePaymentForm
-                            clientSecret={clientSecret}
-                            teamId={team_id as string}
-                          />
-                        </Elements>
-                      )}
-
-                    <div className="d-flex justify-content-between mt-4">
-                      <Button color="secondary" onClick={handleBack}>
-                        Back
-                      </Button>
-                      {/* <Button color="warning" onClick={handlePayment}>
-                      Pay Now
-                    </Button> */}
-                    </div>
-                  </>
-                )}
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col md={4}>
-            <Card>
-              <CardBody>
-                <h5 className="mb-4">My Team</h5>
-                <div className="d-flex align-items-center gap-3 mb-3">
-                  <Image
-                    src="/user1.png"
-                    alt="Team Logo"
-                    width={40}
-                    height={40}
-                    className="rounded-circle"
-                  />
-                  <div>
-                    <h6 className="mb-0">{registrationData.team.name}</h6>
-                  </div>
-                </div>
-
-                {registrationData.team.members?.map((member, index) => (
+            <div>
+              <div
+                className="bg-white rounded-3 p-4 mb-4"
+                style={{
+                  boxShadow:
+                    "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                }}
+              >
+                <div className="d-flex gap-3">
                   <div
-                    key={index}
-                    className="d-flex align-items-center gap-3 mb-2"
+                    style={{
+                      position: "relative",
+                      width: "64px",
+                      height: "64px",
+                    }}
                   >
                     <Image
-                      src={member.avatar || "/user1.png"}
-                      alt={member.name}
+                      src={
+                        registrationData.tournament?.images?.[0] ||
+                        "/fortnite-banner.png"
+                      }
+                      alt="Tournament"
+                      fill
+                      style={{ objectFit: "cover", borderRadius: "8px" }}
+                    />
+                  </div>
+                  <div className="d-flex flex-column justify-content-center">
+                    <h4
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: 500,
+                        color: "#101828",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {registrationData.tournament.name}
+                    </h4>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        color: "#667085",
+                        margin: 0,
+                      }}
+                    >
+                      {registrationData.tournament.date} •{" "}
+                      {registrationData.tournament.startTime}
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      marginLeft: "auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: "14px", color: "#667085" }}>
+                        Entry Cost
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#DC3545",
+                        }}
+                      >
+                        ${registrationData.tournament.entryFee}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {registrationData?.tournament?.status == "completed" ? (
+                <CompletedTournamentDetail
+                  data={registrationData as RegistrationData}
+                />
+              ) : (
+                <div>
+                  {!isPaid &&
+                    registrationData.tournament.status ==
+                      "Registration Open" && (
+                      <div
+                        className="bg-white rounded-3 p-4"
+                        style={{
+                          boxShadow:
+                            "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        <h5
+                          style={{
+                            fontSize: "16px",
+                            color: "#101828",
+                            marginBottom: "24px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Payment Method
+                        </h5>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "12px",
+                            marginBottom: "24px",
+                          }}
+                        >
+                          <div
+                            onClick={() => setPaymentMethod("wallet")}
+                            style={{
+                              padding: "10px 16px",
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                              border: `1px solid ${
+                                paymentMethod === "wallet"
+                                  ? "#FFD700"
+                                  : "#EAECF0"
+                              }`,
+                              borderRadius: "8px",
+                              display: "flex",
+                              alignItems: "center",
+                              minWidth: "164px",
+                              height: "44px",
+                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#000000",
+                                fontWeight: 500,
+                              }}
+                            >
+                              ${session.data.user?.walletBalance}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#667085",
+                                marginLeft: "8px",
+                              }}
+                            >
+                              Axiom Wallet
+                            </div>
+                          </div>
+
+                          <div
+                            onClick={() => setPaymentMethod("bank")}
+                            style={{
+                              padding: "10px 16px",
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                              border: `1px solid ${
+                                paymentMethod === "bank" ? "#FFD700" : "#EAECF0"
+                              }`,
+                              borderRadius: "8px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: "164px",
+                              height: "44px",
+                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#344054",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Bank Card
+                            </div>
+                          </div>
+
+                          <div
+                            onClick={() => setPaymentMethod("stripe")}
+                            style={{
+                              padding: "10px 16px",
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                              border: `1px solid ${
+                                paymentMethod === "stripe"
+                                  ? "#FFD700"
+                                  : "#EAECF0"
+                              }`,
+                              borderRadius: "8px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: "164px",
+                              height: "44px",
+                              boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: "14px",
+                                color: "#344054",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Stripe
+                            </span>
+                          </div>
+                        </div>
+                        {paymentMethod === "bank" && (
+                          <>
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#344054",
+                                marginBottom: "16px",
+                              }}
+                            >
+                              Card Information
+                            </div>
+
+                            <div style={{ display: "grid", gap: "16px" }}>
+                              <div>
+                                <div
+                                  style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "2fr 1fr 1fr",
+                                    gap: "16px",
+                                  }}
+                                >
+                                  <div>
+                                    <label
+                                      style={{
+                                        fontSize: "14px",
+                                        color: "#344054",
+                                        fontWeight: 500,
+                                        marginBottom: "6px",
+                                        display: "block",
+                                      }}
+                                    >
+                                      Card Number
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="XXXX XXXX XXXX XXXX"
+                                      style={{
+                                        height: "44px",
+                                        fontSize: "16px",
+                                        border: "1px solid #D0D5DD",
+                                        borderRadius: "8px",
+                                        padding: "10px 14px",
+                                        boxShadow:
+                                          "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                      }}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label
+                                      style={{
+                                        fontSize: "14px",
+                                        color: "#344054",
+                                        fontWeight: 500,
+                                        marginBottom: "6px",
+                                        display: "block",
+                                      }}
+                                    >
+                                      MM/YY
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="MM/YY"
+                                      style={{
+                                        height: "44px",
+                                        fontSize: "16px",
+                                        border: "1px solid #D0D5DD",
+                                        borderRadius: "8px",
+                                        padding: "10px 14px",
+                                        boxShadow:
+                                          "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                      }}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label
+                                      style={{
+                                        fontSize: "14px",
+                                        color: "#344054",
+                                        fontWeight: 500,
+                                        marginBottom: "6px",
+                                        display: "block",
+                                      }}
+                                    >
+                                      CVV
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="XXX"
+                                      style={{
+                                        height: "44px",
+                                        fontSize: "16px",
+                                        border: "1px solid #D0D5DD",
+                                        borderRadius: "8px",
+                                        padding: "10px 14px",
+                                        boxShadow:
+                                          "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <h6
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    color: "#344054",
+                                    marginBottom: "16px",
+                                  }}
+                                >
+                                  Name on Card
+                                </h6>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter name on card"
+                                  style={{
+                                    height: "44px",
+                                    fontSize: "16px",
+                                    border: "1px solid #D0D5DD",
+                                    borderRadius: "8px",
+                                    padding: "10px 14px",
+                                    boxShadow:
+                                      "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                        {paymentMethod === "stripe" && clientSecret && (
+                          <Elements
+                            stripe={stripePromise}
+                            options={{ clientSecret }}
+                          >
+                            <StripePaymentForm
+                              clientSecret={clientSecret}
+                              teamId={team_id as string}
+                            />
+                          </Elements>
+                        )}
+                        {errorMessage && (
+                          <Alert color="danger">{errorMessage}</Alert>
+                        )}
+                        {paymentMethod !== "stripe" && (
+                          <div
+                            className="d-flex justify-content-end mt-4"
+                            style={{ gap: "12px" }}
+                          >
+                            <Button
+                              color="light"
+                              onClick={() => router.back()}
+                              style={{
+                                backgroundColor: "#fff",
+                                border: "1px solid #D0D5DD",
+                                height: "40px",
+                                padding: "10px 16px",
+                                borderRadius: "8px",
+                                color: "#344054",
+                                fontSize: "14px",
+                                fontWeight: 500,
+                              }}
+                              disabled={isProcessing}
+                            >
+                              Back
+                            </Button>
+                            <Button
+                              onClick={handleSubmit}
+                              style={{
+                                backgroundColor: "#FFD700",
+                                border: "none",
+                                height: "40px",
+                                padding: "10px 16px",
+                                borderRadius: "8px",
+                                color: "#000",
+                                fontSize: "14px",
+                                fontWeight: 500,
+                              }}
+                              disabled={isProcessing}
+                            >
+                              Pay Now
+                            </Button>
+                          </div>
+                        )}
+                        <CongratulationsModal
+                          isOpen={showModal}
+                          toggle={() => setShowModal(!showModal)}
+                        />
+                      </div>
+                    )}
+                </div>
+              )}
+            </div>
+            <div
+              className="bg-white rounded-3 p-4"
+              style={{
+                boxShadow:
+                  "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+                backgroundColor: "#fff",
+              }}
+            >
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>Status</div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                    textTransform: "capitalize",
+                  }}
+                  className="mb-2"
+                >
+                  <Badge
+                    color={
+                      registrationData.tournament.status == "completed"
+                        ? "success"
+                        : "danger"
+                    }
+                  >
+                    {registrationData.tournament.status}
+                  </Badge>
+                </div>
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Entry Fee
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  ${registrationData.tournament.entryFee}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Platform
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.platform}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Tournament Type
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.type}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Tournament Size
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.teamSize}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Team Size
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.teamSize}
+                </div>
+              </div>
+              {/* <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Country
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.country}
+                </div>
+              </div> */}
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>Game</div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.game}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  Game Mode
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                  }}
+                >
+                  {registrationData.tournament.gameMode}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  My Team
+                </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#101828",
+                    fontWeight: 500,
+                    marginTop: "8px",
+                  }}
+                >
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                    <Image
+                      src="/user1.png"
+                      alt="Team"
                       width={32}
                       height={32}
                       className="rounded-circle"
                     />
-                    <div className="flex-grow-1">
-                      <p className="mb-0">{member.name}</p>
-                      <small className="text-muted">Team Member</small>
+                    <span>{registrationData.team.name}</span>
+                  </div>
+                  {[
+                    ...registrationData.team.members,
+                    registrationData.organizer,
+                  ].map((member, index) => (
+                    <div
+                      key={index}
+                      className="d-flex justify-content-between align-items-center py-2"
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <Image
+                          src={member.profileImage ?? "/profile-avatar.png"}
+                          alt={member.name}
+                          width={24}
+                          height={24}
+                          className="rounded-circle"
+                        />
+                        <span style={{ fontSize: "14px" }}>{member.name}</span>
+                      </div>
+                      <span style={{ color: "#12B76A", fontSize: "12px" }}>
+                        {/* {member.status} */}
+                      </span>
                     </div>
-                    <span className="text-success">Pending</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#667085",
+                    marginBottom: "8px",
+                  }}
+                >
+                  Prizes
+                </div>
+                {registrationData.tournament.prizeSplit.map((prize, index) => (
+                  <div
+                    key={index}
+                    className="d-flex justify-content-between mb-2"
+                  >
+                    <span style={{ fontSize: "14px", color: "#101828" }}>
+                      Team {index + 1}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        color: "#101828",
+                        fontWeight: 500,
+                      }}
+                    >
+                      ${prize}
+                    </span>
                   </div>
                 ))}
-
-                <div className="mt-4">
-                  <h5>Prizes</h5>
-                  <div className="mb-2 d-flex justify-content-between">
-                    <span>1st Winner Prize</span>
-                    <span>$776</span>
-                  </div>
-                  <div className="mb-2 d-flex justify-content-between">
-                    <span>2nd Winner Prize</span>
-                    <span>$776</span>
-                  </div>
-                  <div className="mb-2 d-flex justify-content-between">
-                    <span>3rd Winner Prize</span>
-                    <span>$776</span>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </div>
     </UserDashboardLayout>
   );
 }

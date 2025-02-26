@@ -18,14 +18,27 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Image from "next/image";
-import { Grid, Award, Users, DollarSign, MessageSquare, Settings, ChevronsLeft, LogOut } from "react-feather";
+import {
+  Grid,
+  Award,
+  Users,
+  DollarSign,
+  MessageSquare,
+  Settings,
+  ChevronsLeft,
+  LogOut,
+  BarChart2,
+  ChevronDown,
+} from "react-feather";
 import Link from "next/link";
 import NotificationsDropdown from "../common/NotificationsDropdown"; // Added import
+import { signOut, useSession } from "next-auth/react";
 
 export default function UserDashboardLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const session = useSession();
 
   const menuItems = [
     { text: "Dashboard", path: "/user/dashboard", icon: <Grid size={18} /> },
@@ -35,14 +48,19 @@ export default function UserDashboardLayout({ children }) {
       icon: <Award size={18} />,
     },
     { text: "Friends", path: "/user/friends", icon: <Users size={18} /> },
+    {
+      text: "Statistics",
+      path: "/user/statistics",
+      icon: <BarChart2 size={18} />,
+    },
     { text: "Wallet", path: "/user/wallet", icon: <DollarSign size={18} /> },
-    { text: "Chat", path: "/user/chat", icon: <MessageSquare size={18} /> },
+    { text: "Chat", path: "/chat", icon: <MessageSquare size={18} /> },
     { text: "Settings", path: "/user/settings", icon: <Settings size={18} /> },
   ];
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/auth/login");
+    signOut({ redirect: false }).then(() => router.push("/auth/login"));
   };
 
   return (
@@ -82,7 +100,7 @@ export default function UserDashboardLayout({ children }) {
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
-            <NavLink
+            <Link
               href={item.path}
               className={`d-flex align-items-center mb-2 px-3 py-2 ${
                 router.pathname === item.path
@@ -93,7 +111,7 @@ export default function UserDashboardLayout({ children }) {
             >
               {item.icon}
               {sidebarOpen && <span className="ms-2">{item.text}</span>}
-            </NavLink>
+            </Link>
           </NavItem>
         ))}
       </Nav>
@@ -108,16 +126,20 @@ export default function UserDashboardLayout({ children }) {
         <Navbar className="bg-white border-bottom px-4" container={false}>
           <Nav className="ms-auto d-flex align-items-center" navbar>
             <div className="d-flex align-items-center me-3">
-              <NotificationsDropdown /> {/* Placeholder for NotificationsDropdown */}
-              <UncontrolledDropdown dropup inNavbar nav className="ms-3">
+              <NotificationsDropdown />{" "}
+              {/* Placeholder for NotificationsDropdown */}
+              <UncontrolledDropdown inNavbar nav className="ms-3">
                 <DropdownToggle nav>
                   <Image
-                    src="/user1.png"
-                    alt="User"
+                    src={
+                      session.data?.user.profileImage ?? "/profile-avatar.png"
+                    }
+                    alt={session.data?.user?.name}
                     width={32}
                     height={32}
-                    className="rounded-circle"
+                    className="rounded-circle me-2"
                   />
+                  {session.data?.user?.name} <ChevronDown size={16} />
                 </DropdownToggle>
                 <DropdownMenu end className="position-absolute">
                   <DropdownItem onClick={handleLogout}>

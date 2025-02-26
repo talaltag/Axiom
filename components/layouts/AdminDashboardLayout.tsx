@@ -32,6 +32,8 @@ import {
   ChevronDown,
   ChevronsLeft,
 } from "react-feather";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function AdminDashboardLayout({
   children,
@@ -40,6 +42,7 @@ export default function AdminDashboardLayout({
 }) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
@@ -59,7 +62,7 @@ export default function AdminDashboardLayout({
       icon: <DollarSign size={20} />,
       path: "/admin/payouts",
     },
-    { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin/chat" },
+    { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin-chat" },
     { text: "Settings", icon: <Settings size={20} />, path: "/admin/settings" },
   ];
 
@@ -107,9 +110,9 @@ export default function AdminDashboardLayout({
         </div>
         {menuItems.map((item) => (
           <NavItem key={item.text}>
-            <NavLink
+            <Link
               href={item.path}
-              className={`d-flex align-items-center mb-2 px-3 py-2 ${
+              className={`d-flex align-items-center text-decoration-none mb-2 px-3 py-2 ${
                 router.pathname === item.path
                   ? "bg-warning text-dark"
                   : "text-muted"
@@ -121,7 +124,7 @@ export default function AdminDashboardLayout({
             >
               <span className={sidebarOpen ? "me-2" : ""}>{item.icon}</span>
               {sidebarOpen && item.text}
-            </NavLink>
+            </Link>
           </NavItem>
         ))}
       </Nav>
@@ -182,22 +185,30 @@ export default function AdminDashboardLayout({
               <UncontrolledDropdown dropup nav inNavbar>
                 <DropdownToggle nav>
                   <Image
-                    src="/user1.png"
-                    alt="username"
+                    src={
+                      session.data?.user.profileImage ?? "/profile-avatar.png"
+                    }
+                    alt={session.data?.user?.name}
                     width={40}
                     height={40}
                     className="me-2"
                   />
-                  Shan Hacks <ChevronDown size={16} />
+                  {session.data?.user?.name} <ChevronDown size={16} />
                 </DropdownToggle>
                 <DropdownMenu className="position-absolute" right>
                   <DropdownItem>Profile</DropdownItem>
                   <DropdownItem>Settings</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem onClick={() => {
-                    dispatch(logout());
-                    router.push('/auth/login');
-                  }}>Logout</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      dispatch(logout());
+                      signOut({ redirect: false }).then(() =>
+                        router.push("/auth/login")
+                      );
+                    }}
+                  >
+                    Logout
+                  </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </div>

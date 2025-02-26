@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  walletBalance: {
+    type: Number,
+    default: 0,
+  },
+  stripeConnectId: {
+    type: String,
+    default: null,
+  },
+  stripeAccountStatus: {
+    type: String,
+    enum: ["pending", "active", "rejected", "restricted"],
+    default: "pending",
   },
   email: {
     type: String,
@@ -17,10 +29,14 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["Admin", "User"],
+    enum: ["Admin", "User", "Agent", "Super"],
     default: "User",
   },
   cName: String,
+  profileImage: {
+    type: String,
+    required: false,
+  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,

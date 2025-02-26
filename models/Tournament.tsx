@@ -10,6 +10,7 @@ const TournamentSchema = new mongoose.Schema(
     teamSize: { type: String, required: true },
     date: { type: String, required: true },
     time: { type: String, required: true },
+    end: { type: String, required: true },
     entryFee: { type: String, required: true },
     category: { type: String, required: true },
     restrictions: { type: String, required: true },

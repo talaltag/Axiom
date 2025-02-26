@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Nav, NavItem, NavLink, Card, Button, Spinner } from 'reactstrap';
-import UserDashboardLayout from '../../components/layouts/UserDashboardLayout';
-import Image from 'next/image';
-import classnames from 'classnames';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  Button,
+  Spinner,
+} from "reactstrap";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
+import Image from "next/image";
+import classnames from "classnames";
 
 export default function Notifications() {
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState("all");
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,18 +25,18 @@ export default function Notifications() {
 
   const fetchNotifications = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/notifications', {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/notifications", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await response.json();
       if (data.success) {
         setNotifications(data.data);
       }
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      console.error("Error fetching notifications:", error);
     } finally {
       setLoading(false);
     }
@@ -34,37 +44,37 @@ export default function Notifications() {
 
   const handleAction = async (notificationId: string, action: string) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/notifications/${notificationId}/handle`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ action })
-      });
+      const response = await fetch(
+        `/api/notifications/${notificationId}/handle`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action }),
+        }
+      );
 
       if (response.ok) {
         // Update friend request status
         const data = await response.json();
         if (data.friendRequestId) {
           await fetch(`/api/friend-requests/${data.friendRequestId}`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status: action })
+            body: JSON.stringify({ status: action }),
           });
 
           // Emit event to refresh users list
-          const event = new CustomEvent('friendRequestHandled');
+          const event = new CustomEvent("friendRequestHandled");
           window.dispatchEvent(event);
 
           // Update notifications state locally
-          setNotifications(prevNotifications => 
-            prevNotifications.map(notification => 
-              notification._id === notificationId 
+          setNotifications((prevNotifications) =>
+            prevNotifications.map((notification) =>
+              notification._id === notificationId
                 ? { ...notification, status: action }
                 : notification
             )
@@ -72,7 +82,7 @@ export default function Notifications() {
         }
       }
     } catch (error) {
-      console.error('Error handling notification action:', error);
+      console.error("Error handling notification action:", error);
     }
   };
 
@@ -83,16 +93,16 @@ export default function Notifications() {
         <Nav tabs className="mb-4">
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === 'all' })}
-              onClick={() => setActiveTab('all')}
+              className={classnames({ active: activeTab === "all" })}
+              onClick={() => setActiveTab("all")}
             >
               All
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === 'unread' })}
-              onClick={() => setActiveTab('unread')}
+              className={classnames({ active: activeTab === "unread" })}
+              onClick={() => setActiveTab("unread")}
             >
               Unread
             </NavLink>
@@ -120,29 +130,36 @@ export default function Notifications() {
                       <div>
                         <h6 className="mb-1">{notification.title}</h6>
                         <small className="text-muted">
-                          {new Date(notification.createdAt).toLocaleDateString()}
+                          {new Date(
+                            notification.createdAt
+                          ).toLocaleDateString()}
                         </small>
                       </div>
                     </div>
-                    {notification.type === 'friend_request' && notification.status === 'pending' && (
-                      <div>
-                        <Button
-                          color="success"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleAction(notification._id, 'accepted')}
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          color="danger"
-                          size="sm"
-                          onClick={() => handleAction(notification._id, 'rejected')}
-                        >
-                          Reject
-                        </Button>
-                      </div>
-                    )}
+                    {notification.type === "friend_request" &&
+                      notification.status === "pending" && (
+                        <div>
+                          <Button
+                            color="success"
+                            size="sm"
+                            className="me-2"
+                            onClick={() =>
+                              handleAction(notification._id, "accepted")
+                            }
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            color="danger"
+                            size="sm"
+                            onClick={() =>
+                              handleAction(notification._id, "rejected")
+                            }
+                          >
+                            Reject
+                          </Button>
+                        </div>
+                      )}
                   </div>
                 </Card>
               </Col>

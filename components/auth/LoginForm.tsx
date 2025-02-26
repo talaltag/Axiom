@@ -56,16 +56,16 @@ export default function LoginForm({
         <Button
           type="button"
           color="link"
-          className="position-absolute end-0 top-50 translate-middle-y border-0 p-0"
+          className="position-absolute end-0 top-50 translate-middle-y border-0 p-0 me-2"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ color: "#6C757D" }}
+          style={{ color: "#6C757D", transform: "translateY(-50%)", marginTop: "14px !important" }}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
       </FormGroup>
       <div className="d-flex justify-content-end mb-4">
         <a
-          href="#"
+          href="/auth/forgot-password"
           className="text-decoration-none text-muted"
           style={{ fontSize: "14px" }}
         >

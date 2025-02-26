@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../../lib/dbConnect";
 import TournamentRegistration from "../../../../models/TournamentRegistration";
+import Tournament from "../../../../models/Tournament"; // Added import for Tournament model
+import User from "../../../../models/User"; // Added import for User model
 import { withAuth } from "../../../../middleware/withAuth";
 
 export default withAuth(async function handler(
@@ -20,24 +22,32 @@ export default withAuth(async function handler(
   }
 
   const { id } = req.query;
-  const { paymentToken, paymentMethod } = req.body;
+  const { paymentToken, paymentMethod, amount } = req.body;
 
-  if (!paymentToken || !paymentMethod) {
+  if ((!paymentToken || !paymentMethod) && paymentMethod !== "wallet") {
     return res
       .status(400)
       .json({ success: false, message: "Payment details required" });
   }
 
+  // Validate payment amount matches tournament fee
+  const tournamentRegistration = await TournamentRegistration.findById(id);
+  if (!tournamentRegistration) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Tournament not found" });
+  }
+
+  const tournamentFee = parseFloat(tournamentRegistration.tournament.entryFee);
+  if (Math.abs(amount - tournamentFee) > 0.01) {
+    return res.status(400).json({
+      success: false,
+      message: "Payment amount does not match tournament fee",
+    });
+  }
+
   try {
     await dbConnect();
-
-    // Check if the TournamentRegistration exists
-    const tournamentRegistration = await TournamentRegistration.findById(id);
-    if (!tournamentRegistration) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Tournament registration not found" });
-    }
 
     // Initialize the memberPayments array if it doesn't exist
     if (!tournamentRegistration.memberPayments) {
@@ -51,7 +61,37 @@ export default withAuth(async function handler(
           payment.userId.toString() === userId.toString()
       ) || null;
 
+    const tournament = await Tournament.findById(
+      tournamentRegistration.tournament
+    );
+
+    if (!tournament) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tournament not found" });
+    }
+
     if (existingPayment) {
+      if (paymentMethod === "wallet") {
+        // Get user and check balance
+        const user = await User.findById(userId);
+        if (!user) {
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
+        }
+
+        if (user.walletBalance < tournament.entryFee) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Insufficient wallet balance" });
+        }
+
+        // Deduct from wallet
+        user.walletBalance -= tournament.entryFee;
+        await user.save();
+      }
+
       // If payment exists, update it
       existingPayment.paymentStatus = "completed";
       existingPayment.paymentToken = paymentToken;
@@ -73,11 +113,34 @@ export default withAuth(async function handler(
         paidAt: new Date(),
       });
 
-      // Save the new payment record in the tournament registration
+      // Get tournament entry fee
+
+      if (paymentMethod === "wallet") {
+        // Get user and check balance
+        const user = await User.findById(userId);
+        if (!user) {
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
+        }
+
+        if (user.walletBalance < tournament.entryFee) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Insufficient wallet balance" });
+        }
+
+        // Deduct from wallet
+        user.walletBalance -= tournament.entryFee;
+        await user.save();
+      }
+
       await tournamentRegistration.save();
       return res
         .status(200)
         .json({ success: true, data: tournamentRegistration });
+
+      // Save the new payment record in the tournament registration
     }
   } catch (error) {
     console.error("Error updating payment status:", error);

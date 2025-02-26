@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import TournamentRegistration from "../../../models/TournamentRegistration";
+import TournamentHistory from "../../../models/TournamentHistory";
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,7 +24,7 @@ export default async function handler(
               select: "-password",
             },
           })
-          .populate('organizer', 'name email');
+          .populate("organizer", "name email profileImage");
 
         if (!registration) {
           return res
@@ -31,7 +32,19 @@ export default async function handler(
             .json({ success: false, message: "Registration not found" });
         }
 
-        res.status(200).json({ success: true, data: registration });
+        if (registration.tournament.status == "completed") {
+          const allHistory = await TournamentHistory.find({
+            tournament: registration.tournament._id,
+          })
+            .populate("team")
+            .sort({ ranking: 1 });
+          res.status(200).json({
+            success: true,
+            data: { ...registration._doc, leads: allHistory },
+          });
+        } else {
+          res.status(200).json({ success: true, data: registration });
+        }
       } catch (error: any) {
         res.status(400).json({ success: false, error: error.message });
       }

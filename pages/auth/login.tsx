@@ -6,14 +6,28 @@ import Logo from "../../components/auth/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { error, isLoading, user } = useSelector(
-    (state: RootState) => state.auth,
+    (state: RootState) => state.auth
   );
+
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.data?.user?.role) {
+      const route =
+        session.data.user.role === "Admin" ||
+        session.data.user.role === "admin" ||
+        session.data.user.role === "Super"
+          ? "/admin/dashboard"
+          : "/user/dashboard";
+      router.push(route);
+    }
+  }, [session]);
 
   const handleLogin = async (email: string, password: string) => {
     const result = await signIn("credentials", {
@@ -22,13 +36,19 @@ export default function Login() {
       password,
     });
     if (result.error) {
-      console.error(result.error);
+      if (result.status == 401) {
+        alert("Wrong Credentials");
+      }
     }
     if (result.ok) {
-      const user = await fetch("/api/auth/session").then((res) => res.json());
+      const data = await fetch("/api/auth/session").then((res) => res.json());
       const route =
-        user.role === "Admin" || user.role === "admin"
+        data.user.role === "Admin" ||
+        data.user.role === "admin" ||
+        data.user.role === "Super"
           ? "/admin/dashboard"
+          : data.user.role === "Agent"
+          ? "/support-agent"
           : "/user/dashboard";
       router.push(route);
     }

@@ -17,6 +17,18 @@ const MemberPaymentSchema = new mongoose.Schema({
   paidAt: Date,
 });
 
+const TournamentUserScore = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  score: {
+    type: String,
+    default: 0,
+  },
+});
+
 const TournamentRegistrationSchema = new mongoose.Schema({
   tournament: {
     type: mongoose.Schema.Types.ObjectId,
@@ -34,6 +46,8 @@ const TournamentRegistrationSchema = new mongoose.Schema({
     required: true,
   },
   memberPayments: [MemberPaymentSchema],
+  beforeTournamentScore: [TournamentUserScore],
+  afterTournamentScore: [TournamentUserScore],
   createdAt: {
     type: Date,
     default: Date.now,

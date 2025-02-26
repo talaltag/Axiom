@@ -26,11 +26,23 @@ const ReactQuill = dynamic(() => import("react-quill"), {
   loading: () => <p>Loading editor...</p>,
 });
 import "react-quill/dist/quill.snow.css";
+import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
+import "react-clock/dist/Clock.css";
+
+const TimePicker = dynamic(() => import("@wojtekmaj/react-timerange-picker"), {
+  ssr: false,
+  loading: () => <p>Loading time picker...</p>,
+});
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { fileToUrl } from "../../utils/helper";
 
 export default function CreateTournament() {
   const router = useRouter();
+  type ValuePiece = Date | string | null;
+
+  type Value = ValuePiece | [ValuePiece, ValuePiece];
+
   const [formData, setFormData] = useState({
     name: "Call of Duty Tournament 2024",
     type: "Kill Race",
@@ -38,8 +50,8 @@ export default function CreateTournament() {
     platform: "PC",
     gameMode: "Battle Royale",
     teamSize: "Squad",
-    date: "2024-02-01",
-    time: "21:00",
+    date: new Date().toISOString().split("T")[0],
+    time: ["10:00", "11:00"] as Value,
     entryFee: "50",
     category: "Cash",
     restrictions: "Platform-Specific",
@@ -68,24 +80,7 @@ export default function CreateTournament() {
       )
       .slice(0, 5);
 
-    const newImages = await Promise.all(
-      validFiles.map(async (file) => {
-        const base64 = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = (error) => reject(error);
-        });
-        return {
-          url: base64,
-          file,
-        };
-      })
-    );
-
-    console.log(newImages);
-
-    setFormData({ ...formData, images: [...formData.images, ...newImages] });
+    setFormData({ ...formData, images: [...formData.images, ...validFiles] });
   };
 
   const handleRemoveImage = (index) => {
@@ -102,18 +97,29 @@ export default function CreateTournament() {
       const percentage = i === 0 ? 50 : i === 1 ? 30 : 20;
       distribution[i] = (totalPrize * percentage) / 100;
     }
-    setPrizeDistribution(distribution);
+    setFormData({ ...formData, prizeSplit: distribution });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formDataObj = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "images" || key === "prizeSplit") {
+          value.forEach((val) => {
+            formDataObj.append(key, val);
+          });
+        } else if (key === "time") {
+          formDataObj.append("time", value[0]);
+          formDataObj.append("end", value[1]);
+        } else {
+          formDataObj.append(key, value);
+        }
+      });
+
       const response = await fetch("/api/tournaments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
 
       const data = await response.json();
@@ -225,6 +231,7 @@ export default function CreateTournament() {
                   <MenuItem value="Solo">Solo</MenuItem>
                   <MenuItem value="Duo">Duo</MenuItem>
                   <MenuItem value="Squad">Squad</MenuItem>
+                  <MenuItem value="Trio">Trio</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -235,6 +242,9 @@ export default function CreateTournament() {
                 label="Date"
                 type="date"
                 value={formData.date}
+                InputProps={{
+                  inputProps: { min: new Date().toISOString().split("T")[0] },
+                }}
                 onChange={(e) =>
                   setFormData({ ...formData, date: e.target.value })
                 }
@@ -243,15 +253,9 @@ export default function CreateTournament() {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Time"
-                type="time"
+              <TimePicker
+                onChange={(e) => setFormData({ ...formData, time: e })}
                 value={formData.time}
-                onChange={(e) =>
-                  setFormData({ ...formData, time: e.target.value })
-                }
-                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -402,7 +406,7 @@ export default function CreateTournament() {
                   {formData.images.map((image, index) => (
                     <Card key={index} sx={{ position: "relative", width: 200 }}>
                       <img
-                        src={image.url}
+                        src={fileToUrl(image)}
                         alt=""
                         style={{ width: "100%", height: "auto" }}
                       />
@@ -462,7 +466,7 @@ export default function CreateTournament() {
               </Button>
             </Grid>
 
-            {prizeDistribution.map((prize, index) => (
+            {formData.prizeSplit.map((prize, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <TextField
                   fullWidth

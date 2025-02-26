@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Container,
   Row,
@@ -6,268 +6,563 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText,
-  Badge,
-  Progress,
   Button,
+  Progress,
 } from "reactstrap";
-import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
-import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { useRouter } from "next/router";
-import { ArrowRight } from "react-feather";
+
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 
 interface Tournament {
-  title: string;
+  _id: string;
+  name: string;
   date: string;
   time: string;
-  prize: string;
-  entryCost: string;
-  image: string;
-  name: string;
-  totalPrizePool: string;
+  endTime: string;
   entryFee: string;
-  images: string[];
+  platform: string;
+  teamSize: string;
+  prize: string;
+  type: string;
+  game: string;
+  images: String[];
+  gameMode: string;
+  end: string;
 }
 
 export default function UserDashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-
   const session = useSession();
-
-  const gameStats = [
-    { name: "Fortnite", lastScore: "102234", progress: 75 },
-    { name: "Pubg", lastScore: "102234", progress: 85 },
-    { name: "Apex", lastScore: "102234", progress: 90 },
-  ];
-
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [activeTab, setActiveTab] = useState("upcoming");
 
-  const [registeredTournaments, setRegisteredTournaments] = useState<any[]>([]);
+  const [leaderStat, setLeaderStat] = useState(null);
 
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
-        const url = activeTab === "my" 
-          ? `/api/tournaments?filter=my&userId=${session?.data?.user?.id}`
-          : "/api/tournaments";
+        const url = "/api/tournaments";
         const response = await fetch(url);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch tournaments");
+        }
         const data = await response.json();
         if (data.success) {
-          if (activeTab === "my") {
-            setRegisteredTournaments(data.data);
-          } else {
-            setTournaments(data.data);
-          }
+          setTournaments(data.data);
+        } else {
+          throw new Error(data.message || "An unexpected error occurred");
         }
       } catch (error) {
         console.error("Error fetching tournaments:", error);
       }
     };
 
-    if (session?.data?.user?.id) {
-      fetchTournaments();
-    }
-  }, [activeTab, session?.data?.user?.id]);
+    fetchTournaments();
+  }, []);
 
-  if (!session) return null;
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const url = "/api/tournaments/stats";
+        const response = await fetch(url);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch tournaments");
+        }
+        const data = await response.json();
+        if (data.success) {
+          setLeaderStat(data.data);
+        } else {
+          throw new Error(data.message || "An unexpected error occurred");
+        }
+      } catch (error) {
+        console.error("Error fetching tournaments:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const gameStats = useMemo(() => {
+    if (leaderStat?.afterTournamentScore)
+      return [
+        {
+          name: "Fortnite",
+          lastScore: leaderStat.afterTournamentScore.reduce(
+            (acc, curr) => acc + parseInt(curr.score),
+            0,
+          ),
+          score: 80,
+        },
+      ];
+    else return [{ name: "Fortnite", lastScore: 0, score: 0 }];
+  }, [leaderStat]);
+
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
-        <Row className="mb-4">
-          <Col>
-            <h4 className="mb-1">Welcome back, {session.data?.user?.name}</h4>
-            <p className="text-muted mb-0">
-              Track your gaming progress and upcoming tournaments
-            </p>
-          </Col>
-        </Row>
+        <div className="position-relative mb-5" style={{ height: "400px" }}>
+          <Image
+            src="/fortnite-banner.png"
+            alt="Warzone"
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
+          />
+          <div
+            className="position-absolute text-white"
+            style={{
+              top: "32px",
+              left: "32px",
+              right: "32px",
+            }}
+          >
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <h2
+                  className="mb-0"
+                  style={{ fontSize: "24px", fontWeight: 600 }}
+                >
+                  Warzone
+                </h2>
+                <div style={{ fontSize: "14px" }}>
+                  May 23, 2023 9:00PM - 10:30PM EST
+                </div>
+              </div>
+            </div>
+            <h3
+              style={{
+                fontSize: "40px",
+                fontWeight: 700,
+                marginBottom: "24px",
+              }}
+            >
+              2022 world champs gaming
+            </h3>
+            <Button
+              color="warning"
+              className="px-4"
+              onClick={() => router.push("/user/dashboard/tournaments")}
+              style={{
+                backgroundColor: "#FFD600",
+                border: "none",
+                padding: "8px 16px",
+                fontWeight: 600,
+              }}
+            >
+              Register Now
+            </Button>
+          </div>
+          {tournaments && tournaments.length > 0 && (
+            <div
+              className="position-absolute"
+              style={{ bottom: "-151px", left: "32px", right: "32px" }}
+            >
+              <Row className="g-4">
+                {tournaments.slice(0, 3).map((tournament, index) => (
+                  <Col md={3} key={index}>
+                    <Card
+                      className="border-0 h-100 tournament-card bg-white"
+                      style={{ borderRadius: "12px", overflow: "hidden" }}
+                    >
+                      <div style={{ height: "160px", position: "relative" }}>
+                        <Image
+                          src={
+                            tournament?.images?.[0] || "/fortnite-banner.png"
+                          }
+                          alt={tournament?.name || "Tournament"}
+                          fill
+                          sizes="100vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                      <CardBody className="p-3">
+                        <h5
+                          className="mb-2"
+                          style={{ fontSize: "16px", fontWeight: 600 }}
+                        >
+                          {tournament.name}
+                        </h5>
+                        <div
+                          style={{ fontSize: "12px" }}
+                          className="text-muted mb-2"
+                        >
+                          {tournament.date} {tournament.time} - {tournament.end}
+                        </div>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div></div>
+                          <div className="text-end">
+                            <div
+                              className="text-muted mb-1"
+                              style={{ fontSize: "12px" }}
+                            >
+                              Entry Cost
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                color: "#DC3545",
+                              }}
+                            >
+                              ${tournament.entryFee}
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          color="link"
+                          className="w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2 mt-3"
+                          style={{
+                            color: "#FFD600",
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            padding: "4px",
+                          }}
+                          onClick={() =>
+                            router.push(
+                              `/user/dashboard/register-tournament/${tournament._id}`,
+                            )
+                          }
+                        >
+                          Register Now <span>→</span>
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          )}
+        </div>
+        {leaderStat && (
+          <Row style={{ paddingTop: "128px" }}>
+            <Col md={8}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5
+                  className="mb-0"
+                  style={{ fontSize: "16px", fontWeight: 600 }}
+                >
+                  Leaderboard
+                </h5>
+                <span
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    color: "#101828",
+                  }}
+                >
+                  More
+                </span>
+              </div>
+              <Card
+                className="border-0 mb-4 leaderboard-card"
+                style={{
+                  borderRadius: "16px",
+                  background: "#FFD600",
+                  boxShadow:
+                    "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                  height: "420px",
+                  padding: "0 24px 24px 24px",
+                  overflow: "hidden",
+                }}
+              >
+                <CardBody className="p-0" style={{ background: "#FFD600" }}>
+                  <div
+                    className="position-relative podium-container mb-4"
+                    style={{ height: "240px" }}
+                  >
+                    <div className="d-flex justify-content-center align-items-center">
+                      {leaderStat.afterTournamentScore
+                        .slice(0, 3)
+                        .sort((a, b) => b.score - a.score)
+                        .map((item, i) => (
+                          <>
+                            {/* Second Place - Left */}
 
-        <Row className="mb-4">
-          {gameStats.map((game, index) => (
-            <Col md={4} key={index}>
-              <Card className="border-0 shadow-sm">
-                <CardBody>
-                  <CardTitle tag="h5">{game.name}</CardTitle>
-                  <CardText tag="div">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span>Last Score</span>
-                      <span className="fw-bold">{game.lastScore}</span>
+                            {i === 1 && (
+                              <div
+                                className="podium-player"
+                                style={{ marginTop: "40px", order: 1 }}
+                              >
+                                <div className="podium-avatar-container">
+                                  <Image
+                                    src={
+                                      item.user.profileImage ??
+                                      "/profile-avatar.png"
+                                    }
+                                    alt="2nd Place"
+                                    width={64}
+                                    height={64}
+                                    className="rounded-circle"
+                                    style={{ border: "3px solid white" }}
+                                  />
+                                </div>
+                                <div className="podium-name">
+                                  {item.user.name}
+                                </div>
+                                <div
+                                  className="podium-info"
+                                  style={{
+                                    minWidth: "62.142px",
+                                    height: "86.998px",
+                                    borderRadius: "32px !important",
+                                  }}
+                                >
+                                  2nd
+                                  <div
+                                    style={{
+                                      background: "#FFF3DA",
+                                      marginTop: "12px",
+                                      fontSize: "12px",
+                                      color: "rgba(254, 168, 0, 1)",
+                                      borderRadius: "10px",
+                                    }}
+                                  >
+                                    {item.score}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {/* First Place - Center */}
+                            {i === 0 && (
+                              <div
+                                className="podium-player"
+                                style={{ margin: "0 40px", order: 2 }}
+                              >
+                                <div className="podium-avatar-container">
+                                  <div className="crown-container">👑</div>
+                                  <Image
+                                    src={
+                                      item.user.profileImage ??
+                                      "/profile-avatar.png"
+                                    }
+                                    alt="1st Place"
+                                    width={80}
+                                    height={80}
+                                    className="rounded-circle"
+                                    style={{ border: "4px solid white" }}
+                                  />
+                                </div>
+                                <div className="podium-name">
+                                  {item.user.name}
+                                </div>
+                                <div
+                                  className="podium-info"
+                                  style={{
+                                    minWidth: "62.142px",
+                                    height: "86.998px",
+                                    borderRadius: "32px !important",
+                                  }}
+                                >
+                                  <div>
+                                    1st
+                                    <p
+                                      style={{
+                                        background: "#FFF3DA",
+                                        marginTop: "12px",
+                                        fontSize: "12px",
+                                        color: "rgba(254, 168, 0, 1)",
+                                        borderRadius: "10px",
+                                      }}
+                                    >
+                                      {item.score}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Third Place - Right */}
+                            {i === 2 && (
+                              <div
+                                className="podium-player"
+                                style={{ marginTop: "60px", order: 3 }}
+                              >
+                                <div className="podium-avatar-container">
+                                  <Image
+                                    src={
+                                      item.user.profileImage ??
+                                      "/profile-avatar.png"
+                                    }
+                                    alt="3rd Place"
+                                    width={56}
+                                    height={56}
+                                    className="rounded-circle"
+                                    style={{ border: "3px solid white" }}
+                                  />
+                                </div>
+                                <div className="podium-name">
+                                  {item.user.name}
+                                </div>
+                                <div
+                                  className="podium-info"
+                                  style={{
+                                    minWidth: "62.142px",
+                                    height: "86.998px",
+                                    borderRadius: "32px !important",
+                                  }}
+                                >
+                                  3rd
+                                  <div
+                                    style={{
+                                      background: "#FFF3DA",
+                                      marginTop: "12px",
+                                      fontSize: "12px",
+                                      color: "rgba(254, 168, 0, 1)",
+                                      borderRadius: "10px",
+                                    }}
+                                  >
+                                    {item.score}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ))}
                     </div>
-                  </CardText>
-                  <Progress
-                    value={game.progress}
-                    className="mt-2"
-                    color="warning"
-                    style={{ height: "8px" }}
-                  />
+                  </div>
+
+                  {/* <div
+                                      className="leaderboard-list px-3"
+                                      style={{
+                                        maxHeight: "220px",
+                                        overflowY: "auto",
+                                      }}
+                                    >
+                                      {leaderboardData.map((player, index) => (
+                                        <div
+                                          key={index}
+                                          className="d-flex align-items-center mb-2 p-3"
+                                          style={{
+                                            backgroundColor: "white",
+                                            borderRadius: "12px",
+                                            transition: "all 0.2s ease",
+                                            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+                                          }}
+                                        >
+                                          <div
+                                            className="me-3"
+                                            style={{
+                                              color: "#101828",
+                                              width: "24px",
+                                              fontSize: "16px",
+                                              fontWeight: 600,
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {player.rank}
+                                          </div>
+                                          <div
+                                            style={{
+                                              width: "40px",
+                                              height: "40px",
+                                              position: "relative",
+                                            }}
+                                            className="me-3"
+                                          >
+                                            <Image
+                                              src={player.avatar}
+                                              alt={player.name}
+                                              width={40}
+                                              height={40}
+                                              className="rounded-circle"
+                                              style={{ border: "2px solid #FFD600" }}
+                                            />
+                                          </div>
+                                          <div className="flex-grow-1 d-flex justify-content-between align-items-center">
+                                            <div style={{ fontSize: "14px", color: "#101828" }}>
+                                              {player.name}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontSize: "14px",
+                                                color: "#667085",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              {player.time}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div> */}
                 </CardBody>
               </Card>
             </Col>
-          ))}
-        </Row>
-
-        <Row className="mb-4">
-          <Col>
-            <Card className="border-0 shadow-sm">
-              <CardBody>
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div>
-                    <Button
-                      color={activeTab === "upcoming" ? "warning" : "light"}
-                      className="me-2"
-                      onClick={() => setActiveTab("upcoming")}
-                    >
-                      Upcoming Tournaments
-                    </Button>
-                    <Button
-                      color={activeTab === "my" ? "warning" : "light"}
-                      onClick={() => setActiveTab("my")}
-                    >
-                      My Tournaments
-                    </Button>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="search"
-                      className="form-control me-2"
-                      placeholder="Search tournaments..."
-                      style={{ width: "250px" }}
-                    />
-                  </div>
-                </div>
-                <Row>
-                  {activeTab === "my" ? (
-                    registeredTournaments.map((registration) => (
-                      <Col md={4} key={registration._id} className="mb-4">
-                        <Card className="border-0 shadow-sm h-100">
-                          <div style={{ height: "200px", position: "relative" }}>
-                            <Image
-                              src={registration?.tournament?.images?.[0] || "/fortnite-banner.png"}
-                              alt={registration?.tournament?.name || "Tournament"}
-                              width={400}
-                              height={200}
-                              style={{
-                                objectFit: "cover",
-                                width: "100%",
-                                height: "100%",
-                              }}
-                              priority
-                            />
-                          </div>
-                          <CardBody>
-                            <CardTitle tag="h5">{registration.tournament.name}</CardTitle>
-                            <CardText>
-                              <small className="text-muted d-block mb-2">
-                                {registration.tournament.date} • {registration.tournament.time}
-                              </small>
-                              <div className="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                  <small className="text-muted">Team</small>
-                                  <h6 className="mb-0">{registration.team?.name}</h6>
-                                </div>
-                                <div className="text-end">
-                                  <small className="text-muted">Status</small>
-                                  <h6 className="mb-0 text-capitalize">{registration.paymentStatus}</h6>
-                                </div>
-                              </div>
-                              <Button
-                                color="warning"
-                                block
-                                onClick={() => router.push(`/user/dashboard/confirm/${registration._id}`)}
-                              >
-                                View Details <ArrowRight size={16} className="ms-2" />
-                              </Button>
-                            </CardText>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    ))
-                  ) : (
-                    tournaments.map((tournament, index) => (
-                    <Col md={4} key={index}>
-                      <Card className="border-0 shadow-sm h-100">
-                        <div style={{ height: "200px", position: "relative" }}>
-                          <Image
-                            src={`${
-                              tournament.images && tournament.images.length > 0
-                                ? tournament.images[0]
-                                : "/fortnite-banner.png"
-                            }`}
-                            alt={tournament.name || "Game"}
-                            width={400}
-                            height={200}
-                            style={{
-                              objectFit: "cover",
-                              width: "100%",
-                              height: "100%",
-                            }}
-                            priority
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              right: "10px",
-                              background: "rgba(255,0,0,0.8)",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                              color: "white",
-                              fontSize: "12px",
-                            }}
+            <Col md={4}>
+              <h5 className="mb-4 fw-bold" style={{ fontSize: "16px" }}>
+                Last Game Stats
+              </h5>
+              <Card
+                className="border-0 mb-4"
+                style={{
+                  borderRadius: "16px",
+                  background: "#FFFFFF",
+                  boxShadow:
+                    "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                }}
+              >
+                <CardBody className="p-4">
+                  {gameStats.map((stat, index) => (
+                    <div key={index} className="mb-4">
+                      <div className="d-flex flex-column mb-1">
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            color: "#344054",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {stat.name}
+                        </span>
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <small
+                            className="text-muted"
+                            style={{ fontSize: "12px" }}
                           >
-                            Closing in 10:88:00
-                          </div>
+                            Last Score
+                          </small>
+                          <span style={{ fontSize: "12px", color: "#344054" }}>
+                            {stat.lastScore}
+                          </span>
                         </div>
-                        <CardBody>
-                          <CardTitle tag="h5">{tournament.name}</CardTitle>
-                          <CardText>
-                            <small className="text-muted d-block mb-2">
-                              {tournament.date} • {tournament.time}
-                            </small>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <div>
-                                <small className="text-muted">Prize Pool</small>
-                                <h6 className="mb-0">
-                                  ${tournament.totalPrizePool}
-                                </h6>
-                              </div>
-                              <div className="text-end">
-                                <small className="text-muted">Entry Fee</small>
-                                <h6 className="mb-0">${tournament.entryFee}</h6>
-                              </div>
-                            </div>
-                            <Button color="warning" block>
-                              Register Now{" "}
-                              <ArrowRight size={16} className="ms-2" />
-                            </Button>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Col>
+                      </div>
+                      <Progress
+                        value={stat.score}
+                        style={{
+                          height: "8px",
+                          borderRadius: "16px",
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(92, 92, 216, 0.7), rgba(255, 214, 0, 0.7))",
+                        }}
+                      />
+                    </div>
                   ))}
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={4}>
-            <Card className="border-0 shadow-sm">
-              <CardBody>
-                <h5 className="mb-3">Winning Streak</h5>
-                <div className="text-center">
-                  <h2 className="mb-0 text-warning">98%</h2>
-                  <p className="text-muted">Current Win Rate</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+                  <div
+                    className="mt-4 p-3 text-center"
+                    style={{
+                      background: "#FFD600",
+                      borderRadius: "8px",
+                      marginTop: "44px !important",
+                    }}
+                  >
+                    <div
+                      className="fw-bold mb-1"
+                      style={{ fontSize: "24px", color: "#101828" }}
+                    >
+                      98%
+                    </div>
+                    <div style={{ fontSize: "14px", color: "#101828" }}>
+                      Winning streak
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        )}
       </Container>
     </UserDashboardLayout>
   );

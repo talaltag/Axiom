@@ -10,14 +10,6 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export default function AdminDashboard() {
   const router = useRouter();
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (!userData) {
-      router.push("/auth/login");
-      return;
-    }
-  }, [router]);
-
   const statsData = [
     { title: "Gross Profit", amount: "1000", percent: "40", trend: "up" },
     { title: "Current Net Profit", amount: "3400", percent: "40", trend: "up" },
