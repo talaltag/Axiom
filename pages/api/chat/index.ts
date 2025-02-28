@@ -2,8 +2,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Chat from "../../../models/Chat";
 import formidable from "formidable";
-import fs from "fs";
 import path from "path";
+import Settings from "../../../models/Settings";
+import Notification from "../../../models/Notification";
+import User from "../../../models/User";
+import { withAuth } from "../../../middleware/withAuth";
 
 export const config = {
   api: {
@@ -11,7 +14,7 @@ export const config = {
   },
 };
 
-export default async function handler(
+export default withAuth(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -74,6 +77,33 @@ export default async function handler(
       }
 
       const message = await Chat.create(messageData);
+
+      const setting = await Settings.findOne({
+        type: "message",
+        enabled: true,
+        userId: messageData.receiver,
+      });
+
+      const user = await User.findById(messageData.receiver);
+
+      if (setting && user.role === "User") {
+        await Notification.create({
+          recipient: setting.userId,
+          type: "message",
+          title: `${req.user.name} sent you a message`,
+          relatedId: message._id,
+          status: "accepted",
+        });
+      } else if (user && user.role !== "User") {
+        await Notification.create({
+          recipient: user._id,
+          type: "message",
+          title: `${req.user.name} sent you a message`,
+          relatedId: message._id,
+          status: "accepted",
+        });
+      }
+
       const populatedMessage = await message;
 
       res.status(201).json({ success: true, data: populatedMessage });
@@ -83,4 +113,4 @@ export default async function handler(
   } else {
     res.status(405).json({ success: false, message: "Method not allowed" });
   }
-}
+});

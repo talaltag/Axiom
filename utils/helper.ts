@@ -1,3 +1,4 @@
+import moment, { Moment } from "moment";
 export const ShowNavigatorDeviceModal = async () => {
   try {
     // First check microphone permission
@@ -82,4 +83,44 @@ export const formatDateCron = (currentDate) => {
 
 export const totalCountInArray = (data, key) => {
   return data.reduce((acc, curr) => acc + parseInt(curr[key]), 0);
+};
+
+export const formatCountDown = (duration) => {
+  let hours = "00";
+  let minutes = "00";
+  let seconds = "00";
+  if (duration) {
+    const totalSeconds = Math.floor(duration.asSeconds());
+    hours = Math.floor(totalSeconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    minutes = Math.floor((totalSeconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    seconds = Math.floor(totalSeconds % 60)
+      .toString()
+      .padStart(2, "0");
+  }
+
+  return `${hours}:${minutes}:${seconds}`;
+};
+
+export const countDownTimer = (date: Date, start: string) => {
+  const [hours, mins] = start.split(":");
+  const dateTime = moment(date)
+    .add(Number(hours), "hours")
+    .add(Number(mins), "minutes");
+
+  // Check if the target time has already passed
+  const currentTime = moment();
+
+  let diff = moment.duration(dateTime.diff(currentTime));
+
+  // If the target time is in the past, set the countdown to zero
+  if (diff.asSeconds() < 0) {
+    diff = moment.duration(0); // Set duration to zero if time is up
+  }
+
+  console.log("Current time:", dateTime.format());
+  return diff;
 };

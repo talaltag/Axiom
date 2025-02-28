@@ -94,7 +94,7 @@ export default function CreateTournament() {
 
     const distribution = [];
     for (let i = 0; i < formData.winnerCount; i++) {
-      const percentage = i === 0 ? 50 : i === 1 ? 30 : 20;
+      const percentage = i === 0 ? 100 : i === 1 ? 30 : 20;
       distribution[i] = (totalPrize * percentage) / 100;
     }
     setFormData({ ...formData, prizeSplit: distribution });

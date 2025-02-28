@@ -1,39 +1,45 @@
-
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema({
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   type: {
     type: String,
-    enum: ['friend_request', 'tournament'],
-    required: true
+    enum: [
+      "friend_request",
+      "tournament",
+      "announcement",
+      "reminder",
+      "message",
+    ],
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   description: String,
   isRead: {
     type: Boolean,
-    default: false
+    default: false,
   },
   status: {
     type: String,
-    enum: ['pending', 'accepted', 'rejected'],
-    default: 'pending'
+    enum: ["pending", "accepted", "rejected"],
+    default: "pending",
   },
   relatedId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export default mongoose.models.Notification || mongoose.model('Notification', NotificationSchema);
+export default mongoose.models.Notification ||
+  mongoose.model("Notification", NotificationSchema);

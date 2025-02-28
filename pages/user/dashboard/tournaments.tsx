@@ -7,21 +7,16 @@ import {
   Col,
   Card,
   CardBody,
-  CardTitle,
   Button,
   Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  CardText,
   Alert,
 } from "reactstrap";
 import Image from "next/image";
-import { ArrowRight, Search, MessageSquare } from "react-feather"; // Added import for MessageSquare
+import { ArrowRight, Search, MessageSquare } from "react-feather";
 import Loader from "../../../components/common/Loader";
 import { useRouter } from "next/router";
 import TournamentHistoryTable from "../../../components/tournaments/TournamentHistoryTable";
+import TournamentCard from "../../../components/tournaments/TournamentCard";
 
 export default function Tournaments() {
   const { data: session } = useSession();
@@ -143,7 +138,7 @@ export default function Tournaments() {
                         boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
                       }}
                     >
-                      My Tournaments
+                      My / Invited Tournaments
                     </Button>
                   </div>
                   <div className="d-flex align-items-center gap-3">
@@ -363,139 +358,16 @@ export default function Tournaments() {
                         key={registration._id}
                         className="mb-4"
                       >
-                        <Card
-                          className="tournament-card h-100"
-                          style={{
-                            borderRadius: "16px",
-                            overflow: "hidden",
-                            border: "1px solid #EAECF0",
-                            backgroundColor: "#FFFFFF",
-                            boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+                        <TournamentCard
+                          item={{
+                            ...{
+                              ...registration.tournament,
+                              _id: registration._id,
+                            },
+
+                            memberPayments: registration.memberPayments,
                           }}
-                        >
-                          <div
-                            style={{ position: "relative", height: "180px" }}
-                          >
-                            {registration?.tournament.status ===
-                            "Registration Open" ? (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  bottom: "12px",
-                                  left: "12px",
-                                  zIndex: 2,
-                                  background: "rgba(237, 20, 91, 0.9)",
-                                  padding: "4px 12px",
-                                  borderRadius: "16px",
-                                  fontSize: "14px",
-                                  color: "#FFFFFF",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Closing in: 10:88:00
-                              </div>
-                            ) : null}
-                            <Image
-                              src={
-                                registration?.tournament?.images?.[0] ||
-                                "/fortnite-banner.png"
-                              }
-                              alt={
-                                registration?.tournament?.name || "Tournament"
-                              }
-                              layout="fill"
-                              objectFit="cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          </div>
-                          <CardBody className="p-4">
-                            <h5
-                              style={{
-                                fontSize: "18px",
-                                fontWeight: 600,
-                                marginBottom: "4px",
-                                color: "#101828",
-                              }}
-                            >
-                              {registration.tournament.name}
-                            </h5>
-                            <div
-                              style={{
-                                fontSize: "14px",
-                                color: "#667085",
-                                marginBottom: "24px",
-                              }}
-                            >
-                              {registration.tournament.date} •{" "}
-                              {registration.tournament.time}
-                              {" - "}
-                              {registration.tournament.end}
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center mb-4">
-                              <div>
-                                <div
-                                  style={{
-                                    fontSize: "14px",
-                                    color: "#344054",
-                                    marginBottom: "4px",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Prize
-                                </div>
-                                <div
-                                  style={{
-                                    fontSize: "20px",
-                                    fontWeight: 600,
-                                    color: "#F04438",
-                                  }}
-                                >
-                                  ${registration.tournament.totalPrizePool}
-                                </div>
-                              </div>
-                              <div className="text-end">
-                                <div
-                                  style={{
-                                    fontSize: "14px",
-                                    color: "#344054",
-                                    marginBottom: "4px",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Entry Cost
-                                </div>
-                                <div
-                                  style={{
-                                    fontSize: "20px",
-                                    fontWeight: 600,
-                                    color: "#F04438",
-                                  }}
-                                >
-                                  ${registration.tournament.entryFee}
-                                </div>
-                              </div>
-                            </div>
-                            <Button
-                              color="link"
-                              className="text-decoration-none p-0"
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                color: "#101828",
-                                display: "flex",
-                                alignItems: "center",
-                              }}
-                              onClick={() =>
-                                router.push(
-                                  `/user/dashboard/confirm/${registration._id}`
-                                )
-                              }
-                            >
-                              See Details{" "}
-                              <ArrowRight size={20} className="ms-2" />
-                            </Button>
-                          </CardBody>
-                        </Card>
+                        />
                       </Col>
                     ))
                   ) : tournaments.length === 0 && activeTab !== "history" ? (

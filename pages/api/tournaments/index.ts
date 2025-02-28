@@ -12,6 +12,8 @@ import User from "../../../models/User";
 import { withAuth } from "../../../middleware/withAuth";
 import TournamentHistory from "../../../models/TournamentHistory";
 import TournamentPrize from "../../../models/TournamentPrize";
+import Settings from "../../../models/Settings";
+import Notification from "../../../models/Notification";
 
 export const config = {
   api: {
@@ -209,6 +211,21 @@ export default withAuth(async function handler(
         // Create the tournament
         const tournament = await Tournament.create(payload);
 
+        const settings = await Settings.find({
+          type: "announcement",
+          enabled: true,
+        });
+
+        for (const set of settings) {
+          await Notification.create({
+            recipient: set.userId,
+            type: "tournament",
+            title: `New Tournament ${tournament.name} has been created`,
+            relatedId: tournament._id,
+            status: "accepted",
+          });
+        }
+
         // Schedule tournament start (change to ongoing)
         const startDateTime = new Date(tournament.date);
 
@@ -312,6 +329,7 @@ export default withAuth(async function handler(
                 _id: 1,
                 tournament: "$tournamentData",
                 team: "$teamData",
+                memberPayments: 1,
                 organizer: 1,
                 paymentStatus: 1,
                 createdAt: 1,
@@ -325,13 +343,55 @@ export default withAuth(async function handler(
             count: registrations.length,
           });
         } else {
-          const tournaments =
-            req.user.role == "User"
-              ? await Tournament.find({
-                  status: "Registration Open",
-                }).lean()
-              : await Tournament.find().lean();
+          let tournaments = [];
+          if (req.user.role == "User") {
+            const user_id = new mongoose.Types.ObjectId(req.user.id);
+            tournaments = await Tournament.find({
+              status: "Registration Open",
+            }).lean();
+            const registrations = await TournamentRegistration.aggregate([
+              {
+                $lookup: {
+                  from: "teams",
+                  localField: "team",
+                  foreignField: "_id",
+                  as: "teamData",
+                },
+              },
+              {
+                $unwind: "$teamData",
+              },
+              {
+                $match: {
+                  $or: [
+                    { organizer: user_id },
+                    {
+                      $and: [{ "teamData.members": user_id }],
+                    },
+                  ],
+                },
+              },
+              {
+                $project: {
+                  _id: 1,
+                  tournament: 1,
+                },
+              },
+            ]);
 
+            const registeredTournamentIds = registrations.map((reg) =>
+              reg.tournament.toString()
+            );
+
+            console.log("registeredTournamentIds", registeredTournamentIds);
+
+            tournaments = tournaments.filter(
+              (tournament) =>
+                !registeredTournamentIds.includes(tournament._id.toString())
+            );
+          } else {
+            tournaments = await Tournament.find().lean();
+          }
           return res.status(200).json({ success: true, data: tournaments });
         }
       } catch (error) {
