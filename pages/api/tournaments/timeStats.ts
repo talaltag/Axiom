@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { withAuth } from "../../../middleware/withAuth";
 import mongoose from "mongoose";
 import TournamentHistory from "../../../models/TournamentHistory";
-import TournamentPrize from "../../../models/TournamentPrize";
-import { monthsCount } from "../../../utils/helper";
+import { countDownTimer, monthsCount } from "../../../utils/helper";
+import moment from "moment";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -18,7 +18,35 @@ export default withAuth(async function handler(
   const userIdObject = new mongoose.Types.ObjectId(req.user.id);
 
   if (req.method === "GET") {
+    const { type } = req.query;
     try {
+      const currentDate = moment().startOf("day").format("YYYY-MM-DD");
+      const currentMonthStart = moment().startOf("month").format("YYYY-MM-DD");
+      const currentMonthEnd = moment().endOf("month").format("YYYY-MM-DD");
+      let dateMatchCondition = {};
+
+      if (type == "last") {
+        dateMatchCondition = {
+          "tournament.date": {
+            $gte: moment()
+              .add(-1, "month")
+              .startOf("month")
+              .format("YYYY-MM-DD"),
+            $lt: moment(currentDate)
+              .add(-1, "month")
+              .endOf("month")
+              .format("YYYY-MM-DD"),
+          },
+        };
+      } else if (type == "month") {
+        dateMatchCondition = {
+          "tournamentData.date": {
+            $gte: currentMonthStart,
+            $lt: currentMonthEnd,
+          },
+        };
+      }
+
       const registrations = await TournamentHistory.aggregate([
         {
           $lookup: {
@@ -34,23 +62,22 @@ export default withAuth(async function handler(
             preserveNullAndEmptyArrays: true,
           },
         },
-
-        {
-          $match: {
-            $or: [
-              { organizer: userIdObject },
-              {
-                $and: [{ "teamData.memberPayments.userId": userIdObject }],
-              },
-            ],
-          },
-        },
         {
           $lookup: {
             from: "tournaments",
             localField: "tournament",
             foreignField: "_id",
             as: "tournamentData",
+          },
+        },
+        {
+          $match: {
+            $or: [
+              { organizer: userIdObject },
+              { $and: [{ "teamData.memberPayments.userId": userIdObject }] },
+            ],
+            // Add the date match condition to the match stage
+            ...dateMatchCondition,
           },
         },
         {
@@ -68,28 +95,17 @@ export default withAuth(async function handler(
         },
       ]);
 
-      const tournamentPrizes = await TournamentPrize.find({
-        userId: req.user.id,
-      });
-
-      var months = monthsCount;
-
       var chartStats = {
-        played: { ...months },
-        loss: { ...months },
-        win: { ...months },
+        ...monthsCount,
       };
 
       const saveRegistrationsToMonths = async () => {
         try {
-          // Iterate over the registrations and categorize them by month
           registrations.forEach((registration) => {
-            const createdAt = new Date(registration.createdAt); // assuming createdAt is a Date object or timestamp
+            const { tournament } = registration;
+            const date = new Date(tournament.date);
+            const monthIndex = date.getMonth();
 
-            // Get the month number (0-based, where 0 = January, 1 = February, etc.)
-            const monthIndex = createdAt.getMonth();
-
-            // Map the month number to the corresponding month in the months object
             const monthNames = [
               "jan",
               "feb",
@@ -107,36 +123,20 @@ export default withAuth(async function handler(
 
             const monthString = monthNames[monthIndex];
 
-            // Increment the counter for the corresponding month
-            chartStats.played[monthString] =
-              (chartStats.played[monthString] || 0) + 1;
-
-            if (
-              registration.ranking <= registration.tournament.prizeSplit.length
-            ) {
-              chartStats.win[monthString] =
-                (chartStats.win[monthString] || 0) + 1;
-            } else {
-              chartStats.loss[monthString] =
-                (chartStats.loss[monthString] || 0) + 1;
-            }
+            chartStats[monthString] =
+              (chartStats[monthString] || 0) +
+              countDownTimer(date, tournament.time, tournament.end);
           });
-
-          console.log("Updated months data:", months);
         } catch (error) {
           console.error("Error fetching or processing registrations:", error);
         }
       };
 
-      // Call the function to save data into months
       saveRegistrationsToMonths();
 
       return res.status(200).json({
         success: true,
-        data: registrations,
-        count: registrations.length,
-        prizes: tournamentPrizes,
-        chartStats,
+        data: chartStats,
       });
     } catch (error: any) {
       return res.status(500).json({ success: false, message: error.message });

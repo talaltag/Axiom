@@ -202,7 +202,6 @@ export default function Settings() {
             {[
               { id: "myAccount", label: "My Account" },
               { id: "notifications", label: "Notifications" },
-              { id: "billings", label: "Billings" },
               { id: "platformIntegration", label: "Platform Integration" },
               { id: "privacySafety", label: "Privacy & Safety" },
             ].map((tab) => (

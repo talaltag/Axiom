@@ -105,24 +105,40 @@ export const formatCountDown = (duration) => {
   return `${hours}:${minutes}:${seconds}`;
 };
 
-export const countDownTimer = (date: Date, start: string) => {
+export const countDownTimer = (date: Date, start: string, end?: string) => {
   const [hours, mins] = start.split(":");
   const dateTime = moment(date)
     .add(Number(hours), "hours")
     .add(Number(mins), "minutes");
 
-  // Check if the target time has already passed
-  const currentTime = moment();
+  if (!end) {
+    // Check if the target time has already passed
+    const currentTime = moment();
 
-  let diff = moment.duration(dateTime.diff(currentTime));
+    let diff = moment.duration(dateTime.diff(currentTime));
 
-  // If the target time is in the past, set the countdown to zero
-  if (diff.asSeconds() < 0) {
-    diff = moment.duration(0); // Set duration to zero if time is up
+    // If the target time is in the past, set the countdown to zero
+    if (diff.asSeconds() < 0) {
+      diff = moment.duration(0); // Set duration to zero if time is up
+    }
+
+    return diff;
+  } else {
+    const [endHours, endMins] = end.split(":");
+
+    const endTime = moment(date)
+      .add(Number(endHours), "hours")
+      .add(Number(endMins), "minutes");
+
+    let diff = moment.duration(endTime.diff(dateTime));
+
+    // If the target time is in the past, set the countdown to zero
+    if (diff.asSeconds() < 0) {
+      diff = moment.duration(0); // Set duration to zero if time is up
+    }
+
+    return diff.asMinutes();
   }
-
-  console.log("Current time:", dateTime.format());
-  return diff;
 };
 
 export const positionToRank = (position: number) => {
@@ -136,3 +152,25 @@ export const positionToRank = (position: number) => {
     return `${position}th`;
   }
 };
+
+export const monthsCount = {
+  jan: 0,
+  feb: 0,
+  mar: 0,
+  apr: 0,
+  may: 0,
+  jun: 0,
+  jul: 0,
+  aug: 0,
+  sep: 0,
+  oct: 0,
+  nov: 0,
+  dec: 0,
+};
+
+export function formatHoursMins(minutes: number) {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  return `${hours} Hrs ${remainingMinutes} min`;
+}

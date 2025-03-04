@@ -233,7 +233,6 @@ export default withAuth(async function handler(
         startDateTime.setHours(hours, minutes, 0);
         const startTime = formatDateCron(startDateTime);
 
-        console.log("start", startTime);
         cron.schedule(startTime, async () => {
           console.log("Cron job is running at:", new Date().toLocaleString());
           try {
@@ -382,8 +381,6 @@ export default withAuth(async function handler(
             const registeredTournamentIds = registrations.map((reg) =>
               reg.tournament.toString()
             );
-
-            console.log("registeredTournamentIds", registeredTournamentIds);
 
             tournaments = tournaments.filter(
               (tournament) =>
