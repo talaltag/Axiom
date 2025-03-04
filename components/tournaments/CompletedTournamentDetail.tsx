@@ -26,6 +26,12 @@ export default function CompletedTournamentDetail(
 ) {
   const { data } = props;
   const [activeTab, setActiveTab] = useState("leaderboard");
+  const scoring = [
+    { title: "1 (Win)", value: 50 },
+    { title: "2-5", value: 40 },
+    { title: "6-12", value: 35 },
+    { title: "13-50", value: 0 },
+  ];
   return (
     <Container fluid className="confirm-container">
       {/* Navigation Tabs */}
@@ -119,6 +125,49 @@ export default function CompletedTournamentDetail(
                 </div>
               ))}
             </div>
+          )}
+          {activeTab === "scoring" && (
+            <>
+              <h4 className="mb-4">Criteria For Placement Points</h4>
+              <div style={{ maxWidth: "500px" }}>
+                <Table
+                  border={0}
+                  cellSpacing={0}
+                  className="w-100 bg-transparent"
+                >
+                  <thead>
+                    <tr>
+                      <th className="bg-transparent border-0">Match Ranking</th>
+                      <th className="bg-transparent border-0">
+                        Placement Points
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {scoring.map((list, index) => (
+                      <tr key={`score__${index + 1}`}>
+                        <td className="bg-transparent border-0">
+                          <span style={{ fontSize: "14px", color: "#101828" }}>
+                            {list.title}
+                          </span>
+                        </td>
+                        <td className="bg-transparent border-0">
+                          <span
+                            style={{
+                              fontSize: "14px",
+                              color: "#101828",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {list.value} Points
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </>
           )}
         </CardBody>
       </Card>

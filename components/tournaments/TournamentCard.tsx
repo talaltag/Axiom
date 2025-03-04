@@ -12,7 +12,13 @@ const TournamentCard = ({ item }: { item: any }) => {
   const [tournament, setTournament] = useState(item);
   const [closingDurationTime, setClosingDuration] = useState<any>(null);
   const [EndingDurationTime, setEndingDuration] = useState<any>(null);
-
+  const isPaid = useMemo(() => {
+    if (!tournament) return false;
+    return (
+      tournament.memberPayments.find((x) => x.userId == session?.user?.id)
+        ?.paymentStatus === "completed"
+    );
+  }, [tournament]);
   useEffect(() => {
     let openInterval: NodeJS.Timeout;
     let endInterval: NodeJS.Timeout;
@@ -153,10 +159,8 @@ const TournamentCard = ({ item }: { item: any }) => {
               }}
             >
               ${tournament.entryFee}{" "}
-              <Badge style={{ fontSize: "12px" }}>
-                {tournament.memberPayments.includes(session?.user?.id)
-                  ? "Paid"
-                  : "Unpaid"}
+              <Badge color={isPaid && "success"} style={{ fontSize: "12px" }}>
+                {isPaid ? "Paid" : "Unpaid"}
               </Badge>
             </div>
           </div>
