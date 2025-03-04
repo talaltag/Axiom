@@ -1,0 +1,30 @@
+{
+  "pages\\admin\\create-tournament.tsx -> @wojtekmaj/react-timerange-picker": {
+    "id": 65555,
+    "files": [
+      "static/chunks/5555.27d97bee4b25642e.js"
+    ]
+  },
+  "pages\\admin\\create-tournament.tsx -> react-quill": {
+    "id": 71167,
+    "files": [
+      "static/chunks/eabe11fc.38b7abe1b0a0a725.js",
+      "static/chunks/8446-d5bdd34f52a7460f.js",
+      "static/chunks/156.2c7d220b85198291.js"
+    ]
+  },
+  "pages\\admin\\dashboard.tsx -> react-apexcharts": {
+    "id": 47229,
+    "files": [
+      "static/chunks/56da58dc.e3683d481ac2a7a9.js",
+      "static/chunks/7229.21768a73ab38a08b.js"
+    ]
+  },
+  "pages\\user\\statistics.tsx -> react-apexcharts": {
+    "id": 47229,
+    "files": [
+      "static/chunks/56da58dc.e3683d481ac2a7a9.js",
+      "static/chunks/7229.21768a73ab38a08b.js"
+    ]
+  }
+}
