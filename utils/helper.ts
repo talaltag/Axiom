@@ -124,3 +124,15 @@ export const countDownTimer = (date: Date, start: string) => {
   console.log("Current time:", dateTime.format());
   return diff;
 };
+
+export const positionToRank = (position: number) => {
+  if (position === 1) {
+    return "1st";
+  } else if (position === 2) {
+    return "2nd";
+  } else if (position === 3) {
+    return "3rd";
+  } else {
+    return `${position}th`;
+  }
+};

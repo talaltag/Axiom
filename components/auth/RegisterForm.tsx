@@ -3,8 +3,13 @@ import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { Eye, EyeOff } from "react-feather";
 import Link from "next/link";
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => void;
+interface RegisterFormProps {
+  onSubmit: (
+    email: string,
+    password: string,
+    name: string,
+    userName: string
+  ) => void;
   isLoading?: boolean;
 }
 
@@ -12,21 +17,37 @@ const Loader = () => (
   <span style={{ marginLeft: "8px" }}>&nbsp;Loading...</span>
 );
 
-export default function LoginForm({
+export default function RegisterForm({
   onSubmit,
   isLoading = false,
-}: LoginFormProps) {
+}: RegisterFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password);
+    onSubmit(email, password, name, userName);
   };
 
   return (
     <Form onSubmit={handleSubmit} style={{ width: "400px" }}>
+      <FormGroup className="mb-4">
+        <Label for="name" className="mb-2 text-muted">
+          Name
+        </Label>
+        <Input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="John Doe"
+          className="py-2 rounded-3"
+          required
+        />
+      </FormGroup>
       <FormGroup className="mb-4">
         <Label for="email" className="mb-2 text-muted">
           Email
@@ -37,6 +58,20 @@ export default function LoginForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Shawn@axiom.com"
+          className="py-2 rounded-3"
+          required
+        />
+      </FormGroup>
+      <FormGroup className="mb-4">
+        <Label for="username" className="mb-2 text-muted">
+          Username
+        </Label>
+        <Input
+          type="text"
+          id="username"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="john"
           className="py-2 rounded-3"
           required
         />
@@ -68,15 +103,6 @@ export default function LoginForm({
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
       </FormGroup>
-      <div className="d-flex justify-content-end mb-4">
-        <a
-          href="/auth/forgot-password"
-          className="text-decoration-none text-muted"
-          style={{ fontSize: "14px" }}
-        >
-          Forgot password?
-        </a>
-      </div>
       <Button
         color="warning"
         block
@@ -88,17 +114,17 @@ export default function LoginForm({
         }}
         disabled={isLoading}
       >
-        {isLoading ? <Loader /> : "Login"}
+        {isLoading ? <Loader /> : "Register"}
       </Button>
       <div className="flex-grow-1"></div>
       <div className="text-center mt-auto">
         <span className="text-muted" style={{ fontSize: "14px" }}>
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/auth/register"
+            href="/auth/login"
             className="text-decoration-none text-muted fw-bold"
           >
-            Get Started
+            Login
           </Link>
         </span>
       </div>

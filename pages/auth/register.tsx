@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Alert } from "reactstrap";
 import { useRouter } from "next/router";
-import LoginForm from "../../components/auth/LoginForm";
 import Logo from "../../components/auth/Logo";
-import { signIn, useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
+import { useSession } from "next-auth/react";
+import RegisterForm from "../../components/auth/RegisterForm";
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const session = useSession();
 
   useEffect(() => {
@@ -24,31 +25,36 @@ export default function Login() {
     }
   }, [session]);
 
-  const handleLogin = async (email: string, password: string) => {
-    setLoading(true);
+  const handleSubmit = async (
+    email: string,
+    password: string,
+    name: string,
+    userName: string
+  ) => {
     setError("");
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
+    setLoading(true);
+    const response = await fetch(`/api/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        name,
+        cName: userName,
+        role: "User",
+      }),
     });
-    if (result.error) {
-      if (result.status == 401) {
-        setError("Wrong Credentials");
-      }
-    }
+
+    const data = await response.json();
+
     setLoading(false);
-    if (result.ok) {
-      const data = await fetch("/api/auth/session").then((res) => res.json());
-      const route =
-        data.user.role === "Admin" ||
-        data.user.role === "admin" ||
-        data.user.role === "Super"
-          ? "/admin/dashboard"
-          : data.user.role === "Agent"
-          ? "/support-agent"
-          : "/user/dashboard";
-      router.push(route);
+
+    if (data.success) {
+      router.push("/auth/login");
+    } else {
+      setError(data.message);
     }
   };
 
@@ -89,7 +95,7 @@ export default function Login() {
                 {error}
               </Alert>
             )}
-            <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+            <RegisterForm onSubmit={handleSubmit} isLoading={isLoading} />
           </div>
         </Col>
       </Row>
