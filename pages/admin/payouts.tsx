@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Button, Table, Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import Image from "next/image";
-import { ArrowLeft, Plus, Send, ArrowLeft as ArrowLeftIcon } from "react-feather";
+import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown } from "react-feather";
 import Link from "next/link";
 
 export default function Payouts() {
@@ -55,8 +55,8 @@ export default function Payouts() {
                 <CardBody className="p-4">
                   <div style={{ color: "#667085", fontSize: "14px", fontWeight: 500, marginBottom: "6px" }}>Tournament Payout</div>
                   <h4 style={{ fontSize: "24px", fontWeight: 600, marginBottom: "12px", color: "#101828" }}>$ 2734</h4>
-                  <div className="position-relative" style={{ height: "80px" }}>
-                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="contain" alt="Chart" />
+                  <div className="position-relative" style={{ height: "80px", width: "100%" }}>
+                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="cover" alt="Chart" priority />
                   </div>
                 </CardBody>
               </Card>
@@ -66,19 +66,21 @@ export default function Payouts() {
                 <CardBody className="p-4">
                   <div style={{ color: "#667085", fontSize: "14px", fontWeight: 500, marginBottom: "6px" }}>Owners Payout</div>
                   <h4 style={{ fontSize: "24px", fontWeight: 600, marginBottom: "12px", color: "#101828" }}>$ 2734</h4>
-                  <div className="position-relative" style={{ height: "80px" }}>
-                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="contain" alt="Chart" />
+                  <div className="position-relative" style={{ height: "80px", width: "100%" }}>
+                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="cover" alt="Chart" priority />
                   </div>
                 </CardBody>
               </Card>
             </Col>
+          </Row>
+          <Row>
             <Col md={6} className="mb-4">
               <Card className="border-0" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", borderRadius: "8px" }}>
                 <CardBody className="p-4">
                   <div style={{ color: "#667085", fontSize: "14px", fontWeight: 500, marginBottom: "6px" }}>Refunds/Dispute</div>
                   <h4 style={{ fontSize: "24px", fontWeight: 600, marginBottom: "12px", color: "#101828" }}>$ 2734</h4>
-                  <div className="position-relative" style={{ height: "80px" }}>
-                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="contain" alt="Chart" />
+                  <div className="position-relative" style={{ height: "80px", width: "100%" }}>
+                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="cover" alt="Chart" priority />
                   </div>
                 </CardBody>
               </Card>
@@ -88,8 +90,8 @@ export default function Payouts() {
                 <CardBody className="p-4">
                   <div style={{ color: "#667085", fontSize: "14px", fontWeight: 500, marginBottom: "6px" }}>Credits/Crypto</div>
                   <h4 style={{ fontSize: "24px", fontWeight: 600, marginBottom: "12px", color: "#101828" }}>$ 2734</h4>
-                  <div className="position-relative" style={{ height: "80px" }}>
-                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="contain" alt="Chart" />
+                  <div className="position-relative" style={{ height: "80px", width: "100%" }}>
+                    <Image src="/admin/chart-green.svg" layout="fill" objectFit="cover" alt="Chart" priority />
                   </div>
                 </CardBody>
               </Card>
@@ -98,60 +100,54 @@ export default function Payouts() {
         </Col>
         <Col md={4}>
           <Card className="border-0 h-100" style={{ boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)", borderRadius: "8px" }}>
-            <CardBody className="p-4 d-flex flex-column">
-              <div className="text-center mb-2">
-                <h2 style={{ fontSize: "32px", fontWeight: 600, margin: 0, color: "#101828" }}>$68,790</h2>
-                <div style={{ color: "#667085", fontSize: "14px", fontWeight: 500 }}>Available Funds</div>
+            <CardBody className="p-4">
+              <div className="text-center mb-4">
+                <h2 style={{ fontSize: "36px", fontWeight: 600, color: "#101828", margin: 0 }}>$68,790</h2>
+                <div style={{ color: "#667085", fontSize: "16px" }}>Available Funds</div>
               </div>
 
-              <div className="mt-4">
-                <div style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "8px" }}>Main Account</div>
-                <div style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>John Doe</div>
-                <div style={{ color: "#667085", fontSize: "14px", marginBottom: "20px" }}>
-                  <span className="me-2">1234</span>
-                  <span className="me-2">1123</span>
-                  <span className="me-2">3456</span>
+              <div className="mb-4">
+                <div style={{ fontWeight: 500, fontSize: "16px", color: "#101828", marginBottom: "8px" }}>Main Account</div>
+                <div style={{ fontSize: "14px", color: "#667085", marginBottom: "4px" }}>John Doe</div>
+                <div style={{ fontSize: "14px", color: "#667085" }}>
+                  <span style={{ marginRight: "8px" }}>1234</span>
+                  <span style={{ marginRight: "8px" }}>1123</span>
+                  <span style={{ marginRight: "8px" }}>3456</span>
                   <span>0012</span>
                 </div>
+              </div>
 
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div className="d-flex align-items-center">
-                    <div className="d-flex align-items-center justify-content-center me-2" 
-                         style={{ width: "32px", height: "32px", borderRadius: "16px", backgroundColor: "#ECFDF3" }}>
-                      <span style={{ color: "#12B76A" }}>↑</span>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "14px", color: "#101828" }}>Credit</div>
-                      <div style={{ fontSize: "16px", fontWeight: 500, color: "#101828" }}>$ 3,450</div>
-                    </div>
+              <div className="d-flex justify-content-between mb-4">
+                <div className="d-flex align-items-center">
+                  <div style={{ width: "28px", height: "28px", backgroundColor: "#ECFDF3", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "8px" }}>
+                    <ArrowUp size={16} style={{ color: "#12B76A" }} />
                   </div>
-
-                  <div className="d-flex align-items-center">
-                    <div className="d-flex align-items-center justify-content-center me-2" 
-                         style={{ width: "32px", height: "32px", borderRadius: "16px", backgroundColor: "#FEF3F2" }}>
-                      <span style={{ color: "#F04438" }}>↓</span>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "14px", color: "#101828" }}>Debit</div>
-                      <div style={{ fontSize: "16px", fontWeight: 500, color: "#101828" }}>$ 3,450</div>
-                    </div>
+                  <div>
+                    <div style={{ fontSize: "14px", color: "#101828" }}>Credit</div>
+                    <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>$ 3,450</div>
                   </div>
                 </div>
-
-                <div className="d-flex gap-2">
-                  <Button color="warning" className="w-100 py-2" 
-                          style={{ backgroundColor: "#FFC700", border: "none", borderRadius: "8px", fontWeight: 500 }}>
-                    <span className="me-1">+</span> Add
-                  </Button>
-                  <Button color="warning" className="w-100 py-2" 
-                          style={{ backgroundColor: "#FFC700", border: "none", borderRadius: "8px", fontWeight: 500 }}>
-                    <span className="me-1">↗</span> Send
-                  </Button>
-                  <Button color="warning" className="w-100 py-2" 
-                          style={{ backgroundColor: "#FFC700", border: "none", borderRadius: "8px", fontWeight: 500 }}>
-                    <span className="me-1">←</span> Request
-                  </Button>
+                <div className="d-flex align-items-center">
+                  <div style={{ width: "28px", height: "28px", backgroundColor: "#FFF4ED", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "8px" }}>
+                    <ArrowDown size={16} style={{ color: "#F79009" }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "14px", color: "#101828" }}>Debit</div>
+                    <div style={{ fontSize: "14px", fontWeight: 500, color: "#101828" }}>$ 3,450</div>
+                  </div>
                 </div>
+              </div>
+
+              <div className="d-flex gap-2">
+                <Button color="warning" block style={{ backgroundColor: "#FFCC00", color: "#101828", border: "none", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Plus size={16} style={{ marginRight: "8px" }} /> Add
+                </Button>
+                <Button color="warning" block style={{ backgroundColor: "#FFCC00", color: "#101828", border: "none", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Send size={16} style={{ marginRight: "8px" }} /> Send
+                </Button>
+                <Button color="warning" block style={{ backgroundColor: "#FFCC00", color: "#101828", border: "none", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <ArrowLeft size={16} style={{ marginRight: "8px" }} /> Request
+                </Button>
               </div>
             </CardBody>
           </Card>
