@@ -57,11 +57,7 @@ export default function AdminDashboardLayout({
       icon: <Users size={20} />,
       path: "/admin/users",
     },
-    {
-      text: "Pay Outs",
-      icon: <DollarSign size={20} />,
-      path: "/admin/payouts",
-    },
+    { text: "Pay Outs", icon: <DollarSign size={20} />, path: "/admin/payouts" },
     { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin-chat" },
     { text: "Settings", icon: <Settings size={20} />, path: "/admin/settings" },
   ];
