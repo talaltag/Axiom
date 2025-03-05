@@ -532,71 +532,58 @@ export default function Payouts() {
               </Table>
             </div>
 
-            {totalPages > 1 && (
-              <div className="d-flex justify-content-between align-items-center mt-4">
+            {data.length > 0 && (
+            <div className="d-flex justify-content-between align-items-center mt-4">
+              <div className="d-flex align-items-center">
+                <div style={{ display: "flex", alignItems: "center", marginRight: "12px" }}>
+                  <PaginationLink style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D0D5DD", borderRadius: "4px", margin: "0 2px", cursor: "pointer" }} previous disabled={activePage === 1} onClick={() => handlePageClick(activePage - 1)}>
+                    «
+                  </PaginationLink>
+                </div>
+
                 <Pagination className="mb-0">
-                  <PaginationItem disabled={activePage === 1}>
-                    <PaginationLink
-                      previous
-                      onClick={() => handlePageClick(activePage - 1)}
-                    />
-                  </PaginationItem>
-
-                  {startPage > 1 && (
-                    <>
-                      <PaginationItem>
-                        <PaginationLink onClick={() => handlePageClick(1)}>
-                          1
-                        </PaginationLink>
-                      </PaginationItem>
-                      {startPage > 2 && (
-                        <PaginationItem disabled>
-                          <PaginationLink>...</PaginationLink>
-                        </PaginationItem>
-                      )}
-                    </>
-                  )}
-
-                  {pages.map((page) => (
-                    <PaginationItem key={page} active={page === activePage}>
-                      <PaginationLink onClick={() => handlePageClick(page)}>
+                  {[1, 2, 3, 4, 5, 6].map((page) => (
+                    <PaginationItem key={page} active={activePage === page}>
+                      <PaginationLink 
+                        onClick={() => handlePageClick(page)}
+                        style={{
+                          width: "32px", 
+                          height: "32px", 
+                          display: "flex", 
+                          alignItems: "center", 
+                          justifyContent: "center", 
+                          backgroundColor: activePage === page ? "#FFD600" : "white",
+                          color: activePage === page ? "#101828" : "#667085",
+                          border: "1px solid #D0D5DD",
+                          borderRadius: "4px",
+                          margin: "0 2px",
+                          fontWeight: "500",
+                          fontSize: "14px"
+                        }}
+                      >
                         {page}
                       </PaginationLink>
                     </PaginationItem>
                   ))}
-
-                  {endPage < totalPages && (
-                    <>
-                      {endPage < totalPages - 1 && (
-                        <PaginationItem disabled>
-                          <PaginationLink>...</PaginationLink>
-                        </PaginationItem>
-                      )}
-                      <PaginationItem>
-                        <PaginationLink
-                          onClick={() => handlePageClick(totalPages)}
-                        >
-                          {totalPages}
-                        </PaginationLink>
-                      </PaginationItem>
-                    </>
-                  )}
-
-                  <PaginationItem disabled={activePage === totalPages}>
-                    <PaginationLink
-                      next
-                      onClick={() => handlePageClick(activePage + 1)}
-                    />
-                  </PaginationItem>
                 </Pagination>
 
-                <div>
-                  Showing {(activePage - 1) * itemsPerPage + 1} to{" "}
-                  {Math.min(activePage * itemsPerPage, data.length)} of{" "}
-                  {data.length} entries
+                <div style={{ display: "flex", alignItems: "center", marginLeft: "12px" }}>
+                  <PaginationLink style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D0D5DD", borderRadius: "4px", margin: "0 2px", cursor: "pointer" }} next disabled={activePage === totalPages} onClick={() => handlePageClick(activePage + 1)}>
+                    »
+                  </PaginationLink>
+                </div>
+
+                <div style={{ marginLeft: "16px", display: "flex", alignItems: "center" }}>
+                  <span style={{ color: "#667085", fontSize: "14px", marginRight: "8px" }}>12</span>
+                  <span style={{ color: "#667085", fontSize: "14px" }}>Items per page</span>
                 </div>
               </div>
-            )}
+
+              <div style={{ color: "#667085", fontSize: "14px" }}>
+                1 - {Math.min(activePage * itemsPerPage, data.length)} of {data.length} items
+              </div>
+            </div>
+          )}
           </CardBody>
         </Card>
       </div>
