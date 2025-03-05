@@ -1,4 +1,11 @@
 
 <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M0,60 C20,40 40,70 60,50 C80,30 100,60 120,40 C140,20 160,50 180,30 C200,10 220,40 240,20" stroke="#4CAF50" stroke-width="2" fill="none" />
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#28C76F" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#28C76F" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M0,60 C20,50 30,30 50,20 C70,10 80,35 100,30 C120,25 130,10 150,20 C170,30 180,60 200,55" stroke="#28C76F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M0,60 C20,50 30,30 50,20 C70,10 80,35 100,30 C120,25 130,10 150,20 C170,30 180,60 200,55 L200,80 L0,80 Z" fill="url(#gradient)" stroke="none"/>
 </svg>

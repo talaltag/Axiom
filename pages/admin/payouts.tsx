@@ -1,14 +1,13 @@
-
 import React, { useState } from "react";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Button, Table, Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import Image from "next/image";
-import { ArrowLeft } from "react-feather";
+import { ArrowLeft, Plus, Send, ArrowLeft as ArrowLeftIcon } from "react-feather";
 import Link from "next/link";
 
 export default function AdminPayouts() {
   const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const data = [
     { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "8/22/2023", prize: "$2000" },
@@ -37,183 +36,135 @@ export default function AdminPayouts() {
           <h4 className="mb-0 ms-2">Pay Outs</h4>
         </div>
 
-        <Row className="mb-4">
+        <Row className="mb-4 gy-4">
           <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Tournament Payout</h6>
-                <h4 className="mb-3">$ 2734</h4>
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: "8px" }}>
+              <CardBody className="p-4">
+                <h6 className="mb-2" style={{ color: "#667085", fontSize: "14px", fontWeight: "500" }}>Tournament Payout</h6>
+                <h3 className="mb-3" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</h3>
                 <div style={{ height: "80px" }}>
                   <Image
                     src="/admin/chart-green.svg"
                     alt="Chart"
                     width={200}
                     height={80}
-                    className="mb-2"
                   />
                 </div>
               </CardBody>
             </Card>
           </Col>
           <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Owners Payout</h6>
-                <h4 className="mb-3">$ 2734</h4>
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: "8px" }}>
+              <CardBody className="p-4">
+                <h6 className="mb-2" style={{ color: "#667085", fontSize: "14px", fontWeight: "500" }}>Owners Payout</h6>
+                <h3 className="mb-3" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</h3>
                 <div style={{ height: "80px" }}>
                   <Image
                     src="/admin/chart-green.svg"
                     alt="Chart"
                     width={200}
                     height={80}
-                    className="mb-2"
                   />
                 </div>
               </CardBody>
             </Card>
           </Col>
           <Col md={6}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody className="d-flex flex-column">
-                <div className="text-center mb-3">
-                  <h2 className="mb-1">$68,790</h2>
-                  <p className="text-muted mb-3">Available Funds</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h6 className="mb-2">Main Account</h6>
-                  <div className="d-flex mb-2">
-                    <span>John Doe</span>
-                  </div>
-                  <div className="d-flex mb-3">
-                    <span className="text-muted">1234 1123 3456 0012</span>
-                  </div>
-                  
-                  <div className="d-flex justify-content-between mb-4">
-                    <div className="d-flex align-items-center">
-                      <div 
-                        style={{ 
-                          width: "24px", 
-                          height: "24px", 
-                          borderRadius: "50%", 
-                          backgroundColor: "#4CAF50",
-                          marginRight: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontSize: "14px"
-                        }}
-                      >
-                        ↑
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: "8px" }}>
+              <CardBody className="p-4">
+                <div className="text-center mb-0">
+                  <h2 style={{ fontSize: "36px", fontWeight: "600", marginBottom: "4px" }}>$68,790</h2>
+                  <p style={{ color: "#667085", fontSize: "14px", marginBottom: "16px" }}>Available Funds</p>
+
+                  <div className="text-start">
+                    <h6 style={{ color: "#101828", marginBottom: "4px", fontSize: "14px", fontWeight: "500" }}>Main Account</h6>
+                    <p style={{ color: "#667085", fontSize: "14px", marginBottom: "4px" }}>John Doe</p>
+                    <div style={{ marginBottom: "16px" }}>
+                      <span style={{ color: "#667085", fontSize: "14px", marginRight: "8px" }}>1234</span>
+                      <span style={{ color: "#667085", fontSize: "14px", marginRight: "8px" }}>1123</span>
+                      <span style={{ color: "#667085", fontSize: "14px", marginRight: "8px" }}>3456</span>
+                      <span style={{ color: "#667085", fontSize: "14px" }}>0012</span>
+                    </div>
+
+                    <div className="d-flex justify-content-between mb-4">
+                      <div className="d-flex align-items-center">
+                        <div className="d-flex justify-content-center align-items-center" style={{ backgroundColor: "#ECFDF3", width: "28px", height: "28px", borderRadius: "50%", marginRight: "8px" }}>
+                          <span style={{ color: "#12B76A", fontSize: "12px" }}>↑</span>
+                        </div>
+                        <div>
+                          <div style={{ color: "#101828", fontSize: "14px" }}>Credit</div>
+                          <div style={{ color: "#101828", fontWeight: "500" }}>$ 3,450</div>
+                        </div>
                       </div>
-                      <div>
-                        <div>Credit</div>
-                        <div>$ 3,450</div>
+                      <div className="d-flex align-items-center">
+                        <div className="d-flex justify-content-center align-items-center" style={{ backgroundColor: "#FFF4ED", width: "28px", height: "28px", borderRadius: "50%", marginRight: "8px" }}>
+                          <span style={{ color: "#F79009", fontSize: "12px" }}>↓</span>
+                        </div>
+                        <div>
+                          <div style={{ color: "#101828", fontSize: "14px" }}>Debit</div>
+                          <div style={{ color: "#101828", fontWeight: "500" }}>$ 3,450</div>
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="d-flex align-items-center">
-                      <div 
-                        style={{ 
-                          width: "24px", 
-                          height: "24px", 
-                          borderRadius: "50%", 
-                          backgroundColor: "#FF9800",
-                          marginRight: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontSize: "14px"
-                        }}
+
+                    <div className="d-flex gap-2">
+                      <Button 
+                        color="warning" 
+                        className="d-flex align-items-center justify-content-center gap-2"
+                        style={{ backgroundColor: "#FFD600", border: "none", flex: "1", borderRadius: "8px" }}
                       >
-                        ↓
-                      </div>
-                      <div>
-                        <div>Debit</div>
-                        <div>$ 3,450</div>
-                      </div>
+                        <Plus size={16} />
+                        <span>Add</span>
+                      </Button>
+                      <Button 
+                        color="warning" 
+                        className="d-flex align-items-center justify-content-center gap-2"
+                        style={{ backgroundColor: "#FFD600", border: "none", flex: "1", borderRadius: "8px" }}
+                      >
+                        <Send size={16} />
+                        <span>Send</span>
+                      </Button>
+                      <Button 
+                        color="warning" 
+                        className="d-flex align-items-center justify-content-center gap-2"
+                        style={{ backgroundColor: "#FFD600", border: "none", flex: "1", borderRadius: "8px" }}
+                      >
+                        <ArrowLeftIcon size={16} />
+                        <span>Request</span>
+                      </Button>
                     </div>
                   </div>
-                </div>
-                
-                <div className="d-flex gap-2 mt-auto">
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">+</span> Add
-                  </Button>
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">→</span> Send
-                  </Button>
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">←</span> Request
-                  </Button>
                 </div>
               </CardBody>
             </Card>
           </Col>
-        </Row>
-
-        <Row className="mb-4">
           <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Refunds/Dispute</h6>
-                <h4 className="mb-3">$ 2734</h4>
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: "8px" }}>
+              <CardBody className="p-4">
+                <h6 className="mb-2" style={{ color: "#667085", fontSize: "14px", fontWeight: "500" }}>Refunds/Dispute</h6>
+                <h3 className="mb-3" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</h3>
                 <div style={{ height: "80px" }}>
                   <Image
                     src="/admin/chart-green.svg"
                     alt="Chart"
                     width={200}
                     height={80}
-                    className="mb-2"
                   />
                 </div>
               </CardBody>
             </Card>
           </Col>
           <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Credits/Crypto</h6>
-                <h4 className="mb-3">$ 2734</h4>
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: "8px" }}>
+              <CardBody className="p-4">
+                <h6 className="mb-2" style={{ color: "#667085", fontSize: "14px", fontWeight: "500" }}>Credits/Crypto</h6>
+                <h3 className="mb-3" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</h3>
                 <div style={{ height: "80px" }}>
                   <Image
                     src="/admin/chart-green.svg"
                     alt="Chart"
                     width={200}
                     height={80}
-                    className="mb-2"
                   />
                 </div>
               </CardBody>
@@ -221,70 +172,76 @@ export default function AdminPayouts() {
           </Col>
         </Row>
 
-        <div className="mb-3">
-          <h4>Tournament Won - History</h4>
-        </div>
+        <Card className="border-0 shadow-sm mb-4">
+          <CardBody>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h5 className="mb-0">Recent Tournament Registrations</h5>
+              <div className="d-flex gap-2">
+                <Button color="primary" outline size="sm">
+                  All
+                </Button>
+                <Button color="primary" outline size="sm">
+                  Team
+                </Button>
+                <Button color="primary" outline size="sm">
+                  Solo
+                </Button>
+              </div>
+            </div>
 
-        <div className="table-responsive mb-4">
-          <Table hover className="bg-white" style={{ borderCollapse: "separate", borderSpacing: "0 8px" }}>
-            <thead>
-              <tr style={{ backgroundColor: "#f8f9fa" }}>
-                <th>Tournament</th>
-                <th>ID</th>
-                <th>Mode</th>
-                <th>Date</th>
-                <th>Prize</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.tournament}</td>
-                  <td>{item.id}</td>
-                  <td>{item.mode}</td>
-                  <td>{item.date}</td>
-                  <td>{item.prize}</td>
-                  <td>
-                    <Button 
-                      color="link" 
-                      className="p-0" 
-                      style={{ textDecoration: "none", color: "#0056b3" }}
-                    >
-                      View Details
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+            <div className="table-responsive">
+              <Table hover className="mb-0">
+                <thead>
+                  <tr>
+                    <th>Tournament</th>
+                    <th>ID</th>
+                    <th>Mode</th>
+                    <th>Date</th>
+                    <th>Prize</th>
+                    <th className="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)
+                    .map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.tournament}</td>
+                        <td>{item.id}</td>
+                        <td>{item.mode}</td>
+                        <td>{item.date}</td>
+                        <td>{item.prize}</td>
+                        <td className="text-center">
+                          <Button color="link" className="p-0">
+                            View
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </div>
+          </CardBody>
+        </Card>
 
         <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
-            <Pagination>
-              <PaginationItem>
-                <PaginationLink previous href="#" />
+          <Pagination>
+            <PaginationItem disabled={activePage === 1}>
+              <PaginationLink previous onClick={() => handlePageChange(activePage - 1)} />
+            </PaginationItem>
+            {[...Array(Math.ceil(data.length / itemsPerPage))].map((_, i) => (
+              <PaginationItem active={activePage === i + 1} key={i}>
+                <PaginationLink onClick={() => handlePageChange(i + 1)}>
+                  {i + 1}
+                </PaginationLink>
               </PaginationItem>
-              {[1, 2, 3, 4, 5, 6].map((page) => (
-                <PaginationItem key={page} active={activePage === page}>
-                  <PaginationLink
-                    onClick={() => handlePageChange(page)}
-                    style={{
-                      backgroundColor: activePage === page ? "#FFC107" : "white",
-                      color: activePage === page ? "black" : "#6c757d",
-                      borderColor: "#dee2e6"
-                    }}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationLink next href="#" />
-              </PaginationItem>
-            </Pagination>
+            ))}
+            <PaginationItem disabled={activePage === Math.ceil(data.length / itemsPerPage)}>
+              <PaginationLink next onClick={() => handlePageChange(activePage + 1)} />
+            </PaginationItem>
+          </Pagination>
 
+          <div className="d-flex align-items-center">
             <div className="ms-3 d-flex align-items-center">
               <select 
                 className="form-select form-select-sm" 
