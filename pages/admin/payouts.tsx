@@ -311,6 +311,7 @@ export default function Payouts() {
               style={{
                 boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
                 borderRadius: "8px",
+                backgroundColor: "#F9FAFB",
               }}
             >
               <CardBody className="p-4">
@@ -327,6 +328,18 @@ export default function Payouts() {
                   </h2>
                   <div style={{ color: "#667085", fontSize: "16px" }}>
                     Available Funds
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <div style={{ fontSize: "16px", fontWeight: 500, marginBottom: "8px" }}>
+                    Main Account
+                  </div>
+                  <div style={{ fontSize: "14px", color: "#101828" }}>
+                    John Doe
+                  </div>
+                  <div style={{ fontSize: "12px", color: "#667085" }}>
+                    1234 1123 3456 0012
                   </div>
                 </div>
 
@@ -362,8 +375,8 @@ export default function Payouts() {
                   <div className="d-flex align-items-center">
                     <div
                       style={{
-                        width: "28px",
-                        height: "28px",
+                        width: "24px",
+                        height: "24px",
                         backgroundColor: "#ECFDF3",
                         borderRadius: "50%",
                         display: "flex",
@@ -392,8 +405,8 @@ export default function Payouts() {
                   <div className="d-flex align-items-center">
                     <div
                       style={{
-                        width: "28px",
-                        height: "28px",
+                        width: "24px",
+                        height: "24px",
                         backgroundColor: "#FFF4ED",
                         borderRadius: "50%",
                         display: "flex",
@@ -467,6 +480,49 @@ export default function Payouts() {
                   >
                     <ArrowLeft size={16} style={{ marginRight: "8px" }} />{" "}
                     Request
+                  </Button>
+                <div className="d-flex justify-content-between">
+                  <Button
+                    style={{
+                      backgroundColor: "#FFD600",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#101828",
+                      width: "30%",
+                    }}
+                  >
+                    <span className="mr-1">+</span> Add
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#FFD600",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#101828",
+                      width: "30%",
+                    }}
+                  >
+                    <i className="fas fa-paper-plane mr-1" style={{ fontSize: "12px" }}></i> Send
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#FFD600",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#101828",
+                      width: "30%",
+                    }}
+                  >
+                    <i className="fas fa-arrow-left mr-1" style={{ fontSize: "12px" }}></i> Request
                   </Button>
                 </div>
               </CardBody>
