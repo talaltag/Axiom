@@ -307,14 +307,15 @@ export default function Payouts() {
           </Col>
           <Col md={4}>
             <Card
-              className="border-0 h-100"
+              className="border-0"
               style={{
                 boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
                 borderRadius: "8px",
+                height: "94% !important",
               }}
             >
               <CardBody className="p-4">
-                <div className="text-center mb-4">
+                <div className="text-center">
                   <h2
                     style={{
                       fontSize: "36px",
@@ -330,102 +331,116 @@ export default function Payouts() {
                   </div>
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 pt-2">
                   <div
                     style={{
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      color: "#101828",
-                      marginBottom: "8px",
+                      background: "#FAFBFC",
+                      borderRadius: "12px",
+                      padding: "12px",
                     }}
                   >
-                    Main Account
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#667085",
-                      marginBottom: "4px",
-                    }}
-                  >
-                    John Doe
-                  </div>
-                  <div style={{ fontSize: "14px", color: "#667085" }}>
-                    <span style={{ marginRight: "8px" }}>1234</span>
-                    <span style={{ marginRight: "8px" }}>1123</span>
-                    <span style={{ marginRight: "8px" }}>3456</span>
-                    <span>0012</span>
-                  </div>
-                </div>
-
-                <div className="d-flex justify-content-between mb-4">
-                  <div className="d-flex align-items-center">
-                    <div
-                      style={{
-                        width: "28px",
-                        height: "28px",
-                        backgroundColor: "#ECFDF3",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: "8px",
-                      }}
-                    >
-                      <ArrowUp size={16} style={{ color: "#12B76A" }} />
-                    </div>
                     <div>
-                      <div style={{ fontSize: "14px", color: "#101828" }}>
-                        Credit
+                      <div
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "16px",
+                          color: "#101828",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        Main Account
                       </div>
                       <div
                         style={{
                           fontSize: "14px",
-                          fontWeight: 500,
-                          color: "#101828",
+                          color: "#667085",
+                          marginBottom: "4px",
                         }}
                       >
-                        $ 3,450
+                        John Doe
+                      </div>
+                      <div style={{ fontSize: "14px", color: "#667085" }}>
+                        <span style={{ marginRight: "8px" }}>1234</span>
+                        <span style={{ marginRight: "8px" }}>1123</span>
+                        <span style={{ marginRight: "8px" }}>3456</span>
+                        <span>0012</span>
                       </div>
                     </div>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div
-                      style={{
-                        width: "28px",
-                        height: "28px",
-                        backgroundColor: "#FFF4ED",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: "8px",
-                      }}
-                    >
-                      <ArrowDown size={16} style={{ color: "#F79009" }} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "14px", color: "#101828" }}>
-                        Debit
-                      </div>
+                    <div className="d-flex justify-content-start gap-4">
                       <div
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          color: "#101828",
-                        }}
+                        className="d-flex align-items-center p-3"
+                        style={{ paddingLeft: "0 !important" }}
                       >
-                        $ 3,450
+                        <div
+                          style={{
+                            width: "28px",
+                            height: "28px",
+                            backgroundColor: "#ECFDF3",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginRight: "8px",
+                          }}
+                        >
+                          <ArrowUp size={16} style={{ color: "#12B76A" }} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: "14px", color: "#101828" }}>
+                            Credit
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#101828",
+                            }}
+                          >
+                            $ 3,450
+                          </div>
+                        </div>
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <div
+                          style={{
+                            width: "28px",
+                            height: "28px",
+                            backgroundColor: "#FFF4ED",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginRight: "8px",
+                          }}
+                        >
+                          <ArrowDown size={16} style={{ color: "#F79009" }} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: "14px", color: "#101828" }}>
+                            Debit
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#101828",
+                            }}
+                          >
+                            $ 3,450
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 mt-5">
                   <Button
                     color="warning"
                     block
                     style={{
+                      height: "42px",
+                      width: "100%",
                       backgroundColor: "#FFCC00",
                       color: "#101828",
                       border: "none",
@@ -441,6 +456,8 @@ export default function Payouts() {
                     color="warning"
                     block
                     style={{
+                      height: "42px",
+                      width: "100%",
                       backgroundColor: "#FFCC00",
                       color: "#101828",
                       border: "none",
@@ -456,6 +473,8 @@ export default function Payouts() {
                     color="warning"
                     block
                     style={{
+                      height: "42px",
+                      width: "100%",
                       backgroundColor: "#FFCC00",
                       color: "#101828",
                       border: "none",
@@ -465,7 +484,7 @@ export default function Payouts() {
                       justifyContent: "center",
                     }}
                   >
-                    <ArrowLeft size={16} style={{ marginRight: "8px" }} />{" "}
+                    <ArrowLeft size={16} style={{ marginRight: "8px" }} />
                     Request
                   </Button>
                 </div>
