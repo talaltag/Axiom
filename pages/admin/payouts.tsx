@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Button, Table, Pagination, PaginationItem, PaginationLink } from "reactstrap";
@@ -8,7 +7,7 @@ import Link from "next/link";
 
 export default function AdminPayouts() {
   const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Added state for itemsPerPage
 
   const data = [
     { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "8/22/2023", prize: "$2000" },
@@ -37,269 +36,236 @@ export default function AdminPayouts() {
           <h4 className="mb-0 ms-2">Pay Outs</h4>
         </div>
 
-        <Row className="mb-4">
-          <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Tournament Payout</h6>
-                <h4 className="mb-3">$ 2734</h4>
-                <div style={{ height: "80px" }}>
-                  <Image
-                    src="/admin/chart-green.svg"
-                    alt="Chart"
-                    width={200}
-                    height={80}
-                    className="mb-2"
-                  />
-                </div>
+        <Row className="mb-4 g-4">
+          <Col sm={6} lg={3}>
+            <Card className="border-0 shadow-sm h-100">
+              <CardBody className="p-3">
+                <div className="mb-1" style={{ fontSize: "14px", color: "#667085" }}>Tournament Payout</div>
+                <div className="mb-2" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</div>
+                <Image
+                  src="/admin/chart-green.svg"
+                  alt="Chart"
+                  width={220}
+                  height={84}
+                />
               </CardBody>
             </Card>
           </Col>
-          <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Owners Payout</h6>
-                <h4 className="mb-3">$ 2734</h4>
-                <div style={{ height: "80px" }}>
-                  <Image
-                    src="/admin/chart-green.svg"
-                    alt="Chart"
-                    width={200}
-                    height={80}
-                    className="mb-2"
-                  />
-                </div>
+          <Col sm={6} lg={3}>
+            <Card className="border-0 shadow-sm h-100">
+              <CardBody className="p-3">
+                <div className="mb-1" style={{ fontSize: "14px", color: "#667085" }}>Owners Payout</div>
+                <div className="mb-2" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</div>
+                <Image
+                  src="/admin/chart-green.svg"
+                  alt="Chart"
+                  width={220}
+                  height={84}
+                />
               </CardBody>
             </Card>
           </Col>
-          <Col md={6}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody className="d-flex flex-column">
-                <div className="text-center mb-3">
-                  <h2 className="mb-1">$68,790</h2>
-                  <p className="text-muted mb-3">Available Funds</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h6 className="mb-2">Main Account</h6>
-                  <div className="d-flex mb-2">
-                    <span>John Doe</span>
+          <Col sm={6} lg={6}>
+            <Card className="border-0 shadow-sm h-100">
+              <CardBody className="p-3">
+                <div className="d-flex flex-column h-100">
+                  <div className="text-center mb-1">
+                    <div style={{ fontSize: "32px", fontWeight: "700" }}>$68,790</div>
+                    <div style={{ fontSize: "14px", color: "#667085" }}>Available Funds</div>
                   </div>
-                  <div className="d-flex mb-3">
-                    <span className="text-muted">1234 1123 3456 0012</span>
+
+                  <div className="mt-3">
+                    <div style={{ fontSize: "16px", fontWeight: "500" }}>Main Account</div>
+                    <div style={{ fontSize: "14px", color: "#667085" }}>John Doe</div>
+                    <div style={{ fontSize: "12px", color: "#667085", letterSpacing: "0.5px" }}>
+                      1234&nbsp;&nbsp;&nbsp;1123&nbsp;&nbsp;&nbsp;3456&nbsp;&nbsp;&nbsp;0012
+                    </div>
                   </div>
-                  
-                  <div className="d-flex justify-content-between mb-4">
-                    <div className="d-flex align-items-center">
-                      <div 
-                        style={{ 
-                          width: "24px", 
-                          height: "24px", 
-                          borderRadius: "50%", 
-                          backgroundColor: "#4CAF50",
-                          marginRight: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontSize: "14px"
-                        }}
-                      >
-                        ↑
+
+                  <div className="d-flex align-items-center mt-3">
+                    <div className="d-flex align-items-center me-4">
+                      <div className="d-flex align-items-center justify-content-center rounded-circle" 
+                        style={{ width: "24px", height: "24px", backgroundColor: "#ECFDF3", marginRight: "8px" }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 3.33337V12.6667M8 3.33337L12.6667 8.00004M8 3.33337L3.33333 8.00004" stroke="#12B76A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
                       </div>
                       <div>
-                        <div>Credit</div>
-                        <div>$ 3,450</div>
+                        <div style={{ fontSize: "12px", color: "#667085" }}>Credit</div>
+                        <div style={{ fontSize: "14px", fontWeight: "500" }}>$ 3,450</div>
                       </div>
                     </div>
-                    
                     <div className="d-flex align-items-center">
-                      <div 
-                        style={{ 
-                          width: "24px", 
-                          height: "24px", 
-                          borderRadius: "50%", 
-                          backgroundColor: "#FF9800",
-                          marginRight: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontSize: "14px"
-                        }}
-                      >
-                        ↓
+                      <div className="d-flex align-items-center justify-content-center rounded-circle" 
+                        style={{ width: "24px", height: "24px", backgroundColor: "#FFF4ED", marginRight: "8px" }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 12.6666V3.33329M8 12.6666L3.33333 7.99996M8 12.6666L12.6667 7.99996" stroke="#F79009" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
                       </div>
                       <div>
-                        <div>Debit</div>
-                        <div>$ 3,450</div>
+                        <div style={{ fontSize: "12px", color: "#667085" }}>Debit</div>
+                        <div style={{ fontSize: "14px", fontWeight: "500" }}>$ 3,450</div>
                       </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="d-flex gap-2 mt-auto">
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">+</span> Add
-                  </Button>
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">→</span> Send
-                  </Button>
-                  <Button 
-                    className="px-4 py-2" 
-                    style={{ 
-                      backgroundColor: "#FFC107", 
-                      border: "none", 
-                      borderRadius: "4px",
-                      color: "#000",
-                      fontWeight: "500",
-                      flex: "1"
-                    }}
-                  >
-                    <span className="me-2">←</span> Request
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
 
-        <Row className="mb-4">
-          <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Refunds/Dispute</h6>
-                <h4 className="mb-3">$ 2734</h4>
-                <div style={{ height: "80px" }}>
-                  <Image
-                    src="/admin/chart-green.svg"
-                    alt="Chart"
-                    width={200}
-                    height={80}
-                    className="mb-2"
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3}>
-            <Card className="h-100 border-0" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-              <CardBody>
-                <h6 className="mb-3">Credits/Crypto</h6>
-                <h4 className="mb-3">$ 2734</h4>
-                <div style={{ height: "80px" }}>
-                  <Image
-                    src="/admin/chart-green.svg"
-                    alt="Chart"
-                    width={200}
-                    height={80}
-                    className="mb-2"
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
-        <div className="mb-3">
-          <h4>Tournament Won - History</h4>
-        </div>
-
-        <div className="table-responsive mb-4">
-          <Table hover className="bg-white" style={{ borderCollapse: "separate", borderSpacing: "0 8px" }}>
-            <thead>
-              <tr style={{ backgroundColor: "#f8f9fa" }}>
-                <th>Tournament</th>
-                <th>ID</th>
-                <th>Mode</th>
-                <th>Date</th>
-                <th>Prize</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.tournament}</td>
-                  <td>{item.id}</td>
-                  <td>{item.mode}</td>
-                  <td>{item.date}</td>
-                  <td>{item.prize}</td>
-                  <td>
+                  <div className="d-flex gap-2 mt-4">
                     <Button 
-                      color="link" 
-                      className="p-0" 
-                      style={{ textDecoration: "none", color: "#0056b3" }}
+                      style={{ 
+                        backgroundColor: "#FFDA16", 
+                        border: "none", 
+                        color: "#000", 
+                        fontWeight: "500",
+                        padding: "0.5rem 1rem",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "0.5rem"
+                      }}
                     >
-                      View Details
+                      <span>+</span> Add
                     </Button>
-                  </td>
+                    <Button 
+                      style={{ 
+                        backgroundColor: "#FFDA16", 
+                        border: "none", 
+                        color: "#000", 
+                        fontWeight: "500",
+                        padding: "0.5rem 1rem",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "0.5rem"
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 8.00004H2M14 8.00004L9.33333 3.33337M14 8.00004L9.33333 12.6667" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Send
+                    </Button>
+                    <Button 
+                      style={{ 
+                        backgroundColor: "#FFDA16", 
+                        border: "none", 
+                        color: "#000", 
+                        fontWeight: "500",
+                        padding: "0.5rem 1rem",
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "0.5rem"
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 8.00004H14M2 8.00004L6.66667 3.33337M2 8.00004L6.66667 12.6667" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Request
+                    </Button>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col sm={6} lg={3}>
+            <Card className="border-0 shadow-sm h-100">
+              <CardBody className="p-3">
+                <div className="mb-1" style={{ fontSize: "14px", color: "#667085" }}>Refunds/Dispute</div>
+                <div className="mb-2" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</div>
+                <Image
+                  src="/admin/chart-green.svg"
+                  alt="Chart"
+                  width={220}
+                  height={84}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+          <Col sm={6} lg={3}>
+            <Card className="border-0 shadow-sm h-100">
+              <CardBody className="p-3">
+                <div className="mb-1" style={{ fontSize: "14px", color: "#667085" }}>Credits/Crypto</div>
+                <div className="mb-2" style={{ fontSize: "24px", fontWeight: "600" }}>$ 2734</div>
+                <Image
+                  src="/admin/chart-green.svg"
+                  alt="Chart"
+                  width={220}
+                  height={84}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+
+        <div className="mb-4">
+          <h5 className="mb-4">Tournament Won - History</h5>
+          <div className="table-responsive">
+            <Table className="bg-white" bordered={false} style={{ borderCollapse: "separate", borderSpacing: "0 0.5rem" }}>
+              <thead>
+                <tr style={{ backgroundColor: "#F9FAFB" }}>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>Tournament</th>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>ID</th>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>Mode</th>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>Date</th>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>Prize</th>
+                  <th style={{ padding: "12px 16px", fontWeight: "500", fontSize: "14px", color: "#667085" }}>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={index} className="shadow-sm" style={{ backgroundColor: "#FFFFFF" }}>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", fontWeight: "500" }}>{item.tournament}</td>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", color: "#667085" }}>{item.id}</td>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", color: "#667085" }}>{item.mode}</td>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", color: "#667085" }}>{item.date}</td>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", color: "#667085" }}>{item.prize}</td>
+                    <td style={{ padding: "12px 16px", fontSize: "14px", color: "#667085" }}>
+                      <Button size="sm" color="link" className="text-primary p-0" style={{ textDecoration: "none" }}>
+                        View Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </div>
 
         <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
+          <div className="d-flex">
             <Pagination>
               <PaginationItem>
-                <PaginationLink previous href="#" />
+                <PaginationLink first onClick={() => handlePageChange(1)} />
               </PaginationItem>
-              {[1, 2, 3, 4, 5, 6].map((page) => (
-                <PaginationItem key={page} active={activePage === page}>
-                  <PaginationLink
-                    onClick={() => handlePageChange(page)}
-                    style={{
-                      backgroundColor: activePage === page ? "#FFC107" : "white",
-                      color: activePage === page ? "black" : "#6c757d",
-                      borderColor: "#dee2e6"
-                    }}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
               <PaginationItem>
-                <PaginationLink next href="#" />
+                <PaginationLink previous onClick={() => handlePageChange(Math.max(1, activePage - 1))} />
+              </PaginationItem>
+              {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(page => ( // Corrected pagination range
+                  <PaginationItem key={page + 1} active={activePage === page + 1}>
+                    <PaginationLink onClick={() => handlePageChange(page + 1)}>
+                      {page + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+              <PaginationItem>
+                <PaginationLink next onClick={() => handlePageChange(Math.min(Math.ceil(data.length / itemsPerPage), activePage + 1))} />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink last onClick={() => handlePageChange(Math.ceil(data.length / itemsPerPage))} />
               </PaginationItem>
             </Pagination>
-
             <div className="ms-3 d-flex align-items-center">
-              <select 
-                className="form-select form-select-sm" 
-                style={{ width: "60px" }}
-                value={itemsPerPage}
-                onChange={(e) => setItemsPerPage(parseInt(e.target.value))}
-              >
+              <span style={{ fontSize: "14px", color: "#667085" }}>Items per page:</span>
+              <select className="form-select ms-2" style={{ width: "70px", fontSize: "14px" }} value={itemsPerPage} onChange={e => setItemsPerPage(parseInt(e.target.value, 10))}>
                 <option value="10">10</option>
                 <option value="12">12</option>
               </select>
-              <span className="ms-2">Items per page</span>
             </div>
           </div>
-          <div>
-            <small className="text-muted">1 - 5 of 10 items</small>
+          <div style={{ fontSize: "14px", color: "#667085" }}>
+            {((activePage - 1) * itemsPerPage) + 1} - {Math.min(activePage * itemsPerPage, data.length)} of {data.length} items
           </div>
         </div>
       </Container>
