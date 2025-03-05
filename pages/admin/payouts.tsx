@@ -43,7 +43,7 @@ export default function Payouts() {
 
   return (
     <AdminDashboardLayout>
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4" style={{padding: "24px"}}>
         <h3 className="mb-0">Payouts</h3>
       </div>
 
@@ -237,15 +237,11 @@ export default function Payouts() {
                   <PaginationLink next onClick={() => handlePageClick(activePage + 1)} />
                 </PaginationItem>
               </Pagination>
-
-              <div>
-                Showing {(activePage - 1) * itemsPerPage + 1} to{" "}
-                {Math.min(activePage * itemsPerPage, data.length)} of {data.length} entries
-              </div>
             </div>
           )}
         </CardBody>
       </Card>
+      </div>
     </AdminDashboardLayout>
   );
 }
