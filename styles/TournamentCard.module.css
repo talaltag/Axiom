@@ -1,0 +1,90 @@
+
+.card {
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1);
+  display: flex;
+  overflow: hidden;
+}
+
+.imageColumn {
+  width: 200px;
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.detailsColumn {
+  width: 220px;
+  padding: 16px;
+  border-right: 1px solid #EAECF0;
+}
+
+.payoutsColumn {
+  width: 200px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tournamentTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #101828;
+  margin-bottom: 4px;
+}
+
+.tournamentDate {
+  font-size: 14px;
+  color: #667085;
+}
+
+.teamLabel {
+  font-size: 14px;
+  color: #344054;
+}
+
+.teamName {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.teamInitial {
+  width: 24px;
+  height: 24px;
+  background-color: #1D4ED8;
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.payoutLabel {
+  font-size: 14px;
+  color: #667085;
+}
+
+.payoutAmount {
+  font-size: 24px;
+  font-weight: 600;
+  color: #101828;
+  margin-bottom: 8px;
+}
+
+.sendButton {
+  background-color: #FFD600;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
