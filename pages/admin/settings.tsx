@@ -145,15 +145,6 @@ export default function AdminSettings() {
   return (
     <AdminDashboardLayout>
       <Container fluid className="p-0">
-        <div className="d-flex align-items-center bg-white px-4 py-3 border-bottom">
-          <Link href="/admin/dashboard" className="text-decoration-none">
-            <div className="d-flex align-items-center text-secondary">
-              <ArrowLeft size={18} className="me-2" />
-              <span>Settings</span>
-            </div>
-          </Link>
-        </div>
-
         <div className="p-4">
           <div className="mb-1">
             <h2
