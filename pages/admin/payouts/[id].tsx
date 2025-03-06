@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container, Row, Col, Table, Badge } from "reactstrap";
 import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
+import TournamentWonCard from "../../../components/tournaments/TournamentWonCard"; // Import the new component
 
 export default function PayoutDetail() {
   const router = useRouter();
@@ -69,10 +70,10 @@ export default function PayoutDetail() {
             }}
           >
             {/* Tournament Image */}
-            <div className="me-3">
+             <div className="me-3">
               <div
                 className="position-relative rounded overflow-hidden"
-                style={{ height: "80px", width: "350px" }}
+                style={{ height: "80px", width: "80px" }} // Adjusted size for better fit
               >
                 <Image
                   src="/fortnite-banner.png"
@@ -84,56 +85,14 @@ export default function PayoutDetail() {
             </div>
           </div>
 
-          <div
-            className="d-flex p-3 me-4"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              width: "350px",
-            }}
-          >
-            {/* Tournament Info */}
-            <div>
-              <h5
-                className="mb-1"
-                style={{ fontSize: "16px", fontWeight: "600" }}
-              >
-                {tournament.name}
-              </h5>
-              <p
-                className="mb-1"
-                style={{ fontSize: "14px", color: "#667085" }}
-              >
-                {tournament.date}
-              </p>
-              <div className="d-flex align-items-center">
-                <span
-                  className="me-2"
-                  style={{ fontSize: "14px", color: "#344054" }}
-                >
-                  Winning Team:
-                </span>
-                <div className="d-flex align-items-center">
-                  <div
-                    className="rounded-circle me-1 d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      backgroundColor: "#1D4ED8",
-                      color: "white",
-                      fontSize: "10px",
-                    }}
-                  >
-                    W
-                  </div>
-                  <span style={{ fontSize: "14px", fontWeight: "500" }}>
-                    {tournament.winningTeam}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          {/* Using the new component */}
+          <TournamentWonCard
+            tournamentName={tournament.name || "PUBG - SUMMER CAMP"}
+            date={tournament.date || "5/22/2023"}
+            winningTeam={tournament.winningTeam || "Wolves"}
+            totalPayouts={tournament.totalAmount || "$1,234"} // Added total amount
+          />
 
           {/* Total Payouts Card */}
           <div
