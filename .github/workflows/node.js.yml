@@ -1,33 +1,28 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Axoim CI/CD
+name: Deploy to EC2
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main # Change this to the branch you want to deploy
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Deploy to AWS EC2
-      - uses: actions/checkout@v2
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./"
-          target: "/Axioms"
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
-      - name: Restart PM2 application
-      - uses: actions/checkout@v2
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ubuntus
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo pm2 restart all
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.REMOTE_HOST }} << 'EOF'
+            cd /path/to/your/project  # Change to your project directory on EC2
+            git pull origin main  # Pull latest changes
+            npm install  # Install dependencies
+            pm2 restart your-app-name  # Restart the server using PM2
+          EOF
