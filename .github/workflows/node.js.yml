@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main # Change this to the branch you want to deploy
+      - main
 
 jobs:
   deploy:
@@ -23,5 +23,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.REMOTE_HOST }} << 'EOF'
             cd /Axiom
             sudo git pull origin main
+            sudo npm install
+            sudo npm run build
             sudo pm2 restart axiom
           EOF
