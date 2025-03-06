@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container, Row, Col, Table, Badge } from "reactstrap";
 import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
-import TournamentWonCard from "../../../components/tournaments/TournamentWonCard";
 
 export default function PayoutDetail() {
   const router = useRouter();
@@ -56,20 +55,7 @@ export default function PayoutDetail() {
           />
         </div>
 
-        <TournamentWonCard 
-          tournamentName="PUBG - SUMMER CAMP"
-          tournamentDate="5/22/2023"
-          winningTeam="Wolves"
-          totalPayouts="1,234"
-          members={[
-            { name: "Jake", rank: "EXP", stats: "10 Kills", payout: "250" },
-            { name: "Adam", rank: "AMA", stats: "10 Kills", payout: "250" },
-            { name: "Smith", rank: "EXP", stats: "10 Kills", payout: "250" },
-            { name: "Mark", rank: "VET", stats: "10 Kills", payout: "250" },
-            { name: "John", rank: "AMA", stats: "10 Kills", payout: "250" },
-            { name: "0121", rank: "AMA", stats: "10 Kills", payout: "250" },
-          ]}
-        />
+        <h4 className="mb-4">Tournament Won</h4>
 
         <div className="d-flex mb-4">
           {/* Tournament Details Card */}
