@@ -15,8 +15,10 @@ import {
 import Image from "next/image";
 import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown } from "react-feather";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 export default function Payouts() {
+  const router = useRouter();
   const [activePage, setActivePage] = useState(1);
   const itemsPerPage = 8;
 
@@ -449,7 +451,24 @@ export default function Payouts() {
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.date}</td>
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.prize}</td>
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>
-                          <a href="#" style={{ color: "#0096DB", textDecoration: "none", fontWeight: "500" }}>View Details</a>
+                          <div className="d-flex gap-2 justify-content-end">
+                            <Button
+                              color="light"
+                              size="sm"
+                              onClick={() => router.push(`/admin/payouts/${item.id}`)}
+                              style={{
+                                backgroundColor: "#F2F4F7",
+                                borderColor: "#F2F4F7",
+                                borderRadius: "8px",
+                                color: "#344054",
+                                fontWeight: 500,
+                                fontSize: "14px",
+                                padding: "6px 12px",
+                              }}
+                            >
+                              View Detail
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}
