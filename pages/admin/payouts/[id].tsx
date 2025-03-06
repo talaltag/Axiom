@@ -110,7 +110,7 @@ export default function PayoutDetail() {
               flexShrink: 0
             }}>
               <Image
-                src="/fortnite-banner.png"
+                src={tournamentData.detailImage}
                 layout="fill"
                 objectFit="cover"
                 alt="Tournament Detail"
@@ -118,58 +118,51 @@ export default function PayoutDetail() {
             </div>
 
             {/* Tournament Details */}
-            <div className="px-4 py-3 d-flex flex-column justify-content-between">
-              <div className="d-flex align-items-center gap-2">
-                <h5 className="mb-0" style={{ 
-                  fontSize: "16px", 
-                  fontWeight: 600,
-                  color: "#101828"
-                }}>
-                  {tournamentData.tournament}
-                </h5>
-                <div style={{ 
-                  width: "24px", 
-                  height: "24px", 
-                  position: "relative"
-                }}>
-                  <Image
-                    src="/admin/medal-icon.svg"
-                    layout="fill"
-                    objectFit="contain"
-                    alt="Crown"
-                  />
-                </div>
-              </div>
-
-              <div style={{ 
-                fontSize: "14px", 
-                color: "#667085",
-                margin: "6px 0" 
-              }}>
-                {tournamentData.date}
-              </div>
-
-              <div className="d-flex align-items-center gap-2" style={{ 
-                fontSize: "14px", 
-                color: "#344054",
-                fontWeight: 500
-              }}>
-                <span>Winning Team</span>
-                <div className="d-flex align-items-center" style={{ 
-                  backgroundColor: "#F9FAFB", 
-                  borderRadius: "50%",
-                  width: "20px",
-                  height: "20px",
-                  justifyContent: "center"
-                }}>
+            <div className="px-4 py-3 d-flex flex-column justify-content-between" style={{minWidth: "260px"}}>
+              <div>
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <h5 className="mb-0" style={{ fontSize: "14px", fontWeight: 600, color: "#101828" }}>
+                    {tournamentData.tournament}
+                  </h5>
                   <div style={{ 
-                    width: "14px", 
-                    height: "14px", 
-                    borderRadius: "50%", 
-                    backgroundColor: "#344054" 
-                  }}></div>
+                    width: "28px",
+                    height: "28px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "#FFD600",
+                    borderRadius: "4px"
+                  }}>
+                    <Image
+                      src="/admin/medal-icon.svg"
+                      width={16}
+                      height={16}
+                      alt="Crown"
+                    />
+                  </div>
                 </div>
-                <span>{tournamentData.winningTeam}</span>
+                <p className="text-muted mb-3" style={{ fontSize: "12px", color: "#667085" }}>
+                  {tournamentData.date}
+                </p>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <div style={{ fontSize: "14px", color: "#344054", fontWeight: 500 }}>
+                  Winning Team
+                </div>
+                <div className="d-flex align-items-center" style={{ gap: "4px" }}>
+                  <div style={{ 
+                    width: "20px", 
+                    height: "20px", 
+                    borderRadius: "50%", 
+                    background: "#0066CC",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}>
+                    <span style={{ color: "white", fontSize: "10px" }}>W</span>
+                  </div>
+                  <span style={{ fontWeight: 500, fontSize: "14px" }}>{tournamentData.winningTeam}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -193,6 +186,7 @@ export default function PayoutDetail() {
                   layout="fill"
                   objectFit="contain"
                   alt="Medal"
+                  style={{ opacity: 0.6 }}
                 />
               </div>
               <div className="text-end">
@@ -203,7 +197,7 @@ export default function PayoutDetail() {
                   Total Payouts
                 </div>
                 <div style={{ 
-                  fontSize: "24px", 
+                  fontSize: "20px", 
                   fontWeight: 600, 
                   color: "#101828"
                 }}>
@@ -224,10 +218,18 @@ export default function PayoutDetail() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "8px"
+                gap: "8px",
+                fontSize: "14px"
               }}
             >
-              Send to all →
+              Send to all
+              <Image 
+                src="/admin/arrow-icon.svg" // Replace with actual arrow icon path
+                width={16} 
+                height={16} 
+                alt="Arrow" 
+                style={{ transform: "rotate(90deg)" }}
+              />
             </Button>
           </div>
         </div>
