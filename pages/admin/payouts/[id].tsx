@@ -75,7 +75,7 @@ export default function PayoutDetail() {
           }}
         >
           <Image
-            src={tournamentData.banner}
+            src="/fortnite-banner.png"
             layout="fill"
             objectFit="cover"
             alt="Tournament Banner"
