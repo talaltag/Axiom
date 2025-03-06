@@ -1,3 +1,4 @@
+
 import React from "react";
 import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
 import { Button } from "reactstrap";
@@ -61,68 +62,79 @@ export default function PayoutDetailPage() {
 
         <h5 className="mb-4">Tournament Won</h5>
 
+        {/* Cards Row */}
         <div className="d-flex gap-4 mb-4">
           {/* First Card - Tournament Info */}
           <div
             style={{
               borderRadius: "8px",
               border: "1px solid #EAECF0",
-              padding: "24px",
-              flex: 1,
               backgroundColor: "#fff",
-              display: "flex",
-              justifyContent: "space-between"
+              flex: 1,
+              overflow: "hidden"
             }}
           >
-            <div>
-              <div style={{ marginBottom: "8px" }}>
-                <h5 className="mb-1" style={{ fontSize: "18px", fontWeight: "600" }}>
-                  PUBG - SUMMER CAMP
-                </h5>
-                <p style={{ color: "#667085", margin: 0 }}>5/22/2023</p>
+            <div className="d-flex">
+              <div
+                style={{
+                  width: "170px",
+                  height: "140px",
+                  position: "relative",
+                  borderRight: "1px solid #EAECF0"
+                }}
+              >
+                <Image
+                  src="/fortnite-banner.png"
+                  alt="Team Logo"
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
-
-              <div className="d-flex align-items-center mt-3">
-                <span style={{ marginRight: "12px", color: "#344054" }}>Winning Team</span>
-                <div className="d-flex align-items-center">
-                  <div 
-                    className="position-relative" 
-                    style={{ 
-                      width: "24px", 
-                      height: "24px", 
-                      borderRadius: "50%", 
-                      overflow: "hidden",
-                      marginRight: "8px" 
-                    }}
-                  >
-                    <Image
-                      src="/user1.png"
-                      alt="Team Logo"
-                      layout="fill"
-                      objectFit="cover"
-                    />
+              <div className="p-3">
+                <div style={{ marginBottom: "12px" }}>
+                  <div className="d-flex align-items-center mb-1">
+                    <h6 style={{ fontSize: "16px", fontWeight: "600", margin: 0 }}>PUBG - SUMMER CAMP</h6>
+                    <div
+                      style={{
+                        marginLeft: "8px",
+                        display: "inline-flex",
+                        padding: "0px"
+                      }}
+                    >
+                      <Image
+                        src="/admin/crown.svg"
+                        alt="Crown"
+                        width={24}
+                        height={24}
+                      />
+                    </div>
                   </div>
-                  <span style={{ fontWeight: "500" }}>Wolves</span>
+                  <p style={{ fontSize: "14px", margin: 0, color: "#667085" }}>5/22/2023</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: "14px", margin: "0 0 4px 0", color: "#667085" }}>Winning Team</p>
+                  <div className="d-flex align-items-center">
+                    <div
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        position: "relative",
+                        marginRight: "8px"
+                      }}
+                    >
+                      <Image
+                        src="/user1.png"
+                        alt="Team Logo"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <span style={{ fontSize: "14px", fontWeight: "500" }}>Wolves</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div 
-              style={{ 
-                width: "48px", 
-                height: "48px", 
-                backgroundColor: "#FFD600", 
-                borderRadius: "8px", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center" 
-              }}
-            >
-              <Image
-                src="/admin/crown.svg"
-                alt="Crown"
-                width={24}
-                height={24}
-              />
             </div>
           </div>
 
@@ -159,97 +171,79 @@ export default function PayoutDetailPage() {
 
             <div>
               <p style={{ fontSize: "24px", fontWeight: "600", margin: "0 0 16px 0" }}>$1,234</p>
-
               <Button
                 style={{
                   backgroundColor: "#FFD600",
                   border: "none",
-                  color: "#101828",
+                  padding: "8px 16px",
                   fontWeight: "500",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
                   gap: "8px",
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  width: "100%"
+                  width: "fit-content"
                 }}
               >
-                Send to all 
-                <Image src="/admin/arrow-right.svg" alt="Send" width={16} height={16} />
+                Send to all
+                <Image
+                  src="/admin/arrow-right.svg"
+                  alt="Arrow Right"
+                  width={16}
+                  height={16}
+                />
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Players Table */}
-        <div
-          style={{
-            borderRadius: "8px",
-            border: "1px solid #EAECF0",
-            backgroundColor: "#fff",
-            overflow: "hidden"
-          }}
-        >
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        {/* Table */}
+        <div className="table-responsive mb-4" style={{ backgroundColor: "#fff", borderRadius: "8px", border: "1px solid #EAECF0" }}>
+          <table className="table mb-0">
             <thead>
-              <tr style={{ backgroundColor: "#F9FAFB", borderBottom: "1px solid #EAECF0" }}>
-                <th style={{ padding: "12px 24px", textAlign: "left", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  <input type="checkbox" disabled />
+              <tr style={{ backgroundColor: "#F9FAFB" }}>
+                <th style={{ padding: "12px 24px", fontSize: "12px", fontWeight: "500", color: "#667085", border: "none" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input type="checkbox" style={{ marginRight: "10px" }} />
+                    Member
+                  </div>
                 </th>
-                <th style={{ padding: "12px 24px", textAlign: "left", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  Member
-                </th>
-                <th style={{ padding: "12px 24px", textAlign: "left", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  Rank
-                </th>
-                <th style={{ padding: "12px 24px", textAlign: "left", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  Stats
-                </th>
-                <th style={{ padding: "12px 24px", textAlign: "left", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  Payouts
-                </th>
-                <th style={{ padding: "12px 24px", textAlign: "center", fontWeight: "500", fontSize: "14px", color: "#667085" }}>
-                  Action
-                </th>
+                <th style={{ padding: "12px 24px", fontSize: "12px", fontWeight: "500", color: "#667085", border: "none" }}>Rank</th>
+                <th style={{ padding: "12px 24px", fontSize: "12px", fontWeight: "500", color: "#667085", border: "none" }}>Stats</th>
+                <th style={{ padding: "12px 24px", fontSize: "12px", fontWeight: "500", color: "#667085", border: "none" }}>Payouts</th>
+                <th style={{ padding: "12px 24px", fontSize: "12px", fontWeight: "500", color: "#667085", border: "none" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {players.map((player) => (
                 <tr key={player.id} style={{ borderBottom: "1px solid #EAECF0" }}>
-                  <td style={{ padding: "16px 24px" }}>
-                    <input type="checkbox" />
+                  <td style={{ padding: "16px 24px", fontSize: "14px", fontWeight: "500", color: "#101828" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <input type="checkbox" style={{ marginRight: "10px" }} />
+                      {player.name}
+                    </div>
                   </td>
-                  <td style={{ padding: "16px 24px", color: "#101828", fontWeight: "500" }}>
-                    {player.name}
-                  </td>
-                  <td style={{ padding: "16px 24px", color: "#101828" }}>
-                    {player.rank}
-                  </td>
-                  <td style={{ padding: "16px 24px", color: "#101828" }}>
-                    {player.stats}
-                  </td>
-                  <td style={{ padding: "16px 24px", color: "#101828", fontWeight: "500" }}>
-                    {player.payout}
-                  </td>
-                  <td style={{ padding: "16px 24px", textAlign: "center" }}>
+                  <td style={{ padding: "16px 24px", fontSize: "14px", fontWeight: "500", color: "#101828" }}>{player.rank}</td>
+                  <td style={{ padding: "16px 24px", fontSize: "14px", fontWeight: "500", color: "#101828" }}>{player.stats}</td>
+                  <td style={{ padding: "16px 24px", fontSize: "14px", fontWeight: "500", color: "#101828" }}>{player.payout}</td>
+                  <td style={{ padding: "16px 24px", fontSize: "14px", fontWeight: "500" }}>
                     <Button
                       style={{
                         backgroundColor: "#FFD600",
                         border: "none",
-                        color: "#101828",
+                        padding: "6px 12px",
                         fontWeight: "500",
+                        fontSize: "14px",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        gap: "8px",
-                        padding: "8px 16px",
-                        borderRadius: "8px",
-                        margin: "0 auto"
+                        gap: "4px"
                       }}
                     >
                       Send
-                      <Image src="/admin/arrow-right.svg" alt="Send" width={16} height={16} />
+                      <Image
+                        src="/admin/arrow-right.svg"
+                        alt="Arrow Right"
+                        width={16}
+                        height={16}
+                      />
                     </Button>
                   </td>
                 </tr>
