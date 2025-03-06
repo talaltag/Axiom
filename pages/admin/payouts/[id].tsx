@@ -93,6 +93,165 @@ export default function PayoutDetail() {
           Tournament Won
         </h3>
 
+        <div className="d-flex" style={{ gap: "24px", marginBottom: "32px" }}>
+          <div style={{ 
+            flex: "1", 
+            backgroundColor: "#fff", 
+            borderRadius: "8px",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            display: "flex",
+            overflow: "hidden"
+          }}>
+            <div style={{ 
+              width: "180px", 
+              height: "100px", 
+              position: "relative"
+            }}>
+              <Image
+                src="/admin/pubg-detail.jpg"
+                layout="fill"
+                objectFit="cover"
+                alt="Tournament Image"
+              />
+            </div>
+            <div className="p-3">
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                marginBottom: "8px" 
+              }}>
+                <span style={{ 
+                  fontSize: "14px", 
+                  fontWeight: "500", 
+                  color: "#101828",
+                  marginRight: "8px"
+                }}>
+                  PUBG - SUMMER CAMP
+                </span>
+                <div style={{ 
+                  backgroundColor: "#FFF7CC", 
+                  width: "24px", 
+                  height: "24px", 
+                  display: "flex", 
+                  justifyContent: "center", 
+                  alignItems: "center",
+                  borderRadius: "4px"
+                }}>
+                  <Image
+                    src="/admin/crown-icon.svg"
+                    width={16}
+                    height={16}
+                    alt="Crown Icon"
+                  />
+                </div>
+              </div>
+              <div style={{ 
+                fontSize: "14px", 
+                color: "#667085", 
+                marginBottom: "8px" 
+              }}>
+                5/22/2023
+              </div>
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+              }}>
+                <span style={{ 
+                  fontSize: "14px", 
+                  color: "#667085", 
+                  marginRight: "8px" 
+                }}>
+                  Winning Team
+                </span>
+                <div style={{ 
+                  width: "20px", 
+                  height: "20px", 
+                  borderRadius: "50%", 
+                  backgroundColor: "blue", 
+                  marginRight: "4px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "bold"
+                }}>
+                  W
+                </div>
+                <span style={{ 
+                  fontSize: "14px", 
+                  color: "#101828", 
+                  fontWeight: "500" 
+                }}>
+                  Wolves
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div style={{ 
+            width: "280px",
+            backgroundColor: "#fff",
+            borderRadius: "8px",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            padding: "20px"
+          }}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div style={{ 
+                width: "40px", 
+                height: "40px", 
+                position: "relative"
+              }}>
+                <Image
+                  src="/admin/medal-icon.svg"
+                  layout="fill"
+                  objectFit="contain"
+                  alt="Medal"
+                />
+              </div>
+              <div className="text-end">
+                <div style={{ 
+                  fontSize: "14px", 
+                  color: "#667085"
+                }}>
+                  Total Payouts
+                </div>
+                <div style={{ 
+                  fontSize: "24px", 
+                  fontWeight: 600, 
+                  color: "#101828"
+                }}>
+                  {tournamentData.totalPayout}
+                </div>
+              </div>
+            </div>
+            <Button
+              color="warning"
+              block
+              style={{
+                backgroundColor: "#FFD600",
+                border: "none",
+                color: "#101828",
+                fontWeight: 500,
+                borderRadius: "8px",
+                padding: "8px 16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px"
+              }}
+            >
+              Send to all 
+              <Image
+                src="/admin/arrow-right-black.svg"
+                width={16}
+                height={16}
+                alt="Arrow Right"
+              />
+            </Button>
+          </div>
+        </div>
+
         {/* Tournament Won Section - Updated to match design */}
         <div className="d-flex mb-4 gap-4">
           {/* Tournament Image and Details */}
