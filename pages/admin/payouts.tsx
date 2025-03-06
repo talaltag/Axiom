@@ -451,24 +451,25 @@ export default function Payouts() {
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.date}</td>
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.prize}</td>
                         <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>
-                          <div className="d-flex gap-2 justify-content-end">
-                            <Button
-                              color="light"
-                              size="sm"
-                              onClick={() => router.push(`/admin/payouts/${item.id}`)}
-                              style={{
-                                backgroundColor: "#F2F4F7",
-                                borderColor: "#F2F4F7",
-                                borderRadius: "8px",
-                                color: "#344054",
-                                fontWeight: 500,
-                                fontSize: "14px",
-                                padding: "6px 12px",
-                              }}
-                            >
-                              View Detail
-                            </Button>
-                          </div>
+                          <Button
+                            color="light"
+                            size="sm"
+                            onClick={() => router.push(`/admin/payouts/${item.id}`)}
+                            style={{
+                              backgroundColor: "#FFFFFF",
+                              borderColor: "#E4E7EC",
+                              borderRadius: "8px",
+                              color: "#344054",
+                              fontWeight: 500,
+                              fontSize: "14px",
+                              padding: "6px 12px",
+                              width: "100%",
+                              textAlign: "center",
+                              boxShadow: "none"
+                            }}
+                          >
+                            View Details
+                          </Button>
                         </td>
                       </tr>
                     ))}
