@@ -116,16 +116,16 @@ export default function PayoutDetail() {
                 </span>
                 <div className="d-flex align-items-center">
                   <div
-                    className="rounded-circle me-1 d-flex align-items-center justify-content-center"
+                    className="rounded-circle me-2 d-flex align-items-center justify-content-center"
                     style={{
                       width: "20px",
                       height: "20px",
-                      backgroundColor: "#1D4ED8",
-                      color: "white",
+                      backgroundColor: "#FFD600",
+                      color: "#101828",
                       fontSize: "10px",
                     }}
                   >
-                    W
+                    <span style={{ fontSize: "10px" }}>👑</span>
                   </div>
                   <span style={{ fontSize: "14px", fontWeight: "500" }}>
                     {tournament.winningTeam}
