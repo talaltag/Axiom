@@ -76,7 +76,7 @@ export default function PayoutDetail() {
                 style={{ height: '80px', width: '140px' }}
               >
                 <Image
-                  src="/fortnite-banner.png"
+                  src="/admin/payouts/pubg-soldier.png"
                   alt="Tournament"
                   layout="fill"
                   objectFit="cover"
@@ -104,7 +104,8 @@ export default function PayoutDetail() {
                       height: '20px',
                       backgroundColor: '#1D4ED8',
                       color: 'white',
-                      fontSize: '10px'
+                      fontSize: '10px',
+                      fontWeight: 'bold'
                     }}
                   >
                     W
@@ -119,7 +120,7 @@ export default function PayoutDetail() {
           
           {/* Total Payouts Card */}
           <div 
-            className="d-flex p-3 align-items-center" 
+            className="d-flex p-3 justify-content-between align-items-center" 
             style={{ 
               backgroundColor: '#fff',
               borderRadius: '8px',
@@ -127,26 +128,27 @@ export default function PayoutDetail() {
               width: '360px'
             }}
           >
-            <div 
-              className="rounded-circle me-3 d-flex align-items-center justify-content-center"
-              style={{
-                width: '48px',
-                height: '48px',
-                backgroundColor: '#FDF8E8',
-              }}
-            >
-              <Image 
-                src="/admin/crown-icon.svg" 
-                width={24} 
-                height={24} 
-                alt="Trophy" 
-              />
-            </div>
-            <div className="flex-grow-1">
+            <div className="d-flex align-items-center">
+              <div 
+                className="rounded-circle me-3 d-flex align-items-center justify-content-center"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  backgroundColor: '#FDF8E8',
+                }}
+              >
+                <Image 
+                  src="/admin/crown-icon.svg" 
+                  width={24} 
+                  height={24} 
+                  alt="Trophy" 
+                />
+              </div>
+              <div>
               <p className="mb-1" style={{ fontSize: '14px', color: '#667085' }}>
                 Total Payouts
               </p>
-              <h5 className="mb-0">{tournament.totalAmount}</h5>
+              <h5 className="mb-0" style={{ fontWeight: '500' }}>{tournament.totalAmount}</h5>
             </div>
             <button 
               className="btn d-flex align-items-center"
@@ -184,7 +186,7 @@ export default function PayoutDetail() {
           <table className="table mb-0">
             <thead>
               <tr style={{ backgroundColor: '#FAFBFC' }}>
-                <th style={{ width: '40px', padding: '12px 16px' }}>
+                <th style={{ width: '40px', padding: '12px 24px' }}>
                   <input type="checkbox" className="form-check-input" />
                 </th>
                 <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
