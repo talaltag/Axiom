@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Container, Row, Col, Table, Badge } from "reactstrap";
 import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
+import { Card, CardBody, Button, Badge } from "reactstrap";
+import TournamentWonCard from "../../../components/tournaments/TournamentWonCard";
 
 export default function PayoutDetail() {
   const router = useRouter();
@@ -57,141 +57,8 @@ export default function PayoutDetail() {
 
         <h4 className="mb-4">Tournament Won</h4>
 
-        <div className="d-flex mb-4">
-          {/* Tournament Details Card */}
-          <div
-            className="d-flex me-4"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              width: "350px",
-            }}
-          >
-            {/* Tournament Image */}
-            <div className="">
-              <div
-                className="position-relative rounded overflow-hidden"
-                style={{ height: "100%", width: "350px" }}
-              >
-                <Image
-                  src="/fortnite-banner.png"
-                  alt="Tournament"
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </div>
-            </div>
-          </div>
+        <TournamentWonCard tournament={tournament} />
 
-          <div
-            className="d-flex p-3 me-4"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              width: "350px",
-            }}
-          >
-            {/* Tournament Info */}
-            <div>
-              <h5
-                className="mb-1"
-                style={{ fontSize: "16px", fontWeight: "600" }}
-              >
-                {tournament.name}
-              </h5>
-              <p
-                className="mb-1"
-                style={{ fontSize: "14px", color: "#667085" }}
-              >
-                {tournament.date}
-              </p>
-              <div className="d-flex align-items-center">
-                <span
-                  className="me-2"
-                  style={{ fontSize: "14px", color: "#344054" }}
-                >
-                  Winning Team:
-                </span>
-                <div className="d-flex align-items-center">
-                  <div
-                    className="rounded-circle me-1 d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      backgroundColor: "#1D4ED8",
-                      color: "white",
-                      fontSize: "10px",
-                    }}
-                  >
-                    W
-                  </div>
-                  <span style={{ fontSize: "14px", fontWeight: "500" }}>
-                    {tournament.winningTeam}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Total Payouts Card */}
-          <div
-            className="d-flex p-3 align-items-center"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              width: "350px",
-            }}
-          >
-            <div
-              className="rounded-circle me-3 d-flex align-items-center justify-content-center"
-              style={{
-                width: "48px",
-                height: "48px",
-                backgroundColor: "#FDF8E8",
-              }}
-            >
-              <Image
-                src="/admin/crown-icon.svg"
-                width={24}
-                height={24}
-                alt="Trophy"
-              />
-            </div>
-            <div className="flex-grow-1">
-              <p
-                className="mb-1"
-                style={{ fontSize: "14px", color: "#667085" }}
-              >
-                Total Payouts
-              </p>
-              <h5 className="mb-0">{tournament.totalAmount}</h5>
-            </div>
-            <button
-              className="btn d-flex align-items-center"
-              style={{
-                backgroundColor: "#FFD600",
-                color: "#101828",
-                border: "none",
-                borderRadius: "8px",
-                padding: "8px 14px",
-                fontWeight: "500",
-                fontSize: "14px",
-              }}
-            >
-              Send to all
-              <Image
-                src="/admin/arrow-right-black.svg"
-                width={16}
-                height={16}
-                alt="Send"
-                className="ms-1"
-              />
-            </button>
-          </div>
-        </div>
 
         {/* Team Members Table */}
         <div

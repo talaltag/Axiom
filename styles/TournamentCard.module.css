@@ -1,0 +1,156 @@
+
+.cardContainer {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1);
+  width: 100%;
+  max-width: 680px;
+}
+
+.imageColumn {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 120px;
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.tournamentImage {
+  border-radius: 0;
+}
+
+.infoColumn {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid #eaecf0;
+}
+
+.tournamentInfo {
+  width: 100%;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.tournamentName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+  margin: 0;
+  line-height: 24px;
+}
+
+.crownIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tournamentDate {
+  font-size: 14px;
+  color: #667085;
+  margin: 0 0 8px 0;
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.teamLabel {
+  font-size: 14px;
+  color: #344054;
+}
+
+.teamInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.teamIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #1D4ED8;
+  color: white;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teamName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+}
+
+.payoutColumn {
+  width: 160px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.payoutInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payoutHeader {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.payoutLabel {
+  font-size: 14px;
+  color: #344054;
+  font-weight: 500;
+}
+
+.payoutAmount {
+  font-size: 18px;
+  font-weight: 600;
+  color: #101828;
+  margin-bottom: 8px;
+}
+
+.sendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #FFD600;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sendButton:hover {
+  background-color: #e6c200;
+}
