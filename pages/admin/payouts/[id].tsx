@@ -337,10 +337,3 @@ export default function PayoutDetail() {
     </AdminDashboardLayout>
   );
 }
-import { useRouter } from "next/router";
-import PayoutDetails from "../payout-details";
-
-export default function PayoutDetailPage() {
-  const router = useRouter();
-  return <PayoutDetails />;
-}
