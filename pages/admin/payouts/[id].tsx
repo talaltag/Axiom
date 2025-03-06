@@ -24,7 +24,7 @@ export default function PayoutDetail() {
     banner: "/admin/pubg-banner.jpg",
     detailImage: "/admin/pubg-detail.jpg",
     tournament: "PUBG - SUMMER CAMP",
-    date: "5/22/2021",
+    date: "5/22/2023", // Updated date
     winningTeam: "Wolves",
     totalPayout: "$1,234",
     players: [
@@ -180,61 +180,60 @@ export default function PayoutDetail() {
               </div>
             </div>
           </Col>
+          {/* Third Column - Total Payouts */}
           <Col md={4}>
             <div style={{ 
-              width: "280px",
               backgroundColor: "#fff",
               borderRadius: "8px",
               boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
               padding: "20px"
             }}>
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <div style={{ 
-                  width: "40px", 
-                  height: "40px", 
-                  position: "relative"
-                }}>
-                  <Image
-                    src="/admin/medal-icon.svg"
-                    layout="fill"
-                    objectFit="contain"
-                    alt="Medal"
+              <div className="d-flex flex-column align-items-center">
+                <div className="mb-2">
+                  <Image 
+                    src="/admin/medal-icon.svg" 
+                    width={40} 
+                    height={40} 
+                    alt="Medal Icon" 
                   />
                 </div>
-                <div className="text-end">
-                  <div style={{ 
-                    fontSize: "14px", 
-                    color: "#667085"
-                  }}>
-                    Total Payouts
-                  </div>
-                  <div style={{ 
-                    fontSize: "24px", 
-                    fontWeight: 600, 
-                    color: "#101828"
-                  }}>
-                    {tournamentData.totalPayout}
-                  </div>
+                <div style={{ 
+                  fontSize: "14px", 
+                  color: "#667085",
+                  marginBottom: "8px" 
+                }}>
+                  Total Payouts
                 </div>
-              </div>
-              <Button
-                color="warning"
-                block
-                style={{
-                  backgroundColor: "#FFD600",
-                  border: "none",
-                  color: "#101828",
+                <div style={{ 
+                  fontSize: "24px", 
                   fontWeight: 500,
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "8px"
-                }}
-              >
-                Send to all →
-              </Button>
+                  color: "#101828",
+                  marginBottom: "16px"
+                }}>
+                  {tournamentData.totalPayout}
+                </div>
+                <Button
+                  color="warning"
+                  className="d-flex align-items-center justify-content-center gap-2 w-100"
+                  style={{
+                    backgroundColor: "#FFD600",
+                    border: "none",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    color: "#101828",
+                    fontWeight: 500,
+                    fontSize: "14px"
+                  }}
+                >
+                  <span>Send to all</span>
+                  <Image 
+                    src="/admin/arrow-right-black.svg" 
+                    width={16} 
+                    height={16} 
+                    alt="Arrow Right" 
+                  />
+                </Button>
+              </div>
             </div>
           </Col>
           <Col md={4}></Col> {/* Empty Column for spacing */}
