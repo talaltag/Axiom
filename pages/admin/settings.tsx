@@ -1,9 +1,20 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Container, Row, Col, Button, Input, FormGroup, Label } from "reactstrap";
+import { 
+  Container, 
+  Nav, 
+  NavItem, 
+  NavLink, 
+  TabContent, 
+  TabPane,
+  Input,
+  Button,
+  InputGroup,
+  InputGroupText
+} from "reactstrap";
 import classnames from "classnames";
 import { ArrowLeft, Eye, EyeOff } from "react-feather";
 
@@ -19,7 +30,7 @@ export default function AdminSettings() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const fileInputRef = useRef(null);
+
   const session = useSession();
 
   useEffect(() => {
@@ -28,10 +39,6 @@ export default function AdminSettings() {
       setPreviewUrl(session.data.user.profileImage || "/profile-avatar.png");
     }
   }, [session]);
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -63,10 +70,6 @@ export default function AdminSettings() {
         setLoading(false);
       }
     }
-  };
-
-  const handleImageClick = () => {
-    fileInputRef.current.click();
   };
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {
@@ -110,344 +113,427 @@ export default function AdminSettings() {
 
   return (
     <AdminDashboardLayout>
-      <Container fluid className="p-4">
-        <Link href="/admin/dashboard">
-          <div className="text-decoration-none d-inline-flex align-items-center mb-4" style={{ cursor: "pointer" }}>
-            <ArrowLeft size={16} className="me-2" style={{ color: "#667085" }} />
-            <span style={{ color: "#667085", fontSize: "14px" }}>Settings</span>
+      <Container fluid className="p-0">
+        <div className="p-4" style={{ backgroundColor: "#F9FAFB" }}>
+          <Link href="/admin/dashboard">
+            <div className="text-decoration-none d-inline-flex align-items-center mb-4" style={{ cursor: "pointer" }}>
+              <ArrowLeft size={16} className="me-2" style={{ color: "#667085" }} />
+              <span style={{ color: "#667085", fontSize: "14px" }}>Settings</span>
+            </div>
+          </Link>
+
+          <div className="mb-1">
+            <h2
+              style={{
+                marginBottom: "6px",
+                fontSize: "24px",
+                fontWeight: 600,
+                color: "#101828",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              Settings
+            </h2>
           </div>
-        </Link>
-
-        <h2 style={{ fontSize: "24px", fontWeight: 500, marginBottom: "6px" }}>Settings</h2>
-        <p style={{ color: "#667085", fontSize: "14px", marginBottom: "32px" }}>
-          Manage your team and preferences here.
-        </p>
-
-        <div style={{ marginBottom: "32px" }}>
-          <div
+          <p
             style={{
-              background: "#F9FAFB",
-              display: "inline-flex",
-              borderRadius: "8px",
-              padding: "4px"
+              color: "#667085",
+              fontSize: "14px",
+              marginBottom: "32px",
+              fontFamily: "Inter, sans-serif",
             }}
           >
-            <button
-              className={`btn ${classnames({ active: activeTab === "myAccount" })}`}
-              style={{
-                border: "none",
-                borderRadius: "6px",
-                padding: "8px 12px",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: activeTab === "myAccount" ? "#101828" : "#667085",
-                backgroundColor: activeTab === "myAccount" ? "#F9FAFB" : "transparent",
-              }}
-              onClick={() => handleTabClick("myAccount")}
-            >
-              My Account
-            </button>
-            <button
-              className={`btn ${classnames({ active: activeTab === "privacySafety" })}`}
-              style={{
-                border: "none",
-                borderRadius: "6px",
-                padding: "8px 12px",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: activeTab === "privacySafety" ? "#101828" : "#667085",
-                backgroundColor: activeTab === "privacySafety" ? "#F9FAFB" : "transparent",
-              }}
-              onClick={() => handleTabClick("privacySafety")}
-            >
-              Privacy & Safety
-            </button>
-          </div>
-        </div>
+            Manage your team and preferences here.
+          </p>
 
-        {activeTab === "myAccount" && (
-          <div>
-            <div style={{ display: "flex", marginBottom: "24px" }}>
-              <div
-                style={{
-                  position: "relative",
-                  width: "104px",
-                  height: "104px"
-                }}
-              >
-                <Image
-                  src={previewUrl}
-                  alt="Profile"
-                  width={104}
-                  height={104}
-                  style={{ borderRadius: "50%" }}
-                />
-                <div
-                  onClick={handleImageClick}
+          <Nav tabs style={{ border: "none", marginBottom: "24px" }}>
+            <div
+              className="d-flex"
+              style={{
+                background: "#FFFFFF",
+                padding: "4px",
+                borderRadius: "8px",
+                width: "fit-content",
+                border: "1px solid #EAECF0",
+              }}
+            >
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: activeTab === "myAccount" })}
+                  onClick={() => setActiveTab("myAccount")}
                   style={{
-                    position: "absolute",
-                    bottom: "0",
-                    right: "0",
-                    width: "32px",
-                    height: "32px",
-                    backgroundColor: "#FFD600",
-                    borderRadius: "50%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    padding: "8px 12px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    color: activeTab === "myAccount" ? "#101828" : "#667085",
+                    backgroundColor: activeTab === "myAccount" ? "#F9FAFB" : "transparent",
+                    borderRadius: "6px",
+                    border: "none",
                   }}
                 >
-                  <Image
-                    src="/admin/camera-icon.svg"
-                    alt="Camera"
-                    width={16}
-                    height={16}
-                  />
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </div>
-              </div>
-              <Row>
-                <Col md={6}>
+                  My Account
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: activeTab === "privacySafety" })}
+                  onClick={() => setActiveTab("privacySafety")}
+                  style={{
+                    cursor: "pointer",
+                    padding: "8px 12px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    color: activeTab === "privacySafety" ? "#101828" : "#667085",
+                    backgroundColor: activeTab === "privacySafety" ? "#F9FAFB" : "transparent",
+                    borderRadius: "6px",
+                    border: "none",
+                  }}
+                >
+                  Privacy & Safety
+                </NavLink>
+              </NavItem>
+            </div>
+          </Nav>
+
+          <div className="bg-white rounded-3 p-4">
+            <TabContent activeTab={activeTab}>
+              <TabPane tabId="myAccount">
+                <div className="d-flex flex-column">
+                  <div className="position-relative mb-5" style={{ width: "80px", height: "80px" }}>
+                    <Image
+                      src={previewUrl}
+                      alt="Profile"
+                      width={80}
+                      height={80}
+                      className="rounded-circle"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <div
+                      className="position-absolute d-flex align-items-center justify-content-center"
+                      style={{
+                        bottom: "0",
+                        right: "0",
+                        width: "24px",
+                        height: "24px",
+                        backgroundColor: "#FFD600",
+                        borderRadius: "50%",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <label htmlFor="profile-image" style={{ cursor: "pointer", margin: 0 }}>
+                        <Image
+                          src="/admin/camera-icon.svg"
+                          alt="Upload"
+                          width={12}
+                          height={12}
+                        />
+                        <input
+                          type="file"
+                          id="profile-image"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          style={{ display: "none" }}
+                          disabled={loading}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
                   <div className="mb-4">
-                    <label
-                      htmlFor="username"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#344054",
-                        marginBottom: "6px",
-                        display: "block",
-                      }}
-                    >
-                      Axiom Username
-                    </label>
-                    <Input
-                      type="text"
-                      id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Axiom Username"
-                      style={{
-                        height: "44px",
-                        fontSize: "16px",
-                        color: "#101828",
-                        borderColor: "#D0D5DD",
-                        borderRadius: "8px",
-                        backgroundColor: "#FFFFFF",
-                      }}
-                      disabled
-                    />
+                    <div className="mb-2">
+                      <label
+                        htmlFor="username"
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          color: "#344054",
+                          marginBottom: "6px",
+                          display: "block",
+                        }}
+                      >
+                        Axiom Username
+                      </label>
+                      <Input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Axiom Username"
+                        style={{
+                          height: "44px",
+                          fontSize: "16px",
+                          color: "#101828",
+                          borderColor: "#D0D5DD",
+                          borderRadius: "8px",
+                          backgroundColor: "#FFFFFF",
+                        }}
+                        disabled
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="verification"
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          color: "#344054",
+                          marginBottom: "6px",
+                          display: "block",
+                        }}
+                      >
+                        Verification Status
+                      </label>
+                      <Input
+                        type="text"
+                        id="verification"
+                        value="Verification Status"
+                        placeholder="Verification Status"
+                        style={{
+                          height: "44px",
+                          fontSize: "16px",
+                          color: "#101828",
+                          borderColor: "#D0D5DD",
+                          borderRadius: "8px",
+                          backgroundColor: "#FFFFFF",
+                        }}
+                        disabled
+                      />
+                    </div>
                   </div>
-                </Col>
-                <Col md={6}>
-                  <div>
-                    <label
-                      htmlFor="verification"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#344054",
-                        marginBottom: "6px",
-                        display: "block",
-                      }}
-                    >
-                      Verification Status
-                    </label>
-                    <Input
-                      type="text"
-                      id="verification"
-                      value="Verification Status"
-                      placeholder="Verification Status"
-                      style={{
-                        height: "44px",
-                        fontSize: "16px",
-                        color: "#101828",
-                        borderColor: "#D0D5DD",
-                        borderRadius: "8px",
-                        backgroundColor: "#FFFFFF",
-                      }}
-                      disabled
-                    />
+
+                  <div className="mt-4">
+                    <h5 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "24px" }}>
+                      Password
+                    </h5>
+                    <form onSubmit={handlePasswordUpdate}>
+                      <div className="row g-3">
+                        <div className="col-md-4">
+                          <label
+                            htmlFor="oldPassword"
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#344054",
+                              marginBottom: "6px",
+                              display: "block",
+                            }}
+                          >
+                            Old Password
+                          </label>
+                          <InputGroup>
+                            <Input
+                              type={showOldPassword ? "text" : "password"}
+                              id="oldPassword"
+                              value={oldPassword}
+                              onChange={(e) => setOldPassword(e.target.value)}
+                              placeholder="••••••••"
+                              style={{
+                                height: "44px",
+                                fontSize: "16px",
+                                borderColor: "#D0D5DD",
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                borderRight: "none",
+                              }}
+                            />
+                            <InputGroupText
+                              style={{
+                                backgroundColor: "white",
+                                cursor: "pointer",
+                                borderColor: "#D0D5DD",
+                                borderLeft: "none",
+                                paddingLeft: 0,
+                              }}
+                              onClick={() => setShowOldPassword(!showOldPassword)}
+                            >
+                              {showOldPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </InputGroupText>
+                          </InputGroup>
+                        </div>
+                        <div className="col-md-4">
+                          <label
+                            htmlFor="newPassword"
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#344054",
+                              marginBottom: "6px",
+                              display: "block",
+                            }}
+                          >
+                            New Password
+                          </label>
+                          <InputGroup>
+                            <Input
+                              type={showNewPassword ? "text" : "password"}
+                              id="newPassword"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              placeholder="••••••••"
+                              style={{
+                                height: "44px",
+                                fontSize: "16px",
+                                borderColor: "#D0D5DD",
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                borderRight: "none",
+                              }}
+                            />
+                            <InputGroupText
+                              style={{
+                                backgroundColor: "white",
+                                cursor: "pointer",
+                                borderColor: "#D0D5DD",
+                                borderLeft: "none",
+                                paddingLeft: 0,
+                              }}
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                            >
+                              {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </InputGroupText>
+                          </InputGroup>
+                        </div>
+                        <div className="col-md-4">
+                          <label
+                            htmlFor="confirmPassword"
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#344054",
+                              marginBottom: "6px",
+                              display: "block",
+                            }}
+                          >
+                            Confirm Password
+                          </label>
+                          <InputGroup>
+                            <Input
+                              type={showConfirmPassword ? "text" : "password"}
+                              id="confirmPassword"
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              placeholder="••••••••"
+                              style={{
+                                height: "44px",
+                                fontSize: "16px",
+                                borderColor: "#D0D5DD",
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                borderRight: "none",
+                              }}
+                            />
+                            <InputGroupText
+                              style={{
+                                backgroundColor: "white",
+                                cursor: "pointer",
+                                borderColor: "#D0D5DD",
+                                borderLeft: "none",
+                                paddingLeft: 0,
+                              }}
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                              {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </InputGroupText>
+                          </InputGroup>
+                        </div>
+                      </div>
+                      <div className="mt-4 text-end">
+                        <Button
+                          type="submit"
+                          style={{
+                            backgroundColor: "#FFD600",
+                            border: "none",
+                            color: "#101828",
+                            fontWeight: 500,
+                            padding: "10px 18px",
+                            fontSize: "16px",
+                            borderRadius: "8px",
+                            width: "120px",
+                          }}
+                          disabled={loading}
+                        >
+                          {loading ? "Updating..." : "Update"}
+                        </Button>
+                      </div>
+                    </form>
                   </div>
-                </Col>
-              </Row>
-            </div>
+                </div>
+              </TabPane>
+              <TabPane tabId="privacySafety">
+                <div>
+                  <h5 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "16px" }}>
+                    Privacy Settings
+                  </h5>
+                  <p style={{ fontSize: "14px", color: "#667085", marginBottom: "24px" }}>
+                    Manage your privacy settings and control how your information is used.
+                  </p>
 
-            <div style={{ marginBottom: "32px" }}>
-              <h3 style={{ fontSize: "18px", fontWeight: 500, marginBottom: "24px" }}>Password</h3>
-              <Row>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label
-                      for="oldPassword"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#344054",
-                        marginBottom: "6px",
+                  <div className="mb-4">
+                    <div 
+                      style={{ 
+                        padding: "16px", 
+                        border: "1px solid #EAECF0", 
+                        borderRadius: "8px",
+                        marginBottom: "16px" 
                       }}
                     >
-                      Old Password
-                    </Label>
-                    <div style={{ position: "relative" }}>
-                      <Input
-                        type={showOldPassword ? "text" : "password"}
-                        id="oldPassword"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        placeholder="••••••••"
-                        style={{
-                          height: "44px",
-                          fontSize: "16px",
-                          color: "#101828",
-                          borderColor: "#D0D5DD",
-                          borderRadius: "8px",
-                          backgroundColor: "#FFFFFF",
-                          paddingRight: "40px"
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          right: "12px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => setShowOldPassword(!showOldPassword)}
-                      >
-                        {showOldPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                            Profile Visibility
+                          </h6>
+                          <p style={{ fontSize: "14px", color: "#667085", margin: 0 }}>
+                            Control who can see your profile information
+                          </p>
+                        </div>
+                        <div className="form-check form-switch">
+                          <input 
+                            className="form-check-input" 
+                            type="checkbox" 
+                            role="switch" 
+                            id="profileVisibility" 
+                            style={{ width: "36px", height: "20px" }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label
-                      for="newPassword"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#344054",
-                        marginBottom: "6px",
-                      }}
-                    >
-                      New Password
-                    </Label>
-                    <div style={{ position: "relative" }}>
-                      <Input
-                        type={showNewPassword ? "text" : "password"}
-                        id="newPassword"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="••••••••"
-                        style={{
-                          height: "44px",
-                          fontSize: "16px",
-                          color: "#101828",
-                          borderColor: "#D0D5DD",
-                          borderRadius: "8px",
-                          backgroundColor: "#FFFFFF",
-                          paddingRight: "40px"
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          right: "12px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                      >
-                        {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                      </div>
-                    </div>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label
-                      for="confirmPassword"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#344054",
-                        marginBottom: "6px",
-                      }}
-                    >
-                      Confirm Password
-                    </Label>
-                    <div style={{ position: "relative" }}>
-                      <Input
-                        type={showConfirmPassword ? "text" : "password"}
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="••••••••"
-                        style={{
-                          height: "44px",
-                          fontSize: "16px",
-                          color: "#101828",
-                          borderColor: "#D0D5DD",
-                          borderRadius: "8px",
-                          backgroundColor: "#FFFFFF",
-                          paddingRight: "40px"
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          right: "12px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      >
-                        {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                      </div>
-                    </div>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </div>
 
-            <Button
-              type="submit"
-              onClick={handlePasswordUpdate}
-              style={{
-                backgroundColor: "#FFD600",
-                border: "none",
-                borderRadius: "8px",
-                padding: "10px 16px",
-                fontWeight: 500,
-                fontSize: "14px",
-                color: "#101828",
-              }}
-              disabled={loading}
-            >
-              {loading ? "Updating..." : "Update"}
-            </Button>
+                    <div 
+                      style={{ 
+                        padding: "16px", 
+                        border: "1px solid #EAECF0", 
+                        borderRadius: "8px" 
+                      }}
+                    >
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                            Data Collection
+                          </h6>
+                          <p style={{ fontSize: "14px", color: "#667085", margin: 0 }}>
+                            Allow us to collect usage data to improve your experience
+                          </p>
+                        </div>
+                        <div className="form-check form-switch">
+                          <input 
+                            className="form-check-input" 
+                            type="checkbox" 
+                            role="switch" 
+                            id="dataCollection" 
+                            defaultChecked
+                            style={{ width: "36px", height: "20px" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabPane>
+            </TabContent>
           </div>
-        )}
-
-        {activeTab === "privacySafety" && (
-          <div>
-            <h3 style={{ fontSize: "18px", fontWeight: 500, marginBottom: "24px" }}>Privacy & Safety</h3>
-            <p style={{ color: "#667085" }}>
-              Privacy settings and other safety-related options would go here.
-            </p>
-          </div>
-        )}
+        </div>
       </Container>
     </AdminDashboardLayout>
   );
