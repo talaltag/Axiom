@@ -94,143 +94,151 @@ export default function PayoutDetail() {
         </h3>
 
         {/* Tournament Won Section - Updated to match design */}
-        <div className="d-flex mb-4 gap-4">
-          {/* Tournament Image and Details */}
-          <div className="d-flex flex-grow-1" style={{ 
+        <Row className="mb-4">
+          <Col md={4}>
+            <div
+              style={{
+                background: "#FFFFFF",
+                borderRadius: "8px",
+                boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+                height: "100%",
+                overflow: "hidden",
+              }}
+            >
+              {/* Tournament Image and Details */}
+              <div className="d-flex flex-grow-1">
+                {/* Tournament Image */}
+                <div style={{ 
+                  width: "180px", 
+                  height: "110px", 
+                  position: "relative",
+                  flexShrink: 0
+                }}>
+                  <Image
+                    src="/fortnite-banner.png"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="Tournament Detail"
+                  />
+                </div>
+
+                {/* Tournament Details */}
+                <div className="px-4 py-3 d-flex flex-column justify-content-between">
+                  <div className="d-flex align-items-center gap-2">
+                    <h5 className="mb-0" style={{ 
+                      fontSize: "16px", 
+                      fontWeight: 600,
+                      color: "#101828"
+                    }}>
+                      {tournamentData.tournament}
+                    </h5>
+                    <div style={{ 
+                      width: "24px", 
+                      height: "24px", 
+                      position: "relative"
+                    }}>
+                      <Image
+                        src="/admin/medal-icon.svg"
+                        layout="fill"
+                        objectFit="contain"
+                        alt="Crown"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ 
+                    fontSize: "14px", 
+                    color: "#667085",
+                    margin: "6px 0" 
+                  }}>
+                    {tournamentData.date}
+                  </div>
+
+                  <div className="d-flex align-items-center gap-2" style={{ 
+                    fontSize: "14px", 
+                    color: "#344054",
+                    fontWeight: 500
+                  }}>
+                    <span>Winning Team</span>
+                    <div className="d-flex align-items-center" style={{ 
+                      backgroundColor: "#F9FAFB", 
+                      borderRadius: "50%",
+                      width: "20px",
+                      height: "20px",
+                      justifyContent: "center"
+                    }}>
+                      <div style={{ 
+                        width: "14px", 
+                        height: "14px", 
+                        borderRadius: "50%", 
+                        backgroundColor: "#344054" 
+                      }}></div>
+                    </div>
+                    <span>{tournamentData.winningTeam}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+          <Col md={4}>
+            <div style={{ 
+              width: "280px",
               backgroundColor: "#fff",
               borderRadius: "8px",
               boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              overflow: "hidden"
+              padding: "20px"
             }}>
-            {/* Tournament Image */}
-            <div style={{ 
-              width: "180px", 
-              height: "110px", 
-              position: "relative",
-              flexShrink: 0
-            }}>
-              <Image
-                src="/fortnite-banner.png"
-                layout="fill"
-                objectFit="cover"
-                alt="Tournament Detail"
-              />
-            </div>
-
-            {/* Tournament Details */}
-            <div className="px-4 py-3 d-flex flex-column justify-content-between">
-              <div className="d-flex align-items-center gap-2">
-                <h5 className="mb-0" style={{ 
-                  fontSize: "16px", 
-                  fontWeight: 600,
-                  color: "#101828"
-                }}>
-                  {tournamentData.tournament}
-                </h5>
+              <div className="d-flex justify-content-between align-items-center mb-3">
                 <div style={{ 
-                  width: "24px", 
-                  height: "24px", 
+                  width: "40px", 
+                  height: "40px", 
                   position: "relative"
                 }}>
                   <Image
                     src="/admin/medal-icon.svg"
                     layout="fill"
                     objectFit="contain"
-                    alt="Crown"
+                    alt="Medal"
                   />
                 </div>
-              </div>
-
-              <div style={{ 
-                fontSize: "14px", 
-                color: "#667085",
-                margin: "6px 0" 
-              }}>
-                {tournamentData.date}
-              </div>
-
-              <div className="d-flex align-items-center gap-2" style={{ 
-                fontSize: "14px", 
-                color: "#344054",
-                fontWeight: 500
-              }}>
-                <span>Winning Team</span>
-                <div className="d-flex align-items-center" style={{ 
-                  backgroundColor: "#F9FAFB", 
-                  borderRadius: "50%",
-                  width: "20px",
-                  height: "20px",
-                  justifyContent: "center"
-                }}>
+                <div className="text-end">
                   <div style={{ 
-                    width: "14px", 
-                    height: "14px", 
-                    borderRadius: "50%", 
-                    backgroundColor: "#344054" 
-                  }}></div>
+                    fontSize: "14px", 
+                    color: "#667085"
+                  }}>
+                    Total Payouts
+                  </div>
+                  <div style={{ 
+                    fontSize: "24px", 
+                    fontWeight: 600, 
+                    color: "#101828"
+                  }}>
+                    {tournamentData.totalPayout}
+                  </div>
                 </div>
-                <span>{tournamentData.winningTeam}</span>
               </div>
+              <Button
+                color="warning"
+                block
+                style={{
+                  backgroundColor: "#FFD600",
+                  border: "none",
+                  color: "#101828",
+                  fontWeight: 500,
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px"
+                }}
+              >
+                Send to all →
+              </Button>
             </div>
-          </div>
-
-          {/* Total Payouts Card */}
-          <div style={{ 
-            width: "280px",
-            backgroundColor: "#fff",
-            borderRadius: "8px",
-            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-            padding: "20px"
-          }}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <div style={{ 
-                width: "40px", 
-                height: "40px", 
-                position: "relative"
-              }}>
-                <Image
-                  src="/admin/medal-icon.svg"
-                  layout="fill"
-                  objectFit="contain"
-                  alt="Medal"
-                />
-              </div>
-              <div className="text-end">
-                <div style={{ 
-                  fontSize: "14px", 
-                  color: "#667085"
-                }}>
-                  Total Payouts
-                </div>
-                <div style={{ 
-                  fontSize: "24px", 
-                  fontWeight: 600, 
-                  color: "#101828"
-                }}>
-                  {tournamentData.totalPayout}
-                </div>
-              </div>
-            </div>
-            <Button
-              color="warning"
-              block
-              style={{
-                backgroundColor: "#FFD600",
-                border: "none",
-                color: "#101828",
-                fontWeight: 500,
-                borderRadius: "8px",
-                padding: "8px 16px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px"
-              }}
-            >
-              Send to all →
-            </Button>
-          </div>
-        </div>
+          </Col>
+          <Col md={4}></Col> {/* Empty Column for spacing */}
+        </Row>
 
         {/* Player List */}
         <Card className="mb-4 border-0" style={{ borderRadius: "8px", overflow: "hidden", boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
