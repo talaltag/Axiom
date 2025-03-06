@@ -1,4 +1,3 @@
-
 import React from "react";
 import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
 import {
@@ -94,317 +93,198 @@ export default function PayoutDetail() {
           Tournament Won
         </h3>
 
-        <Row className="mb-4">
-          <Col>
-            <div className="d-flex">
-              <div 
-                className="position-relative me-4" 
-                style={{ 
-                  width: "220px", 
-                  height: "160px", 
-                  borderRadius: "8px",
-                  overflow: "hidden"
-                }}
-              >
-                <Image
-                  src={tournamentData.detailImage}
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Tournament Detail"
-                  priority
-                />
-              </div>
-              
-              <div className="d-flex flex-column justify-content-center">
-                <div 
-                  className="d-flex align-items-center mb-2"
-                  style={{
-                    color: "#101828",
-                    fontSize: "16px",
-                    fontWeight: 600,
-                  }}
-                >
+        {/* Tournament Won Section - Updated to match design */}
+        <div className="d-flex mb-4 gap-4">
+          {/* Tournament Image and Details */}
+          <div className="d-flex flex-grow-1" style={{ 
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+              overflow: "hidden"
+            }}>
+            {/* Tournament Image */}
+            <div style={{ 
+              width: "180px", 
+              height: "110px", 
+              position: "relative",
+              flexShrink: 0
+            }}>
+              <Image
+                src="/admin/pubg-detail.jpg"
+                layout="fill"
+                objectFit="cover"
+                alt="Tournament Detail"
+              />
+            </div>
+
+            {/* Tournament Details */}
+            <div className="px-4 py-3 d-flex flex-column justify-content-between">
+              <div className="d-flex align-items-center gap-2">
+                <h5 className="mb-0" style={{ 
+                  fontSize: "16px", 
+                  fontWeight: 600,
+                  color: "#101828"
+                }}>
                   {tournamentData.tournament}
-                  <div 
-                    className="ms-4 position-relative"
-                    style={{ 
-                      width: "24px", 
-                      height: "24px" 
-                    }}
-                  >
-                    <Image
-                      src="/admin/medal-icon.svg"
-                      layout="fill"
-                      objectFit="contain"
-                      alt="Medal"
-                    />
-                  </div>
-                </div>
-                
-                <div 
-                  className="mb-3"
-                  style={{
-                    color: "#667085",
-                    fontSize: "14px",
-                  }}
-                >
-                  {tournamentData.date}
-                </div>
-                
-                <div 
-                  className="d-flex align-items-center"
-                  style={{
-                    color: "#344054",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                  }}
-                >
-                  Winning Team
-                  <div 
-                    className="ms-3 d-flex align-items-center"
-                    style={{
-                      backgroundColor: "#EFF8FF",
-                      borderRadius: "16px",
-                      padding: "2px 8px",
-                    }}
-                  >
-                    <div 
-                      className="position-relative me-1"
-                      style={{ 
-                        width: "16px", 
-                        height: "16px",
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <Image
-                        src="/user1.png"
-                        layout="fill"
-                        objectFit="cover"
-                        alt="Team"
-                      />
-                    </div>
-                    <span>{tournamentData.winningTeam}</span>
-                  </div>
+                </h5>
+                <div style={{ 
+                  width: "24px", 
+                  height: "24px", 
+                  position: "relative"
+                }}>
+                  <Image
+                    src="/admin/medal-icon.svg"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="Crown"
+                  />
                 </div>
               </div>
-              
-              <div className="ms-auto">
-                <Card
-                  className="border-0"
-                  style={{
-                    borderRadius: "8px",
-                    width: "240px",
-                    boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-                  }}
-                >
-                  <CardBody className="p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <div
-                        className="position-relative"
-                        style={{ width: "40px", height: "40px" }}
-                      >
-                        <Image
-                          src="/admin/medal-icon.svg"
-                          layout="fill"
-                          objectFit="contain"
-                          alt="Medal"
-                        />
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            color: "#667085",
-                            fontSize: "14px",
-                            textAlign: "right",
-                          }}
-                        >
-                          Total Payouts
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "18px",
-                            fontWeight: 600,
-                            color: "#101828",
-                            textAlign: "right",
-                          }}
-                        >
-                          {tournamentData.totalPayout}
-                        </div>
-                      </div>
-                    </div>
-                    <Button
-                      color="warning"
-                      className="w-100"
-                      style={{
-                        backgroundColor: "#FFD600",
-                        borderColor: "#FFD600",
-                        color: "#101828",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      Send to all →
-                    </Button>
-                  </CardBody>
-                </Card>
+
+              <div style={{ 
+                fontSize: "14px", 
+                color: "#667085",
+                margin: "6px 0" 
+              }}>
+                {tournamentData.date}
+              </div>
+
+              <div className="d-flex align-items-center gap-2" style={{ 
+                fontSize: "14px", 
+                color: "#344054",
+                fontWeight: 500
+              }}>
+                <span>Winning Team</span>
+                <div className="d-flex align-items-center" style={{ 
+                  backgroundColor: "#F9FAFB", 
+                  borderRadius: "50%",
+                  width: "20px",
+                  height: "20px",
+                  justifyContent: "center"
+                }}>
+                  <div style={{ 
+                    width: "14px", 
+                    height: "14px", 
+                    borderRadius: "50%", 
+                    backgroundColor: "#344054" 
+                  }}></div>
+                </div>
+                <span>{tournamentData.winningTeam}</span>
               </div>
             </div>
-          </Col>
-        </Row>
+          </div>
 
-        {/* Table */}
-        <div className="mb-4">
-          <Table responsive borderless className="mb-0">
-            <thead>
-              <tr
-                style={{
-                  backgroundColor: "#F9FAFB",
-                  border: "1px solid #EAECF0",
-                  borderRadius: "8px",
-                }}
-              >
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                    width: "24px",
-                  }}
-                >
-                  <input type="checkbox" style={{ borderRadius: "4px" }} />
-                </th>
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                  }}
-                >
-                  Member
-                </th>
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                  }}
-                >
-                  Rank
-                </th>
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                  }}
-                >
-                  Stats
-                </th>
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                  }}
-                >
-                  Payouts
-                </th>
-                <th
-                  style={{
-                    padding: "12px 24px",
-                    color: "#667085",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                    textAlign: "right",
-                  }}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {tournamentData.players.map((player) => (
-                <tr
-                  key={player.id}
-                  style={{
-                    border: "1px solid #EAECF0",
-                    borderTop: "none",
-                  }}
-                >
-                  <td style={{ padding: "16px 24px" }}>
-                    <input type="checkbox" style={{ borderRadius: "4px" }} />
-                  </td>
-                  <td
-                    style={{
-                      padding: "16px 24px",
-                      color: "#101828",
-                      fontSize: "14px",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {player.name}
-                  </td>
-                  <td
-                    style={{
-                      padding: "16px 24px",
-                      color: "#101828",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {player.rank}
-                  </td>
-                  <td
-                    style={{
-                      padding: "16px 24px",
-                      color: "#101828",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {player.stats}
-                  </td>
-                  <td
-                    style={{
-                      padding: "16px 24px",
-                      color: "#101828",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {player.payout}
-                  </td>
-                  <td
-                    style={{
-                      padding: "16px 24px",
-                      textAlign: "right",
-                    }}
-                  >
-                    <Button
-                      color="warning"
-                      size="sm"
-                      style={{
-                        backgroundColor: "#FFD600",
-                        borderColor: "#FFD600",
-                        borderRadius: "8px",
-                        color: "#101828",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        padding: "6px 12px",
-                      }}
-                    >
-                      Send →
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          {/* Total Payouts Card */}
+          <div style={{ 
+            width: "280px",
+            backgroundColor: "#fff",
+            borderRadius: "8px",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            padding: "20px"
+          }}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div style={{ 
+                width: "40px", 
+                height: "40px", 
+                position: "relative"
+              }}>
+                <Image
+                  src="/admin/medal-icon.svg"
+                  layout="fill"
+                  objectFit="contain"
+                  alt="Medal"
+                />
+              </div>
+              <div className="text-end">
+                <div style={{ 
+                  fontSize: "14px", 
+                  color: "#667085"
+                }}>
+                  Total Payouts
+                </div>
+                <div style={{ 
+                  fontSize: "24px", 
+                  fontWeight: 600, 
+                  color: "#101828"
+                }}>
+                  {tournamentData.totalPayout}
+                </div>
+              </div>
+            </div>
+            <Button
+              color="warning"
+              block
+              style={{
+                backgroundColor: "#FFD600",
+                border: "none",
+                color: "#101828",
+                fontWeight: 500,
+                borderRadius: "8px",
+                padding: "8px 16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px"
+              }}
+            >
+              Send to all →
+            </Button>
+          </div>
         </div>
+
+        {/* Player List */}
+        <Card className="mb-4 border-0" style={{ borderRadius: "8px", overflow: "hidden", boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" }}>
+          <CardBody className="p-0">
+            <div className="d-flex justify-content-between p-4">
+              <h5 className="mb-0" style={{ fontSize: "18px", color: "#101828" }}>Players and Payouts</h5>
+            </div>
+            <Table responsive bordered={false} className="mb-0">
+              <thead>
+                <tr style={{ backgroundColor: "#F9FAFB" }}>
+                  <th className="p-3" style={{ color: "#667085", fontWeight: "500", fontSize: "14px" }}>Player</th>
+                  <th className="p-3" style={{ color: "#667085", fontWeight: "500", fontSize: "14px" }}>Rank</th>
+                  <th className="p-3" style={{ color: "#667085", fontWeight: "500", fontSize: "14px" }}>Stats</th>
+                  <th className="p-3" style={{ color: "#667085", fontWeight: "500", fontSize: "14px" }}>Payout</th>
+                  <th className="p-3" style={{ color: "#667085", fontWeight: "500", fontSize: "14px", width: "120px" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tournamentData.players.map((player) => (
+                  <tr key={player.id}>
+                    <td className="p-3" style={{ verticalAlign: "middle" }}>
+                      <div className="d-flex align-items-center">
+                        <div className="position-relative me-2" style={{ width: "32px", height: "32px", borderRadius: "50%", overflow: "hidden", backgroundColor: "#F2F4F7" }}>
+                          <Image src="/user1.png" alt={player.name} layout="fill" objectFit="cover" />
+                        </div>
+                        <span style={{ fontWeight: "500", color: "#101828" }}>{player.name}</span>
+                      </div>
+                    </td>
+                    <td className="p-3" style={{ verticalAlign: "middle", color: "#667085" }}>{player.rank}</td>
+                    <td className="p-3" style={{ verticalAlign: "middle", color: "#667085" }}>{player.stats}</td>
+                    <td className="p-3" style={{ verticalAlign: "middle", fontWeight: "600", color: "#101828" }}>{player.payout}</td>
+                    <td className="p-3" style={{ verticalAlign: "middle" }}>
+                      <Button
+                        color="warning"
+                        size="sm"
+                        style={{
+                          backgroundColor: "#FFD600",
+                          border: "none",
+                          fontWeight: "500",
+                          borderRadius: "4px",
+                          padding: "4px 10px",
+                          color: "#101828",
+                          fontSize: "12px"
+                        }}
+                      >
+                        Send
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </CardBody>
+        </Card>
       </Container>
     </AdminDashboardLayout>
   );
