@@ -94,148 +94,33 @@ export default function PayoutDetail() {
         </h3>
 
         {/* Tournament Won Section - Updated to match design */}
-        <div className="mb-4">
-          <h4 style={{ 
-            fontSize: "16px", 
-            fontWeight: 600,
-            marginBottom: "16px" 
-          }}>
-            Tournament Won
-          </h4>
-          <div className="d-flex" style={{ gap: "12px" }}>
-            {/* First column - Tournament Image */}
-            <div style={{
-              background: "#FFFFFF",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              flex: "1",
-              overflow: "hidden",
-            }}>
-              <div style={{ 
-                height: "70px", 
-                position: "relative" 
-              }}>
-                <Image
-                  src="/admin/pubg-banner.jpg"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Tournament Banner"
-                />
-              </div>
-            </div>
-            
-            {/* Second column - Tournament Details */}
-            <div style={{
-              background: "#FFFFFF",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              flex: "1",
-              padding: "12px",
-            }}>
-              <div className="d-flex flex-column">
+        <Row className="mb-4">
+          <Col md={4}>
+            <div
+              style={{
+                background: "#FFFFFF",
+                borderRadius: "8px",
+                boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+                height: "100%",
+                overflow: "hidden",
+              }}
+            >
+              {/* Tournament Image and Details */}
+              <div className="d-flex flex-grow-1">
+                {/* Tournament Image */}
                 <div style={{ 
-                  fontSize: "14px", 
-                  fontWeight: 500,
-                  color: "#101828",
-                  marginBottom: "8px" 
+                  width: "180px", 
+                  height: "110px", 
+                  position: "relative",
+                  flexShrink: 0
                 }}>
-                  PUBG - SUMMER CAMP
-                </div>
-                <div style={{ 
-                  fontSize: "14px", 
-                  color: "#667085" 
-                }}>
-                  5/22/2023
-                </div>
-                <div className="d-flex align-items-center" style={{ marginTop: "8px" }}>
-                  <div style={{ 
-                    fontSize: "14px",
-                    color: "#344054",
-                    marginRight: "6px" 
-                  }}>
-                    Winning Team
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div style={{ 
-                      width: "20px", 
-                      height: "20px", 
-                      backgroundColor: "#3538CD", 
-                      borderRadius: "50%",
-                      marginRight: "4px"
-                    }}></div>
-                    <span style={{
-                      fontSize: "14px",
-                      color: "#101828"
-                    }}>Wolves</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Third column - Total Payouts */}
-            <div style={{
-              background: "#FFFFFF",
-              borderRadius: "8px", 
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              flex: "1",
-              padding: "12px 16px",
-            }}>
-              <div className="d-flex flex-column align-items-center justify-content-center h-100">
-                <div className="d-flex align-items-center mb-2">
-                  <div style={{ 
-                    width: "24px", 
-                    height: "24px", 
-                    position: "relative",
-                    marginRight: "8px"
-                  }}>
-                    <Image
-                      src="/admin/medal-icon.svg"
-                      layout="fill"
-                      objectFit="contain"
-                      alt="Medal"
-                    />
-                  </div>
-                  <div style={{ 
-                    fontSize: "14px",
-                    color: "#344054",
-                    fontWeight: 500
-                  }}>
-                    Total Payouts
-                  </div>
-                </div>
-                <div style={{ 
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  color: "#101828"
-                }}>
-                  $1,234
-                </div>
-                <button style={{
-                  backgroundColor: "#FFD600",
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "6px 12px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "#101828",
-                  marginTop: "8px",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                  Send to all
-                  <Image 
-                    src="/admin/arrow-right-black.svg" 
-                    width={16} 
-                    height={16} 
-                    alt="Send" 
-                    style={{ marginLeft: "4px" }}
+                  <Image
+                    src="/fortnite-banner.png"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="Tournament Detail"
                   />
-                </button>
-              </div>
-            </div>
-          </div>
+                </div>
 
                 {/* Tournament Details */}
                 <div className="px-4 py-3 d-flex flex-column justify-content-between">
