@@ -1,3 +1,4 @@
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -25,143 +26,229 @@ export default function PayoutDetail() {
 
   return (
     <AdminDashboardLayout>
-      <div className="px-4 py-3">
+      <div style={{ padding: '24px' }}>
         <div className="d-flex align-items-center mb-4">
-          <Link href="/admin/payouts" legacyBehavior>
-            <a className="btn btn-link text-dark p-0 me-3" style={{ textDecoration: 'none' }}>
-              <div className="d-flex align-items-center">
-                <Image src="/admin/arrow-left.svg" alt="Back" width={20} height={20} />
-                <span className="ms-2">Back</span>
-              </div>
-            </a>
-          </Link>
-          <h4 className="mb-0 ms-2">Tournament Name</h4>
+          <button 
+            onClick={() => router.back()} 
+            className="btn p-0 me-3"
+            style={{ background: 'transparent', border: 'none' }}
+          >
+            <Image 
+              src="/admin/arrow-left.svg" 
+              width={20} 
+              height={20} 
+              alt="Back" 
+            />
+          </button>
+          <h3 className="mb-0">Tournament Name</h3>
         </div>
 
-        <div className="tournament-banner position-relative mb-4" style={{ height: '150px', borderRadius: '8px', overflow: 'hidden' }}>
-          <Image src="/fortnite-banner.png" alt="Tournament Banner" layout="fill" objectFit="cover" />
+        {/* Banner Image */}
+        <div 
+          className="position-relative mb-4 rounded overflow-hidden" 
+          style={{ height: '150px', width: '100%' }}
+        >
+          <Image
+            src="/fortnite-banner.png"
+            alt="Tournament Banner"
+            layout="fill"
+            objectFit="cover"
+          />
         </div>
 
-        <div className="d-flex justify-content-between align-items-start mb-4">
-          <div>
-            <h5 className="mb-3">Tournament Won</h5>
-
-            <div className="d-flex">
-              <div className="position-relative me-4" style={{ width: '200px', height: '120px', borderRadius: '8px', overflow: 'hidden' }}>
-                <Image src="/fortnite-banner.png" alt="Tournament Image" layout="fill" objectFit="cover" />
-              </div>
-
-              <div>
-                <div className="mb-2">
-                  <h5 className="mb-1">{tournament.name}</h5>
-                  <div className="text-muted">{tournament.date}</div>
-                </div>
-
-                <div className="d-flex align-items-center">
-                  <span className="me-2">Winning Team</span>
-                  <div className="d-flex align-items-center">
-                    <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center me-1" style={{ width: '24px', height: '24px' }}>
-                      <span className="text-white" style={{ fontSize: '12px' }}>W</span>
-                    </div>
-                    <span>{tournament.winningTeam}</span>
-                  </div>
-                </div>
+        <h4 className="mb-4">Tournament Won</h4>
+        
+        <div className="d-flex mb-4">
+          {/* Tournament Details Card */}
+          <div 
+            className="d-flex p-3 me-4" 
+            style={{ 
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1)',
+              width: '365px'
+            }}
+          >
+            {/* Tournament Image */}
+            <div className="me-3">
+              <div 
+                className="position-relative rounded overflow-hidden" 
+                style={{ height: '80px', width: '140px' }}
+              >
+                <Image
+                  src="/fortnite-banner.png"
+                  alt="Tournament"
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
             </div>
-          </div>
-
-          <Col md={4}>
-            <div className="bg-white shadow-sm rounded-3 p-4 h-100">
-              <div className="d-flex align-items-center h-100">
-                <div>
-                  <div className="d-flex align-items-center mb-2">
-                    <Image 
-                      src="/admin/crown-icon.svg" 
-                      alt="Medal" 
-                      width={24}
-                      height={24}
-                      className="me-2"
-                    />
-                    <span style={{ fontSize: '14px', color: '#667085' }}>Total Payouts</span>
-                  </div>
-                  <h5 style={{ fontSize: '20px', fontWeight: 600, color: '#101828' }}>{tournament.totalAmount}</h5>
-                  <button 
-                    className="btn btn-warning mt-2 d-flex align-items-center" 
-                    style={{ 
-                      backgroundColor: '#FFD600',
-                      border: 'none',
-                      borderRadius: '6px',
-                      padding: '8px 16px',
-                      fontSize: '14px',
-                      fontWeight: 500
+            
+            {/* Tournament Info */}
+            <div>
+              <h5 className="mb-1" style={{ fontSize: '16px', fontWeight: '600' }}>
+                {tournament.name}
+              </h5>
+              <p className="mb-1" style={{ fontSize: '14px', color: '#667085' }}>
+                {tournament.date}
+              </p>
+              <div className="d-flex align-items-center">
+                <span className="me-2" style={{ fontSize: '14px', color: '#344054' }}>
+                  Winning Team:
+                </span>
+                <div className="d-flex align-items-center">
+                  <div 
+                    className="rounded-circle me-1 d-flex align-items-center justify-content-center"
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      backgroundColor: '#1D4ED8',
+                      color: 'white',
+                      fontSize: '10px'
                     }}
                   >
-                    <span>Send to all</span>
-                    <Image 
-                      src="/admin/arrow-right-black.svg" 
-                      alt="Arrow" 
-                      width={16} 
-                      height={16} 
-                      className="ms-2"
-                    />
-                  </button>
+                    W
+                  </div>
+                  <span style={{ fontSize: '14px', fontWeight: '500' }}>
+                    {tournament.winningTeam}
+                  </span>
                 </div>
               </div>
             </div>
-          </Col>
-        </div>
-
-        <div className="bg-white rounded-3 p-4">
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th style={{ width: '40px' }}></th>
-                  <th>Member</th>
-                  <th>Rank</th>
-                  <th>Stats</th>
-                  <th>Payouts</th>
-                  <th style={{ width: '120px' }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tournament.members.map(member => (
-                  <tr key={member.id}>
-                    <td>
-                      <input type="checkbox" className="form-check-input" />
-                    </td>
-                    <td>{member.name}</td>
-                    <td>{member.rank}</td>
-                    <td>{member.stats}</td>
-                    <td>{member.amount}</td>
-                    <td>
-                      <button 
-                        className="btn btn-warning d-flex align-items-center justify-content-center" 
-                        style={{ 
-                          backgroundColor: '#FFD600',
-                          border: 'none',
-                          borderRadius: '6px',
-                          padding: '6px 12px',
-                          fontSize: '14px',
-                          fontWeight: 500,
-                          width: '84px'
-                        }}
-                      >
-                        <span>Send</span>
-                        <Image 
-                          src="/admin/arrow-right-black.svg" 
-                          alt="Arrow" 
-                          width={16} 
-                          height={16} 
-                          className="ms-1"
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
+          
+          {/* Total Payouts Card */}
+          <div 
+            className="d-flex p-3 align-items-center" 
+            style={{ 
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1)',
+              width: '360px'
+            }}
+          >
+            <div 
+              className="rounded-circle me-3 d-flex align-items-center justify-content-center"
+              style={{
+                width: '48px',
+                height: '48px',
+                backgroundColor: '#FDF8E8',
+              }}
+            >
+              <Image 
+                src="/admin/crown-icon.svg" 
+                width={24} 
+                height={24} 
+                alt="Trophy" 
+              />
+            </div>
+            <div className="flex-grow-1">
+              <p className="mb-1" style={{ fontSize: '14px', color: '#667085' }}>
+                Total Payouts
+              </p>
+              <h5 className="mb-0">{tournament.totalAmount}</h5>
+            </div>
+            <button 
+              className="btn d-flex align-items-center"
+              style={{
+                backgroundColor: '#FFD600',
+                color: '#101828',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '8px 14px',
+                fontWeight: '500',
+                fontSize: '14px'
+              }}
+            >
+              Send to all
+              <Image 
+                src="/admin/arrow-right-black.svg" 
+                width={16} 
+                height={16} 
+                alt="Send" 
+                className="ms-1" 
+              />
+            </button>
+          </div>
+        </div>
+        
+        {/* Team Members Table */}
+        <div
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            boxShadow: '0px 1px 3px rgba(16, 24, 40, 0.1)',
+            overflow: 'hidden'
+          }}
+        >
+          <table className="table mb-0">
+            <thead>
+              <tr style={{ backgroundColor: '#FAFBFC' }}>
+                <th style={{ width: '40px', padding: '12px 16px' }}>
+                  <input type="checkbox" className="form-check-input" />
+                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
+                  Member
+                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
+                  Rank
+                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
+                  Stats
+                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
+                  Payouts
+                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tournament.members.map((member) => (
+                <tr key={member.id}>
+                  <td style={{ padding: '16px' }}>
+                    <input type="checkbox" className="form-check-input" />
+                  </td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
+                    {member.name}
+                  </td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
+                    {member.rank}
+                  </td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
+                    {member.stats}
+                  </td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828', fontWeight: '500' }}>
+                    {member.amount}
+                  </td>
+                  <td style={{ padding: '16px' }}>
+                    <button 
+                      className="btn d-flex align-items-center"
+                      style={{
+                        backgroundColor: '#FFD600',
+                        color: '#101828',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '8px 14px',
+                        fontWeight: '500',
+                        fontSize: '14px'
+                      }}
+                    >
+                      Send
+                      <Image 
+                        src="/admin/arrow-right-black.svg" 
+                        width={16} 
+                        height={16} 
+                        alt="Send" 
+                        className="ms-1" 
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </AdminDashboardLayout>
