@@ -3,17 +3,17 @@ import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout"
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Container, 
-  Nav, 
-  NavItem, 
-  NavLink, 
-  TabContent, 
+import {
+  Container,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
   TabPane,
   Input,
   Button,
   InputGroup,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 import classnames from "classnames";
 import { ArrowLeft, Eye, EyeOff } from "react-feather";
@@ -114,11 +114,20 @@ export default function AdminSettings() {
   return (
     <AdminDashboardLayout>
       <Container fluid className="p-0">
-        <div className="p-4" style={{ backgroundColor: "#F9FAFB" }}>
+        <div className="p-4" style={{ backgroundColor: "#FFF" }}>
           <Link href="/admin/dashboard">
-            <div className="text-decoration-none d-inline-flex align-items-center mb-4" style={{ cursor: "pointer" }}>
-              <ArrowLeft size={16} className="me-2" style={{ color: "#667085" }} />
-              <span style={{ color: "#667085", fontSize: "14px" }}>Settings</span>
+            <div
+              className="text-decoration-none d-inline-flex align-items-center mb-4"
+              style={{ cursor: "pointer" }}
+            >
+              <ArrowLeft
+                size={16}
+                className="me-2"
+                style={{ color: "#667085" }}
+              />
+              <span style={{ color: "#667085", fontSize: "14px" }}>
+                Settings
+              </span>
             </div>
           </Link>
 
@@ -167,7 +176,8 @@ export default function AdminSettings() {
                     fontSize: "14px",
                     fontWeight: 500,
                     color: activeTab === "myAccount" ? "#101828" : "#667085",
-                    backgroundColor: activeTab === "myAccount" ? "#F9FAFB" : "transparent",
+                    backgroundColor:
+                      activeTab === "myAccount" ? "#F9FAFB" : "transparent",
                     borderRadius: "6px",
                     border: "none",
                   }}
@@ -177,15 +187,19 @@ export default function AdminSettings() {
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={classnames({ active: activeTab === "privacySafety" })}
+                  className={classnames({
+                    active: activeTab === "privacySafety",
+                  })}
                   onClick={() => setActiveTab("privacySafety")}
                   style={{
                     cursor: "pointer",
                     padding: "8px 12px",
                     fontSize: "14px",
                     fontWeight: 500,
-                    color: activeTab === "privacySafety" ? "#101828" : "#667085",
-                    backgroundColor: activeTab === "privacySafety" ? "#F9FAFB" : "transparent",
+                    color:
+                      activeTab === "privacySafety" ? "#101828" : "#667085",
+                    backgroundColor:
+                      activeTab === "privacySafety" ? "#F9FAFB" : "transparent",
                     borderRadius: "6px",
                     border: "none",
                   }}
@@ -200,7 +214,10 @@ export default function AdminSettings() {
             <TabContent activeTab={activeTab}>
               <TabPane tabId="myAccount">
                 <div className="d-flex flex-column">
-                  <div className="position-relative mb-5" style={{ width: "80px", height: "80px" }}>
+                  <div
+                    className="position-relative mb-5"
+                    style={{ width: "80px", height: "80px" }}
+                  >
                     <Image
                       src={previewUrl}
                       alt="Profile"
@@ -221,7 +238,10 @@ export default function AdminSettings() {
                         cursor: "pointer",
                       }}
                     >
-                      <label htmlFor="profile-image" style={{ cursor: "pointer", margin: 0 }}>
+                      <label
+                        htmlFor="profile-image"
+                        style={{ cursor: "pointer", margin: 0 }}
+                      >
                         <Image
                           src="/admin/camera-icon.svg"
                           alt="Upload"
@@ -240,8 +260,8 @@ export default function AdminSettings() {
                     </div>
                   </div>
 
-                  <div className="mb-4">
-                    <div className="mb-2">
+                  <div className="row">
+                    <div className="col-md-6 mb-2">
                       <label
                         htmlFor="username"
                         style={{
@@ -272,7 +292,7 @@ export default function AdminSettings() {
                       />
                     </div>
 
-                    <div>
+                    <div className="col-md-6">
                       <label
                         htmlFor="verification"
                         style={{
@@ -304,7 +324,14 @@ export default function AdminSettings() {
                   </div>
 
                   <div className="mt-4">
-                    <h5 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "24px" }}>
+                    <h5
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: 500,
+                        color: "#101828",
+                        marginBottom: "24px",
+                      }}
+                    >
                       Password
                     </h5>
                     <form onSubmit={handlePasswordUpdate}>
@@ -346,9 +373,15 @@ export default function AdminSettings() {
                                 borderLeft: "none",
                                 paddingLeft: 0,
                               }}
-                              onClick={() => setShowOldPassword(!showOldPassword)}
+                              onClick={() =>
+                                setShowOldPassword(!showOldPassword)
+                              }
                             >
-                              {showOldPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                              {showOldPassword ? (
+                                <EyeOff size={16} />
+                              ) : (
+                                <Eye size={16} />
+                              )}
                             </InputGroupText>
                           </InputGroup>
                         </div>
@@ -389,9 +422,15 @@ export default function AdminSettings() {
                                 borderLeft: "none",
                                 paddingLeft: 0,
                               }}
-                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              onClick={() =>
+                                setShowNewPassword(!showNewPassword)
+                              }
                             >
-                              {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                              {showNewPassword ? (
+                                <EyeOff size={16} />
+                              ) : (
+                                <Eye size={16} />
+                              )}
                             </InputGroupText>
                           </InputGroup>
                         </div>
@@ -413,7 +452,9 @@ export default function AdminSettings() {
                               type={showConfirmPassword ? "text" : "password"}
                               id="confirmPassword"
                               value={confirmPassword}
-                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
                               placeholder="••••••••"
                               style={{
                                 height: "44px",
@@ -432,9 +473,15 @@ export default function AdminSettings() {
                                 borderLeft: "none",
                                 paddingLeft: 0,
                               }}
-                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              onClick={() =>
+                                setShowConfirmPassword(!showConfirmPassword)
+                              }
                             >
-                              {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                              {showConfirmPassword ? (
+                                <EyeOff size={16} />
+                              ) : (
+                                <Eye size={16} />
+                              )}
                             </InputGroupText>
                           </InputGroup>
                         </div>
@@ -463,65 +510,106 @@ export default function AdminSettings() {
               </TabPane>
               <TabPane tabId="privacySafety">
                 <div>
-                  <h5 style={{ fontSize: "16px", fontWeight: 500, color: "#101828", marginBottom: "16px" }}>
+                  <h5
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 500,
+                      color: "#101828",
+                      marginBottom: "16px",
+                    }}
+                  >
                     Privacy Settings
                   </h5>
-                  <p style={{ fontSize: "14px", color: "#667085", marginBottom: "24px" }}>
-                    Manage your privacy settings and control how your information is used.
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: "#667085",
+                      marginBottom: "24px",
+                    }}
+                  >
+                    Manage your privacy settings and control how your
+                    information is used.
                   </p>
 
                   <div className="mb-4">
-                    <div 
-                      style={{ 
-                        padding: "16px", 
-                        border: "1px solid #EAECF0", 
+                    <div
+                      style={{
+                        padding: "16px",
+                        border: "1px solid #EAECF0",
                         borderRadius: "8px",
-                        marginBottom: "16px" 
+                        marginBottom: "16px",
                       }}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                          <h6
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#101828",
+                              marginBottom: "4px",
+                            }}
+                          >
                             Profile Visibility
                           </h6>
-                          <p style={{ fontSize: "14px", color: "#667085", margin: 0 }}>
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#667085",
+                              margin: 0,
+                            }}
+                          >
                             Control who can see your profile information
                           </p>
                         </div>
                         <div className="form-check form-switch">
-                          <input 
-                            className="form-check-input" 
-                            type="checkbox" 
-                            role="switch" 
-                            id="profileVisibility" 
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="profileVisibility"
                             style={{ width: "36px", height: "20px" }}
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div 
-                      style={{ 
-                        padding: "16px", 
-                        border: "1px solid #EAECF0", 
-                        borderRadius: "8px" 
+                    <div
+                      style={{
+                        padding: "16px",
+                        border: "1px solid #EAECF0",
+                        borderRadius: "8px",
                       }}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <h6 style={{ fontSize: "14px", fontWeight: 500, color: "#101828", marginBottom: "4px" }}>
+                          <h6
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              color: "#101828",
+                              marginBottom: "4px",
+                            }}
+                          >
                             Data Collection
                           </h6>
-                          <p style={{ fontSize: "14px", color: "#667085", margin: 0 }}>
-                            Allow us to collect usage data to improve your experience
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#667085",
+                              margin: 0,
+                            }}
+                          >
+                            Allow us to collect usage data to improve your
+                            experience
                           </p>
                         </div>
                         <div className="form-check form-switch">
-                          <input 
-                            className="form-check-input" 
-                            type="checkbox" 
-                            role="switch" 
-                            id="dataCollection" 
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="dataCollection"
                             defaultChecked
                             style={{ width: "36px", height: "20px" }}
                           />
