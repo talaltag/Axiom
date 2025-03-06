@@ -21,8 +21,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd /path/to/your/project  # Change to your project directory on EC2
-            git pull origin main  # Pull latest changes
-            npm install  # Install dependencies
-            pm2 restart your-app-name  # Restart the server using PM2
+            cd /Axiom
+            sudo git pull origin main
+            sudo pm2 restart axiom
           EOF
