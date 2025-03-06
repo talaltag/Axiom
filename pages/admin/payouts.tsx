@@ -18,102 +18,27 @@ import Link from "next/link";
 
 export default function Payouts() {
   const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 8;
 
-  const handlePageClick = (pageNumber: number) => {
+  // Sample data to match the screenshot
+  const data = [
+    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    { tournament: "COD- No mercy Death", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
+    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
+    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
+    { tournament: "COD- No mercy Deathmatch", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+  ];
+
+  const handlePageClick = (pageNumber) => {
     setActivePage(pageNumber);
   };
 
-  const data = [
-    {
-      tournament: "Fortnite Tournament",
-      id: "#52341",
-      mode: "Solo",
-      date: "Jan 10, 2023",
-      prize: "$500",
-    },
-    {
-      tournament: "CoD Warzone",
-      id: "#52342",
-      mode: "Team",
-      date: "Jan 12, 2023",
-      prize: "$1000",
-    },
-    {
-      tournament: "PUBG Mobile",
-      id: "#52343",
-      mode: "Duo",
-      date: "Jan 15, 2023",
-      prize: "$750",
-    },
-    {
-      tournament: "Free Fire",
-      id: "#52344",
-      mode: "Squad",
-      date: "Jan 18, 2023",
-      prize: "$1200",
-    },
-    {
-      tournament: "Valorant",
-      id: "#52345",
-      mode: "Team",
-      date: "Jan 20, 2023",
-      prize: "$1500",
-    },
-    {
-      tournament: "League of Legends",
-      id: "#52346",
-      mode: "Team",
-      date: "Jan 23, 2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "DOTA 2",
-      id: "#52347",
-      mode: "Team",
-      date: "Jan 25, 2023",
-      prize: "$1800",
-    },
-    {
-      tournament: "CS:GO",
-      id: "#52348",
-      mode: "Team",
-      date: "Jan 28, 2023",
-      prize: "$1600",
-    },
-    {
-      tournament: "Rocket League",
-      id: "#52349",
-      mode: "Team",
-      date: "Jan 30, 2023",
-      prize: "$900",
-    },
-    {
-      tournament: "Apex Legends",
-      id: "#52350",
-      mode: "Team",
-      date: "Feb 1, 2023",
-      prize: "$1100",
-    },
-  ];
-
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  // Calculate pagination display range
-  const maxPagesToShow = 3;
-  let startPage = Math.max(1, activePage - Math.floor(maxPagesToShow / 2));
-  let endPage = startPage + maxPagesToShow - 1;
-
-  if (endPage > totalPages) {
-    endPage = totalPages;
-    startPage = Math.max(1, endPage - maxPagesToShow + 1);
-  }
-
-  const pages = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i,
-  );
+  const indexOfLastItem = activePage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <AdminDashboardLayout>
@@ -495,95 +420,72 @@ export default function Payouts() {
 
         <Card className="border-0 shadow-sm">
           <CardBody>
-            <h5 className="mb-4">Recent Payouts</h5>
             <div className="table-responsive">
-              <Table hover className="mb-0">
-                <thead>
-                  <tr>
-                    <th>Tournament</th>
-                    <th>ID</th>
-                    <th>Mode</th>
-                    <th>Date</th>
-                    <th>Prize</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data
-                    .slice(
-                      (activePage - 1) * itemsPerPage,
-                      activePage * itemsPerPage,
-                    )
-                    .map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.tournament}</td>
-                        <td>{item.id}</td>
-                        <td>{item.mode}</td>
-                        <td>{item.date}</td>
-                        <td>{item.prize}</td>
-                        <td className="text-center">
-                          <Button color="link" className="p-0">
-                            View
-                          </Button>
+              <div style={{ borderRadius: "8px", overflow: "hidden" }}>
+                <h4 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "16px" }}>Tournament Won - History</h4>
+                <table className="table table-striped" style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "#F9FAFB", height: "40px" }}>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Tournament</th>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>ID</th>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Mode</th>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Date</th>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Prize</th>
+                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((item, index) => (
+                      <tr
+                        key={index}
+                        style={{
+                          backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                          height: "48px"
+                        }}
+                      >
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.tournament}</td>
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.id}</td>
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.mode}</td>
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.date}</td>
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.prize}</td>
+                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>
+                          <a href="#" style={{ color: "#0096DB", textDecoration: "none", fontWeight: "500" }}>View Details</a>
                         </td>
                       </tr>
                     ))}
-                </tbody>
-              </Table>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            {data.length > 0 && (
             <div className="d-flex justify-content-between align-items-center mt-4">
-              <div className="d-flex align-items-center">
-                <div style={{ display: "flex", alignItems: "center", marginRight: "12px" }}>
-                  <PaginationLink style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D0D5DD", borderRadius: "4px", margin: "0 2px", cursor: "pointer" }} previous disabled={activePage === 1} onClick={() => handlePageClick(activePage - 1)}>
-                    «
-                  </PaginationLink>
-                </div>
-
-                <Pagination className="mb-0">
-                  {[1, 2, 3, 4, 5, 6].map((page) => (
-                    <PaginationItem key={page} active={activePage === page}>
-                      <PaginationLink 
-                        onClick={() => handlePageClick(page)}
-                        style={{
-                          width: "32px", 
-                          height: "32px", 
-                          display: "flex", 
-                          alignItems: "center", 
-                          justifyContent: "center", 
-                          backgroundColor: activePage === page ? "#FFD600" : "white",
-                          color: activePage === page ? "#101828" : "#667085",
-                          border: "1px solid #D0D5DD",
-                          borderRadius: "4px",
-                          margin: "0 2px",
-                          fontWeight: "500",
-                          fontSize: "14px"
-                        }}
-                      >
-                        {page}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
-                </Pagination>
-
-                <div style={{ display: "flex", alignItems: "center", marginLeft: "12px" }}>
-                  <PaginationLink style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D0D5DD", borderRadius: "4px", margin: "0 2px", cursor: "pointer" }} next disabled={activePage === totalPages} onClick={() => handlePageClick(activePage + 1)}>
-                    »
-                  </PaginationLink>
-                </div>
-
-                <div style={{ marginLeft: "16px", display: "flex", alignItems: "center" }}>
-                  <span style={{ color: "#667085", fontSize: "14px", marginRight: "8px" }}>12</span>
-                  <span style={{ color: "#667085", fontSize: "14px" }}>Items per page</span>
-                </div>
-              </div>
-
-              <div style={{ color: "#667085", fontSize: "14px" }}>
-                1 - {Math.min(activePage * itemsPerPage, data.length)} of {data.length} items
-              </div>
+              <Pagination>
+                <PaginationItem disabled={activePage === 1}>
+                  <PaginationLink previous onClick={() => handlePageClick(activePage - 1)} />
+                </PaginationItem>
+                <PaginationItem active={activePage === 1}>
+                  <PaginationLink onClick={() => handlePageClick(1)}>1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem active={activePage === 2}>
+                  <PaginationLink onClick={() => handlePageClick(2)}>2</PaginationLink>
+                </PaginationItem>
+                <PaginationItem active={activePage === 3}>
+                  <PaginationLink onClick={() => handlePageClick(3)}>3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem active={activePage === 4}>
+                  <PaginationLink onClick={() => handlePageClick(4)}>4</PaginationLink>
+                </PaginationItem>
+                <PaginationItem active={activePage === 5}>
+                  <PaginationLink onClick={() => handlePageClick(5)}>5</PaginationLink>
+                </PaginationItem>
+                <PaginationItem active={activePage === 6}>
+                  <PaginationLink onClick={() => handlePageClick(6)}>6</PaginationLink>
+                </PaginationItem>
+                <PaginationItem disabled={activePage === Math.ceil(data.length / itemsPerPage)}>
+                  <PaginationLink next onClick={() => handlePageClick(activePage + 1)} />
+                </PaginationItem>
+              </Pagination>
             </div>
-          )}
           </CardBody>
         </Card>
       </div>
