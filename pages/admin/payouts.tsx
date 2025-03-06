@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown } from "react-feather";
 import Link from "next/link";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 export default function Payouts() {
   const router = useRouter();
@@ -24,14 +24,62 @@ export default function Payouts() {
 
   // Sample data to match the screenshot
   const data = [
-    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Death", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmatch", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    {
+      tournament: "Pubg Summer Camp",
+      id: "C-2142",
+      mode: "Team",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "COD- No mercy Death",
+      id: "C-2142",
+      mode: "Solo",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "Valorant Midnight Special",
+      id: "C-2142",
+      mode: "Team",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "COD- No mercy Deathmar",
+      id: "C-2142",
+      mode: "Solo",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "Pubg Summer Camp",
+      id: "C-2142",
+      mode: "Team",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "Valorant Midnight Special",
+      id: "C-2142",
+      mode: "Solo",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "COD- No mercy Deathmatch",
+      id: "C-2142",
+      mode: "Team",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
+    {
+      tournament: "COD- No mercy Deathmar",
+      id: "C-2142",
+      mode: "Team",
+      date: "6/22/2023",
+      prize: "$2000",
+    },
   ];
 
   const handlePageClick = (pageNumber) => {
@@ -424,16 +472,93 @@ export default function Payouts() {
           <CardBody>
             <div className="table-responsive">
               <div style={{ borderRadius: "8px", overflow: "hidden" }}>
-                <h4 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "16px" }}>Tournament Won - History</h4>
-                <table className="table table-striped" style={{ width: "100%", borderCollapse: "collapse" }}>
+                <h4
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    marginBottom: "16px",
+                  }}
+                >
+                  Tournament Won - History
+                </h4>
+                <table
+                  className="table table-striped"
+                  style={{ width: "100%", borderCollapse: "collapse" }}
+                >
                   <thead>
                     <tr style={{ backgroundColor: "#F9FAFB", height: "40px" }}>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Tournament</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>ID</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Mode</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Date</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Prize</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Status</th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        Tournament
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        ID
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        Mode
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        Date
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        Prize
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px 16px",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#667085",
+                          textAlign: "left",
+                          borderBottom: "1px solid #EAECF0",
+                        }}
+                      >
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -441,31 +566,85 @@ export default function Payouts() {
                       <tr
                         key={index}
                         style={{
-                          backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
-                          height: "48px"
+                          backgroundColor:
+                            index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                          height: "48px",
                         }}
                       >
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.tournament}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.id}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.mode}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.date}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.prize}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
+                          {item.tournament}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
+                          {item.id}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
+                          {item.mode}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
+                          {item.date}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
+                          {item.prize}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px 16px",
+                            fontSize: "14px",
+                            color: "#101828",
+                            borderBottom: "1px solid #EAECF0",
+                          }}
+                        >
                           <Button
                             color="light"
                             size="sm"
-                            onClick={() => router.push(`/admin/payouts/${item.id}`)}
+                            onClick={() =>
+                              router.push(`/admin/payouts/${item.id}`)
+                            }
                             style={{
-                              backgroundColor: "#FFFFFF",
-                              borderColor: "#E4E7EC",
+                              backgroundColor: "transparent",
+                              border: "none",
                               borderRadius: "8px",
-                              color: "#344054",
                               fontWeight: 500,
                               fontSize: "14px",
                               padding: "6px 12px",
-                              width: "100%",
                               textAlign: "center",
-                              boxShadow: "none"
+                              boxShadow: "none",
+                              textDecoration: "underline",
                             }}
                           >
                             View Details
@@ -481,28 +660,50 @@ export default function Payouts() {
             <div className="d-flex justify-content-between align-items-center mt-4">
               <Pagination>
                 <PaginationItem disabled={activePage === 1}>
-                  <PaginationLink previous onClick={() => handlePageClick(activePage - 1)} />
+                  <PaginationLink
+                    previous
+                    onClick={() => handlePageClick(activePage - 1)}
+                  />
                 </PaginationItem>
                 <PaginationItem active={activePage === 1}>
-                  <PaginationLink onClick={() => handlePageClick(1)}>1</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(1)}>
+                    1
+                  </PaginationLink>
                 </PaginationItem>
                 <PaginationItem active={activePage === 2}>
-                  <PaginationLink onClick={() => handlePageClick(2)}>2</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(2)}>
+                    2
+                  </PaginationLink>
                 </PaginationItem>
                 <PaginationItem active={activePage === 3}>
-                  <PaginationLink onClick={() => handlePageClick(3)}>3</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(3)}>
+                    3
+                  </PaginationLink>
                 </PaginationItem>
                 <PaginationItem active={activePage === 4}>
-                  <PaginationLink onClick={() => handlePageClick(4)}>4</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(4)}>
+                    4
+                  </PaginationLink>
                 </PaginationItem>
                 <PaginationItem active={activePage === 5}>
-                  <PaginationLink onClick={() => handlePageClick(5)}>5</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(5)}>
+                    5
+                  </PaginationLink>
                 </PaginationItem>
                 <PaginationItem active={activePage === 6}>
-                  <PaginationLink onClick={() => handlePageClick(6)}>6</PaginationLink>
+                  <PaginationLink onClick={() => handlePageClick(6)}>
+                    6
+                  </PaginationLink>
                 </PaginationItem>
-                <PaginationItem disabled={activePage === Math.ceil(data.length / itemsPerPage)}>
-                  <PaginationLink next onClick={() => handlePageClick(activePage + 1)} />
+                <PaginationItem
+                  disabled={
+                    activePage === Math.ceil(data.length / itemsPerPage)
+                  }
+                >
+                  <PaginationLink
+                    next
+                    onClick={() => handlePageClick(activePage + 1)}
+                  />
                 </PaginationItem>
               </Pagination>
             </div>
