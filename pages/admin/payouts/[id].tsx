@@ -1,454 +1,230 @@
-
-import React, { useState } from "react";
-import AdminDashboardLayout from "../../../components/layouts/AdminDashboardLayout";
-import { Button } from "reactstrap";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ArrowLeft } from "react-feather";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Container, Row, Col, Table, Badge } from 'reactstrap';
+import AdminLayout from '../../../components/layouts/AdminLayout';
 
 export default function PayoutDetail() {
   const router = useRouter();
   const { id } = router.query;
-  const [selectedPlayers, setSelectedPlayers] = useState<number[]>([]);
-
-  // Sample data to match the provided design
-  const tournamentData = {
-    name: "Tournament Name",
-    banner: "/fortnite-banner.png",
-    tournament: "PUBG - SUMMER CAMP",
-    date: "5/22/2023",
-    winningTeam: "Wolves",
-    totalPayout: "$1,234",
-    players: [
-      { id: 1, name: "Jake", rank: "EXP", stats: "10 Kills", payout: "$250" },
-      { id: 2, name: "Adam", rank: "AMA", stats: "10 Kills", payout: "$250" },
-      { id: 3, name: "Smith", rank: "EXP", stats: "10 Kills", payout: "$250" },
-      { id: 4, name: "Mark", rank: "VET", stats: "10 Kills", payout: "$250" },
-      { id: 5, name: "John", rank: "AMA", stats: "10 Kills", payout: "$250" },
-      { id: 6, name: "0121", rank: "AMA", stats: "10 Kills", payout: "$250" },
+  const [tournament, setTournament] = useState({
+    name: 'PUBG - SUMMER CAMP',
+    date: '5/22/2023',
+    winningTeam: 'Wolves',
+    totalAmount: '$1,234',
+    members: [
+      { id: 1, name: 'Jake', rank: 'EXP', stats: '10 Kills', amount: '$250' },
+      { id: 2, name: 'Adam', rank: 'AMA', stats: '10 Kills', amount: '$250' },
+      { id: 3, name: 'Smith', rank: 'EXP', stats: '10 Kills', amount: '$250' },
+      { id: 4, name: 'Mark', rank: 'VET', stats: '10 Kills', amount: '$250' },
+      { id: 5, name: 'John', rank: 'AMA', stats: '10 Kills', amount: '$250' },
+      { id: 6, name: '0121', rank: 'AMA', stats: '10 Kills', amount: '$250' },
     ]
-  };
-
-  const togglePlayerSelection = (playerId: number) => {
-    if (selectedPlayers.includes(playerId)) {
-      setSelectedPlayers(selectedPlayers.filter(id => id !== playerId));
-    } else {
-      setSelectedPlayers([...selectedPlayers, playerId]);
-    }
-  };
+  });
 
   return (
-    <AdminDashboardLayout>
-      <div className="p-4">
-        {/* Header section */}
-        <div className="d-flex align-items-center mb-3">
-          <Link href="/admin/payouts">
-            <a className="d-flex align-items-center text-decoration-none me-3">
-              <ArrowLeft size={20} color="#667085" />
-              <span 
-                style={{ 
-                  color: "#667085", 
-                  fontSize: "14px",
-                  marginLeft: "4px" 
-                }}
-              >
-                Pay Outs
-              </span>
-            </a>
+    <AdminLayout>
+      <Container fluid className="p-4">
+        {/* Header with back button */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <Link href="/admin/payouts" className="d-flex align-items-center text-decoration-none">
+            <div className="d-flex align-items-center">
+              <div className="me-2">
+                <Image src="/admin/arrow-right-black.svg" alt="Back" width={20} height={20} style={{ transform: 'rotate(180deg)' }} />
+              </div>
+              <span style={{ color: '#101828', fontSize: '14px', fontWeight: 500 }}>Back</span>
+            </div>
           </Link>
-          
-          <div className="ms-auto">
-            <Button
-              outline
-              size="sm"
-              className="d-flex align-items-center"
-              style={{
-                color: "#344054",
-                borderColor: "#D0D5DD",
-                background: "white",
-                padding: "8px 14px",
-                fontWeight: 500,
-                fontSize: "14px",
-                borderRadius: "8px",
-              }}
-            >
-              <ArrowLeft size={16} className="me-1" /> Back
-            </Button>
+        </div>
+
+        {/* Tournament Name */}
+        <h3 className="mb-4" style={{ fontSize: '24px', fontWeight: 600, color: '#101828' }}>
+          Tournament Name
+        </h3>
+
+        {/* Tournament Banner */}
+        <div className="mb-4 position-relative" style={{ height: '150px', borderRadius: '8px', overflow: 'hidden' }}>
+          <Image 
+            src="/admin/pubg-banner.jpg" 
+            alt="Tournament Banner" 
+            layout="fill" 
+            objectFit="cover"
+            style={{ borderRadius: '8px' }}
+          />
+          <div 
+            className="position-absolute w-100 h-100" 
+            style={{ 
+              background: 'linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)',
+              borderRadius: '8px'
+            }}
+          >
           </div>
         </div>
 
-        {/* Tournament name */}
-        <h4 
-          className="mb-3" 
-          style={{ 
-            fontWeight: 500, 
-            color: "#101828",
-            fontSize: "24px"
-          }}
-        >
-          {tournamentData.name}
+        {/* Tournament Won Section */}
+        <h4 className="mb-3" style={{ fontSize: '18px', fontWeight: 600, color: '#101828' }}>
+          Tournament Won
         </h4>
 
-        {/* Tournament banner image */}
-        <div 
-          className="position-relative mb-4" 
-          style={{ 
-            height: "150px", 
-            width: "100%", 
-            borderRadius: "12px",
-            overflow: "hidden"
-          }}
-        >
-          <Image
-            src={tournamentData.banner}
-            layout="fill"
-            objectFit="cover"
-            alt="Tournament Banner"
-          />
-        </div>
-
-        {/* Tournament Won section */}
-        <h5 
-          className="mb-3" 
-          style={{ 
-            fontWeight: 500, 
-            color: "#101828",
-            fontSize: "18px"
-          }}
-        >
-          Tournament Won
-        </h5>
-
-        <div className="d-flex flex-wrap mb-4">
-          {/* Tournament details card */}
-          <div 
-            className="me-4 mb-3" 
-            style={{
-              flex: "1 1 auto", 
-              maxWidth: "560px",
-              minWidth: "280px"
-            }}
-          >
-            <div 
-              className="bg-white d-flex p-4" 
-              style={{
-                border: "1px solid #EAECF0", 
-                borderRadius: "8px",
-                boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)"
-              }}
-            >
-              {/* Left side - Tournament image */}
-              <div 
-                className="position-relative me-4" 
-                style={{ 
-                  width: "120px", 
-                  height: "120px", 
-                  borderRadius: "8px",
-                  overflow: "hidden"
-                }}
-              >
-                <Image 
-                  src={tournamentData.banner}
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Tournament Image" 
-                />
-              </div>
-              
-              {/* Right side - Tournament info */}
-              <div className="d-flex flex-column justify-content-between">
-                <div>
-                  <div 
-                    style={{ 
-                      fontSize: "16px", 
-                      fontWeight: 600,
-                      color: "#101828",
-                      marginBottom: "8px" 
-                    }}
-                  >
-                    {tournamentData.tournament}
+        <div className="mb-4">
+          <Row>
+            <Col md={8}>
+              <div className="bg-white shadow-sm rounded-3 p-4">
+                <div className="d-flex">
+                  {/* Tournament Image */}
+                  <div className="me-4" style={{ width: '140px', height: '80px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                    <Image 
+                      src="/admin/pubg-detail.jpg" 
+                      alt="Tournament Detail" 
+                      layout="fill" 
+                      objectFit="cover"
+                    />
                   </div>
-                  <div 
-                    style={{ 
-                      fontSize: "14px", 
-                      color: "#667085",
-                      marginBottom: "16px" 
-                    }}
-                  >
-                    {tournamentData.date}
+
+                  {/* Tournament Details */}
+                  <div className="d-flex flex-column justify-content-center">
+                    <div className="d-flex align-items-center mb-2">
+                      <h5 className="mb-0 me-4" style={{ fontSize: '16px', fontWeight: 600, color: '#101828' }}>
+                        {tournament.name}
+                      </h5>
+                      <div className="d-flex align-items-center" style={{ gap: '6px' }}>
+                        <Image src="/admin/crown-icon.svg" alt="Crown" width={18} height={18} />
+                        <span style={{ fontSize: '14px', color: '#667085' }}>
+                          {tournament.date}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <span className="me-2" style={{ fontSize: '14px', color: '#667085' }}>Winning Team</span>
+                      <Badge 
+                        pill 
+                        className="d-flex align-items-center" 
+                        style={{ 
+                          backgroundColor: '#F2F4F7', 
+                          color: '#344054', 
+                          padding: '2px 8px',
+                          fontWeight: 500
+                        }}
+                      >
+                        <div className="me-1" style={{ width: '18px', height: '18px', borderRadius: '50%', overflow: 'hidden', position: 'relative' }}>
+                          <Image 
+                            src="/admin/medal-icon.svg" 
+                            alt="Medal" 
+                            layout="fill"
+                          />
+                        </div>
+                        <span style={{ fontSize: '12px' }}>{tournament.winningTeam}</span>
+                      </Badge>
+                    </div>
                   </div>
                 </div>
-                
-                <div className="d-flex align-items-center">
-                  <div style={{ 
-                    fontSize: "14px", 
-                    color: "#667085",
-                    marginRight: "8px" 
-                  }}>
-                    Winning Team
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div 
-                      className="d-flex align-items-center justify-content-center me-1" 
+              </div>
+            </Col>
+
+            <Col md={4}>
+              <div className="bg-white shadow-sm rounded-3 p-4 h-100">
+                <div className="d-flex align-items-center h-100">
+                  <div>
+                    <div className="d-flex align-items-center mb-2">
+                      <Image 
+                        src="/admin/medal-icon.svg" 
+                        alt="Medal" 
+                        width={24}
+                        height={24}
+                        className="me-2"
+                      />
+                      <span style={{ fontSize: '14px', color: '#667085' }}>Total Payouts</span>
+                    </div>
+                    <h5 style={{ fontSize: '20px', fontWeight: 600, color: '#101828' }}>{tournament.totalAmount}</h5>
+                    <button 
+                      className="btn btn-warning mt-2 d-flex align-items-center" 
                       style={{ 
-                        width: "24px", 
-                        height: "24px",
-                        borderRadius: "50%", 
-                        backgroundColor: "#EEF4FF", 
-                        border: "1px solid #D1E0FF"
+                        backgroundColor: '#FFD600',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        fontWeight: 500
                       }}
                     >
+                      <span>Send to all</span>
                       <Image 
-                        src="/platforms/fortnite-logo.webp" 
+                        src="/admin/arrow-right-black.svg" 
+                        alt="Arrow" 
                         width={16} 
                         height={16} 
-                        alt="Team Logo" 
+                        className="ms-2"
                       />
-                    </div>
-                    <div style={{ 
-                      fontSize: "14px", 
-                      fontWeight: 500,
-                      color: "#101828" 
-                    }}>
-                      {tournamentData.winningTeam}
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Total Payouts Card */}
-          <div>
-            <div 
-              className="bg-white p-3 d-flex flex-column align-items-center" 
-              style={{
-                width: "240px",
-                border: "1px solid #E5E7EB", 
-                borderRadius: "8px",
-                boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)" 
-              }}
-            >
-              <div className="mb-1">
-                <Image 
-                  src="/admin/crown-icon.svg" 
-                  width={40} 
-                  height={40} 
-                  alt="Medal Icon" 
-                />
-              </div>
-              <div style={{ 
-                fontSize: "14px", 
-                color: "#667085",
-                marginBottom: "4px" 
-              }}>
-                Total Payouts
-              </div>
-              <div style={{ 
-                fontSize: "24px", 
-                fontWeight: 600,
-                color: "#101828",
-                marginBottom: "12px"
-              }}>
-                {tournamentData.totalPayout}
-              </div>
-              <Button
-                color="warning"
-                className="d-flex align-items-center justify-content-center gap-2 w-100"
-                style={{
-                  backgroundColor: "#FFD600",
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  color: "#101828",
-                  fontWeight: 500,
-                  fontSize: "14px"
-                }}
-              >
-                <span>Send to all</span>
-                <Image
-                  src="/admin/arrow-right-black.svg"
-                  width={16}
-                  height={16}
-                  alt="Arrow Right"
-                />
-              </Button>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
 
-        {/* Members Table */}
-        <div 
-          className="bg-white" 
-          style={{
-            border: "1px solid #EAECF0",
-            borderRadius: "8px",
-            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)"
-          }}
-        >
-          <table 
-            className="table mb-0" 
-            style={{
-              color: "#101828"
-            }}
-          >
-            <thead>
-              <tr 
-                style={{
-                  backgroundColor: "#F9FAFB",
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  color: "#667085",
-                  textTransform: "uppercase"
-                }}
-              >
-                <th 
-                  style={{
-                    padding: "12px 24px",
-                    borderBottom: "1px solid #EAECF0",
-                    fontWeight: 500
-                  }}
-                >
-                  <div className="d-flex align-items-center">
-                    <input 
-                      type="checkbox" 
-                      className="me-2" 
-                      style={{
-                        width: "16px",
-                        height: "16px"
-                      }}
-                    />
-                    <span>Member</span>
-                  </div>
+        {/* Team Members Table */}
+        <div className="bg-white shadow-sm rounded-3 mb-4">
+          <Table responsive hover borderless className="mb-0">
+            <thead style={{ backgroundColor: '#F9FAFB' }}>
+              <tr>
+                <th style={{ width: '40px', padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>
+                  <input type="checkbox" className="form-check-input" />
                 </th>
-                <th 
-                  style={{
-                    padding: "12px 24px",
-                    borderBottom: "1px solid #EAECF0",
-                    fontWeight: 500
-                  }}
-                >
-                  Rank
-                </th>
-                <th 
-                  style={{
-                    padding: "12px 24px",
-                    borderBottom: "1px solid #EAECF0",
-                    fontWeight: 500
-                  }}
-                >
-                  Stats
-                </th>
-                <th 
-                  style={{
-                    padding: "12px 24px",
-                    borderBottom: "1px solid #EAECF0",
-                    fontWeight: 500
-                  }}
-                >
-                  Payouts
-                </th>
-                <th 
-                  style={{
-                    padding: "12px 24px",
-                    borderBottom: "1px solid #EAECF0",
-                    fontWeight: 500,
-                    textAlign: "center"
-                  }}
-                >
-                  Action
-                </th>
+                <th style={{ padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>Member</th>
+                <th style={{ padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>Rank</th>
+                <th style={{ padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>Stats</th>
+                <th style={{ padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>Payouts</th>
+                <th style={{ padding: '12px 16px', fontWeight: 500, fontSize: '14px', color: '#667085' }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              {tournamentData.players.map((player) => (
-                <tr key={player.id}>
-                  <td 
-                    style={{
-                      padding: "16px 24px",
-                      borderBottom: "1px solid #EAECF0",
-                      fontSize: "14px",
-                      fontWeight: 500
-                    }}
-                  >
-                    <div className="d-flex align-items-center">
-                      <input 
-                        type="checkbox" 
-                        className="me-2" 
-                        style={{
-                          width: "16px",
-                          height: "16px"
-                        }}
-                        checked={selectedPlayers.includes(player.id)}
-                        onChange={() => togglePlayerSelection(player.id)}
-                      />
-                      <span>{player.name}</span>
-                    </div>
+              {tournament.members.map((member) => (
+                <tr key={member.id}>
+                  <td style={{ padding: '16px', verticalAlign: 'middle' }}>
+                    <input type="checkbox" className="form-check-input" />
                   </td>
-                  <td 
-                    style={{
-                      padding: "16px 24px",
-                      borderBottom: "1px solid #EAECF0",
-                      fontSize: "14px"
-                    }}
-                  >
-                    {player.rank}
+                  <td style={{ padding: '16px', verticalAlign: 'middle', fontSize: '14px', color: '#101828', fontWeight: 500 }}>
+                    {member.name}
                   </td>
-                  <td 
-                    style={{
-                      padding: "16px 24px",
-                      borderBottom: "1px solid #EAECF0",
-                      fontSize: "14px"
-                    }}
-                  >
-                    {player.stats}
+                  <td style={{ padding: '16px', verticalAlign: 'middle', fontSize: '14px', color: '#667085' }}>
+                    {member.rank}
                   </td>
-                  <td 
-                    style={{
-                      padding: "16px 24px",
-                      borderBottom: "1px solid #EAECF0",
-                      fontSize: "14px"
-                    }}
-                  >
-                    {player.payout}
+                  <td style={{ padding: '16px', verticalAlign: 'middle', fontSize: '14px', color: '#667085' }}>
+                    {member.stats}
                   </td>
-                  <td 
-                    style={{
-                      padding: "16px 24px",
-                      borderBottom: "1px solid #EAECF0",
-                      textAlign: "center"
-                    }}
-                  >
-                    <Button
-                      color="warning"
-                      size="sm"
-                      className="d-flex align-items-center justify-content-center gap-1 mx-auto"
-                      style={{
-                        backgroundColor: "#FFD600",
-                        border: "none",
-                        borderRadius: "8px",
-                        padding: "6px 12px",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        color: "#101828"
+                  <td style={{ padding: '16px', verticalAlign: 'middle', fontSize: '14px', color: '#667085' }}>
+                    {member.amount}
+                  </td>
+                  <td style={{ padding: '16px', verticalAlign: 'middle' }}>
+                    <button 
+                      className="btn btn-warning d-flex align-items-center" 
+                      style={{ 
+                        backgroundColor: '#FFD600',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '6px 12px',
+                        fontSize: '14px',
+                        fontWeight: 500
                       }}
                     >
                       <span>Send</span>
-                      <Image
-                        src="/admin/arrow-right-black.svg"
-                        width={16}
-                        height={16}
-                        alt="Arrow Right"
+                      <Image 
+                        src="/admin/arrow-right-black.svg" 
+                        alt="Arrow" 
+                        width={16} 
+                        height={16} 
+                        className="ms-2"
                       />
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         </div>
-      </div>
-    </AdminDashboardLayout>
+      </Container>
+    </AdminLayout>
   );
 }
