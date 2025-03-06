@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -57,7 +56,7 @@ export default function PayoutDetail() {
         </div>
 
         <h4 className="mb-4">Tournament Won</h4>
-        
+
         <div className="d-flex mb-4">
           {/* Tournament Details Card */}
           <div 
@@ -83,7 +82,7 @@ export default function PayoutDetail() {
                 />
               </div>
             </div>
-            
+
             {/* Tournament Info */}
             <div>
               <h5 className="mb-1" style={{ fontSize: '16px', fontWeight: '600' }}>
@@ -97,7 +96,7 @@ export default function PayoutDetail() {
                   Winning Team:
                 </span>
                 <div className="d-flex align-items-center">
-                  <div 
+                  <div
                     className="rounded-circle me-1 d-flex align-items-center justify-content-center"
                     style={{
                       width: '20px',
@@ -116,7 +115,7 @@ export default function PayoutDetail() {
               </div>
             </div>
           </div>
-          
+
           {/* Total Payouts Card */}
           <div 
             className="d-flex p-3 align-items-center" 
@@ -171,7 +170,7 @@ export default function PayoutDetail() {
             </button>
           </div>
         </div>
-        
+
         {/* Team Members Table */}
         <div
           style={{
@@ -187,52 +186,35 @@ export default function PayoutDetail() {
                 <th style={{ width: '40px', padding: '12px 16px' }}>
                   <input type="checkbox" className="form-check-input" />
                 </th>
-                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
-                  Member
-                </th>
-                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
-                  Rank
-                </th>
-                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
-                  Stats
-                </th>
-                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
-                  Payouts
-                </th>
-                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>
-                  Action
-                </th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>Member</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>Rank</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>Stats</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085' }}>Payouts</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '500', color: '#667085', textAlign: 'center' }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              {tournament.members.map((member) => (
-                <tr key={member.id}>
-                  <td style={{ padding: '16px' }}>
+              {tournament.members.map((member, index) => (
+                <tr key={index}>
+                  <td style={{ padding: '12px 16px' }}>
                     <input type="checkbox" className="form-check-input" />
                   </td>
-                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
-                    {member.name}
-                  </td>
-                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
-                    {member.rank}
-                  </td>
-                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828' }}>
-                    {member.stats}
-                  </td>
-                  <td style={{ padding: '16px', fontSize: '14px', color: '#101828', fontWeight: '500' }}>
-                    {member.amount}
-                  </td>
-                  <td style={{ padding: '16px' }}>
-                    <button 
-                      className="btn d-flex align-items-center"
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#101828' }}>{member.name}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#101828' }}>{member.rank}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#101828' }}>{member.stats}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#101828', fontWeight: '500' }}>{member.amount}</td>
+                  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <button
+                      className="btn d-flex align-items-center justify-content-center mx-auto"
                       style={{
                         backgroundColor: '#FFD600',
                         color: '#101828',
                         border: 'none',
                         borderRadius: '8px',
-                        padding: '8px 14px',
+                        padding: '6px 16px',
                         fontWeight: '500',
-                        fontSize: '14px'
+                        fontSize: '14px',
+                        width: '80px'
                       }}
                     >
                       Send
