@@ -260,7 +260,7 @@ export default function AdminSettings() {
                     </div>
                   </div>
 
-                  <div className="row">
+                  <div className="row mb-4">
                     <div className="col-md-6 mb-2">
                       <label
                         htmlFor="username"
@@ -288,7 +288,7 @@ export default function AdminSettings() {
                           borderRadius: "8px",
                           backgroundColor: "#FFFFFF",
                         }}
-                        disabled
+                        disabled={false}
                       />
                     </div>
 
