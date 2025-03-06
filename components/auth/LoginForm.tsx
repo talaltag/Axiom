@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { Eye, EyeOff } from "react-feather";
+import Link from "next/link";
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -56,9 +57,13 @@ export default function LoginForm({
         <Button
           type="button"
           color="link"
-          className="position-absolute end-0 top-50 translate-middle-y border-0 p-0 me-2"
+          className="position-absolute end-0 top-50 border-0 p-0 me-2"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ color: "#6C757D", transform: "translateY(-50%)", marginTop: "14px !important" }}
+          style={{
+            color: "#6C757D",
+            transform: "translateY(-50%)",
+            marginTop: "14px !important",
+          }}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </Button>
@@ -83,15 +88,18 @@ export default function LoginForm({
         }}
         disabled={isLoading}
       >
-        Login {isLoading && <Loader />}
+        {isLoading ? <Loader /> : "Login"}
       </Button>
       <div className="flex-grow-1"></div>
       <div className="text-center mt-auto">
         <span className="text-muted" style={{ fontSize: "14px" }}>
           Don't have an account?{" "}
-          <a href="#" className="text-decoration-none text-muted fw-bold">
+          <Link
+            href="/auth/register"
+            className="text-decoration-none text-muted fw-bold"
+          >
             Get Started
-          </a>
+          </Link>
         </span>
       </div>
     </Form>

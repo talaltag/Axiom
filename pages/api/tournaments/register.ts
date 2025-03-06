@@ -4,6 +4,8 @@ import Team from "../../../models/Team";
 import TournamentRegistration from "../../../models/TournamentRegistration";
 import { withAuth } from "../../../middleware/withAuth";
 import Tournament from "../../../models/Tournament";
+import Notification from "../../../models/Notification";
+import Settings from "../../../models/Settings";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -61,6 +63,23 @@ export default withAuth(async function handler(
       organizer: req.user.id,
       // memberPayments,
     });
+
+    if (user_ids && user_ids.length > 0) {
+      const settings = await Settings.find({
+        type: "reminder",
+        enabled: true,
+        userId: { $in: user_ids },
+      });
+      for (const set of settings) {
+        await Notification.create({
+          recipient: set.userId,
+          type: "reminder",
+          title: `${req.user.name} invited you on ${tournament.name} tournament`,
+          relatedId: tournament._id,
+          status: "accepted",
+        });
+      }
+    }
 
     res.status(201).json({
       success: true,

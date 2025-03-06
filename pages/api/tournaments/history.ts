@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
-import TournamentRegistration from "../../../models/TournamentRegistration";
 import { withAuth } from "../../../middleware/withAuth";
 import mongoose from "mongoose";
 import TournamentHistory from "../../../models/TournamentHistory";
 import TournamentPrize from "../../../models/TournamentPrize";
+import { monthsCount } from "../../../utils/helper";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -72,11 +72,71 @@ export default withAuth(async function handler(
         userId: req.user.id,
       });
 
+      var months = monthsCount;
+
+      var chartStats = {
+        played: { ...months },
+        loss: { ...months },
+        win: { ...months },
+      };
+
+      const saveRegistrationsToMonths = async () => {
+        try {
+          // Iterate over the registrations and categorize them by month
+          registrations.forEach((registration) => {
+            const createdAt = new Date(registration.createdAt); // assuming createdAt is a Date object or timestamp
+
+            // Get the month number (0-based, where 0 = January, 1 = February, etc.)
+            const monthIndex = createdAt.getMonth();
+
+            // Map the month number to the corresponding month in the months object
+            const monthNames = [
+              "jan",
+              "feb",
+              "mar",
+              "apr",
+              "may",
+              "jun",
+              "jul",
+              "aug",
+              "sep",
+              "oct",
+              "nov",
+              "dec",
+            ];
+
+            const monthString = monthNames[monthIndex];
+
+            // Increment the counter for the corresponding month
+            chartStats.played[monthString] =
+              (chartStats.played[monthString] || 0) + 1;
+
+            if (
+              registration.ranking <= registration.tournament.prizeSplit.length
+            ) {
+              chartStats.win[monthString] =
+                (chartStats.win[monthString] || 0) + 1;
+            } else {
+              chartStats.loss[monthString] =
+                (chartStats.loss[monthString] || 0) + 1;
+            }
+          });
+
+          console.log("Updated months data:", months);
+        } catch (error) {
+          console.error("Error fetching or processing registrations:", error);
+        }
+      };
+
+      // Call the function to save data into months
+      saveRegistrationsToMonths();
+
       return res.status(200).json({
         success: true,
         data: registrations,
         count: registrations.length,
         prizes: tournamentPrizes,
+        chartStats,
       });
     } catch (error: any) {
       return res.status(500).json({ success: false, message: error.message });

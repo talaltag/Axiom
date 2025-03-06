@@ -23,6 +23,7 @@ export interface RegistrationData {
     prize: string;
     type: string;
     game: string;
+    description: string;
     images: String[];
     gameMode: string;
     status: string;

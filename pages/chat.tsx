@@ -56,21 +56,7 @@ export default function ChatPage() {
             }
           }
 
-          let usersList = [];
-          if (session.data.user.role !== "Admin") {
-            usersList = [
-              ...usersData.data,
-              {
-                _id: "67ab624e0bda1b8874d72f2e",
-                name: "Admin",
-                email: "admin@admin.com",
-                cName: "talal@theappguys.com",
-                role: "Admin",
-              },
-            ];
-          } else {
-            usersList = usersData.data.filter((user) => user.role !== "Admin");
-          }
+          let usersList = usersData.data;
 
           setUsers(usersList);
 

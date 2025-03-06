@@ -1,3 +1,4 @@
+import moment, { Moment } from "moment";
 export const ShowNavigatorDeviceModal = async () => {
   try {
     // First check microphone permission
@@ -83,3 +84,93 @@ export const formatDateCron = (currentDate) => {
 export const totalCountInArray = (data, key) => {
   return data.reduce((acc, curr) => acc + parseInt(curr[key]), 0);
 };
+
+export const formatCountDown = (duration) => {
+  let hours = "00";
+  let minutes = "00";
+  let seconds = "00";
+  if (duration) {
+    const totalSeconds = Math.floor(duration.asSeconds());
+    hours = Math.floor(totalSeconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    minutes = Math.floor((totalSeconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    seconds = Math.floor(totalSeconds % 60)
+      .toString()
+      .padStart(2, "0");
+  }
+
+  return `${hours}:${minutes}:${seconds}`;
+};
+
+export const countDownTimer = (date: Date, start: string, end?: string) => {
+  const [hours, mins] = start.split(":");
+  const dateTime = moment(date)
+    .add(Number(hours), "hours")
+    .add(Number(mins), "minutes");
+
+  if (!end) {
+    // Check if the target time has already passed
+    const currentTime = moment();
+
+    let diff = moment.duration(dateTime.diff(currentTime));
+
+    // If the target time is in the past, set the countdown to zero
+    if (diff.asSeconds() < 0) {
+      diff = moment.duration(0); // Set duration to zero if time is up
+    }
+
+    return diff;
+  } else {
+    const [endHours, endMins] = end.split(":");
+
+    const endTime = moment(date)
+      .add(Number(endHours), "hours")
+      .add(Number(endMins), "minutes");
+
+    let diff = moment.duration(endTime.diff(dateTime));
+
+    // If the target time is in the past, set the countdown to zero
+    if (diff.asSeconds() < 0) {
+      diff = moment.duration(0); // Set duration to zero if time is up
+    }
+
+    return diff.asMinutes();
+  }
+};
+
+export const positionToRank = (position: number) => {
+  if (position === 1) {
+    return "1st";
+  } else if (position === 2) {
+    return "2nd";
+  } else if (position === 3) {
+    return "3rd";
+  } else {
+    return `${position}th`;
+  }
+};
+
+export const monthsCount = {
+  jan: 0,
+  feb: 0,
+  mar: 0,
+  apr: 0,
+  may: 0,
+  jun: 0,
+  jul: 0,
+  aug: 0,
+  sep: 0,
+  oct: 0,
+  nov: 0,
+  dec: 0,
+};
+
+export function formatHoursMins(minutes: number) {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  return `${hours} Hrs ${remainingMinutes} min`;
+}

@@ -130,9 +130,7 @@ export default function Notifications() {
                       <div>
                         <h6 className="mb-1">{notification.title}</h6>
                         <small className="text-muted">
-                          {new Date(
-                            notification.createdAt
-                          ).toLocaleDateString()}
+                          {new Date(notification.createdAt).toLocaleString()}
                         </small>
                       </div>
                     </div>

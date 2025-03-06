@@ -3,17 +3,12 @@ import { Container, Row, Col, Alert } from "reactstrap";
 import { useRouter } from "next/router";
 import LoginForm from "../../components/auth/LoginForm";
 import Logo from "../../components/auth/Logo";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/authSlice";
-import type { AppDispatch, RootState } from "../../store/store";
 import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
-  const { error, isLoading, user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const session = useSession();
 
@@ -30,6 +25,8 @@ export default function Login() {
   }, [session]);
 
   const handleLogin = async (email: string, password: string) => {
+    setLoading(true);
+    setError("");
     const result = await signIn("credentials", {
       redirect: false,
       email,
@@ -37,9 +34,10 @@ export default function Login() {
     });
     if (result.error) {
       if (result.status == 401) {
-        alert("Wrong Credentials");
+        setError("Wrong Credentials");
       }
     }
+    setLoading(false);
     if (result.ok) {
       const data = await fetch("/api/auth/session").then((res) => res.json());
       const route =
@@ -85,12 +83,14 @@ export default function Login() {
             backgroundPosition: "center",
           }}
         >
-          {error && (
-            <Alert color="danger" className="mb-3">
-              {error}
-            </Alert>
-          )}
-          <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+          <div>
+            {error && (
+              <Alert color="danger" className="mb-3">
+                {error}
+              </Alert>
+            )}
+            <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+          </div>
         </Col>
       </Row>
     </Container>

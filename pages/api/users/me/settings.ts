@@ -1,8 +1,8 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../../lib/dbConnect";
 import Settings from "../../../../models/Settings";
 import { withAuth } from "../../../../middleware/withAuth";
+import User from "../../../../models/User";
 
 export default withAuth(async function handler(
   req: NextApiRequest,
@@ -26,23 +26,39 @@ export default withAuth(async function handler(
           userId,
           module,
           type,
-          enabled
+          enabled,
         });
       }
 
       res.status(200).json({ success: true, data: setting });
     } catch (error) {
       console.error("Error saving settings:", error);
-      res.status(500).json({ success: false, message: "Error saving settings" });
+      res
+        .status(500)
+        .json({ success: false, message: "Error saving settings" });
     }
   } else if (req.method === "GET") {
     try {
       const userId = req.user.id;
-      const settings = await Settings.find({ userId });
-      res.status(200).json({ success: true, data: settings });
+      const setting = await Promise.all([
+        Settings.find({ userId }),
+        User.findById(req.user.id).select("-password -friends"),
+      ]);
+
+      const [settings, user] = setting;
+
+      res.status(200).json({
+        success: true,
+        data: {
+          settings,
+          user,
+        },
+      });
     } catch (error) {
       console.error("Error fetching settings:", error);
-      res.status(500).json({ success: false, message: "Error fetching settings" });
+      res
+        .status(500)
+        .json({ success: false, message: "Error fetching settings" });
     }
   } else {
     res.status(405).json({ success: false, message: "Method not allowed" });

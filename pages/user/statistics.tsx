@@ -11,10 +11,12 @@ import {
   Table,
   Badge,
   Progress,
+  Input,
 } from "reactstrap";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import { PieChart, Pie, ResponsiveContainer } from "recharts";
 import TournamentHistoryTable from "../../components/tournaments/TournamentHistoryTable";
+import { formatHoursMins, monthsCount } from "../../utils/helper";
 
 const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -34,6 +36,12 @@ export default function Statistics() {
   const [stats, setStats] = useState<StatsType>();
   const [totalTournaments, setTotalTournament] = useState(null);
   const [matchesStats, setMatchesStats] = useState({ played: 0, wins: 0 });
+  const [chartStats, setChartStats] = useState({
+    played: { ...monthsCount },
+    loss: { ...monthsCount },
+    win: { ...monthsCount },
+  });
+  const [timeStats, setTimeStats] = useState({ ...monthsCount });
   const percentage = useMemo(() => {
     const win = ((matchesStats.wins / matchesStats.played) * 100).toFixed(0);
     const loss = (
@@ -43,6 +51,12 @@ export default function Statistics() {
 
     return { win: parseInt(win), loss: parseInt(loss) };
   }, [matchesStats]);
+
+  const averageTime = useMemo(() => {
+    return Object.values(timeStats)
+      .map((value) => value)
+      .reduce((acc, curr) => acc + curr, 0);
+  }, [timeStats]);
 
   const totalWinAmount = useMemo(() => {
     if (totalTournaments?.prizes?.length > 0) {
@@ -59,6 +73,12 @@ export default function Statistics() {
       return totalTournaments?.prizes?.reduce((acc, curr) => acc + 1, 0);
     }
     return 0;
+  }, [totalTournaments]);
+
+  useEffect(() => {
+    if (totalTournaments?.chartStats) {
+      setChartStats(totalTournaments.chartStats);
+    }
   }, [totalTournaments]);
 
   const barChartData = {
@@ -129,19 +149,38 @@ export default function Statistics() {
         axisTicks: { show: false },
       },
       yaxis: {
-        min: 0,
-        max: 120,
-        tickAmount: 4,
+        tickAmount: 3,
+        labels: {
+          formatter: function (value) {
+            if (value >= 60) {
+              // Calculate hours and remaining minutes
+              const hours = Math.floor(value / 60); // Get the full hours
+              const minutes = value % 60; // Get the remaining minutes
+
+              // If there are minutes remaining, show both hours and minutes
+              if (minutes > 0) {
+                return hours + "h " + minutes + "m";
+              } else {
+                return hours + "h"; // If no remaining minutes, just show hours
+              }
+            } else {
+              // If the value is less than 60, just show minutes
+              return value + "m";
+            }
+          },
+        },
       },
     },
     series: [
       {
         name: "Gaming Time",
-        data: [20, 30, 25, 45, 35, 30, 35, 20, 40, 60, 90, 110],
+        data: Object.values(timeStats).map((value) => value),
         zIndex: 2,
       },
     ],
   };
+
+  const totalTournamentsCount = totalTournaments?.count ?? 0;
 
   const lineChartData = {
     options: {
@@ -152,6 +191,9 @@ export default function Statistics() {
           show: false,
         },
         background: "transparent",
+        zoom: {
+          enabled: false,
+        },
       },
       stroke: {
         curve: "smooth",
@@ -203,7 +245,7 @@ export default function Statistics() {
       },
       yaxis: {
         min: 0,
-        max: 100,
+        max: 100, // Always show from 0 to 100%
         tickAmount: 5,
         labels: {
           style: {
@@ -249,20 +291,26 @@ export default function Statistics() {
           ],
         },
       },
-      colors: ["#F8CA15"],
+      colors: ["#F8CA15", "#12B76A", "#F04438"],
     },
     series: [
       {
         name: "Total Tournaments participated in",
-        data: [38, 40, 45, 48, 50, 55, 60, 65, 68, 72, 75, 80],
+        data: Object.values(chartStats.played).map(
+          (value) => (value / totalTournamentsCount) * 100
+        ),
       },
       {
         name: "Total Tournament Wins",
-        data: [30, 35, 38, 40, 45, 48, 50, 52, 55, 58, 60, 62],
+        data: Object.values(chartStats.win).map(
+          (value) => (value / totalTournamentsCount) * 100
+        ), // Percentage of wins
       },
       {
         name: "Total Tournament Losses",
-        data: [15, 18, 20, 25, 28, 30, 35, 38, 40, 42, 45, 48],
+        data: Object.values(chartStats.loss).map(
+          (value) => (value / totalTournamentsCount) * 100
+        ), // Percentage of losses
       },
     ],
   };
@@ -283,6 +331,21 @@ export default function Statistics() {
     }
   }, [stats]);
 
+  const fetchTimeStats = async (type?: string) => {
+    // setIsLoading(true);
+    try {
+      const response = await fetch(
+        `/api/tournaments/timeStats?type=${type ?? "month"}`
+      );
+      const data = await response.json();
+      setTimeStats(data.data);
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
   const fetchStats = async () => {
     // setIsLoading(true);
     try {
@@ -300,6 +363,7 @@ export default function Statistics() {
 
   useEffect(() => {
     fetchStats();
+    fetchTimeStats();
   }, []);
 
   return (
@@ -352,28 +416,18 @@ export default function Statistics() {
                           margin: 0,
                         }}
                       >
-                        2 Hrs. 25 min
+                        {formatHoursMins(averageTime)}
                       </span>
                     </div>
-                    <div
-                      style={{
-                        padding: "6px 10px",
-                        borderRadius: "6px",
-                        backgroundColor: "transparent",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        color: "#344054",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                      }}
+                    <Input
+                      type="select"
+                      className="w-auto"
+                      onChange={(e) => fetchTimeStats(e.target.value)}
                     >
-                      Month
-                      <i
-                        className="fas fa-chevron-down"
-                        style={{ fontSize: "10px" }}
-                      ></i>
-                    </div>
+                      <option value="month">This Month</option>
+                      <option value="last">Last Month</option>
+                      <option value="year">This Year</option>
+                    </Input>
                   </div>
                 </div>
                 <Chart

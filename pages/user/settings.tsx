@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserDashboardLayout from "../../components/layouts/UserDashboardLayout";
 import PlatformList from "../../components/common/PlatformList";
 import {
@@ -18,7 +18,6 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("myAccount");
@@ -28,7 +27,7 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const session = useSession();
+  const [settings, setSettings] = useState<any>({});
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -122,6 +121,47 @@ export default function Settings() {
     }
   };
 
+  const onNotificationChange = async (type: string, value: boolean) => {
+    fetch("/api/users/me/settings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        module: "notifications",
+        type,
+        enabled: value,
+      }),
+    });
+  };
+
+  const fetchSettings = async () => {
+    // setIsLoading(true);
+    try {
+      const response = await fetch("/api/users/me/settings");
+      const data = await response.json();
+      if (data.success) {
+        setSettings(data.data);
+        setUsername(data.data.user.name);
+      }
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const isChecked = (type: string) => {
+    const setting = settings?.settings?.find(
+      (setting) => setting.type === type
+    );
+    return setting?.enabled;
+  };
+
   return (
     <UserDashboardLayout>
       <Container fluid className="p-4">
@@ -162,7 +202,6 @@ export default function Settings() {
             {[
               { id: "myAccount", label: "My Account" },
               { id: "notifications", label: "Notifications" },
-              { id: "billings", label: "Billings" },
               { id: "platformIntegration", label: "Platform Integration" },
               { id: "privacySafety", label: "Privacy & Safety" },
             ].map((tab) => (
@@ -204,7 +243,7 @@ export default function Settings() {
                         src={
                           file
                             ? URL.createObjectURL(file)
-                            : session?.data?.user?.profileImage || "/user1.png"
+                            : settings?.user?.profileImage || "/user1.png"
                         }
                         alt="Profile"
                         layout="fill"
@@ -241,7 +280,7 @@ export default function Settings() {
                   </div>
 
                   <FormGroup className="mb-4">
-                    <Label for="username">Axiom Username</Label>
+                    <Label for="username">Name</Label>
                     <div className="d-flex gap-2">
                       <Input
                         type="text"
@@ -317,76 +356,6 @@ export default function Settings() {
 
           <TabPane tabId="notifications">
             <div className="bg-white p-4">
-              {["messages", "tournaments", "friends"].map((type) => (
-                <div key={type} className="mb-4">
-                  <div
-                    className="p-2 mb-2"
-                    style={{
-                      background: "#F9FAFB",
-                      borderRadius: "8px",
-                      border: "1px solid #EAECF0",
-                    }}
-                  >
-                    <h6
-                      style={{
-                        margin: 0,
-                        fontSize: "14px",
-                        color: "#101828",
-                        fontWeight: 500,
-                        textTransform: "capitalize"
-                      }}
-                    >
-                      {type} Notifications
-                    </h6>
-                  </div>
-                  <div
-                    style={{
-                      background: "#FFFFFF",
-                      border: "1px solid #EAECF0",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <div className="p-3">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div>
-                          <div
-                            style={{
-                              fontSize: "14px",
-                              color: "#344054",
-                              marginBottom: "4px",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Notifications Settings
-                          </div>
-                          <div style={{ fontSize: "14px", color: "#667085" }}>
-                            Enable or disable {type} notifications
-                          </div>
-                        </div>
-                        <FormGroup switch className="mb-0">
-                          <Input
-                            type="switch"
-                            role="switch"
-                            onChange={(e) => {
-                              fetch("/api/users/me/settings", {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  module: "notifications",
-                                  type,
-                                  enabled: e.target.checked,
-                                }),
-                              });
-                            }}
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
               <div className="mb-4">
                 <div
                   className="p-2 mb-2"
@@ -432,7 +401,14 @@ export default function Settings() {
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" defaultChecked />
+                        <Input
+                          type="switch"
+                          role="switch"
+                          onChange={(e) =>
+                            onNotificationChange("message", e.target.checked)
+                          }
+                          defaultChecked={isChecked("message")}
+                        />
                       </FormGroup>
                     </div>
                   </div>
@@ -487,7 +463,17 @@ export default function Settings() {
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" />
+                        <Input
+                          type="switch"
+                          role="switch"
+                          onChange={(e) =>
+                            onNotificationChange(
+                              "announcement",
+                              e.target.checked
+                            )
+                          }
+                          defaultChecked={isChecked("announcement")}
+                        />
                       </FormGroup>
                     </div>
                   </div>
@@ -509,7 +495,14 @@ export default function Settings() {
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" defaultChecked />
+                        <Input
+                          type="switch"
+                          role="switch"
+                          onChange={(e) =>
+                            onNotificationChange("reminder", e.target.checked)
+                          }
+                          defaultChecked={isChecked("reminder")}
+                        />
                       </FormGroup>
                     </div>
                   </div>
@@ -561,7 +554,17 @@ export default function Settings() {
                         </div>
                       </div>
                       <FormGroup switch className="mb-0">
-                        <Input type="switch" role="switch" />
+                        <Input
+                          type="switch"
+                          role="switch"
+                          onChange={(e) =>
+                            onNotificationChange(
+                              "friend_request",
+                              e.target.checked
+                            )
+                          }
+                          defaultChecked={isChecked("friend_request")}
+                        />
                       </FormGroup>
                     </div>
                   </div>
