@@ -13,23 +13,25 @@ import {
   PaginationLink,
 } from "reactstrap";
 import Image from "next/image";
-import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown } from "react-feather";
+import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown, Eye } from "react-feather";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 export default function Payouts() {
+  const router = useRouter();
   const [activePage, setActivePage] = useState(1);
   const itemsPerPage = 8;
 
   // Sample data to match the screenshot
   const data = [
-    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Death", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Pubg Summer Camp", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "Valorant Midnight Special", id: "C-2142", mode: "Solo", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmatch", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
-    { tournament: "COD- No mercy Deathmar", id: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000" },
+    { tournament: "Pubg Summer Camp", tournamentId: "C-2142", mode: "Team", date: "6/22/2023", prize: "$2000", status: "Paid" },
+    { tournament: "COD- No mercy Death", tournamentId: "C-2143", mode: "Solo", date: "6/22/2023", prize: "$2000", status: "Pending" },
+    { tournament: "Valorant Midnight Special", tournamentId: "C-2144", mode: "Team", date: "6/22/2023", prize: "$2000", status: "Paid" },
+    { tournament: "COD- No mercy Deathmar", tournamentId: "C-2145", mode: "Solo", date: "6/22/2023", prize: "$2000", status: "Disputed" },
+    { tournament: "Pubg Summer Camp", tournamentId: "C-2146", mode: "Team", date: "6/22/2023", prize: "$2000", status: "Paid" },
+    { tournament: "Valorant Midnight Special", tournamentId: "C-2147", mode: "Solo", date: "6/22/2023", prize: "$2000", status: "Pending" },
+    { tournament: "COD- No mercy Deathmatch", tournamentId: "C-2148", mode: "Team", date: "6/22/2023", prize: "$2000", status: "Paid" },
+    { tournament: "COD- No mercy Deathmar", tournamentId: "C-2149", mode: "Team", date: "6/22/2023", prize: "$2000", status: "Paid" },
   ];
 
   const handlePageClick = (pageNumber) => {
@@ -423,38 +425,62 @@ export default function Payouts() {
             <div className="table-responsive">
               <div style={{ borderRadius: "8px", overflow: "hidden" }}>
                 <h4 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "16px" }}>Tournament Won - History</h4>
-                <table className="table table-striped" style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ backgroundColor: "#F9FAFB", height: "40px" }}>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Tournament</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>ID</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Mode</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Date</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Prize</th>
-                      <th style={{ padding: "10px 16px", fontSize: "14px", fontWeight: "500", color: "#667085", textAlign: "left", borderBottom: "1px solid #EAECF0" }}>Status</th>
+                <Table responsive hover style={{ backgroundColor: "white", borderRadius: "8px", overflow: "hidden" }}>
+                  <thead style={{ backgroundColor: "#F9FAFB" }}>
+                    <tr>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Tournament</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>ID</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Mode</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Date</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Prize</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Status</th>
+                      <th style={{ fontSize: "14px", fontWeight: "500", color: "#667085", padding: "12px 24px" }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {currentItems.map((item, index) => (
-                      <tr
-                        key={index}
-                        style={{
-                          backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
-                          height: "48px"
-                        }}
-                      >
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.tournament}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.id}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.mode}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.date}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>{item.prize}</td>
-                        <td style={{ padding: "10px 16px", fontSize: "14px", color: "#101828", borderBottom: "1px solid #EAECF0" }}>
-                          <a href="#" style={{ color: "#0096DB", textDecoration: "none", fontWeight: "500" }}>View Details</a>
+                      <tr key={index}>
+                        <td style={{ fontSize: "14px", fontWeight: "500", color: "#101828", padding: "16px 24px" }}>{item.tournament}</td>
+                        <td style={{ fontSize: "14px", color: "#667085", padding: "16px 24px" }}>{item.tournamentId}</td>
+                        <td style={{ fontSize: "14px", color: "#667085", padding: "16px 24px" }}>{item.mode}</td>
+                        <td style={{ fontSize: "14px", color: "#667085", padding: "16px 24px" }}>{item.date}</td>
+                        <td style={{ fontSize: "14px", fontWeight: "500", color: "#101828", padding: "16px 24px" }}>{item.prize}</td>
+                        <td style={{ fontSize: "14px", color: "#667085", padding: "16px 24px" }}>
+                          <span 
+                            style={{ 
+                              backgroundColor: item.status === "Paid" ? "#D1FAE5" : (item.status === "Pending" ? "#FEF3F2" : "#FFF2DC"), 
+                              color: item.status === "Paid" ? "#15803D" : (item.status === "Pending" ? "#B42318" : "#966421"), 
+                              padding: "2px 8px", 
+                              borderRadius: "16px", 
+                              fontSize: "12px" 
+                            }}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td style={{ padding: "16px 24px" }}>
+                          <Button
+                            color="light"
+                            size="sm"
+                            className="d-flex align-items-center"
+                            style={{ 
+                              backgroundColor: "#F9FAFB", 
+                              borderColor: "#D0D5DD", 
+                              color: "#344054",
+                              borderRadius: "4px",
+                              padding: "6px 12px",
+                              fontSize: "14px"
+                            }}
+                            onClick={() => router.push(`/admin/payouts/${item.id}`)}
+                          >
+                            <Eye size={14} className="me-1" />
+                            <span>View Details</span>
+                          </Button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </Table>
               </div>
             </div>
 
