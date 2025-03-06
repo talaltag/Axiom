@@ -135,54 +135,173 @@ export default function PayoutDetail() {
             </div>
           </div>
 
-          {/* Total Payouts Card */}
+          {/* Tournament Information Card */}
           <div
-            className="d-flex p-3 align-items-center"
+            className="p-4 mb-4"
             style={{
               backgroundColor: "#fff",
-              borderRadius: "8px",
+              borderRadius: "12px",
               boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              width: "350px",
+              width: "460px",
+              position: "relative"
             }}
           >
-            <div
-              className="rounded-circle me-3 d-flex align-items-center justify-content-center"
+            <div 
               style={{
-                width: "48px",
-                height: "48px",
-                backgroundColor: "#FDF8E8",
+                position: "absolute",
+                top: "16px",
+                right: "16px",
               }}
             >
-              <Image
-                src="/admin/crown-icon.svg"
-                width={24}
-                height={24}
-                alt="Trophy"
-              />
-            </div>
-            <div className="flex-grow-1">
-              <p
-                className="mb-1"
-                style={{ fontSize: "14px", color: "#667085" }}
+              <div 
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  backgroundColor: "#FFD600",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
               >
-                Total Payouts
-              </p>
-              <h5 className="mb-0">{tournament.totalAmount}</h5>
+                <Image
+                  src="/admin/crown-icon.svg"
+                  width={24}
+                  height={24}
+                  alt="Crown"
+                />
+              </div>
             </div>
-            <button
-              className="btn d-flex align-items-center"
+            <h3
               style={{
-                backgroundColor: "#FFD600",
+                fontSize: "20px",
+                fontWeight: "600",
                 color: "#101828",
-                border: "none",
-                borderRadius: "8px",
-                padding: "8px 14px",
-                fontWeight: "500",
-                fontSize: "14px",
+                marginBottom: "8px"
               }}
             >
-              Send to all
-              <Image
+              {tournament.name}
+            </h3>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#667085",
+                marginBottom: "16px"
+              }}
+            >
+              {tournament.date}
+            </p>
+            <div className="d-flex align-items-center">
+              <div style={{ marginRight: "8px" }}>Winning Team:</div>
+              <div className="d-flex align-items-center">
+                <div 
+                  style={{ 
+                    marginRight: "4px",
+                    display: "flex",
+                    alignItems: "center" 
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      marginRight: "8px",
+                      border: "1px solid #E5E7EB",
+                    }}
+                  >
+                    <Image
+                      src="/user1.png"
+                      width={24}
+                      height={24}
+                      alt="Team Logo"
+                    />
+                  </div>
+                  <span style={{ fontSize: "14px", fontWeight: "500" }}>
+                    {tournament.winningTeam}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Payouts Card */}
+          <div
+            className="p-4 mb-4"
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+              width: "460px",
+            }}
+          >
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center">
+                <div
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: "16px",
+                  }}
+                >
+                  <Image
+                    src="/admin/medal-icon.svg" 
+                    width={48}
+                    height={48}
+                    alt="Medal"
+                  />
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      color: "#101828",
+                      marginBottom: "4px"
+                    }}
+                  >
+                    Total Payouts
+                  </p>
+                  <h3
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      color: "#101828",
+                      marginBottom: "0"
+                    }}
+                  >
+                    {tournament.totalAmount}
+                  </h3>
+                </div>
+              </div>
+              <button
+                className="btn d-flex align-items-center"
+                style={{
+                  backgroundColor: "#FFD600",
+                  color: "#101828",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "10px 16px",
+                  fontWeight: "500",
+                  fontSize: "14px",
+                }}
+              >
+                Send to all
+                <Image 
+                  src="/admin/send-icon.svg" 
+                  width={16} 
+                  height={16} 
+                  alt="Send" 
+                  style={{ marginLeft: "8px" }}
+                />
+              </button>
+            </div>
+          </div>
+          <Image
                 src="/admin/arrow-right-black.svg"
                 width={16}
                 height={16}
