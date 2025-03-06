@@ -60,7 +60,7 @@ export default function PayoutDetail() {
         <div className="d-flex mb-4">
           {/* Tournament Details Card */}
           <div
-            className="d-flex p-3 me-4"
+            className="d-flex me-4"
             style={{
               backgroundColor: "#fff",
               borderRadius: "8px",
@@ -69,10 +69,10 @@ export default function PayoutDetail() {
             }}
           >
             {/* Tournament Image */}
-            <div className="me-3">
+            <div className="">
               <div
                 className="position-relative rounded overflow-hidden"
-                style={{ height: "80px", width: "350px" }}
+                style={{ height: "100%", width: "350px" }}
               >
                 <Image
                   src="/fortnite-banner.png"
