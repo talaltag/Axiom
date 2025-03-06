@@ -110,7 +110,7 @@ export default function PayoutDetail() {
               flexShrink: 0
             }}>
               <Image
-                src="/admin/pubg-detail.jpg"
+                src="/fortnite-banner.png"
                 layout="fill"
                 objectFit="cover"
                 alt="Tournament Detail"
