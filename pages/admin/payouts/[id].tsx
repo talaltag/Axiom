@@ -64,6 +64,24 @@ export default function PayoutDetail() {
           {tournamentData.name}
         </h3>
 
+        {/* Tournament Banner */}
+        <div 
+          className="position-relative mb-4" 
+          style={{ 
+            height: "180px", 
+            borderRadius: "8px",
+            overflow: "hidden" 
+          }}
+        >
+          <Image
+            src="/fortnite-banner.png"
+            layout="fill"
+            objectFit="cover"
+            alt="Tournament Banner"
+            priority
+          />
+        </div>
+
         <h3 
           className="mb-4"
           style={{
@@ -74,90 +92,6 @@ export default function PayoutDetail() {
         >
           Tournament Won
         </h3>
-        
-        {/* Tournament Info Cards Row */}
-        <Row className="mb-4">
-          {/* First Card - Tournament Details */}
-          <Col md={4}>
-            <div style={{
-              backgroundColor: "#fff",
-              borderRadius: "8px",
-              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-              overflow: "hidden"
-            }}>
-              {/* Tournament Image */}
-              <div style={{ height: "80px", position: "relative" }}>
-                <Image
-                  src="/admin/pubg-banner.jpg"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="PUBG Banner"
-                />
-              </div>
-              
-              {/* Tournament Info */}
-              <div style={{ padding: "16px" }}>
-                <div style={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
-                  marginBottom: "8px"
-                }}>
-                  <div style={{ fontWeight: 500, fontSize: "14px" }}>
-                    PUBG - SUMMER CAMP
-                  </div>
-                  <div style={{ 
-                    backgroundColor: "#FEF08A", 
-                    width: "24px", 
-                    height: "24px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "4px"
-                  }}>
-                    <Image 
-                      src="/admin/crown-icon.svg" 
-                      width={16} 
-                      height={16} 
-                      alt="Crown Icon" 
-                    />
-                  </div>
-                </div>
-                
-                <div style={{ 
-                  color: "#667085", 
-                  fontSize: "14px",
-                  marginBottom: "8px" 
-                }}>
-                  5/22/2023
-                </div>
-                
-                <div style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  fontSize: "14px"
-                }}>
-                  <div style={{ marginRight: "8px" }}>Winning Team</div>
-                  <div style={{ 
-                    width: "20px", 
-                    height: "20px", 
-                    backgroundColor: "#1E40AF", 
-                    borderRadius: "50%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: "8px",
-                    color: "white",
-                    fontSize: "10px"
-                  }}>
-                    W
-                  </div>
-                  <div>Wolves</div>
-                </div>
-              </div>
-            </div>
-          </Col>
-        </Row>
 
         {/* Tournament Won Section - Updated to match design */}
         <Row className="mb-4">
