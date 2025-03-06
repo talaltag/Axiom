@@ -122,10 +122,12 @@ export default function PayoutDetail() {
                       height: "20px",
                       backgroundColor: "#FFD600",
                       color: "#101828",
-                      fontSize: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <span style={{ fontSize: "10px" }}>👑</span>
+                    <img src="/admin/crown-icon.svg" width={10} height={10} alt="Crown" />
                   </div>
                   <span style={{ fontSize: "14px", fontWeight: "500" }}>
                     {tournament.winningTeam}
