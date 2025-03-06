@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to AWS EC2
+      - uses: actions/checkout@v2
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ubuntu
@@ -23,6 +24,7 @@ jobs:
           target: "/Axioms"
 
       - name: Restart PM2 application
+      - uses: actions/checkout@v2
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ubuntus
