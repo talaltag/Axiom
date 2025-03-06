@@ -52,7 +52,7 @@ export default function PayoutDetailPage() {
           }}
         >
           <Image
-            src="/fortnite-banner.png"
+            src="/admin/pubg-banner.jpg"
             alt="Tournament Banner"
             layout="fill"
             objectFit="cover"
@@ -96,7 +96,7 @@ export default function PayoutDetailPage() {
                     }}
                   >
                     <Image
-                      src="/fortnite-banner.png"  {/* Changed image source here */}
+                      src="/user1.png"
                       alt="Team Logo"
                       layout="fill"
                       objectFit="cover"
