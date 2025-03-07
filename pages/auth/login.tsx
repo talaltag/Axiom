@@ -66,7 +66,7 @@ export default function Login() {
           }}
         >
           <div className="text-center mt-4">
-            <h1 className="display-6 fw-bold">Welcome to</h1>
+            <h1 className="display-6 fw-bold">Welcome to Axiom</h1>
           </div>
           <div className="flex-grow-1 d-flex align-items-center justify-content-center">
             <Logo />

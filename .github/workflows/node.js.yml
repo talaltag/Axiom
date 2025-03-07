@@ -1,0 +1,29 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.REMOTE_HOST }} << 'EOF'
+            cd Axiom
+            sudo git pull origin main
+            sudo npm install
+            sudo npm run build
+            sudo pm2 restart axiom
+          EOF
