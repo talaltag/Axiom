@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 interface User {
   _id: string;
   name: string;
+  email: string;
   profileImage?: string;
 }
 
@@ -155,7 +156,7 @@ export default function Friends() {
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={friend.profileImage || "/user1.png"}
+                      src={friend.profileImage || "/profile-avatar.png"}
                       alt={friend.name}
                       width={48}
                       height={48}
@@ -177,7 +178,7 @@ export default function Friends() {
                 <div className="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm">
                   <div className="d-flex align-items-center">
                     <Image
-                      src={user.profileImage || "/user1.png"}
+                      src={user.profileImage || "/profile-avatar.png"}
                       alt={user.name}
                       width={48}
                       height={48}

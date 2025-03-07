@@ -15,18 +15,44 @@ export default withAuth(async function handler(
   if (req.method === "GET") {
     try {
       const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
 
       const skip = (page - 1) * limit;
 
-      const tournaments = await TournamentHistory.find({ isWinner: true })
-        .skip(skip)
-        .limit(limit)
-        .populate("tournament");
+      const tournaments = await TournamentHistory.aggregate([
+        { $match: { isWinner: true } },
+        {
+          $group: {
+            _id: "$tournament",
+            firstWin: { $first: "$$ROOT" },
+          },
+        },
+        { $replaceRoot: { newRoot: "$firstWin" } },
+        { $skip: skip },
+        { $limit: limit },
+        {
+          $lookup: {
+            from: "tournaments",
+            localField: "tournament",
+            foreignField: "_id",
+            as: "tournament",
+          },
+        },
+        { $unwind: "$tournament" },
+      ]);
 
-      const totalCount = await TournamentHistory.countDocuments({
-        isWinner: true,
-      });
+      const totalCount = await TournamentHistory.aggregate([
+        { $match: { isWinner: true } },
+        {
+          $group: {
+            _id: "$tournament",
+            count: { $first: 1 },
+          },
+        },
+        {
+          $count: "total",
+        },
+      ]).then((result) => result[0]?.total || 0);
 
       return res.status(200).json({
         success: true,

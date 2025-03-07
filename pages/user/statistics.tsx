@@ -878,7 +878,7 @@ export default function Statistics() {
                       }}
                     >
                       <img
-                        src="/uploads/Card.png"
+                        src="/card.png"
                         alt="Cash"
                         style={{
                           width: "100%",
@@ -948,7 +948,7 @@ export default function Statistics() {
                       }}
                     >
                       <img
-                        src="/uploads/Cash.png"
+                        src="/cash.png"
                         alt="Credits"
                         style={{
                           width: "100%",
@@ -1024,7 +1024,7 @@ export default function Statistics() {
                       }}
                     >
                       <img
-                        src="/uploads/Tournament.png"
+                        src="/badge.png"
                         alt="Trophy"
                         style={{
                           width: "100%",

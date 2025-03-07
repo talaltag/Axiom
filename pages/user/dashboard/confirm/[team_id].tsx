@@ -15,8 +15,8 @@ export interface RegistrationData {
   tournament: {
     name: string;
     date: string;
-    startTime: string;
-    endTime: string;
+    time: string;
+    end: string;
     entryFee: string;
     platform: string;
     teamSize: string;
@@ -64,7 +64,7 @@ export default function ConfirmRegistration() {
     () =>
       registrationData?.memberPayments?.find(
         (payment) =>
-          payment.userId === session.data.user?.id &&
+          payment.userId === session?.data?.user?.id &&
           payment.paymentStatus == "completed"
       ),
     [registrationData, session]
@@ -240,7 +240,9 @@ export default function ConfirmRegistration() {
                       }}
                     >
                       {registrationData.tournament.date} •{" "}
-                      {registrationData.tournament.startTime}
+                      {registrationData.tournament.time}
+                      {" - "}
+                      {registrationData.tournament.end}
                     </p>
                   </div>
                   <div
@@ -329,7 +331,7 @@ export default function ConfirmRegistration() {
                                 fontWeight: 500,
                               }}
                             >
-                              ${session.data.user?.walletBalance}
+                              ${session.data?.user?.walletBalance}
                             </div>
                             <div
                               style={{

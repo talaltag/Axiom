@@ -13,7 +13,9 @@ export default function PayoutDetailPage() {
   const router = useRouter();
 
   const tournamentsMembers = useMemo(() => {
-    return tournaments.flatMap((t) => t.stats);
+    return tournaments
+      .flatMap((t) => t.stats)
+      .sort((b, a) => a?.userId?.prize?.amount - b?.userId?.prize?.amount);
   }, [tournaments]);
 
   const singleTournament = useMemo(() => {
@@ -67,7 +69,7 @@ export default function PayoutDetailPage() {
           <div className="p-4">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h4 className="m-0">{singleTournament?.name}</h4>
-              <Link href="/admin/payouts">
+              <Link href="/admin/payouts" className="text-decoration-none">
                 <Button
                   outline
                   style={{
@@ -92,14 +94,14 @@ export default function PayoutDetailPage() {
               className="position-relative mb-4"
               style={{
                 width: "100%",
-                height: "180px",
+                height: "200px",
                 borderRadius: "8px",
                 overflow: "hidden",
                 border: "1px solid #0096FF",
               }}
             >
               <Image
-                src="/fortnite-banner.png"
+                src={singleTournament?.images?.[0] || "/fortnite-banner.png"}
                 alt="Tournament Banner"
                 layout="fill"
                 objectFit="cover"

@@ -6,19 +6,25 @@ import { ArrowRight } from "react-feather";
 import { Badge, Button, Card, CardBody } from "reactstrap";
 import { countDownTimer, formatCountDown } from "../../utils/helper";
 
-const TournamentCard = ({ item }: { item: any }) => {
+const TournamentCard = ({
+  item,
+  isRegister,
+}: {
+  item: any;
+  isRegister?: boolean;
+}) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [tournament, setTournament] = useState(item);
   const [closingDurationTime, setClosingDuration] = useState<any>(null);
   const [EndingDurationTime, setEndingDuration] = useState<any>(null);
   const isPaid = useMemo(() => {
-    if (!tournament) return false;
+    if (!tournament || isRegister) return false;
     return (
       tournament.memberPayments.find((x) => x.userId == session?.user?.id)
         ?.paymentStatus === "completed"
     );
-  }, [tournament]);
+  }, [tournament, isRegister]);
   useEffect(() => {
     let openInterval: NodeJS.Timeout;
     let endInterval: NodeJS.Timeout;
@@ -159,9 +165,11 @@ const TournamentCard = ({ item }: { item: any }) => {
               }}
             >
               ${tournament.entryFee}{" "}
-              <Badge color={isPaid && "success"} style={{ fontSize: "12px" }}>
-                {isPaid ? "Paid" : "Unpaid"}
-              </Badge>
+              {!isRegister && (
+                <Badge color={isPaid && "success"} style={{ fontSize: "12px" }}>
+                  {isPaid ? "Paid" : "Unpaid"}
+                </Badge>
+              )}
             </div>
           </div>
         </div>
@@ -176,10 +184,17 @@ const TournamentCard = ({ item }: { item: any }) => {
             alignItems: "center",
           }}
           onClick={() =>
-            router.push(`/user/dashboard/confirm/${tournament._id}`)
+            router.push(
+              tournament.status === "Registration Open" && isRegister
+                ? `/user/dashboard/register-tournament/${tournament._id}`
+                : `/user/dashboard/confirm/${tournament._id}`
+            )
           }
         >
-          See Details <ArrowRight size={20} className="ms-2" />
+          {tournament.status === "Registration Open" && isRegister
+            ? "Register Now"
+            : "See Details"}{" "}
+          <ArrowRight size={20} className="ms-2" />
         </Button>
       </CardBody>
     </Card>
