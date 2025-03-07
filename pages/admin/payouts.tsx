@@ -42,7 +42,7 @@ export default function Payouts() {
           <h3 className="mb-0">Payouts</h3>
         </div>
 
-        <Row className="mb-4">
+        {/* <Row className="mb-4">
           <Col md={8}>
             <Row>
               <Col md={6} className="mb-4">
@@ -411,7 +411,7 @@ export default function Payouts() {
               </CardBody>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
 
         <Card className="border-0 shadow-sm">
           <CardBody>
