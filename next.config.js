@@ -1,7 +1,12 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["localhost", "0.0.0.0", "axiom-bucket-media.s3.amazonaws.com"],
+    domains: [
+      "localhost",
+      "0.0.0.0",
+      "axiom-bucket-media.s3.amazonaws.com",
+      "axiom-sd9l.vercel.app",
+    ],
   },
   webpack: (config) => {
     config.externals.push({
