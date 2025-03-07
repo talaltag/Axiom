@@ -68,7 +68,7 @@ export default function CreateTournament() {
     status: "Registration Open",
   });
 
-  const [prizeDistribution, setPrizeDistribution] = useState([]);
+  const [isLoading, setLoader] = useState(false);
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -102,6 +102,7 @@ export default function CreateTournament() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
     try {
       const formDataObj = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
@@ -136,6 +137,8 @@ export default function CreateTournament() {
     } catch (error) {
       console.error("Submission error:", error);
       alert("Error creating tournament: Network or server error");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -516,6 +519,7 @@ export default function CreateTournament() {
                 <Button
                   variant="outlined"
                   onClick={() => router.push("/admin/tournaments")}
+                  disabled={isLoading}
                 >
                   Back
                 </Button>
@@ -527,6 +531,8 @@ export default function CreateTournament() {
                     color: "#000",
                     "&:hover": { bgcolor: "#e6a800" },
                   }}
+                  disabled={isLoading}
+                  loading={isLoading}
                 >
                   Publish Tournament
                 </Button>
