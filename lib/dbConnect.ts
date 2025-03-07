@@ -5,7 +5,7 @@ const MONGODB_URI =
 
 if (!MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local",
+    "Please define the MONGODB_URI environment variable inside .env.local"
   );
 }
 
@@ -23,6 +23,7 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: true, // Changed to true to allow buffering
+      serverSelectionTimeoutMS: 30000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts);

@@ -50,6 +50,7 @@ const TournamentHistorySchema = new mongoose.Schema({
     default: 0,
   },
   ranking: Number,
+  isWinner: Boolean,
   createdAt: {
     type: Date,
     default: Date.now,

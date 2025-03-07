@@ -1,11 +1,10 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withAuth } from "../../../../middleware/withAuth";
 import dbConnect from "../../../../lib/dbConnect";
 import User from "../../../../models/User";
 import formidable from "formidable";
 import fs from "fs";
-import path from "path";
+import { uploadToS3 } from "../../../../utils/helper";
 
 export const config = {
   api: {
@@ -25,9 +24,8 @@ export default withAuth(async function handler(
     await dbConnect();
 
     const form = formidable({
-      uploadDir: "./public/uploads",
       keepExtensions: true,
-      maxFileSize: 5 * 1024 * 1024, // 5MB limit
+      maxFileSize: 5 * 1024 * 1024,
     });
 
     form.parse(req, async (err, _, files) => {
@@ -41,25 +39,28 @@ export default withAuth(async function handler(
       }
 
       const imageFile = Array.isArray(image) ? image[0] : image;
-      
+
       // Check file type
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!allowedTypes.includes(imageFile.mimetype)) {
-        return res.status(400).json({ message: "Invalid file type. Only JPEG, PNG and GIF are allowed." });
+        return res.status(400).json({
+          message: "Invalid file type. Only JPEG, PNG and GIF are allowed.",
+        });
       }
 
-      const imagePath = `/uploads/${path.basename(imageFile.filepath)}`;
+      const fileStream = fs.createReadStream(imageFile.filepath);
+      const s3Url = await uploadToS3(imageFile, fileStream);
 
       const updatedUser = await User.findByIdAndUpdate(
-        req.user.id, 
-        { profileImage: imagePath },
+        req.user.id,
+        { profileImage: s3Url },
         { new: true }
-      ).select('-password');
+      ).select("-password");
 
       return res.status(200).json({
         success: true,
         message: "Profile image updated successfully",
-        user: updatedUser
+        user: updatedUser,
       });
     });
   } catch (error) {

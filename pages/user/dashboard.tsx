@@ -5,7 +5,6 @@ import {
   Col,
   Card,
   CardBody,
-  CardTitle,
   Button,
   Progress,
 } from "reactstrap";
@@ -34,7 +33,6 @@ interface Tournament {
 
 export default function UserDashboard() {
   const router = useRouter();
-  const session = useSession();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
 
   const [leaderStat, setLeaderStat] = useState(null);
@@ -92,7 +90,7 @@ export default function UserDashboard() {
           name: "Fortnite",
           lastScore: leaderStat.afterTournamentScore.reduce(
             (acc, curr) => acc + parseInt(curr.score),
-            0,
+            0
           ),
           score: 80,
         },
@@ -222,7 +220,7 @@ export default function UserDashboard() {
                           }}
                           onClick={() =>
                             router.push(
-                              `/user/dashboard/register-tournament/${tournament._id}`,
+                              `/user/dashboard/register-tournament/${tournament._id}`
                             )
                           }
                         >

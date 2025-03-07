@@ -4,6 +4,8 @@ import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/User";
 import formidable from "formidable";
 import bcrypt from "bcryptjs";
+import fs from "fs";
+import { uploadToS3 } from "../../../utils/helper";
 
 export const config = {
   api: {
@@ -49,8 +51,9 @@ export default withAuth(async function handler(
       }
 
       if (profileImage) {
-        const fileName = profileImage.newFilename;
-        updateData.profileImage = `/uploads/${fileName}`;
+        const fileStream = fs.createReadStream(profileImage.filepath);
+        const s3Url = await uploadToS3(profileImage, fileStream);
+        updateData.profileImage = s3Url;
       }
 
       // Fetch the current user from the database

@@ -49,6 +49,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
   const [file, setFile] = useState<File[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -204,7 +205,7 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() && !file) return;
-
+    setActionLoading(true);
     try {
       const formData = new FormData();
       formData.append("sender", currentUser._id);
@@ -240,6 +241,8 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
       }
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -572,9 +575,10 @@ export default function ChatWindow({ currentUser, receiver }: ChatWindowProps) {
           />
           <Button
             type="submit"
-            disabled={!newMessage && file.length === 0}
+            disabled={(!newMessage && file.length === 0) || actionLoading}
             variant="contained"
             endIcon={<SendIcon />}
+            loading={actionLoading}
           >
             Send
           </Button>

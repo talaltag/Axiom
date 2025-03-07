@@ -2,11 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
 import Chat from "../../../models/Chat";
 import formidable from "formidable";
-import path from "path";
 import Settings from "../../../models/Settings";
 import Notification from "../../../models/Notification";
 import User from "../../../models/User";
 import { withAuth } from "../../../middleware/withAuth";
+import fs from "fs";
+import { uploadToS3 } from "../../../utils/helper";
 
 export const config = {
   api: {
@@ -37,7 +38,7 @@ export default withAuth(async function handler(
   } else if (req.method === "POST") {
     try {
       const form = formidable({
-        uploadDir: path.join(process.cwd(), "public/uploads"),
+        multiples: true,
         keepExtensions: true,
       });
 
@@ -63,17 +64,28 @@ export default withAuth(async function handler(
       };
 
       if (files.files && files.files.length > 0) {
-        const fileArray = files.files;
-        fileArray.map((file) => {
-          const fileName = file.originalFilename || file.newFilename;
-          const fileUrl = `/uploads/${path.basename(file.filepath)}`;
+        await Promise.all(
+          Object.values(files).map(async (fileArray: formidable.File[]) => {
+            const s3Urls = await Promise.all(
+              fileArray.map(async (uploadedFile) => {
+                const fileStream = fs.createReadStream(uploadedFile.filepath);
+                const s3Url = await uploadToS3(
+                  uploadedFile,
+                  fileStream,
+                  "tournaments"
+                );
+                messageData.media.push({
+                  fileName: uploadedFile.originalFilename,
+                  fileUrl: s3Url,
+                  fileType: uploadedFile.mimetype,
+                });
+                return s3Url;
+              })
+            );
 
-          messageData.media.push({
-            fileName,
-            fileUrl,
-            fileType: file.mimetype,
-          });
-        });
+            return s3Urls;
+          })
+        );
       }
 
       const message = await Chat.create(messageData);

@@ -27,11 +27,12 @@ export default withAuth(async function handler(
     let otherUsers = [];
 
     if (req.query.others) {
-      otherUsers = await User.find({})
-        .where("role")
-        .equals("Admin")
-        .equals("Agent");
+      otherUsers = await User.find({
+        role: { $in: ["Admin", "Agent"] },
+      });
     }
+
+    console.log("ad", otherUsers);
 
     if (!user) {
       return res

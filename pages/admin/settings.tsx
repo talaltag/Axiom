@@ -35,7 +35,7 @@ export default function AdminSettings() {
 
   useEffect(() => {
     if (session?.data?.user) {
-      setUsername(session.data.user.username || "");
+      setUsername(session.data.user.name || "");
       setPreviewUrl(session.data.user.profileImage || "/profile-avatar.png");
     }
   }, [session]);
@@ -272,14 +272,14 @@ export default function AdminSettings() {
                           display: "block",
                         }}
                       >
-                        Axiom Username
+                        Axiom Name
                       </label>
                       <Input
                         type="text"
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Axiom Username"
+                        placeholder="Axiom Name"
                         style={{
                           height: "44px",
                           fontSize: "16px",
@@ -289,36 +289,6 @@ export default function AdminSettings() {
                           backgroundColor: "#FFFFFF",
                         }}
                         disabled={false}
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label
-                        htmlFor="verification"
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          color: "#344054",
-                          marginBottom: "6px",
-                          display: "block",
-                        }}
-                      >
-                        Verification Status
-                      </label>
-                      <Input
-                        type="text"
-                        id="verification"
-                        value="Verification Status"
-                        placeholder="Verification Status"
-                        style={{
-                          height: "44px",
-                          fontSize: "16px",
-                          color: "#101828",
-                          borderColor: "#D0D5DD",
-                          borderRadius: "8px",
-                          backgroundColor: "#FFFFFF",
-                        }}
-                        disabled
                       />
                     </div>
                   </div>

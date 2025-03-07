@@ -1,94 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from "reactstrap";
+import { Row, Col, Card, CardBody, Button } from "reactstrap";
 import Image from "next/image";
 import { ArrowLeft, Plus, Send, ArrowUp, ArrowDown } from "react-feather";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import PaginationComponent from "../../components/common/PaginationComponent";
+import Loader from "../../components/common/Loader";
 
 export default function Payouts() {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 8;
-
-  // Sample data to match the screenshot
-  const data = [
-    {
-      tournament: "Pubg Summer Camp",
-      id: "C-2142",
-      mode: "Team",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "COD- No mercy Death",
-      id: "C-2142",
-      mode: "Solo",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "Valorant Midnight Special",
-      id: "C-2142",
-      mode: "Team",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "COD- No mercy Deathmar",
-      id: "C-2142",
-      mode: "Solo",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "Pubg Summer Camp",
-      id: "C-2142",
-      mode: "Team",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "Valorant Midnight Special",
-      id: "C-2142",
-      mode: "Solo",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "COD- No mercy Deathmatch",
-      id: "C-2142",
-      mode: "Team",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-    {
-      tournament: "COD- No mercy Deathmar",
-      id: "C-2142",
-      mode: "Team",
-      date: "6/22/2023",
-      prize: "$2000",
-    },
-  ];
-
-  const handlePageClick = (pageNumber) => {
-    setActivePage(pageNumber);
+  const [tournaments, setTournaments] = useState(null);
+  const [loading, setIsLoading] = useState(false);
+  const fetchTournaments = async (page?: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `/api/admin/tournament-win-history?page=${page}`
+      );
+      const data = await response.json();
+      setTournaments(data);
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const indexOfLastItem = activePage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  useEffect(() => {
+    fetchTournaments();
+  }, []);
+
+  const onPageChange = (pageNumber) => {
+    const query = `${pageNumber}`;
+    fetchTournaments(query);
+  };
 
   return (
     <AdminDashboardLayout>
@@ -470,243 +415,191 @@ export default function Payouts() {
 
         <Card className="border-0 shadow-sm">
           <CardBody>
-            <div className="table-responsive">
-              <div style={{ borderRadius: "8px", overflow: "hidden" }}>
-                <h4
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    marginBottom: "16px",
-                  }}
-                >
-                  Tournament Won - History
-                </h4>
-                <table
-                  className="table table-striped"
-                  style={{ width: "100%", borderCollapse: "collapse" }}
-                >
-                  <thead>
-                    <tr style={{ backgroundColor: "#F9FAFB", height: "40px" }}>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        Tournament
-                      </th>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        ID
-                      </th>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        Mode
-                      </th>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        Date
-                      </th>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        Prize
-                      </th>
-                      <th
-                        style={{
-                          padding: "10px 16px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#667085",
-                          textAlign: "left",
-                          borderBottom: "1px solid #EAECF0",
-                        }}
-                      >
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems.map((item, index) => (
+            {loading ? (
+              <Loader />
+            ) : (
+              <div className="table-responsive">
+                <div style={{ borderRadius: "8px", overflow: "hidden" }}>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    Tournament Won - History
+                  </h4>
+                  <table
+                    className="table table-striped"
+                    style={{ width: "100%", borderCollapse: "collapse" }}
+                  >
+                    <thead>
                       <tr
-                        key={index}
-                        style={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
-                          height: "48px",
-                        }}
+                        style={{ backgroundColor: "#F9FAFB", height: "40px" }}
                       >
-                        <td
+                        <th
                           style={{
                             padding: "10px 16px",
                             fontSize: "14px",
-                            color: "#101828",
+                            fontWeight: "500",
+                            color: "#667085",
+                            textAlign: "left",
                             borderBottom: "1px solid #EAECF0",
                           }}
                         >
-                          {item.tournament}
-                        </td>
-                        <td
+                          Tournament
+                        </th>
+                        <th
                           style={{
                             padding: "10px 16px",
                             fontSize: "14px",
-                            color: "#101828",
+                            fontWeight: "500",
+                            color: "#667085",
+                            textAlign: "left",
                             borderBottom: "1px solid #EAECF0",
                           }}
                         >
-                          {item.id}
-                        </td>
-                        <td
+                          Mode
+                        </th>
+                        <th
                           style={{
                             padding: "10px 16px",
                             fontSize: "14px",
-                            color: "#101828",
+                            fontWeight: "500",
+                            color: "#667085",
+                            textAlign: "left",
                             borderBottom: "1px solid #EAECF0",
                           }}
                         >
-                          {item.mode}
-                        </td>
-                        <td
+                          Date
+                        </th>
+                        <th
                           style={{
                             padding: "10px 16px",
                             fontSize: "14px",
-                            color: "#101828",
+                            fontWeight: "500",
+                            color: "#667085",
+                            textAlign: "left",
                             borderBottom: "1px solid #EAECF0",
                           }}
                         >
-                          {item.date}
-                        </td>
-                        <td
+                          Prize
+                        </th>
+                        <th
                           style={{
                             padding: "10px 16px",
                             fontSize: "14px",
-                            color: "#101828",
+                            fontWeight: "500",
+                            color: "#667085",
+                            textAlign: "left",
                             borderBottom: "1px solid #EAECF0",
                           }}
                         >
-                          {item.prize}
-                        </td>
-                        <td
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tournaments?.data?.map((item, index) => (
+                        <tr
+                          key={index}
                           style={{
-                            padding: "10px 16px",
-                            fontSize: "14px",
-                            color: "#101828",
-                            borderBottom: "1px solid #EAECF0",
+                            backgroundColor:
+                              index % 2 === 0 ? "#FFFFFF" : "#F9FAFB",
+                            height: "48px",
                           }}
                         >
-                          <Button
-                            color="light"
-                            size="sm"
-                            onClick={() =>
-                              router.push(`/admin/payouts/${item.id}`)
-                            }
+                          <td
                             style={{
-                              backgroundColor: "transparent",
-                              border: "none",
-                              borderRadius: "8px",
-                              fontWeight: 500,
+                              padding: "10px 16px",
                               fontSize: "14px",
-                              padding: "6px 12px",
-                              textAlign: "center",
-                              boxShadow: "none",
-                              textDecoration: "underline",
+                              color: "#101828",
+                              borderBottom: "1px solid #EAECF0",
                             }}
                           >
-                            View Details
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                            {item.tournament.name}
+                          </td>
+                          <td
+                            className="text-transform-capitalize"
+                            style={{
+                              padding: "10px 16px",
+                              fontSize: "14px",
+                              color: "#101828",
+                              borderBottom: "1px solid #EAECF0",
+                            }}
+                          >
+                            {item.tournament.teamSize}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 16px",
+                              fontSize: "14px",
+                              color: "#101828",
+                              borderBottom: "1px solid #EAECF0",
+                            }}
+                          >
+                            {item.tournament.date} {item.tournament.time}
+                            {"-"}
+                            {item.tournament.end}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 16px",
+                              fontSize: "14px",
+                              color: "#101828",
+                              borderBottom: "1px solid #EAECF0",
+                            }}
+                          >
+                            ${item.tournament.totalPrizePool}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 16px",
+                              fontSize: "14px",
+                              color: "#101828",
+                              borderBottom: "1px solid #EAECF0",
+                            }}
+                          >
+                            <Button
+                              color="light"
+                              size="sm"
+                              onClick={() =>
+                                router.push(
+                                  `/admin/payouts/${item.tournament._id}`
+                                )
+                              }
+                              style={{
+                                backgroundColor: "transparent",
+                                border: "none",
+                                borderRadius: "8px",
+                                fontWeight: 500,
+                                fontSize: "14px",
+                                padding: "6px 12px",
+                                textAlign: "center",
+                                boxShadow: "none",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="d-flex justify-content-between align-items-center mt-4">
-              <Pagination>
-                <PaginationItem disabled={activePage === 1}>
-                  <PaginationLink
-                    previous
-                    onClick={() => handlePageClick(activePage - 1)}
+            {tournaments?.pagination &&
+              tournaments?.pagination?.totalPages > 1 && (
+                <div className="d-flex justify-content-between align-items-center mt-4">
+                  <PaginationComponent
+                    pagination={tournaments?.pagination}
+                    onPageChange={onPageChange}
                   />
-                </PaginationItem>
-                <PaginationItem active={activePage === 1}>
-                  <PaginationLink onClick={() => handlePageClick(1)}>
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active={activePage === 2}>
-                  <PaginationLink onClick={() => handlePageClick(2)}>
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active={activePage === 3}>
-                  <PaginationLink onClick={() => handlePageClick(3)}>
-                    3
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active={activePage === 4}>
-                  <PaginationLink onClick={() => handlePageClick(4)}>
-                    4
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active={activePage === 5}>
-                  <PaginationLink onClick={() => handlePageClick(5)}>
-                    5
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active={activePage === 6}>
-                  <PaginationLink onClick={() => handlePageClick(6)}>
-                    6
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem
-                  disabled={
-                    activePage === Math.ceil(data.length / itemsPerPage)
-                  }
-                >
-                  <PaginationLink
-                    next
-                    onClick={() => handlePageClick(activePage + 1)}
-                  />
-                </PaginationItem>
-              </Pagination>
-            </div>
+                </div>
+              )}
           </CardBody>
         </Card>
       </div>

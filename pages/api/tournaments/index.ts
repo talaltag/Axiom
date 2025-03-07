@@ -5,7 +5,7 @@ import TournamentRegistration from "../../../models/TournamentRegistration";
 import mongoose from "mongoose";
 import formidable from "formidable";
 import cron from "node-cron";
-import { formatDateCron } from "../../../utils/helper";
+import { formatDateCron, uploadToS3 } from "../../../utils/helper";
 import Platform from "../../../models/Platform";
 import FortniteAPI from "fortnite-api-io";
 import User from "../../../models/User";
@@ -14,6 +14,7 @@ import TournamentHistory from "../../../models/TournamentHistory";
 import TournamentPrize from "../../../models/TournamentPrize";
 import Settings from "../../../models/Settings";
 import Notification from "../../../models/Notification";
+import fs from "fs";
 
 export const config = {
   api: {
@@ -147,7 +148,11 @@ export default withAuth(async function handler(
             }
           });
         }
-        await TournamentHistory.create({ ...team, ranking: index + 1 });
+        await TournamentHistory.create({
+          ...team,
+          ranking: index + 1,
+          isWinner: prize ? true : false,
+        });
       });
   };
 
@@ -156,9 +161,8 @@ export default withAuth(async function handler(
     if (req.method === "POST") {
       try {
         const form = formidable({
-          multiples: true,
-          uploadDir: "./public/uploads",
-          keepExtensions: true,
+          multiples: true, // Allow multiple file uploads
+          keepExtensions: true, // Keep file extensions
         });
 
         // Parse the incoming form data using Formidable
@@ -171,12 +175,27 @@ export default withAuth(async function handler(
           });
         });
 
-        // Handle uploaded image files
-        const uploadedImages = Object.values(files).map(
-          (file) => `/uploads/${file[0].newFilename}` // Get file paths from uploaded files
+        const uploadedImages = [];
+
+        await Promise.all(
+          Object.values(files).map(async (fileArray: formidable.File[]) => {
+            const s3Urls = await Promise.all(
+              fileArray.map(async (uploadedFile) => {
+                const fileStream = fs.createReadStream(uploadedFile.filepath);
+                const s3Url = await uploadToS3(
+                  uploadedFile,
+                  fileStream,
+                  "tournaments"
+                );
+                uploadedImages.push(s3Url);
+                return s3Url;
+              })
+            );
+
+            return s3Urls;
+          })
         );
 
-        // Parse prizeSplit if it exists (ensure it's an array)
         const prizeSplit = fields.prizeSplit;
         let parsedPrizeSplit = [];
 

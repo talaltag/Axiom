@@ -1,4 +1,7 @@
-import moment, { Moment } from "moment";
+import AWS from "aws-sdk";
+import moment from "moment";
+import { File } from "formidable";
+
 export const ShowNavigatorDeviceModal = async () => {
   try {
     // First check microphone permission
@@ -174,3 +177,33 @@ export function formatHoursMins(minutes: number) {
 
   return `${hours} Hrs ${remainingMinutes} min`;
 }
+
+const s3 = new AWS.S3({
+  accessKeyId: "AKIA2SSTC2PGH7VMSRIL", // Replace with your access key
+  secretAccessKey: "7QkR80JuyMTZRC/vgEElp0REDpdMLXq12iKX+rFX", // Replace with your secret key
+});
+
+export const uploadToS3 = async (
+  file: File,
+  buffer: any,
+  folder?: string
+): Promise<string> => {
+  // Create a stream from the file buffer
+
+  const params = {
+    Bucket: "axiom-bucket-media", // Replace with your bucket name
+    Key: folder
+      ? `uploads/${folder}/${file.newFilename}`
+      : `uploads/${file.newFilename}`, // Adjust path and filename as necessary
+    Body: buffer,
+    ContentType: file.mimetype, // Ensure correct content type
+    ACL: "public-read", // Adjust permissions as needed
+  };
+
+  try {
+    const data = await s3.upload(params).promise();
+    return data.Location;
+  } catch (error) {
+    throw new Error("Error uploading file to S3: " + error.message);
+  }
+};

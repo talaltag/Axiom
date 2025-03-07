@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { DollarSign, CreditCard, Award } from "react-feather";
 import dynamic from "next/dynamic";
 import {
   Container,
