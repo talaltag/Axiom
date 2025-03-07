@@ -3,12 +3,9 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/admin-chat": "pages/admin-chat.js",
-  "/user/dashboard": "pages/user/dashboard.js",
-  "/chat": "pages/chat.js",
-  "/api/chat": "pages/api/chat.js",
   "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/api/users": "pages/api/users.js",
   "/admin/settings": "pages/admin/settings.js",
-  "/admin/tournaments": "pages/admin/tournaments.js",
-  "/admin/dashboard": "pages/admin/dashboard.js"
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/admin/users": "pages/admin/users.js",
+  "/api/users": "pages/api/users.js"
 }
