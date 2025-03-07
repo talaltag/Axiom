@@ -5,5 +5,5 @@ export default withAuth({
   pages: {
     signIn: "/auth/login", // Redirect to login page if not authenticated
   },
-  ignore: ["/public", "/public/*", "/api/auth/*"], // You can add routes you want to exclude from the middleware
+  ignore: ["/public", "/public/*", "/axiom.png", "axiom.png", "/api/auth/*"], // You can add routes you want to exclude from the middleware
 });
