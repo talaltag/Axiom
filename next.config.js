@@ -14,9 +14,7 @@ const nextConfig = {
     return [
       {
         source: "/socket.io/:path*",
-        destination: `${
-          process.env.NEXT_PUBLIC_SOCKET_URL || "http://0.0.0.0:3000"
-        }/socket.io/:path*`,
+        destination: "http://0.0.0.0:3000/socket.io/:path*",
       },
     ];
   },
