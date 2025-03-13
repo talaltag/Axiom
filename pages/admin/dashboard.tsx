@@ -1,21 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout";
 import { Container, Row, Col, Card, CardBody, Input } from "reactstrap";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import moment from "moment";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const [dashboardData, setDashboardData] = useState([])
+  const [timelines, setTimelines] = useState({
+    dashboard: "this_month",
+    messages: "week",
+    profitScale: "week",
+    highestPayout: "week",
+    playerEngagement: "week",
+  });
 
-  const statsData = [
-    { title: "Gross Profit", amount: "1000", percent: "40", trend: "up" },
-    { title: "Current Net Profit", amount: "3400", percent: "40", trend: "up" },
-    { title: "Current Amount", amount: "2000", percent: "40", trend: "up" },
-    { title: "Total Paid Out", amount: "3400", percent: "40", trend: "up" },
-  ];
+  const handleTimelineChange = (key, value) => {
+    setTimelines((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const lineChartOptions = {
     chart: {
@@ -29,29 +38,6 @@ export default function AdminDashboard() {
     xaxis: { labels: { show: false }, axisBorder: { show: false } },
     yaxis: { labels: { show: false }, axisBorder: { show: false } },
   };
-
-  const messages = [
-    {
-      name: "Dianne Team",
-      message: "Im facing a issue with my teammates.",
-      time: "9:13 AM",
-    },
-    {
-      name: "Dianne Team",
-      message: "Im facing a issue with my teammates.",
-      time: "9:13 AM",
-    },
-    {
-      name: "Dianne Team",
-      message: "Im facing a issue with my teammates.",
-      time: "9:13 AM",
-    },
-    {
-      name: "Dianne Team",
-      message: "Im facing a issue with my teammates.",
-      time: "9:13 AM",
-    },
-  ];
 
   const donutChartOptions = {
     chart: { toolbar: { show: false } },
@@ -72,7 +58,6 @@ export default function AdminDashboard() {
             total: {
               show: true,
               label: "Profit",
-              formatter: () => "14",
             },
           },
         },
@@ -113,6 +98,36 @@ export default function AdminDashboard() {
     colors: ["#FF9F43"],
   };
 
+  const getData = async () => {
+    try {
+      const response = await fetch(
+        `/api/admin/tournament-win-history/dashboard?dashboard=${timelines.dashboard}&messages=${timelines.messages}&profitScale=${timelines.profitScale}&highestPayout=${timelines.highestPayout}&playerEngagement=${timelines.playerEngagement}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create tournament");
+      }
+
+      if (data.success) {
+        setDashboardData(data.data)
+      } else {
+        throw new Error(data.message || "Failed to create tournament");
+      }
+    } catch (error) {
+      console.log(error, 'error')
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [timelines])
+
+
   return (
     <AdminDashboardLayout>
       <Container fluid className="p-4">
@@ -123,15 +138,16 @@ export default function AdminDashboard() {
               Track, manage and forecast your tournaments
             </p>
           </div>
-          <Input type="select" className="w-auto">
-            <option>This Month</option>
-            <option>Last Month</option>
-            <option>This Year</option>
+          <Input type="select" className="w-auto" value={timelines.dashboard}
+            onChange={(e) => handleTimelineChange("dashboard", e.target.value)}>
+            <option value={'this_month'}>This Month</option>
+            <option value={'last_month'}>Last Month</option>
+            <option value={'this_year'}>This Year</option>
           </Input>
         </div>
 
         <Row>
-          {statsData.map((stat, index) => (
+          {dashboardData.statsData?.map((stat, index) => (
             <Col key={index} xs={12} sm={6} md={3}>
               <Card className="mb-4">
                 <CardBody>
@@ -148,8 +164,8 @@ export default function AdminDashboard() {
                       height={30}
                     />
                   </div>
-                  <p className="text-success mb-0">
-                    ↑ {stat.percent}% vs last month
+                  <p className={`${stat.trend == 'up' ? 'text-success' : 'text-danger'}  mb-0`}>
+                    {stat.trend === 'up' ? '↑' : '↓'}  {stat.percent} vs {timelines.dashboard}
                   </p>
                 </CardBody>
               </Card>
@@ -163,28 +179,50 @@ export default function AdminDashboard() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h5 className="mb-0">Messages</h5>
-                  <Input type="select" className="w-auto">
-                    <option>Week</option>
-                    <option>Month</option>
+                  <Input type="select" className="w-auto" value={timelines.messages}
+                    onChange={(e) => handleTimelineChange("messages", e.target.value)}>
+                    <option value={'week'}>Week</option>
+                    <option value={'month'}>Month</option>
                   </Input>
                 </div>
                 <div className="messages-list">
-                  {messages.map((msg, index) => (
+                  {dashboardData.messages?.map((msg, index) => (
                     <div key={index} className="d-flex align-items-center mb-3">
                       <div className="me-3">
                         <Image
-                          src="/axiom.png"
-                          alt={msg.name}
+                          src={msg.senderInfo.profileImage}
+                          alt={'image'}
                           width={40}
                           height={40}
                           className="rounded-circle"
                         />
                       </div>
                       <div className="flex-grow-1">
-                        <h6 className="mb-1">{msg.name}</h6>
-                        <p className="text-muted mb-0">{msg.message}</p>
+                        <h6 className="mb-1">{msg.senderInfo.name}</h6>
+                        {msg.content ? (
+                          <p className="text-muted mb-0">{msg.content}</p>
+                        ) : msg.media && msg.media.length > 0 ? (
+                          msg.media.map((file, index) => (
+                            <div key={index} className="mb-2">
+                              {file.fileType.startsWith("image/") ? (
+                                <img
+                                  src={file.fileUrl}
+                                  alt={file.fileName}
+                                  className="img-fluid rounded"
+                                  style={{ maxWidth: "40px", maxHeight: "40px" }}
+                                />
+                              ) : (
+                                <a href={file.fileUrl} target="_blank" rel="noopener noreferrer">
+                                  {file.fileName}
+                                </a>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-muted mb-0">No message</p>
+                        )}
                       </div>
-                      <small className="text-muted">{msg.time}</small>
+                      <small className="text-muted">{moment(msg.createdAt).format('hh:mm A - MM-DD-YYYY')}</small>
                     </div>
                   ))}
                 </div>
@@ -196,15 +234,17 @@ export default function AdminDashboard() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h5 className="mb-0">Total Profit Scale</h5>
-                  <Input type="select" className="w-auto">
-                    <option>Week</option>
-                    <option>Month</option>
+                  <Input type="select" className="w-auto" value={timelines.profitScale}
+                    onChange={(e) => handleTimelineChange("profitScale", e.target.value)}
+                  >
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
                   </Input>
                 </div>
                 <div className="d-flex justify-content-between">
                   <Chart
                     options={donutChartOptions}
-                    series={[5, 321, 69]}
+                    series={dashboardData?.profitScale || []}
                     type="donut"
                     height={350}
                   />
@@ -217,31 +257,16 @@ export default function AdminDashboard() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h5 className="mb-0">Highest Payout</h5>
-                  <Input type="select" className="w-auto">
-                    <option>Week</option>
-                    <option>Month</option>
+                  <Input type="select" className="w-auto" value={timelines.highestPayout}
+                    onChange={(e) => handleTimelineChange("highestPayout", e.target.value)}
+                  >
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
                   </Input>
                 </div>
                 <Chart
                   options={highestPayoutOptions}
-                  series={[
-                    {
-                      name: "Active",
-                      data: [65, 59, 80, 81, 56, 55, 40, 60, 70, 75, 80, 85],
-                    },
-                    {
-                      name: "Pending",
-                      data: [28, 48, 40, 19, 86, 27, 90, 50, 60, 65, 70, 75],
-                    },
-                    {
-                      name: "Completed",
-                      data: [45, 55, 65, 70, 75, 80, 85, 90, 92, 95, 97, 100],
-                    },
-                    {
-                      name: "Cancelled",
-                      data: [15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
-                    },
-                  ]}
+                  series={dashboardData?.highestPayoutGraph || []}
                   type="line"
                   height={350}
                 />
@@ -253,22 +278,16 @@ export default function AdminDashboard() {
               <CardBody>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h5 className="mb-0">Player Engagement Stats</h5>
-                  <Input type="select" className="w-auto">
-                    <option>Week</option>
-                    <option>Month</option>
+                  <Input type="select" className="w-auto" value={timelines.playerEngagement}
+                    onChange={(e) => handleTimelineChange("playerEngagement", e.target.value)}
+                  >
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
                   </Input>
                 </div>
                 <Chart
                   options={playerEngagementOptions}
-                  series={[
-                    {
-                      name: "Players",
-                      data: [
-                        2100, 2200, 2300, 2345, 2400, 2450, 2500, 2550, 2600,
-                        2650, 2700, 2750,
-                      ],
-                    },
-                  ]}
+                  series={dashboardData?.engagementStats || []}
                   type="line"
                   height={350}
                 />

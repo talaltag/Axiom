@@ -1,6 +1,10 @@
 import AWS from "aws-sdk";
 import moment from "moment";
 import { File } from "formidable";
+import TournamentPrize from "../models/TournamentPrize";
+import Deposit from "../models/Deposit";
+import Chat from "../models/Chat";
+import Team from "../models/Team";
 
 export const ShowNavigatorDeviceModal = async () => {
   try {
@@ -79,9 +83,8 @@ export const fileToUrl = (file: File) => {
 
 export const formatDateCron = (currentDate) => {
   const date = new Date(currentDate);
-  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${
-    date.getMonth() + 1
-  } ${date.getDay()}`;
+  return `${date.getSeconds()} ${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${date.getMonth() + 1
+    } ${date.getDay()}`;
 };
 
 export const totalCountInArray = (data, key) => {
@@ -206,4 +209,240 @@ export const uploadToS3 = async (
   } catch (error) {
     throw new Error("Error uploading file to S3: " + error.message);
   }
+};
+
+
+export const calculateTotalPrizePool = async (timeline) => {
+  try {
+    const matchStage = getMatchStage(timeline);
+
+    const result = await TournamentPrize.aggregate([
+      matchStage,
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const totalAmount = result[0]?.totalAmount || 0;
+    console.log("Total Prize Pool:", totalAmount);
+    return totalAmount;
+  } catch (err) {
+    console.error("Error calculating total prize pool with aggregation:", err);
+  }
+};
+
+export const calculateTotalPayout = async (timeline) => {
+  try {
+    const matchStage = getMatchStage(timeline);
+    console.log(matchStage, timeline, '---')
+    const result = await Deposit.aggregate([
+      matchStage,
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const totalAmount = result[0]?.totalAmount || 0;
+    console.log("Total Payout:", totalAmount);
+    return totalAmount;
+  } catch (error) {
+    console.error("Error calculating total payout with aggregation:", error);
+  }
+};
+
+export const getMatchStage = (timeline) => {
+  const now = new Date();
+  let startDate;
+
+  switch (timeline) {
+    case "this_month":
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      break;
+    case "last_month":
+      startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      break;
+    case "this_year":
+      startDate = new Date(now.getFullYear(), 0, 1);
+      break;
+    case "week":
+      startDate = new Date(now.setDate(now.getDate() - 7));
+      break;
+    case "month":
+      startDate = new Date(now.setMonth(now.getMonth() - 1));
+      break;
+    default:
+      startDate = new Date(0);
+  }
+
+  return {
+    $match: {
+      createdAt: { $gte: startDate },
+    },
+  };
+};
+
+export const calculatePercentageChange = (current, previous) => {
+  if (previous === 0) return current > 0 ? 100 : 0;
+  return (((current - previous) / previous) * 100).toFixed(2);
+};
+
+export const getPreviousTimeline = (timeline) => {
+  switch (timeline) {
+    case "this_month":
+      return "last_month";
+    case "last_month":
+      return "month";
+    case "this_year":
+      return "last_year";
+    case "week":
+      return "last_week";
+    case "month":
+      return "last_month";
+    default:
+      return "month";
+  }
+};
+
+export const generateGraphData = async (timeline, type) => {
+  try {
+    const Model = type ? TournamentPrize : Deposit;
+    const data = await Model.aggregate([
+      getMatchStage(timeline),
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+      { $sort: { "_id": 1 } }
+    ]);
+
+    return data.map(item => ({
+      date: item._id,
+      amount: item.totalAmount,
+    }));
+  } catch (error) {
+    console.error("Error generating graph data", error);
+    return [];
+  }
+};
+
+export const getAllAdminChats = async (timeline) => {
+  const matchStage = getMatchStage(timeline);
+
+  return await Chat.aggregate([
+    matchStage,
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'receiver',
+        foreignField: '_id',
+        as: 'receiverInfo'
+      }
+    },
+    { $unwind: '$receiverInfo' },
+    { $match: { 'receiverInfo.role': 'Admin' } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'sender',
+        foreignField: '_id',
+        as: 'senderInfo'
+      }
+    },
+    { $unwind: '$senderInfo' },
+    {
+      $sort: { createdAt: -1 }
+    },
+    {
+      $limit: 5
+    }
+  ]);
+};
+
+export const getHighestPayout = async (timeline) => {
+  try {
+    const matchStage = getMatchStage(timeline);
+
+    const data = await Deposit.aggregate([
+      matchStage,
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+            status: "$status"
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.month": 1 } },
+    ]);
+
+    const statuses = ["completed", "pending", "failed"];
+    const series = statuses.map((status) => ({
+      name: status.charAt(0).toUpperCase() + status.slice(1),
+      data: Array(12).fill(0),
+    }));
+
+    data.forEach((item) => {
+      const monthIndex = item._id.month - 1;
+      const statusIndex = statuses.indexOf(item._id.status);
+      if (statusIndex >= 0) {
+        series[statusIndex].data[monthIndex] = item.count;
+      }
+    });
+
+    return series;
+
+  } catch (error) {
+    console.error("Error generating graph data", error);
+  }
+}
+
+export const getPlayerEngagementStats = async (timeline) => {
+  const matchStage = getMatchStage(timeline);
+
+  const data = await Team.aggregate([
+    matchStage,
+    {
+      $project: {
+        month: { $month: "$createdAt" },
+        playerCount: { $size: "$members" },
+      },
+    },
+    {
+      $group: {
+        _id: "$month",
+        totalPlayers: { $sum: "$playerCount" },
+      },
+    },
+    { $sort: { "_id": 1 } },
+  ]);
+
+  const playerData = Array(12).fill(0);
+
+  data.forEach((item) => {
+    playerData[item._id - 1] = item.totalPlayers;
+  });
+
+  return [
+    {
+      name: "Players",
+      data: playerData,
+    },
+  ];
+};
+
+export const getProfitScale = async (timeline) => {
+  const profit = await calculateTotalPrizePool(timeline); //gross profit
+  const loss = 0;  //change it later
+  const canceled = 0; //change it later
+
+  return [profit, loss, canceled];
 };
