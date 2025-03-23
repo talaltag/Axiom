@@ -104,20 +104,20 @@ export default function Wallet() {
 
       const response = await fetch("/api/create-payment-intent", {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           amount: Number(depositAmount)
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to create payment');
       }
-      
+
       if (!data.clientSecret) {
         throw new Error('No client secret received');
       }
@@ -160,15 +160,15 @@ export default function Wallet() {
       setWithdrawError("");
       setIsWithdrawing(true);
 
-      if (!stripeAccountStatus) {
-        setWithdrawError("Please connect your Stripe account first");
-        return;
-      }
+      // if (!stripeAccountStatus) {
+      //   setWithdrawError("Please connect your Stripe account first");
+      //   return;
+      // }
 
-      if (stripeAccountStatus !== "active") {
-        setWithdrawError("Your Stripe account needs to be fully verified");
-        return;
-      }
+      // if (stripeAccountStatus !== "active") {
+      //   setWithdrawError("Your Stripe account needs to be fully verified");
+      //   return;
+      // }
 
       const amount = parseFloat(withdrawAmount);
       if (!amount || amount <= 0) {
@@ -181,7 +181,7 @@ export default function Wallet() {
         return;
       }
 
-      const response = await fetch("/api/wallet/withdraw", {
+      const response = await fetch("/api/createWithdrawalRequest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -190,9 +190,9 @@ export default function Wallet() {
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
-        alert("Withdrawal successful! Funds have been transferred to your Stripe account.");
+        alert("Withdrawal request sent successfully!");
         setBalance(prev => prev - amount);
         setWithdrawAmount("");
         fetchBalance();
@@ -372,7 +372,7 @@ export default function Wallet() {
                       <small className="text-muted">Available Balance in Axiom Wallet</small>
                     </div>
                   </div>
-                  {stripeAccountStatus === "active" ? (
+                  {(
                     <>
                       <div className="mb-3">
                         <label className="form-label">Amount to Withdraw ($)</label>
@@ -385,22 +385,24 @@ export default function Wallet() {
                           min={1}
                         />
                       </div>
-                      <Button 
-                        color="warning" 
+                      <Button
+                        color="warning"
                         onClick={handleWithdraw}
                         disabled={!withdrawAmount || parseFloat(withdrawAmount) > balance || parseFloat(withdrawAmount) <= 0}
                       >
-                        Withdraw to Stripe Account
+                        Request Withdrawal
                       </Button>
                     </>
-                  ) : (
-                    <div>
-                      <p className="text-warning mb-3">Please connect your Stripe account first to withdraw funds.</p>
-                      <Button color="primary" onClick={() => toggle('connect')}>
-                        Connect Stripe Account
-                      </Button>
-                    </div>
-                  )}
+                  )
+                    //  : (
+                    //   <div>
+                    //     <p className="text-warning mb-3">Please connect your Stripe account first to withdraw funds.</p>
+                    //     <Button color="primary" onClick={() => toggle('connect')}>
+                    //       Connect Stripe Account
+                    //     </Button>
+                    //   </div>
+                    // )
+                  }
                 </CardBody>
               </Card>
             </div>
@@ -411,7 +413,7 @@ export default function Wallet() {
               <div className="mb-4">
                 <p>Current Stripe Balance: ${stripeBalance.toFixed(2)}</p>
               </div>
-              
+
               <Card className="mt-4">
                 <CardBody>
                   <h5>Stripe Deposit History</h5>
@@ -487,22 +489,22 @@ export default function Wallet() {
             <div className="p-4">
               <h5>Connect Your Stripe Account</h5>
               <p>Connect your Stripe account to receive withdrawals</p>
-              <Button 
-                color="primary" 
+              <Button
+                color="primary"
                 onClick={handleStripeConnect}
                 disabled={isConnectLoading || stripeAccountStatus === "active"}
               >
-                {isConnectLoading ? "Connecting..." : 
-                 stripeAccountStatus === "active" ? "Connected with Stripe" : 
-                 "Connect with Stripe"}
+                {isConnectLoading ? "Connecting..." :
+                  stripeAccountStatus === "active" ? "Connected with Stripe" :
+                    "Connect with Stripe"}
               </Button>
               {stripeAccountStatus && (
                 <div className="mt-4">
                   <p>Stripe Account Status: {stripeAccountStatus}</p>
                   <p>Stripe Balance: ${stripeBalance.toFixed(2)}</p>
                   {stripeAccountStatus === "active" && (
-                    <Button 
-                      color="danger" 
+                    <Button
+                      color="danger"
                       className="mt-3"
                       onClick={async () => {
                         if (window.confirm("Are you sure you want to disconnect your Stripe account?")) {
@@ -513,7 +515,7 @@ export default function Wallet() {
                                 'Content-Type': 'application/json',
                               },
                             });
-                            
+
                             if (response.ok) {
                               setStripeAccountStatus(null);
                               setStripeBalance(0);

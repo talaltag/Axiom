@@ -13,7 +13,7 @@ const NotificationSchema = new mongoose.Schema({
       "tournament",
       "announcement",
       "reminder",
-      "message",
+      "message"
     ],
     required: true,
   },

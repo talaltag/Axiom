@@ -58,6 +58,7 @@ export default function AdminDashboardLayout({
       path: "/admin/users",
     },
     { text: "Pay Outs", icon: <DollarSign size={20} />, path: "/admin/payouts" },
+    { text: "Withdraw Requests", icon: <DollarSign size={20} />, path: "/admin/requests" },
     { text: "Chat", icon: <MessageSquare size={20} />, path: "/admin-chat" },
     { text: "Settings", icon: <Settings size={20} />, path: "/admin/settings" },
   ];
@@ -108,11 +109,10 @@ export default function AdminDashboardLayout({
           <NavItem key={item.text}>
             <Link
               href={item.path}
-              className={`d-flex align-items-center text-decoration-none mb-2 px-3 py-2 ${
-                router.pathname === item.path
+              className={`d-flex align-items-center text-decoration-none mb-2 px-3 py-2 ${router.pathname === item.path
                   ? "bg-warning text-dark"
                   : "text-muted"
-              }`}
+                }`}
               style={{
                 justifyContent: sidebarOpen ? "flex-start" : "center",
                 whiteSpace: "nowrap",
