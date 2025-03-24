@@ -57,7 +57,7 @@ const TournamentHistorySchema = new mongoose.Schema({
   },
 });
 const TournamentHistory =
-  mongoose.models.TournamentHistory ||
+  mongoose.models?.TournamentHistory ||
   mongoose.model("TournamentHistory", TournamentHistorySchema);
 
 export default TournamentHistory;

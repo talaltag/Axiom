@@ -26,4 +26,4 @@ const DepositSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Deposit || mongoose.model('Deposit', DepositSchema);
+export default mongoose.models?.Deposit || mongoose.model('Deposit', DepositSchema);

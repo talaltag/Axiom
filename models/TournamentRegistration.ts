@@ -54,5 +54,5 @@ const TournamentRegistrationSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.TournamentRegistration ||
+export default mongoose.models?.TournamentRegistration ||
   mongoose.model("TournamentRegistration", TournamentRegistrationSchema);

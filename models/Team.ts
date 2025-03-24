@@ -18,4 +18,4 @@ const TeamSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Team || mongoose.model("Team", TeamSchema);
+export default mongoose.models?.Team || mongoose.model("Team", TeamSchema);

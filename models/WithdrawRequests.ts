@@ -17,4 +17,4 @@ const WithdrawalRequest = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-export default mongoose.models.WithdrawalRequest || mongoose.model("WithdrawalRequest", WithdrawalRequest);
+export default mongoose.models?.WithdrawalRequest || mongoose.model("WithdrawalRequest", WithdrawalRequest);

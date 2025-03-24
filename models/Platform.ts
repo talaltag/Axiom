@@ -26,5 +26,5 @@ const PlatformSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Platform ||
+export default mongoose.models?.Platform ||
   mongoose.model("Platform", PlatformSchema);
